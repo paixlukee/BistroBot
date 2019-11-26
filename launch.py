@@ -19,12 +19,6 @@ import json
 
 import config
 
-#extensions = ['cogs.utility', 'cogs.help', 'cogs.economy', 'cogs.dev', 'cogs.music']
-
-#def prefix(bot, message):
-    #"""Res's prefix list"""
-    #return commands("r!")(bot, message)
-
 
 bot = commands.Bot(command_prefix="r!")
 
