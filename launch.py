@@ -31,7 +31,6 @@ async def status_task():
 
 @bot.event
 async def on_ready():
-    log = bot.get_channel(493330793599598592)
     print('\x1b[1;34;40m' + 'Discord Version: ' + '\x1b[0m' + f'{discord.__version__}\n------')
     print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'Logged in as: {bot.user.name} ({str(bot.user.id)})')
     print("\x1b[1;33;40m" + "[AWAITING]: " + "\x1b[0m" + "Run 'r!load all'")
@@ -39,7 +38,6 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
-    log = bot.get_channel(493330793599598592)
     server = guild
     targets = [
             discord.utils.get(server.channels, name="bot"),
