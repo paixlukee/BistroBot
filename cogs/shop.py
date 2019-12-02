@@ -49,6 +49,8 @@ class Shop(commands.Cog):
             embed.add_field(name="Customers", value=post['customers'])
             try:
                 embed.set_thumbnail(url=post['logo_url'])
+            except:
+                pass
             embed.set_footer(text=f"Last Stock: {post['laststock']}")
             await ctx.send(embed=embed)
         
