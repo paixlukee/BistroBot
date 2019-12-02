@@ -150,14 +150,14 @@ class Shop(commands.Cog):
         
     @commands.command(aliases=['Restaurant', 'shop'])
     async def restaurant(self, ctx, user:discord.User=None):
-        def react(reaction, user):
-            return str(reaction.emoji) == '<:FilledStar:651156130424291368>'
         if not user:
             user = ctx.author
         post = db.market.find_one({"owner": int(user.id)})
         if not post:
             await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.') 
         else:
+            def react(reaction, user):
+                return str(reaction.emoji) == '<:FilledStar:651156130424291368>'
             prices = []
             for item in post['items']:
                 prices.append(item['price'])
