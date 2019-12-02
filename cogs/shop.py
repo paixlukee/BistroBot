@@ -32,7 +32,9 @@ class Shop(commands.Cog):
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         
     @commands.command(aliases=['Restaurant', 'shop'])
-    async def restaurant(self, ctx, user:discord.User=ctx.author):
+    async def restaurant(self, ctx, user:discord.User=None):
+        if not user:
+            user = ctx.author
         post = db.market.find_one({"user": ctx.author.id})
         cstr = str(post['country']).lower()
         ldi = post['items']
