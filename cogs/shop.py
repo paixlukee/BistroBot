@@ -81,8 +81,48 @@ class Shop(commands.Cog):
                 se2.description = '*Logo denied*'
                 await sem.edit(embed=se2)
                 await ctx.author.send("Your logo has been denied.")
-                
-        
+    
+    @set.command(aliases=['Description', 'desc'])
+    async def description(self, ctx):
+        def nc(m):
+            return m.author == ctx.message.author
+        embed = discord.Embed(colour=0xa82021, description="Descriptions must me 130 characters or less.\n\nReply with your desired description.")
+        embed.set_footer(text="You have 90 seconds to reply")
+        msg = await ctx.send(embed=embed)
+        desc = await self.bot.wait_for('message', check=nc, timeout=90)
+        try:
+            await desc.delete()
+        except:
+            pass
+        if len(desc.content) > 130:
+            embed = discord.Embed(colour=0xa82021, description="Description is more than 130 characters.")
+            embed.set_author(name="Failed.")
+            await msg.edit(embed=embed)
+        else:
+            embed = discord.Embed(colour=0xa82021, description="Great! Your description has been set!")
+            await msg.edit(embed=embed)
+            db.market.update_one({"owner": ctx.author.id}, {"$set":{"description": desc.content}})
+            
+    @set.command(aliases=['Name'])
+    async def name(self, ctx):
+        def nc(m):
+            return m.author == ctx.message.author
+        embed = discord.Embed(colour=0xa82021, description="Names must me 36 characters or less.\n\nReply with your desired name.")
+        embed.set_footer(text="You have 90 seconds to reply")
+        msg = await ctx.send(embed=embed)
+        name = await self.bot.wait_for('message', check=nc, timeout=90)
+        try:
+            await name.delete()
+        except:
+            pass
+        if len(name.content) > 130:
+            embed = discord.Embed(colour=0xa82021, description="Name is more than 36 characters.")
+            embed.set_author(name="Failed.")
+            await msg.edit(embed=embed)
+        else:
+            embed = discord.Embed(colour=0xa82021, description="Awesome! Your name has been set!")
+            await msg.edit(embed=embed)
+            db.market.update_one({"owner": ctx.author.id}, {"$set":{"description": name.content}})
         
     @commands.command(aliases=['Restaurant', 'shop'])
     async def restaurant(self, ctx, user:discord.User=None):
