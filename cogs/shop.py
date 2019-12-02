@@ -33,7 +33,7 @@ class Shop(commands.Cog):
         
         
     @commands.group(aliases=['settings', 'Set', 'Settings'])
-    async def set(self, ctx)
+    async def set(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
             await ctx.send(embed=embed)
