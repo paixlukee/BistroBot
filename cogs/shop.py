@@ -67,8 +67,8 @@ class Shop(commands.Cog):
             se.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
             se2.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
             sem = await self.bot.get_channel(650994466307571714).send(embed=se)
-            sem.add_reaction('✅')
-            sem.add_reaction('❎')
+            await sem.add_reaction('✅')
+            await sem.add_reaction('❎')
             reaction = await self.bot.wait_for('reaction_add', check=reac)
             if reaction.emoji == '✅':
                 se2.description = '*Logo accepted*'
