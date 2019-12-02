@@ -129,7 +129,7 @@ class Shop(commands.Cog):
         post = {
             "owner": user.id,
             "money":300,
-            "items":"s",
+            "items":food.food[0][country],
             "country":country,
             "name":name,
             "description":desc,
@@ -140,7 +140,6 @@ class Shop(commands.Cog):
             "logo_url":None
         }
         db.market.insert_one(post)
-        print(food.food)
 
 def setup(bot):
     bot.add_cog(Shop(bot))
