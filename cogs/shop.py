@@ -21,7 +21,7 @@ client = MongoClient('mongodb://siri', 35993)
 db = client['market']
 db.authenticate('discordsiri', config.mongo_pass)
 
-class Shop:
+class Shop(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
