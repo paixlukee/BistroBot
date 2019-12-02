@@ -132,6 +132,10 @@ class Shop(commands.Cog):
         if not post:
             await ctx.send(f'I couldn\'t find "{user}"s restaurant in our database.') 
         else:
+            prices = []
+            for item in post['items']:
+                prices.append(item['price'])
+            average = sum(prices)/len(prices)
             country = str(post['country']).lower()
             ldi = post['items']
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
@@ -139,6 +143,7 @@ class Shop(commands.Cog):
             embed.set_author(icon_url=self.flags[country], name=post['name'])
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + ", " + post['items'][3]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
+            embed.add_field(name=":moneybag: Average Price", value="$" + average)
             embed.add_field(name=":busts_in_silhouette: Customers", value=post['customers'])
             if not post['logo_url']:
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
