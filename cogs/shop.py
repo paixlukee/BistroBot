@@ -31,6 +31,30 @@ class Shop(commands.Cog):
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         
+    @commands.command(aliases=['Rate'])
+    async def rate(self, ctx, user:discord.User=None):
+        post = db.market.find_one({"owner": user.id})
+        def nc(m):
+            return m.author == ctx.message.author
+        if not user:
+            await ctx.send("You must tag the restaurant owner. Example: `r!rate @lukee#0420`")
+        else:
+            embed = discord.Embed(colour=0xa82021, description=f"Out of 5 stars, how would you rate {post['name']}?")
+            embed.set_footer(text="You have 90 seconds to reply")
+            msg = await ctx.send(embed=embed)
+            rating = await self.bot.wait_for('message', check=nc, timeout=90)
+            try:
+                await rating.delete()
+            except:
+                pass
+            if not rating.content.isdigit() or int(rating.content) > 5 or int(rating) < 0:
+                embed = discord.Embed(colour=0xa82021, description="The rating must be from 0-5.")
+                embed.set_author(name="Failed.")
+                await msg.edit(embed=embed)
+            else:
+                embed = discord.Embed(colour=0xa82021, description=f"You have successfully rated {post['name']}.")
+                await msg.edit(embed=embed)
+                db.market.update_one({"owner": user.id}, {"$push":{"ratings": {str(ctx.author.id): int(rating.content)}}})
         
     @commands.group(aliases=['settings', 'Set', 'Settings'])
     async def set(self, ctx):
@@ -126,6 +150,8 @@ class Shop(commands.Cog):
         
     @commands.command(aliases=['Restaurant', 'shop'])
     async def restaurant(self, ctx, user:discord.User=None):
+        def react(reaction, user):
+            return str(reaction.emoji) == '<:FilledStar:651156130424291368>'
         if not user:
             user = ctx.author
         post = db.market.find_one({"owner": ctx.author.id})
@@ -150,8 +176,9 @@ class Shop(commands.Cog):
             else:
                 embed.set_thumbnail(url=post['logo_url'])
             embed.set_footer(text=f"Last Stock: {post['laststock']}")
-            await ctx.send(embed=embed)
-            
+            msg = await ctx.send(embed=embed)
+            #await msg.add_reaction('<:FilledStar:651156130424291368>')            
+                             
 
     @commands.command(aliases=['Start', 'create'])
     async def start(self, ctx):
@@ -244,7 +271,8 @@ class Shop(commands.Cog):
             "boost":None,
             "laststock": "Has not stocked yet.",
             "id":id,
-            "logo_url":None
+            "logo_url":None,
+            "ratings":[{"0":5}]
         }
         db.market.insert_one(post)
 
