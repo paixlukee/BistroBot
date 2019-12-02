@@ -67,9 +67,9 @@ class Shop(commands.Cog):
             ':flag_us: United States\n'
             )
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
-            embed.set_footer(text="You have 30 seconds to reply")
+            embed.set_footer(text="You have 90 seconds to reply")
             msg1 = await ctx.send(embed=embed)
-            country = await self.bot.wait_for('message', check=check, timeout=30)
+            country = await self.bot.wait_for('message', check=check, timeout=90)
             try:
                 await ctx.message.delete()
             except:
@@ -81,9 +81,9 @@ class Shop(commands.Cog):
             else:
                 embed = discord.Embed(colour=0x280071, description='Great! What would you like to name your restaurant? It must be 36 characters or less.')
                 embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
-                embed.set_footer(text="You have 30 seconds to reply")
+                embed.set_footer(text="You have 90 seconds to reply")
                 await msg1.edit(embed=embed)
-                name = await self.bot.wait_for('message', check=check, timeout=30)
+                name = await self.bot.wait_for('message', check=check, timeout=90)
                 try:
                     await ctx.message.delete()
                 except:
@@ -95,9 +95,9 @@ class Shop(commands.Cog):
                 else:
                     embed = discord.Embed(colour=0x280071, description='Great! What would you like ask your description? It must be 130 characters or less.')
                     embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
-                    embed.set_footer(text="You have 30 seconds to reply")
+                    embed.set_footer(text="You have 90 seconds to reply")
                     await msg1.edit(embed=embed)
-                    desc = await self.bot.wait_for('message', check=check, timeout=30)
+                    desc = await self.bot.wait_for('message', check=check, timeout=90)
                     try:
                         await ctx.message.delete()
                     except:
@@ -107,7 +107,7 @@ class Shop(commands.Cog):
                         failed.set_author(name="Creation Failed.")
                         await msg1.edit(embed=failed)
                     else:
-                        await self.update_data(ctx.author, country, name, desc)
+                        await self.update_data(ctx.author, country.content.lower(), name.content, desc.content)
                         embed = discord.Embed(colour=0x280071, description=f'And... Done! Your Restaurant has been created. \n\nYou have been given 30 of each item and $500. View your restaurant with `{self.prefix}restaurant`')
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
