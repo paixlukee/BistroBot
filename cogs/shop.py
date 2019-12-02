@@ -35,23 +35,26 @@ class Shop(commands.Cog):
     async def restaurant(self, ctx, user:discord.User=None):
         if not user:
             user = ctx.author
-        post = db.market.find_one({"user": ctx.author.id})
-        cstr = str(post['country']).lower()
-        ldi = post['items']
-        list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
-        embed = discord.Embed(colour=0x280071, description=post['desc'])
-        embed.set_author(icon_url=self.flags[cstr], name=post['name'])
-        embed.add_field(name="Menu", value=food.food[country.lower()][0] + ", " + food.food[country.lower()][1] + ", " + food.food[country.lower()][2] + f"... To view the full menu, do `r!menu {post['name']}`")
-        embed.add_field(name="Most Sold item", value=list[0]['name'])
-        embed.add_field(name="Customers", value=post['customers'])
-        embed.set_thumbnail(url=post['logo_url'])
-        embed.set_footer(text=f"Last Stock: {post['laststock']}")
-        await ctx.send(embed=embed)
+        post = db.market.find_one({"owner": ctx.author.id})
+        if not post:
+            await ctx.send(f'I couldn\'t find "{user}"s restaurant in our database.') 
+        else:
+            cstr = str(post['country']).lower()
+            ldi = post['items']
+            list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
+            embed = discord.Embed(colour=0x280071, description=post['desc'])
+            embed.set_author(icon_url=self.flags[cstr], name=post['name'])
+            embed.add_field(name="Menu", value=food.food[country.lower()][0] + ", " + food.food[country.lower()][1] + ", " + food.food[country.lower()][2] + f"... To view the full menu, do `r!menu {post['name']}`")
+            embed.add_field(name="Most Sold item", value=list[0]['name'])
+            embed.add_field(name="Customers", value=post['customers'])
+            embed.set_thumbnail(url=post['logo_url'])
+            embed.set_footer(text=f"Last Stock: {post['laststock']}")
+            await ctx.send(embed=embed)
         
 
     @commands.command(aliases=['Start', 'create'])
     async def start(self, ctx):
-        user = db.market.find_one({"user": ctx.author.id})
+        user = db.market.find_one({"owner": ctx.author.id})
         if not user:
             def check(m):
                 return m.author == ctx.message.author
