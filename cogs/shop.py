@@ -53,7 +53,7 @@ class Shop(commands.Cog):
                 pass
             embed.set_footer(text=f"Last Stock: {post['laststock']}")
             await ctx.send(embed=embed)
-            print(self.flags[country]
+            print(self.flags[country])
 
     @commands.command(aliases=['Start', 'create'])
     async def start(self, ctx):
