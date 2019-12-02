@@ -14,7 +14,7 @@ import json
 import os
 import config
 
-class Help:
+class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
