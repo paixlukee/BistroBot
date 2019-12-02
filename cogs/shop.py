@@ -154,9 +154,9 @@ class Shop(commands.Cog):
             return str(reaction.emoji) == '<:FilledStar:651156130424291368>'
         if not user:
             user = ctx.author
-        post = db.market.find_one({"owner": ctx.author.id})
+        post = db.market.find_one({"owner": int(user.id)})
         if not post:
-            await ctx.send(f'I couldn\'t find "{user}"s restaurant in our database.') 
+            await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.') 
         else:
             prices = []
             for item in post['items']:
