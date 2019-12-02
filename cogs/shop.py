@@ -164,7 +164,7 @@ class Shop(commands.Cog):
             average = sum(prices)/len(prices)
             ratings = []
             for rating in post['ratings']:
-                prices.append(rating['rating'])
+                ratings.append(rating['rating'])
             avr = round(sum(ratings)/len(ratings))
             if avr == 0:
                 stars = "<:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
