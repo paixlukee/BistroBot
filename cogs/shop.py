@@ -54,6 +54,10 @@ class Shop(commands.Cog):
 
     @commands.command(aliases=['Start', 'create'])
     async def start(self, ctx):
+        try:
+            ctx.message.delete()
+        else:
+            pass
         user = db.market.find_one({"owner": ctx.author.id})
         if not user:
             def check(m):
@@ -74,7 +78,7 @@ class Shop(commands.Cog):
             msg1 = await ctx.send(embed=embed)
             country = await self.bot.wait_for('message', check=check, timeout=90)
             try:
-                await ctx.message.delete()
+                await country.delete()
             except:
                 pass
             if not country.content.upper() in self.countries:
@@ -88,7 +92,7 @@ class Shop(commands.Cog):
                 await msg1.edit(embed=embed)
                 name = await self.bot.wait_for('message', check=check, timeout=90)
                 try:
-                    await ctx.message.delete()
+                    await name.delete()
                 except:
                     pass
                 if len(str(name.content)) > 36:
@@ -102,7 +106,7 @@ class Shop(commands.Cog):
                     await msg1.edit(embed=embed)
                     desc = await self.bot.wait_for('message', check=check, timeout=90)
                     try:
-                        await ctx.message.delete()
+                        await desc.delete()
                     except:
                         pass
                     if len(str(desc.content)) > 130:
@@ -124,6 +128,7 @@ class Shop(commands.Cog):
         set3 = rnd(string.ascii_letters) 
         set4 = random.randint(0,9)
         set5 = rnd(string.ascii_letters) 
+        print(food.food)
         id = str(set1) + set2 + set3 + str(set4) + set5        
         post = {
             "owner": user.id,
