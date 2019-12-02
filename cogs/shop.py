@@ -41,8 +41,8 @@ class Shop(commands.Cog):
     @set.command(aliases=['Logo', 'image', 'icon'])
     async def logo(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
-        def reac(m):
-            return m.author.id == ctx.message.author
+        def react(reaction, user):
+            return str(reaction.emoji) == '✅' or str(reaction.emoji) == '❎' and user != ctx.me
         def nc(m):
             return m.author == ctx.message.author
         embed = discord.Embed(colour=0xa82021, description="To keep NSFW off of Restaurant Bot, staff members must review every logo.\n\nReply with the image URL for your logo.")
@@ -69,7 +69,7 @@ class Shop(commands.Cog):
             sem = await self.bot.get_channel(650994466307571714).send(embed=se)
             await sem.add_reaction('✅')
             await sem.add_reaction('❎')
-            reaction = await self.bot.wait_for('reaction_add')
+            reaction, user = await self.bot.wait_for('reaction_add', check=react)
             if reaction.emoji == '✅':
                 se2.description = '*Logo accepted*'
                 await ctx.send(embed=se2)
