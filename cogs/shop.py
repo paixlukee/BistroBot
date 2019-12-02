@@ -39,7 +39,7 @@ class Shop(commands.Cog):
         if not post:
             await ctx.send(f'I couldn\'t find "{user}"s restaurant in our database.') 
         else:
-            cstr = str(post['country']).lower()
+            country = str(post['country']).lower()
             ldi = post['items']
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(colour=0x280071, description=post['description'])
