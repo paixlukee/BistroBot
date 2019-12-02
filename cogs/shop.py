@@ -47,7 +47,7 @@ class Shop(commands.Cog):
                 await rating.delete()
             except:
                 pass
-            if not rating.content.isdigit() or int(rating.content) > 5 or int(rating) < 0:
+            if not rating.content.isdigit() or int(rating.content) > 5 or int(rating.content) < 0:
                 embed = discord.Embed(colour=0xa82021, description="The rating must be from 0-5.")
                 embed.set_author(name="Failed.")
                 await msg.edit(embed=embed)
