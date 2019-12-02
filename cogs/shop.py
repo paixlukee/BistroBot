@@ -47,7 +47,8 @@ class Shop(commands.Cog):
             embed.add_field(name="Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name="Most Sold item", value=list[0]['name'])
             embed.add_field(name="Customers", value=post['customers'])
-            embed.set_thumbnail(url=post['logo_url'])
+            try:
+                embed.set_thumbnail(url=post['logo_url'])
             embed.set_footer(text=f"Last Stock: {post['laststock']}")
             await ctx.send(embed=embed)
         
@@ -111,7 +112,7 @@ class Shop(commands.Cog):
                         await msg1.edit(embed=failed)
                     else:
                         await self.update_data(ctx.author, country.content.lower(), name.content, desc.content)
-                        embed = discord.Embed(colour=0x280071, description=f'And... Done! Your Restaurant has been created. \n\nYou have been given 30 of each item and $500. View your restaurant with `{self.prefix}restaurant`')
+                        embed = discord.Embed(colour=0x280071, description=f'And... Done! Your Restaurant has been created. \n\nI have given you $600 to start. View your restaurant with `{self.prefix}restaurant`')
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
         else:
@@ -124,16 +125,18 @@ class Shop(commands.Cog):
         set3 = rnd(string.ascii_letters) 
         set4 = random.randint(0,9)
         set5 = rnd(string.ascii_letters) 
-        items = []
-        for x in food.food:
-            if x == country:
-                items = x
+        set6 = rnd(string.ascii_letters) 
+        set7 = rnd(string.ascii_letters) 
+        #items = []
+        #for x in food.food:
+            #if x == country:
+                #items = x
                              
-        id = str(set1) + set2 + set3 + str(set4) + set5        
+        id = str(set1) + set2 + set3 + str(set4) + set5 + set6 + set7      
         post = {
             "owner": user.id,
-            "money":300,
-            "items":items,
+            "money":600,
+            "items":food.food[country],
             "country":country,
             "name":name,
             "description":desc,
