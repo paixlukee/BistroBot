@@ -42,11 +42,11 @@ class Shop(commands.Cog):
             country = str(post['country']).lower()
             ldi = post['items']
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
-            embed = discord.Embed(colour=0x280071, description=post['description'])
+            embed = discord.Embed(description=post['description'])
             embed.set_author(icon_url=self.flags[country], name=post['name'])
-            embed.add_field(name="Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
-            embed.add_field(name="Most Sold item", value=list[0]['name'])
-            embed.add_field(name="Customers", value=post['customers'])
+            embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + post['items'][3]['name'] + "," + f"... To view the full menu, do `r!menu {post['name']}`")
+            embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
+            embed.add_field(name=":busts_in_silhouette: Customers", value=post['customers'])
             if not post['logo_url']:
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
             else:
@@ -61,7 +61,7 @@ class Shop(commands.Cog):
         if not user:
             def check(m):
                 return m.author == ctx.message.author
-            embed = discord.Embed(colour=0x280071, description='Welcome to Restaurant! First off, which country do you want your theme as? Pick one from this list:\n'\
+            embed = discord.Embed(colour=0xa82021, description='Welcome to Restaurant! First off, which country do you want your theme as? Pick one from this list:\n'\
             ':flag_cn: China\n'\
             ':flag_fr: France\n'\
             ':flag_gr: Greece\n'\
@@ -81,11 +81,11 @@ class Shop(commands.Cog):
             except:
                 pass
             if not country.content.upper() in self.countries:
-                failed = discord.Embed(colour=0x280071, description="That is not in the list of countries.")
+                failed = discord.Embed(colour=0xa82021, description="That is not in the list of countries.")
                 failed.set_author(name="Creation Failed.")
                 await msg1.edit(embed=failed)
             else:
-                embed = discord.Embed(colour=0x280071, description='Great! What would you like to name your restaurant? It must be 36 characters or less.')
+                embed = discord.Embed(colour=0xa82021, description='Great! What would you like to name your restaurant? It must be 36 characters or less.')
                 embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                 embed.set_footer(text="You have 90 seconds to reply")
                 await msg1.edit(embed=embed)
@@ -95,11 +95,11 @@ class Shop(commands.Cog):
                 except:
                     pass
                 if len(str(name.content)) > 36:
-                    failed = discord.Embed(colour=0x280071, description="Restaurant name must be 36 characters or less")
+                    failed = discord.Embed(colour=0xa82021, description="Restaurant name must be 36 characters or less")
                     failed.set_author(name="Creation Failed.")
                     msg1.edit(embed=failed)
                 else:
-                    embed = discord.Embed(colour=0x280071, description='Great! What would you like ask your description? It must be 130 characters or less.')
+                    embed = discord.Embed(colour=0xa82021, description='Great! What would you like ask your description? It must be 130 characters or less.')
                     embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                     embed.set_footer(text="You have 90 seconds to reply")
                     await msg1.edit(embed=embed)
@@ -109,12 +109,12 @@ class Shop(commands.Cog):
                     except:
                         pass
                     if len(str(desc.content)) > 130:
-                        failed = discord.Embed(colour=0x280071, description="Restaurant description must be 130 characters or less")
+                        failed = discord.Embed(colour=0xa82021, description="Restaurant description must be 130 characters or less")
                         failed.set_author(name="Creation Failed.")
                         await msg1.edit(embed=failed)
                     else:
                         await self.update_data(ctx.author, country.content.lower(), name.content, desc.content)
-                        embed = discord.Embed(colour=0x280071, description=f'And... Done! Your Restaurant has been created. \n\nI have given you $600 to start. View your restaurant with `{self.prefix}restaurant`')
+                        embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nI have given you $600 to start. View your restaurant with `{self.prefix}restaurant`')
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
         else:
