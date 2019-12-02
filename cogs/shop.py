@@ -42,7 +42,7 @@ class Shop(commands.Cog):
             cstr = str(post['country']).lower()
             ldi = post['items']
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
-            embed = discord.Embed(colour=0x280071, description=post['desc'])
+            embed = discord.Embed(colour=0x280071, description=post['description'])
             embed.set_author(icon_url=self.flags[cstr], name=post['name'])
             embed.add_field(name="Menu", value=food.food[country.lower()][0] + ", " + food.food[country.lower()][1] + ", " + food.food[country.lower()][2] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name="Most Sold item", value=list[0]['name'])
