@@ -99,7 +99,7 @@ class Shop(commands.Cog):
             embed.set_author(name="Failed.")
             await msg.edit(embed=embed)
         else:
-            embed = discord.Embed(colour=0xa82021, description="Great! Your description has been set!")
+            embed = discord.Embed(colour=0xa82021, description="Great! Your restaurant's description has been set!")
             await msg.edit(embed=embed)
             db.market.update_one({"owner": ctx.author.id}, {"$set":{"description": desc.content}})
             
@@ -120,9 +120,9 @@ class Shop(commands.Cog):
             embed.set_author(name="Failed.")
             await msg.edit(embed=embed)
         else:
-            embed = discord.Embed(colour=0xa82021, description="Awesome! Your name has been set!")
+            embed = discord.Embed(colour=0xa82021, description="Awesome! Your restaurant's name has been set!")
             await msg.edit(embed=embed)
-            db.market.update_one({"owner": ctx.author.id}, {"$set":{"description": name.content}})
+            db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": name.content}})
         
     @commands.command(aliases=['Restaurant', 'shop'])
     async def restaurant(self, ctx, user:discord.User=None):
