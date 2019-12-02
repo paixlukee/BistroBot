@@ -56,7 +56,7 @@ class Shop(commands.Cog):
     async def start(self, ctx):
         try:
             ctx.message.delete()
-        else:
+        except:
             pass
         user = db.market.find_one({"owner": ctx.author.id})
         if not user:
