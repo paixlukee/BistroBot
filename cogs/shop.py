@@ -43,14 +43,14 @@ class Shop(commands.Cog):
             ldi = post['items']
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(colour=0x280071, description=post['description'])
-            embed.set_author(icon_url=str(self.flags[country]), name=post['name'])
+            embed.set_author(icon_url=self.flags[country], name=post['name'])
             embed.add_field(name="Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name="Most Sold item", value=list[0]['name'])
             embed.add_field(name="Customers", value=post['customers'])
-            try:
+            if not post['logo_url']:
+                embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
+            else:
                 embed.set_thumbnail(url=post['logo_url'])
-            except:
-                pass
             embed.set_footer(text=f"Last Stock: {post['laststock']}")
             await ctx.send(embed=embed)
             
