@@ -31,6 +31,58 @@ class Shop(commands.Cog):
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         
+     def nc(m):
+        return m.author == ctx.message.author
+        
+    @commands.group(aliases=['settings', 'Set', 'Settings'])
+    async def set(self, ctx)
+        if ctx.invoked_subcommand is None:
+            embed = discord.Embed(title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
+            await ctx.send(embed=embed)
+            
+    @set.command(aliases=['Logo', 'image', 'icon'])
+    async def logo(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        def reac(m):
+            pass#return m.author.id == ctx.message.author
+        embed = discord.Embed(colour=0xa82021, description="To keep NSFW off of Restaurant Bot, staff members must review every logo.\n\nReply with the image URL for your logo.")
+        embed.set_footer(text="You have 90 seconds to reply")
+        msg = await ctx.send(embed=embed)
+        link = await self.bot.wait_for('message', check=nc, timeout=90)
+        try:
+            await link.delete()
+        except:
+            pass
+        if not link.startswith('http'):
+            embed = discord.Embed(colour=0xa82021, description="That is not a valid link.")
+            embed.set_author(name="Failed.")
+            msg.edit(embed=failed)
+        else:
+            embed = discord.Embed(colour=0xa82021, description="Perfect! Your image has been sent to the Restaurant Bot staff team for reviewal.\n\n This process may take up to 24 hours. But don't worry, it will probably be even quicker.")
+            embed.set_footer(text="Too many NSFW requests can end up in a ban from Restaurant Bot!")
+            msg1.edit(embed=failed)
+            
+            se = discord.Embed(description=link.content)
+            se2 = discord.Embed()
+            se.set_footer(url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
+            se2.set_footer(url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
+            sem = await bot.get_channel(650994466307571714).send(embed=se)
+            sem.add_reaction('✅')
+            sem.add_reaction('❎')
+            reaction = await self.bot.wait_for('reaction_add', check=reac)
+            if reaction.emoji == '✅':
+                se2.description = '*Logo accepted*'
+                await ctx.send(embed=se2)
+                await ctx.author.send("Your logo has been accepted!")
+                db.posts.update_one({"owner": ctx.author.id}, {"$set":{"logo_url": link.content}})
+            else:
+                se2.description = '*Logo denied*'
+                await ctx.send(embed=se2)
+                await ctx.author.send("Your logo has been denied.")
+                
+                
+            
+        
     @commands.command(aliases=['Restaurant', 'shop'])
     async def restaurant(self, ctx, user:discord.User=None):
         if not user:
@@ -44,7 +96,7 @@ class Shop(commands.Cog):
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(description=post['description'])
             embed.set_author(icon_url=self.flags[country], name=post['name'])
-            embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + "," + post['items'][3]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
+            embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + ", " + post['items'][3]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":busts_in_silhouette: Customers", value=post['customers'])
             if not post['logo_url']:
