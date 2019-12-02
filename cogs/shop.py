@@ -43,7 +43,7 @@ class Shop(commands.Cog):
             ldi = post['items']
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(colour=0x280071, description=post['description'])
-            embed.set_author(icon_url=self.flags[country], name=post['name'])
+            print(self.flags[country])#embed.set_author(icon_url=self.flags[country], name=post['name'])
             embed.add_field(name="Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name="Most Sold item", value=list[0]['name'])
             embed.add_field(name="Customers", value=post['customers'])
@@ -52,8 +52,8 @@ class Shop(commands.Cog):
             except:
                 pass
             embed.set_footer(text=f"Last Stock: {post['laststock']}")
-            await ctx.send(embed=embed)
-            print(self.flags[country])
+            #await ctx.send(embed=embed)
+            
 
     @commands.command(aliases=['Start', 'create'])
     async def start(self, ctx):
