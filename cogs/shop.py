@@ -128,7 +128,7 @@ class Shop(commands.Cog):
         post = {
             "owner": user.id,
             "money":300,
-            "items":[],
+            "items":food.food[country],
             "country":country,
             "name":name,
             "description":desc,
