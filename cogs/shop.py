@@ -66,7 +66,7 @@ class Shop(commands.Cog):
             se2 = discord.Embed()
             se.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
             se2.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
-            sem = await bot.get_channel(650994466307571714).send(embed=se)
+            sem = await self.bot.get_channel(650994466307571714).send(embed=se)
             sem.add_reaction('✅')
             sem.add_reaction('❎')
             reaction = await self.bot.wait_for('reaction_add', check=reac)
@@ -74,7 +74,7 @@ class Shop(commands.Cog):
                 se2.description = '*Logo accepted*'
                 await ctx.send(embed=se2)
                 await ctx.author.send("Your logo has been accepted!")
-                db.posts.update_one({"owner": ctx.author.id}, {"$set":{"logo_url": link.content}})
+                db.market.update_one({"owner": ctx.author.id}, {"$set":{"logo_url": link.content}})
             else:
                 se2.description = '*Logo denied*'
                 await ctx.send(embed=se2)
