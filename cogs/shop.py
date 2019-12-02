@@ -17,9 +17,8 @@ import pymongo
 import string
 import food
 
-client = MongoClient('mongodb://siri', 35993)
-db = client['market']
-db.authenticate('discordsiri', config.mongo_pass)
+client = MongoClient(config.mongo_client)
+db = client['siri']
 
 class Shop(commands.Cog):
     def __init__(self, bot):
