@@ -54,10 +54,6 @@ class Shop(commands.Cog):
 
     @commands.command(aliases=['Start', 'create'])
     async def start(self, ctx):
-        try:
-            ctx.message.delete()
-        except:
-            pass
         user = db.market.find_one({"owner": ctx.author.id})
         if not user:
             def check(m):
@@ -128,7 +124,7 @@ class Shop(commands.Cog):
         set3 = rnd(string.ascii_letters) 
         set4 = random.randint(0,9)
         set5 = rnd(string.ascii_letters) 
-        print(food.food)
+        
         id = str(set1) + set2 + set3 + str(set4) + set5        
         post = {
             "owner": user.id,
@@ -144,6 +140,7 @@ class Shop(commands.Cog):
             "logo_url":None
         }
         db.market.insert_one(post)
+        print(food.food)
 
 def setup(bot):
     bot.add_cog(Shop(bot))
