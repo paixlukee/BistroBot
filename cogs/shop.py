@@ -64,8 +64,8 @@ class Shop(commands.Cog):
             
             se = discord.Embed(description=link.content)
             se2 = discord.Embed()
-            se.set_footer(url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
-            se2.set_footer(url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
+            se.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
+            se2.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
             sem = await bot.get_channel(650994466307571714).send(embed=se)
             sem.add_reaction('✅')
             sem.add_reaction('❎')
