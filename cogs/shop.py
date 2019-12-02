@@ -39,7 +39,7 @@ class Shop(commands.Cog):
         embed = discord.Embed(colour=0x280071, description=post['desc'])
         embed.set_author(icon_url=self.flags[cstr], name=post['name'])
         embed.add_field(name="Menu", value=food.food[country.lower()][0] + ", " + food.food[country.lower()][1] + ", " + food.food[country.lower()][2] + f"... To view the full menu, do `r!menu {post['name']}`"
-        embed.add_field(name="Most Sold item", value=sorted(post['items'], key=lambda m: m['sold'], reverse=True)[0])
+        embed.add_field(name="Most Sold item", value=sorted(post['items'], key=lambda m: m.items, reverse=True)[0])
         embed.add_field(name="Customers", value=post['customers'])
         embed.set_thumbnail(url=post['logo_url'])
         embed.set_footer(text=f"Last Stock: {post['laststock']}")
