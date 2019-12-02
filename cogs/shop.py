@@ -54,7 +54,7 @@ class Shop(commands.Cog):
             else:
                 embed = discord.Embed(colour=0xa82021, description=f"You have successfully rated {post['name']}.")
                 await msg.edit(embed=embed)
-                db.market.update_one({"owner": user.id}, {"$push":{"ratings": {str(ctx.author.id): int(rating.content)}}})
+                db.market.update_one({"owner": user.id}, {"$push":{"ratings": {"rating": int(rating.content), "user":str(ctx.author.id)}}})
         
     @commands.group(aliases=['settings', 'Set', 'Settings'])
     async def set(self, ctx):
@@ -162,6 +162,22 @@ class Shop(commands.Cog):
             for item in post['items']:
                 prices.append(item['price'])
             average = sum(prices)/len(prices)
+            ratings = []
+            for rating in post['ratings']:
+                prices.append(item['rating'])
+            avr = round(sum(ratings)/len(ratings))
+            if avr = 0:
+                stars = "<:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
+            elif avr = 1:
+                stars = "<:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
+            elif avr = 2:
+                stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
+            elif avr = 3:
+                stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
+            elif avr = 4:
+                stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427>"
+            elif avr = 5:
+                stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368>"
             country = str(post['country']).lower()
             ldi = post['items']
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
@@ -171,6 +187,7 @@ class Shop(commands.Cog):
             embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":busts_in_silhouette: Customers", value=post['customers'])
+            embed.add_field(name=":page_with_curl: Rating", value=stars)
             if not post['logo_url']:
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
             else:
@@ -272,7 +289,7 @@ class Shop(commands.Cog):
             "laststock": "Has not stocked yet.",
             "id":id,
             "logo_url":None,
-            "ratings":[{"0":5}]
+            "ratings":[{"rating":5, "user":0}]
         }
         db.market.insert_one(post)
 
