@@ -56,11 +56,11 @@ class Shop(commands.Cog):
         if not link.content.startswith('http'):
             embed = discord.Embed(colour=0xa82021, description="That is not a valid link.")
             embed.set_author(name="Failed.")
-            msg.edit(embed=failed)
+            msg.edit(embed=embed)
         else:
             embed = discord.Embed(colour=0xa82021, description="Perfect! Your image has been sent to the Restaurant Bot staff team for reviewal.\n\n This process may take up to 24 hours. But don't worry, it will probably be even quicker.")
             embed.set_footer(text="Too many NSFW requests can end up in a ban from Restaurant Bot!")
-            msg.edit(embed=failed)
+            msg.edit(embed=embed)
             
             se = discord.Embed(description=link.content)
             se2 = discord.Embed()
