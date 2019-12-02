@@ -65,23 +65,24 @@ class Shop(commands.Cog):
             se = discord.Embed(description=link.content)
             se2 = discord.Embed()
             se.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
+            se.set_thumbnail(url=link.content)
             se2.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
+            se2.set_thumbnail(url=link.content)
             sem = await self.bot.get_channel(650994466307571714).send(embed=se)
             await sem.add_reaction('✅')
             await sem.add_reaction('❎')
             reaction, user = await self.bot.wait_for('reaction_add', check=react)
             if reaction.emoji == '✅':
                 se2.description = '*Logo accepted*'
-                await ctx.send(embed=se2)
+                await sem.edit(embed=se2)
                 await ctx.author.send("Your logo has been accepted!")
                 db.market.update_one({"owner": ctx.author.id}, {"$set":{"logo_url": link.content}})
             else:
                 se2.description = '*Logo denied*'
-                await ctx.send(embed=se2)
+                await sem.edit(embed=se2)
                 await ctx.author.send("Your logo has been denied.")
                 
-                
-            
+        
         
     @commands.command(aliases=['Restaurant', 'shop'])
     async def restaurant(self, ctx, user:discord.User=None):
