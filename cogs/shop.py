@@ -34,12 +34,13 @@ class Shop(commands.Cog):
         
     @commands.command(aliases=['Restaurant', 'shop'])
     async def restaurant(self, ctx, user:discord.User=ctx.author):
-        post = db.posts.find_one({"user": ctx.author.id})
+        post = db.market.find_one({"user": ctx.author.id})
         cstr = str(post['country']).lower()
+        ldi = post['items']
         embed = discord.Embed(colour=0x280071, description=post['desc'])
         embed.set_author(icon_url=self.flags[cstr], name=post['name'])
         embed.add_field(name="Menu", value=food.food[country.lower()][0] + ", " + food.food[country.lower()][1] + ", " + food.food[country.lower()][2] + f"... To view the full menu, do `r!menu {post['name']}`"
-        embed.add_field(name="Most Sold item", value=sorted(post['items'], key=lambda m: m.items, reverse=True)[0])
+        embed.add_field(name="Most Sold item", value=sorted(ldi, key=lambda x: x['sold'], reverse=True)[0]['name'])
         embed.add_field(name="Customers", value=post['customers'])
         embed.set_thumbnail(url=post['logo_url'])
         embed.set_footer(text=f"Last Stock: {post['laststock']}")
@@ -48,7 +49,7 @@ class Shop(commands.Cog):
 
     @commands.command(aliases=['Start', 'create'])
     async def start(self, ctx):
-        user = db.posts.find_one({"user": ctx.author.id})
+        user = db.market.find_one({"user": ctx.author.id})
         if not user:
             def check(m):
                 return m.author == ctx.message.author
@@ -132,7 +133,7 @@ class Shop(commands.Cog):
             "id":id,
             "logo_url":None
         }
-        db.posts.insert_one(post)
+        db.market.insert_one(post)
 
 def setup(bot):
     bot.add_cog(Shop(bot))
