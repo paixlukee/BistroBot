@@ -124,12 +124,13 @@ class Shop(commands.Cog):
         set3 = rnd(string.ascii_letters) 
         set4 = random.randint(0,9)
         set5 = rnd(string.ascii_letters) 
-        
+        print(food.food[0])
+                             
         id = str(set1) + set2 + set3 + str(set4) + set5        
         post = {
             "owner": user.id,
             "money":300,
-            "items":food.food[0][country],
+            "items":"",
             "country":country,
             "name":name,
             "description":desc,
