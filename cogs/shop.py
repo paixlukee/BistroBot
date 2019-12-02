@@ -6,8 +6,7 @@ import random
 import math
 import time
 from discord.ext.commands import errors, converter
-from random import choice, randint
-from random import choice, randint as rnd
+from random import randint, choice as rnd
 import aiohttp
 import asyncio
 import json
@@ -15,6 +14,8 @@ import os
 import config
 from pymongo import MongoClient
 import pymongo
+import string
+import food
 
 client = MongoClient('mongodb://siri', 35993)
 db = client['market']
@@ -25,8 +26,27 @@ class Shop:
         self.bot = bot
         self.prefix = 'r!'
         self.countries = ['CHINA', 'FRANCE','GREECE', 'INDIA', 'ITALY', 'JAPAN', 'MEXICO', 'UNITED KINGDOM', 'UNITED STATES']
+        self.flags = {"china":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_China.png", "france":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_France.png", 
+                     "greece":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Greece.png", "india":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_India.png",
+                     "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
+                     "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
+                     "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
+        
+    @commands.command(aliases=['Restaurant', 'shop'])
+    async def restaurant(self, ctx, user:discord.User=ctx.author):
+        post = db.posts.find_one({"user": ctx.author.id})
+        cstr = str(post['country']).lower()
+        embed = discord.Embed(colour=0x280071, description=post['desc'])
+        embed.set_author(icon_url=self.flags[cstr], name=post['name'])
+        embed.add_field(name="Menu", value=food.food[country.lower()][0] + ", " + food.food[country.lower()][1] + ", " + food.food[country.lower()][2] + f"... To view the full menu, do `r!menu {post['name']}`"
+        embed.add_field(name="Most Sold item", value=sorted(post['items'], key=lambda m: m['sold'], reverse=True)[0])
+        embed.add_field(name="Customers", value=post['customers'])
+        embed.set_thumbnail(url=post['logo_url'])
+        embed.set_footer(text=f"Last Stock: {post['laststock']}")
+        await ctx.send(embed=embed)
+        
 
-    @commands.group(aliases=['Start', 'create'])
+    @commands.command(aliases=['Start', 'create'])
     async def start(self, ctx):
         user = db.posts.find_one({"user": ctx.author.id})
         if not user:
@@ -93,6 +113,12 @@ class Shop:
 
 
     async def update_data(self, user, country, name, desc):
+        set1 = random.randint(0,9)
+        set2 = rnd(string.ascii_letters) 
+        set3 = rnd(string.ascii_letters) 
+        set4 = random.randint(0,9)
+        set5 = rnd(string.ascii_letters) 
+        id = str(set1) + set2 + set3 + str(set4) + set5        
         post = {
             "owner": user.id,
             "money":300,
@@ -102,7 +128,9 @@ class Shop:
             "description":desc,
             "customers":0,
             "boost":None,
-            "laststock": 0
+            "laststock": "Has not stocked yet.",
+            "id":id,
+            "logo_url":None
         }
         db.posts.insert_one(post)
 
