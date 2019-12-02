@@ -53,7 +53,7 @@ class Shop(commands.Cog):
             await link.delete()
         except:
             pass
-        if not link.startswith('http'):
+        if not link.content.startswith('http'):
             embed = discord.Embed(colour=0xa82021, description="That is not a valid link.")
             embed.set_author(name="Failed.")
             msg.edit(embed=failed)
