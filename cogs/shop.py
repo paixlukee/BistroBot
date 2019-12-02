@@ -31,8 +31,6 @@ class Shop(commands.Cog):
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         
-     def nc(m):
-        return m.author == ctx.message.author
         
     @commands.group(aliases=['settings', 'Set', 'Settings'])
     async def set(self, ctx)
@@ -45,6 +43,8 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         def reac(m):
             pass#return m.author.id == ctx.message.author
+        def nc(m):
+            return m.author == ctx.message.author
         embed = discord.Embed(colour=0xa82021, description="To keep NSFW off of Restaurant Bot, staff members must review every logo.\n\nReply with the image URL for your logo.")
         embed.set_footer(text="You have 90 seconds to reply")
         msg = await ctx.send(embed=embed)
