@@ -166,17 +166,17 @@ class Shop(commands.Cog):
             for rating in post['ratings']:
                 prices.append(item['rating'])
             avr = round(sum(ratings)/len(ratings))
-            if avr = 0:
+            if avr == 0:
                 stars = "<:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
-            elif avr = 1:
+            elif avr == 1:
                 stars = "<:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
-            elif avr = 2:
+            elif avr == 2:
                 stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
-            elif avr = 3:
+            elif avr == 3:
                 stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
-            elif avr = 4:
+            elif avr == 4:
                 stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427>"
-            elif avr = 5:
+            elif avr == 5:
                 stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368>"
             country = str(post['country']).lower()
             ldi = post['items']
