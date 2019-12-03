@@ -69,8 +69,7 @@ class Shop(commands.Cog):
         elif not posts is None:
             await self.add_money(user=user.id, count=count)
             await self.take_money(user=ctx.author.id, count=count)
-            embed = discord.Embed(colour=0x37749c, description=f"{user.mention}, **{ctx.message.author}** has donated **${count}** to you.")
-            await ctx.send(embed=embed)
+            await ctx.send(f"{user.mention}, **{ctx.message.author}** has donated **${count}** to you.")
         else:
             await ctx.send("You don't have an account. Create one by doing `r!start`.") 
 
@@ -78,13 +77,13 @@ class Shop(commands.Cog):
         data = db.market.find_one({"owner": user})
         bal = data['money']
         money = int(bal) + count
-        db.posts.update_one({"user": user}, {"$set":{"money": money}})
+        db.market.update_one({"owner": user}, {"$set":{"money": money}})
 
     async def take_money(self, user:int, count:int):
         data = db.market.find_one({"owner": user})
         bal = data['money']
         money = int(bal) - count
-        db.posts.update_one({"user": user}, {"$set":{"money": money}})
+        db.market.update_one({"owner": user}, {"$set":{"money": money}})
                     
 
 def setup(bot):
