@@ -44,9 +44,9 @@ class Shop(commands.Cog):
                 cn = 0
                 desc = ""
                 for x in post:
-                    cn =+ 1
+                    cn += 1
                     own = self.bot.get_user(x['owner'])
-                    desc += f"[{cn}] {x['name']} | {own}\n"
+                    desc += f"[{cn+1}] {x['name']} | {own}\n"
                 embed.description = desc
                 embed.set_footer(text="You have 90 seconds to reply with the number.")
                 await ctx.send(embed=embed)
@@ -57,7 +57,7 @@ class Shop(commands.Cog):
                 else:
                     pn = int(choice.content)-1
                     embed = discord.Embed()
-                    country = str(post[pn]['country'])
+                    country = post[pn]['country']
                     embed.set_author(icon_url=self.flags[country], name=f"{post[pn]['name']}'s Menu")
                     for x in post[pn]['items']:
                         embed.description += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
