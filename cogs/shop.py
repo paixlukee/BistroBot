@@ -59,10 +59,10 @@ class Shop(commands.Cog):
                 else:
                     pn = int(choice.content)
                     embed = discord.Embed()
-                    country = n[pn][pn+1]['country']
+                    country = n[pn][str(pn+1)]['country']
                     #print(n)
                     #print(n[pn][pn+1])
-                    embed.set_author(icon_url=self.flags[country], name=f"{n[pn][pn+1]['name']}'s Menu")
+                    embed.set_author(icon_url=self.flags[country], name=f"{n[pn][str(pn+1)]['name']}'s Menu")
                     for x in post[pn]['items']:
                         embed.description += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
                     await ctx.send(embed=embed)
