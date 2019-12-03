@@ -49,8 +49,8 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def donate(self, ctx, user: discord.User=None, count:int=None):
         """Give your money to another user"""
-        posts_user = db.posts.find_one({"owner": user.id})
-        posts = db.posts.find_one({"owner": ctx.author.id})                          
+        posts_user = db.market.find_one({"owner": user.id})
+        posts = db.market.find_one({"owner": ctx.author.id})                          
 
         if ctx.author == user:
             await ctx.send("You cannot donate money to yourself!")
