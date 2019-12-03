@@ -43,10 +43,12 @@ class Shop(commands.Cog):
                 embed = discord.Embed(colour=0xa82021, title="Multiple results found.")
                 cn = 0
                 desc = ""
+                n = []
                 for x in post:
                     cn += 1
+                    n.append({str(cn):x})
                     own = self.bot.get_user(x['owner'])
-                    desc += f"[{cn+1}] {x['name']} | {own}\n"
+                    desc += f"[{cn}] {x['name']} | {own}\n"
                 embed.description = desc
                 embed.set_footer(text="You have 90 seconds to reply with the number.")
                 await ctx.send(embed=embed)
@@ -57,12 +59,13 @@ class Shop(commands.Cog):
                 else:
                     pn = int(choice.content)-1
                     embed = discord.Embed()
-                    country = post[pn]['country']
-                    embed.set_author(icon_url=self.flags[country], name=f"{post[pn]['name']}'s Menu")
+                    country = n[pn]['country']
+                    embed.set_author(icon_url=self.flags[country], name=f"{n[pn]['name']}'s Menu")
                     for x in post[pn]['items']:
                         embed.description += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
                     await ctx.send(embed=embed)
             elif post.count() == 1:
+                post = db.market.find_one({"name": restaurant})
                 embed = discord.Embed()
                 country = str(post['country'])
                 embed.set_author(icon_url=self.flags[country], name=f"{post['name']}'s Menu")
