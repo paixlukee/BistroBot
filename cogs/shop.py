@@ -59,7 +59,7 @@ class Shop(commands.Cog):
                 else:
                     pn = int(choice.content)
                     embed = discord.Embed()
-                    country = n[pn][str(pn)]['country']
+                    country = n[pn-1][str(pn)]['country']
                     #print(n)
                     #print(n[pn][pn+1])
                     embed.set_author(icon_url=self.flags[country], name=f"{n[pn][str(pn)]['name']}'s Menu")
