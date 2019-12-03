@@ -54,6 +54,9 @@ class Shop(commands.Cog):
 
         if ctx.author == user:
             await ctx.send("You cannot donate money to yourself!")
+                       
+        elif not count or not user:
+            await ctx.send("You must include both the user and the amount of money. Example: `r!donate @lukee#0420 25`")
 
         elif count < 0:
             await ctx.send(f"You can't donate under **$1**.")
@@ -63,8 +66,6 @@ class Shop(commands.Cog):
 
         elif posts_user is None:
             await ctx.send(f"**{user.name}** doesn't have an account.")
-        elif not count or not user:
-            await ctx.send("You must include both the user and the amount of money. Example: `r!donate @lukee#0420 25`")
 
         elif not posts is None:
             await self.add_money(user=user.id, count=count)
