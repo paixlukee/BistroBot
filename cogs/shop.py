@@ -57,17 +57,17 @@ class Shop(commands.Cog):
                     embed = discord.Embed(colour=0xa82021, title="Failed", description="Invalid number.")
                     await ctx.send(embed=embed)
                 else:
-                    pn = int(choice.content)-1
+                    pn = int(choice.content)
                     embed = discord.Embed()
-                    #country = n[pn][str(pn)]['country']
-                    print(n)
+                    country = n[pn-1][str(pn)]['country']
+                    #print(n)
                     #print(n[pn][pn+1])
-                    #embed.set_author(icon_url=self.flags[country], name=f"{n[pn][str(pn)]['name']}'s Menu")
-                    #desc = ""
-                    #for x in n[pn][str(pn)]['items']:
-                        #desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
-                    #embed.description = desc
-                    #await ctx.send(embed=embed)
+                    embed.set_author(icon_url=self.flags[country], name=f"{n[pn-1][str(pn)]['name']}'s Menu")
+                    desc = ""
+                    for x in n[pn-1][str(pn)]['items']:
+                        desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
+                    embed.description = desc
+                    await ctx.send(embed=embed)
             elif post.count() == 1:
                 post = db.market.find_one({"name": restaurant})
                 embed = discord.Embed()
