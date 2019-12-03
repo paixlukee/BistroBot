@@ -30,6 +30,45 @@ class Shop(commands.Cog):
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
+     
+    @commands.command(aliases=['Menu'])
+    async def menu(self, ctx, *, restaurant=None):
+    def nc(m):
+        return m.author == ctx.message.author
+    if not restaurant:
+        await ctx.send("You must include the restaurant name. Example: `r!menu McDonalds`")
+    else:
+        post = db.market.find_one({"name": restaurant})
+        if len(post) > 1:
+            embed = discord.Embed(colour=0xa82021, title="Multiple results found.")
+            cn = 0
+            for x in post:
+                cn =+ 1
+                embed.description += f"[{cn}] {x['name']} | {x['owner']}\n"
+            embed.set_footer(text="You have 90 seconds to reply with the number.")
+            await ctx.send(embed=embed)
+            choice = await self.bot.wait_for('message', check=nc, timeout=90)
+            if not choice.content.isdigit() or len(choice.content) > cn or len(choice.content) < 1:
+                embed = discord.Embed(colour=0xa82021, title="Failed", description="Invalid number.")
+                await ctx.send(embed=embed)
+            else:
+                pn = cn-1
+                embed = discord.Embed()
+                country = str(post[pn]['country'])
+                embed.set_author(icon_url=self.flags[country], name=f"{post[pn]['name']}'s Menu")
+                for x in post[pn]['items']:
+                    embed.description += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
+                await ctx.send(embed=embed)
+        elif len(post) == 1:
+            embed = discord.Embed()
+            country = str(post['country'])
+            embed.set_author(icon_url=self.flags[country], name=f"{post['name']}'s Menu")
+            for x in post['items']:
+                embed.description += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("I couldn't find that restaurant in our database. Did you spell it right? Names are case sensitive.")
+        
         
     @commands.command(aliases=['Rate'])
     async def rate(self, ctx, user:discord.User=None):
