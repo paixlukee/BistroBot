@@ -39,7 +39,7 @@ class Shop(commands.Cog):
             await ctx.send("You must include the restaurant name. Example: `r!menu McDonalds`")
         else:
             post = db.market.find({"name": restaurant})
-            if post.length() > 1:
+            if post.count() > 1:
                 embed = discord.Embed(colour=0xa82021, title="Multiple results found.")
                 cn = 0
                 for x in post:
@@ -59,7 +59,7 @@ class Shop(commands.Cog):
                     for x in post[pn]['items']:
                         embed.description += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
                     await ctx.send(embed=embed)
-            elif post.length() == 1:
+            elif post.count() == 1:
                 embed = discord.Embed()
                 country = str(post['country'])
                 embed.set_author(icon_url=self.flags[country], name=f"{post['name']}'s Menu")
