@@ -59,15 +59,15 @@ class Shop(commands.Cog):
                 else:
                     pn = int(choice.content)-1
                     embed = discord.Embed()
-                    country = n[pn][str(pn)]['country']
-                    #print(n)
+                    #country = n[pn][str(pn)]['country']
+                    print(n)
                     #print(n[pn][pn+1])
-                    embed.set_author(icon_url=self.flags[country], name=f"{n[pn][str(pn)]['name']}'s Menu")
-                    desc = ""
-                    for x in n[pn][str(pn)]['items']:
-                        desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
-                    embed.description = desc
-                    await ctx.send(embed=embed)
+                    #embed.set_author(icon_url=self.flags[country], name=f"{n[pn][str(pn)]['name']}'s Menu")
+                    #desc = ""
+                    #for x in n[pn][str(pn)]['items']:
+                        #desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
+                    #embed.description = desc
+                    #await ctx.send(embed=embed)
             elif post.count() == 1:
                 post = db.market.find_one({"name": restaurant})
                 embed = discord.Embed()
