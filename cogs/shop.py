@@ -42,9 +42,11 @@ class Shop(commands.Cog):
             if post.count() > 1:
                 embed = discord.Embed(colour=0xa82021, title="Multiple results found.")
                 cn = 0
+                desc = ""
                 for x in post:
                     cn =+ 1
-                    embed.description += f"[{cn}] {x['name']} | {x['owner']}\n"
+                    desc += f"[{cn}] {x['name']} | {x['owner']}\n"
+                embed.description = desc
                 embed.set_footer(text="You have 90 seconds to reply with the number.")
                 await ctx.send(embed=embed)
                 choice = await self.bot.wait_for('message', check=nc, timeout=90)
@@ -63,8 +65,10 @@ class Shop(commands.Cog):
                 embed = discord.Embed()
                 country = str(post['country'])
                 embed.set_author(icon_url=self.flags[country], name=f"{post['name']}'s Menu")
+                desc = ""
                 for x in post['items']:
-                    embed.description += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
+                    desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
+                embed.description = desc  
                 await ctx.send(embed=embed)
             else:
                 await ctx.send("I couldn't find that restaurant in our database. Did you spell it right? Names are case sensitive.")
