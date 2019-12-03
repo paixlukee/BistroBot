@@ -45,7 +45,7 @@ class Shop(commands.Cog):
                 desc = ""
                 for x in post:
                     cn =+ 1
-                    own = bot.get_user(x['owner'])
+                    own = self.bot.get_user(x['owner'])
                     desc += f"[{cn}] {x['name']} | {own}\n"
                 embed.description = desc
                 embed.set_footer(text="You have 90 seconds to reply with the number.")
