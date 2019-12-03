@@ -45,7 +45,8 @@ class Shop(commands.Cog):
                 desc = ""
                 for x in post:
                     cn =+ 1
-                    desc += f"[{cn}] {x['name']} | {x['owner']}\n"
+                    own = bot.get_user(x['owner'])
+                    desc += f"[{cn}] {x['name']} | {own}\n"
                 embed.description = desc
                 embed.set_footer(text="You have 90 seconds to reply with the number.")
                 await ctx.send(embed=embed)
@@ -54,7 +55,7 @@ class Shop(commands.Cog):
                     embed = discord.Embed(colour=0xa82021, title="Failed", description="Invalid number.")
                     await ctx.send(embed=embed)
                 else:
-                    pn = cn-1
+                    pn = int(choice.content)-1
                     embed = discord.Embed()
                     country = str(post[pn]['country'])
                     embed.set_author(icon_url=self.flags[country], name=f"{post[pn]['name']}'s Menu")
