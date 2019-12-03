@@ -38,7 +38,7 @@ class Shop(commands.Cog):
         if not restaurant:
             await ctx.send("You must include the restaurant name. Example: `r!menu McDonalds`")
         else:
-            post = db.market.find_one({"name": restaurant})
+            post = db.market.find({"name": restaurant})
             if len(post) > 1:
                 embed = discord.Embed(colour=0xa82021, title="Multiple results found.")
                 cn = 0
