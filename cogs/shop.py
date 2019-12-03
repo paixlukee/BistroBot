@@ -60,6 +60,8 @@ class Shop(commands.Cog):
                     pn = int(choice.content)
                     embed = discord.Embed()
                     country = n[pn]['country']
+                    #print(n)
+                    print(n[pn])
                     embed.set_author(icon_url=self.flags[country], name=f"{n[pn]['name']}'s Menu")
                     for x in post[pn]['items']:
                         embed.description += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
