@@ -47,7 +47,7 @@ class Shop(commands.Cog):
                        
     @commands.command(pass_context=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def donate(self, ctx, user: discord.User=None, count:int):
+    async def donate(self, ctx, user: discord.User=None, count:int=None):
         """Give your money to another user"""
         posts_user = db.posts.find_one({"owner": user.id})
         posts = db.posts.find_one({"owner": ctx.author.id})                          
@@ -63,7 +63,7 @@ class Shop(commands.Cog):
 
         elif posts_user is None:
             await ctx.send(f"**{user.name}** doesn't have an account.")
-        elif count is None:
+        elif not count or not user:
             await ctx.send("You must include both the user and the amount of money. Example: `r!donate @lukee#0420 25`")
 
         elif not posts is None:
