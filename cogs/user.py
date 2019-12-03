@@ -43,9 +43,49 @@ class Shop(commands.Cog):
         if not user:
             user = ctx.author
         post = db.market.find_one({"owner": int(user.id)})
-        await ctx.send(f"**{user.name}**'s balance is **{post['money']}**")
+        await ctx.send(f"**{user.name}**'s balance is **${post['money']}**.")
+                       
+    @commands.command(pass_context=True)
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def donate(self, ctx, user: discord.User=None, count:int):
+        """Give your money to another user"""
+        posts_user = db.posts.find_one({"owner": user.id})
+        posts = db.posts.find_one({"owner": ctx.author.id})                          
 
+        if ctx.author == user:
+            await ctx.send("You cannot donate money to yourself!")
 
+        elif count < 0:
+            await ctx.send(f"You can't donate under **$1**.")
+
+        elif posts['money'] < count:
+            await ctx.send(f"You don't have enough money.")
+
+        elif posts_user is None:
+            await ctx.send(f"**{user.name}** doesn't have an account.")
+        elif count is None:
+            await ctx.send("You must include both the user and the amount of money. Example: `r!donate @lukee#0420 25`")
+
+        elif not posts is None:
+            await self.add_money(user=user.id, count=count)
+            await self.take_money(user=ctx.author.id, count=count)
+            embed = discord.Embed(colour=0x37749c, description=f"{user.mention}, **{ctx.message.author}** has donated **${count}** to you.")
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("You don't have an account. Create one by doing `r!start`.") 
+
+    async def add_money(self, user:int, count):
+        data = db.market.find_one({"owner": user})
+        bal = data['money']
+        money = int(bal) + count
+        db.posts.update_one({"user": user}, {"$set":{"money": money}})
+
+    async def take_money(self, user:int, count:int):
+        data = db.market.find_one({"owner": user})
+        bal = data['money']
+        money = int(bal) - count
+        db.posts.update_one({"user": user}, {"$set":{"money": money}})
+                    
 
 def setup(bot):
     bot.add_cog(Shop(bot))
