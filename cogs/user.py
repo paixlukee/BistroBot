@@ -35,7 +35,7 @@ class Shop(commands.Cog):
         embed.set_author(icon_url=user.avatar_url_as(format='png'), name="User Stats")
         embed.set_thumbnail(url=user.avatar_url_as(format='png'))
         embed.add_field(name="Restaurant", value=post['name'])
-        embed.add_field(name="Money", value="$" + post['money'])
+        embed.add_field(name="Money", value="$" + str(post['money']))
         await ctx.send(embed=embed)
         
     @commands.command(aliases=['Balance', 'bal'])
