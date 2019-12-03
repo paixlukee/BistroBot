@@ -57,9 +57,9 @@ class Shop(commands.Cog):
                     embed = discord.Embed(colour=0xa82021, title="Failed", description="Invalid number.")
                     await ctx.send(embed=embed)
                 else:
-                    pn = int(choice.content)
+                    pn = int(choice.content)-1
                     embed = discord.Embed()
-                    country = n[pn-1][str(pn)]['country']
+                    country = n[pn][str(pn)]['country']
                     #print(n)
                     #print(n[pn][pn+1])
                     embed.set_author(icon_url=self.flags[country], name=f"{n[pn][str(pn)]['name']}'s Menu")
