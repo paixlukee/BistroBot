@@ -198,12 +198,51 @@ class Shop(commands.Cog):
             embed = discord.Embed(colour=0xa82021, description="Awesome! Your restaurant's name has been set!")
             await msg.edit(embed=embed)
             db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": name.content}})
+                                      
+    @set.command(aliases=['Price'])
+    async def price(self, ctx):
+        def nc(m):
+            return m.author == ctx.message.author
+        post = db.market.find_one({"owner": int(user.id)})
+        embed = discord.Embed(colour=0xa82021, description="What item would you like to change the price of?")
+        embed.set_footer(text="You have 90 seconds to reply")
+        msg = await ctx.send(embed=embed)
+        item = await self.bot.wait_for('message', check=nc, timeout=90)
+        try:
+            await item.delete()
+        except:
+            pass
+        if not item.content in post['items']:
+            embed = discord.Embed(colour=0xa82021, description=f"That item is not on your menu. Check it with `r!menu {post['name']}`")
+            embed.set_author(name="Failed.")
+            await msg.edit(embed=embed)
+        else:
+            embed = discord.Embed(colour=0xa82021, description="What price do you want to set it at?\n\nIt may not be less than $1 or more than $45")
+            await msg.edit(embed=embed)
+            #db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": name.content}})
+            price = await self.bot.wait_for('message', check=nc, timeout=90)
+            try:
+                await price.delete()
+            except:
+                pass
+            if not price.content.isdigit() or int(price.content) > 45 or int(price.content) < 1:
+                embed = discord.Embed(colour=0xa82021, description=f"Prices may not be less than $1 or more than $45")
+                embed.set_author(name="Failed.")
+                await msg.edit(embed=embed)
+            else:
+                embed = discord.Embed(colour=0xa82021, description="Amazing! The price has been set.")
+                await msg.edit(embed=embed)
+                                  
         
-    @commands.command(aliases=['Restaurant', 'shop'])
-    async def restaurant(self, ctx, user:discord.User=None):
+    @commands.command(aliases=['Random', 'rr'])
+    async def random(self, ctx, user:discord.User=None):
         if not user:
             user = ctx.author
-        post = db.market.find_one({"owner": int(user.id)})
+        p = db.market.find().limit(1).skip(random.randint(1, db.market.find().count()))
+        if int(post['owner']) == ctx.author.id:
+            post = db.market.find().limit(1).skip(random.randint(1, db.market.find().count()))
+        else:
+            post = p
         if not post:
             await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.') 
         else:
@@ -212,7 +251,7 @@ class Shop(commands.Cog):
             prices = []
             for item in post['items']:
                 prices.append(item['price'])
-            average = sum(prices)/len(prices)
+            average = round(sum(prices)/len(prices))
             ratings = []
             for rating in post['ratings']:
                 ratings.append(rating['rating'])
@@ -235,9 +274,9 @@ class Shop(commands.Cog):
             embed = discord.Embed(description=post['description'])
             embed.set_author(icon_url=self.flags[country], name=post['name'])
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + ", " + post['items'][3]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
+            embed.add_field(name=":bar_chart: Level", value=post['level'])
             embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
-            embed.add_field(name=":busts_in_silhouette: Customers", value=post['customers'])
             embed.add_field(name=":page_with_curl: Rating", value=stars)
             if not post['logo_url']:
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
@@ -340,7 +379,8 @@ class Shop(commands.Cog):
             "laststock": "Has not stocked yet.",
             "id":id,
             "logo_url":None,
-            "ratings":[{"rating":5, "user":0}]
+            "ratings":[{"rating":5, "user":0}],
+            "level": 0
         }
         db.market.insert_one(post)
 
