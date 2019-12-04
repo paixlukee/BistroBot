@@ -285,6 +285,7 @@ class Shop(commands.Cog):
             embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
+            embed.add_field(name=":name_badge: Owner", value=str(bot.get_user(post['owner'])).replace("None", "Unknown"))
             if not post['logo_url']:
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
             else:
@@ -333,6 +334,7 @@ class Shop(commands.Cog):
             embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
+            embed.add_field(name=":name_badge: Owner", value=str(bot.get_user(post['owner'])).replace("None", "Unknown"))
             if not post['logo_url']:
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
             else:
