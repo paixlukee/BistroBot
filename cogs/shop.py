@@ -239,14 +239,17 @@ class Shop(commands.Cog):
         if not user:
             user = ctx.author
         rndm = random.randint(1, db.market.find().count())
-        p = db.market.find().limit(2).skip(rndm).next()
-        if p['owner'] == ctx.author.id:
-            if db.market.find().count() == rndm:
-                post = db.market.find().limit(1).skip(rndm-1).next()
+        try:
+            p = db.market.find().limit(2).skip(rndm).next()
+            if p['owner'] == ctx.author.id:
+                if db.market.find().count() == rndm:
+                    post = db.market.find().limit(1).skip(rndm-1).next()
+                else:
+                    post = db.market.find().limit(1).skip(rndm+1).next()
             else:
-                post = db.market.find().limit(1).skip(rndm+1).next()
-        else:
-            post = p
+                post = p
+        except StopIteration:
+            return
         if not post:
             await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.') 
         else:
