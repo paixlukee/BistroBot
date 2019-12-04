@@ -212,7 +212,11 @@ class Shop(commands.Cog):
             await item.delete()
         except:
             pass
-        if not {"name": item.content} in post['items']:
+        it = None
+        for x in post['items']
+            if x['name'].lower() == item.content.lower():
+                it = x
+        if not it:
             embed = discord.Embed(colour=0xa82021, description=f"That item is not on your menu. Check it with `r!menu {post['name']}`")
             embed.set_author(name="Failed.")
             await msg.edit(embed=embed)
