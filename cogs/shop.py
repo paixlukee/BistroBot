@@ -240,7 +240,7 @@ class Shop(commands.Cog):
             user = ctx.author
         rndm = random.randint(1, db.market.find().count())
         p = db.market.find().limit(1).skip(rndm)
-        if p[0]['owner'] == ctx.author.id:
+        if p['owner'] == ctx.author.id:
             if db.market.find().count() == rndm:
                 post = db.market.find().limit(rndm-1).skip(rndm)[0]
             else:
