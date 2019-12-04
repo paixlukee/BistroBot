@@ -213,7 +213,7 @@ class Shop(commands.Cog):
         except:
             pass
         it = None
-        for x in post['items']
+        for x in post['items']:
             if x['name'].lower() == item.content.lower():
                 it = x
         if not it:
