@@ -237,7 +237,7 @@ class Shop(commands.Cog):
                 embed = discord.Embed(colour=0xa82021, description="Amazing! The price has been set.")
                 await msg.edit(embed=embed)
                 db.market.update_one({"owner": ctx.author.id}, {"$pull":{"items": it}})     
-                db.market.update_one({"owner": ctx.author.id}, {"$push":{"items":{"name": it['name'],"price": price.content,"stock": it['stock'],"sold": it['sold']}}})
+                db.market.update_one({"owner": ctx.author.id}, {"$push":{"items":{"name": it['name'],"price": int(price.content),"stock": it['stock'],"sold": it['sold']}}})
                                   
         
     @commands.command(aliases=['Random', 'rr'])
