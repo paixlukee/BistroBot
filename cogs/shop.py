@@ -239,12 +239,12 @@ class Shop(commands.Cog):
         if not user:
             user = ctx.author
         rndm = random.randint(1, db.market.find().count())
-        p = db.market.find().limit(1).skip(rndm)
-        if p['owner'] == ctx.author.id:
+        p = db.market.find().limit(2).skip(rndm)
+        if p[0]['owner'] == ctx.author.id:
             if db.market.find().count() == rndm:
-                post = db.market.find().limit(rndm-1).skip(rndm)[0]
+                post = db.market.find().limit(2).skip(rndm-1)[0]
             else:
-                post = db.market.find().limit(rndm+1).skip(rndm)[0]
+                post = db.market.find().limit(2).skip(rndm+1)[0]
         else:
             post = p[0]
         if not post:
