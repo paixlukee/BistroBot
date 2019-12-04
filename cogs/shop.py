@@ -203,7 +203,7 @@ class Shop(commands.Cog):
     async def price(self, ctx):
         def nc(m):
             return m.author == ctx.message.author
-        post = db.market.find_one({"owner": int(user.id)})
+        post = db.market.find_one({"owner": int(ctx.author.id)})
         embed = discord.Embed(colour=0xa82021, description="What item would you like to change the price of?")
         embed.set_footer(text="You have 90 seconds to reply")
         msg = await ctx.send(embed=embed)
