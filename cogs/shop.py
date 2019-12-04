@@ -238,9 +238,13 @@ class Shop(commands.Cog):
     async def random(self, ctx, user:discord.User=None):
         if not user:
             user = ctx.author
-        p = db.market.find().limit(1).skip(random.randint(1, db.market.find().count()))
+        rndm = random.randint(1, db.market.find().count())
+        p = db.market.find().limit(1).skip(rndm)
         if p[0]['owner'] == ctx.author.id:
-            post = db.market.find().limit(1).skip(random.randint(1, db.market.find().count()))[0]
+            if db.market.find().count() == rndm:
+                post = db.market.find().limit(rndm-1).skip(rndm)[0]
+            else:
+                post = db.market.find().limit(rndm+1).skip(rndm)[0]
         else:
             post = p[0]
         if not post:
@@ -282,9 +286,57 @@ class Shop(commands.Cog):
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
             else:
                 embed.set_thumbnail(url=post['logo_url'])
+            embed.set_footer(text=f"Random Restaurant | Last Stock: {post['laststock']}")
+            msg = await ctx.send(embed=embed)
+            await msg.add_reaction('❤️')            
+
+    @commands.command(aliases=['Restaurant', 'r'])
+    async def restaurant(self, ctx, user:discord.User=None):
+        if not user:
+            user = ctx.author
+        post = db.market.find_one({"owner": user.id})
+        if not post:
+            await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.') 
+        else:
+            def react(reaction, user):
+                return str(reaction.emoji) == '<:FilledStar:651156130424291368>'
+            prices = []
+            for item in post['items']:
+                prices.append(item['price'])
+            average = round(sum(prices)/len(prices))
+            ratings = []
+            for rating in post['ratings']:
+                ratings.append(rating['rating'])
+            avr = round(sum(ratings)/len(ratings))
+            if avr == 0:
+                stars = "<:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
+            elif avr == 1:
+                stars = "<:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
+            elif avr == 2:
+                stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
+            elif avr == 3:
+                stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427><:EmptyStar:651156200142012427>"
+            elif avr == 4:
+                stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:EmptyStar:651156200142012427>"
+            elif avr == 5:
+                stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368>"
+            country = str(post['country']).lower()
+            ldi = post['items']
+            list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
+            embed = discord.Embed(description=post['description'])
+            embed.set_author(icon_url=self.flags[country], name=post['name'])
+            embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + ", " + post['items'][3]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
+            embed.add_field(name=":bar_chart: Level", value=post['level'])
+            embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
+            embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
+            embed.add_field(name=":page_with_curl: Rating", value=stars)
+            if not post['logo_url']:
+                embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
+            else:
+                embed.set_thumbnail(url=post['logo_url'])
             embed.set_footer(text=f"Last Stock: {post['laststock']}")
             msg = await ctx.send(embed=embed)
-            #await msg.add_reaction('<:FilledStar:651156130424291368>')            
+            #await msg.add_reaction('<:FilledStar:651156130424291368>')  
                              
 
     @commands.command(aliases=['Start', 'create'])
