@@ -117,7 +117,7 @@ class Shop(commands.Cog):
             msg = msg.replace("TIP", str(tpc))
             await self.add_money(user=ctx.author.id, count=tpc)
                        
-        await ctx.send(embed=f"{ctx.author.mention}, {msg}")
+        await ctx.send(f"{ctx.author.mention}, {msg}")
         
 
     async def add_money(self, user:int, count):
