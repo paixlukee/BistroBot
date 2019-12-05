@@ -43,7 +43,8 @@ class Shop(commands.Cog):
         if not user:
             user = ctx.author
         post = db.market.find_one({"owner": int(user.id)})
-        await ctx.send(f"**{user.name}**'s balance is **${post['money']}**.")
+        bal = format(post['money'], ",d")
+        await ctx.send(f"**{user.name}**'s balance is **${bal}**.")
                        
     @commands.command(pass_context=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
