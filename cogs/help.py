@@ -24,12 +24,15 @@ class Help(commands.Cog):
         embed = discord.Embed(description='Welcome to **Restaurant** Here is a list of commands that you are able to use.\n\n'\
         f'`{self.prefix}start` - **Create your own restaurant.**\n'\
         f'`{self.prefix}restaurant [@user]` - **Show restaurant details**\n'\
+        f'`{self.prefix}random` - **View a random restaurant**\n'\
         f'`{self.prefix}menu <restaurant-name>` - **Add more items to your restaurant\'s stock**\n'\
         f'`{self.prefix}rate <@user>` - **Buy a boost or view your current boost**\n'\
         f'`{self.prefix}set` - **Configurate your restaurant settings**\n'\
         f'`{self.prefix}user [@user]` - **View a user profile**\n'\
         f'`{self.prefix}balance` - **View your balance**\n'\
-        f'`{self.prefix}donate <@user> <amount>` - **Donate money to someone else**\n'
+        f'`{self.prefix}donate <@user> <amount>` - **Donate money to someone else**\n'\
+        f'`{self.prefix}daily` - **Get your daily cash**\n'\
+        f'`{self.prefix}work` - **Work at your restaurant and get money**\n'
         )
         embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
         embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
