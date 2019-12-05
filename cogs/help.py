@@ -31,7 +31,7 @@ class Help(commands.Cog):
         f'`{self.prefix}user [@user]` - **View a user profile**\n'\
         f'`{self.prefix}balance` - **View your balance**\n'\
         f'`{self.prefix}donate <@user> <amount>` - **Donate money to someone else**\n'\
-        f'`{self.prefix}daily` - **Get your daily cash**\n'\
+        f'`{self.prefix}daily` - **Receive your daily cash**\n'\
         f'`{self.prefix}work` - **Work at your restaurant and get money**\n'
         )
         embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
