@@ -25,8 +25,8 @@ class Help(commands.Cog):
         f'`{self.prefix}start` - **Create your own restaurant.**\n'\
         f'`{self.prefix}restaurant [@user]` - **Show restaurant details**\n'\
         f'`{self.prefix}random` - **View a random restaurant**\n'\
-        f'`{self.prefix}menu <restaurant-name>` - **Add more items to your restaurant\'s stock**\n'\
-        f'`{self.prefix}rate <@user>` - **Buy a boost or view your current boost**\n'\
+        f'`{self.prefix}menu <restaurant-name>` - **View a restaurant menu**\n'\
+        f'`{self.prefix}rate <@user>` - **Rate someone\'s restaurant**\n'\
         f'`{self.prefix}set` - **Configurate your restaurant settings**\n'\
         f'`{self.prefix}user [@user]` - **View a user profile**\n'\
         f'`{self.prefix}balance` - **View your balance**\n'\
