@@ -48,7 +48,7 @@ class Botdev(commands.Cog):
             embed.set_author(name="Pulled from Git", icon_url="https://avatars0.githubusercontent.com/u/9919?s=280&v=4")
             await msg.delete()
             await ctx.send(embed=embed)
-         else:
+        else:
             pass
 
     @commands.command(hidden=True)
