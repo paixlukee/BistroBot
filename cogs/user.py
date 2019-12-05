@@ -89,7 +89,7 @@ class Shop(commands.Cog):
     async def work(self, ctx):
         posts = db.utility.find_one({"utility": "res"})
         user = db.market.find_one({"owner": ctx.author.id})
-        country = str(posts['country'])
+        country = str(user['country'])
         rm = rnd(posts['resp'])
         count = 0
         r1 = rnd(food.food[country])
