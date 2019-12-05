@@ -102,7 +102,7 @@ class Shop(commands.Cog):
             await self.add_money(user=ctx.author.id, count=count)
         elif 'ITEM2' in rm and not 'ITEM4' in rm:
             count = r1['price']+r2['price']+r3['price']
-            msg = str(rm).replace("ITEM3", r3['name']).replace("ITEM2", r2).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
+            msg = str(rm).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
             await self.add_money(user=ctx.author.id, count=count)
         else:
             count = r1['price']+r2['price']+r3['price']+r4['price']
@@ -114,7 +114,7 @@ class Shop(commands.Cog):
             await self.add_money(user=ctx.author.id, count=tpc)
         else:
             tpc = random.randint(8,10)
-            msg = msg.replace("TIP", str(tpc))
+            msg = msg.replace("TIP", "$" + str(tpc))
             await self.add_money(user=ctx.author.id, count=tpc)
                        
         await ctx.send(f"{ctx.author.mention}, {msg}")
