@@ -54,7 +54,7 @@ async def on_guild_join(guild):
             guild.get_member(guild.owner.id)
             ]
     embed = discord.Embed(description="Thank you for adding me! Do `r!help` to see a list of my commands. Do `r!start` to create your restaurant!")
-    embed.add_field(name="Join my support server!", value="https://discord.gg/tNf6REt")
+    embed.add_field(name="Join my support server!", value="https://discord.gg/BCRtw7c")
     embed.set_image(url="https://i.ibb.co/mCD21pb/restaurantbanner.png")
     embed.set_footer(text="Restaurante created by lukee#0420 - Thank you for adding me!", icon_url=bot.user.avatar_url)
     for x in targets:
