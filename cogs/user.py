@@ -90,7 +90,7 @@ class Shop(commands.Cog):
         posts = db.utility.find_one({"utility": "res"})
         user = db.market.find_one({"owner": ctx.author.id})
         country = str(user['country'])
-        rm = rnd(posts['resp'])
+        rm = rnd(posts['resp'])['text']
         count = 0
         r1 = rnd(food.food[country])
         r2 = rnd(food.food[country])
