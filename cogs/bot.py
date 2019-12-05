@@ -38,16 +38,18 @@ class Botdev(commands.Cog):
         await self.bot.logout()
                     
     @commands.command(hidden=True)
-    @commands.is_owner()
     async def pull(self, ctx):
-        msg = await ctx.send("Pulling..")
-        shell = await self.run_cmd('git pull Res --no-commit --no-edit --ff-only master')
-        shell = str(shell)
-        shell = shell.replace("https://github.com/paixlukee/RestaurantBot", "Github")
-        embed = discord.Embed(description=f"```css\n{shell}```")
-        embed.set_author(name="Pulled from Git", icon_url="https://avatars0.githubusercontent.com/u/9919?s=280&v=4")
-        await msg.delete()
-        await ctx.send(embed=embed)
+        if ctx.author.id == 396153668820402197:
+            msg = await ctx.send("Pulling..")
+            shell = await self.run_cmd('git pull Res --no-commit --no-edit --ff-only master')
+            shell = str(shell)
+            shell = shell.replace("https://github.com/paixlukee/RestaurantBot", "Github")
+            embed = discord.Embed(description=f"```css\n{shell}```")
+            embed.set_author(name="Pulled from Git", icon_url="https://avatars0.githubusercontent.com/u/9919?s=280&v=4")
+            await msg.delete()
+            await ctx.send(embed=embed)
+         else:
+            pass
 
     @commands.command(hidden=True)
     @commands.is_owner()
@@ -71,38 +73,40 @@ class Botdev(commands.Cog):
         await ctx.send("Pong! `" + str(round((t2-t1)*1000)) + "ms`")
 
     @commands.command(hidden=True)
-    @commands.is_owner()
     async def load(self, ctx, extension):
-        try:
-            if extension == 'all':
-                print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'Loaded all modules')
-                print("------\n\n")
-                loaded = []
-                not_loaded = []
-                for extension in extensions:
-                    try:
-                        self.bot.load_extension(extension)
-                        loaded.append(f'`{extension}`')    
-                    except Exception as error:
-                        not_loaded.append(f'`{extension}` - `{error}`')
-                        print('\x1b[1;31;40m' + '[COG-LOAD-ERROR]: ' + '\x1b[0m' + '{} was not loaded due to an error: {} '.format(extension, error))
-                    
-                loaded = '\n'.join(loaded)
-                not_loaded = '\n'.join(not_loaded)
-                embed = discord.Embed(colour=0x0000ff)
-                embed.add_field(name='Loaded', value=loaded)
-                if not_loaded is None:
-                    embed.add_field(name='Not Loaded', value=not_loaded)
+        if ctx.author.id == 396153668820402197:
+            try:
+                if extension == 'all':
+                    print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'Loaded all modules')
+                    print("------\n\n")
+                    loaded = []
+                    not_loaded = []
+                    for extension in extensions:
+                        try:
+                            self.bot.load_extension(extension)
+                            loaded.append(f'`{extension}`')    
+                        except Exception as error:
+                            not_loaded.append(f'`{extension}` - `{error}`')
+                            print('\x1b[1;31;40m' + '[COG-LOAD-ERROR]: ' + '\x1b[0m' + '{} was not loaded due to an error: {} '.format(extension, error))
+
+                    loaded = '\n'.join(loaded)
+                    not_loaded = '\n'.join(not_loaded)
+                    embed = discord.Embed(colour=0x0000ff)
+                    embed.add_field(name='Loaded', value=loaded)
+                    if not_loaded is None:
+                        embed.add_field(name='Not Loaded', value=not_loaded)
+                    await ctx.send(embed=embed)
+                else:
+                    self.bot.load_extension("cogs.{}".format(extension))
+                    embed = discord.Embed(title="<:CheckMark:473276943341453312> Cog loaded:", color=0x5bff69, description="**Cog:** `cogs\{}.py`".format(extension))
+                    await ctx.send(embed=embed)
+                    print('\n\nCOG LOAD\n--[Cog loaded, {}.py]--\n\n'.format(extension))
+            except Exception as error:
+                print('\n\nEXTEN./COG ERROR: {} was not loaded due to an error: \n-- [{}] --\n\n'.format(extension, error))
+                embed = discord.Embed(title="<:WrongMark:473277055107334144> Error loading cog:", color=0xff775b, description="**Cog:** `cogs\{}.py`\n**Errors:**\n```{}```".format(extension, error))
                 await ctx.send(embed=embed)
-            else:
-                self.bot.load_extension("cogs.{}".format(extension))
-                embed = discord.Embed(title="<:CheckMark:473276943341453312> Cog loaded:", color=0x5bff69, description="**Cog:** `cogs\{}.py`".format(extension))
-                await ctx.send(embed=embed)
-                print('\n\nCOG LOAD\n--[Cog loaded, {}.py]--\n\n'.format(extension))
-        except Exception as error:
-            print('\n\nEXTEN./COG ERROR: {} was not loaded due to an error: \n-- [{}] --\n\n'.format(extension, error))
-            embed = discord.Embed(title="<:WrongMark:473277055107334144> Error loading cog:", color=0xff775b, description="**Cog:** `cogs\{}.py`\n**Errors:**\n```{}```".format(extension, error))
-            await ctx.send(embed=embed)
+        else:
+            pass
 
     @commands.command(aliases=['un'], hidden=True)
     @commands.is_owner()
@@ -114,18 +118,20 @@ class Botdev(commands.Cog):
             
 
     @commands.command(aliases=['re'], hidden=True)
-    @commands.is_owner()
     async def reload(self, ctx, extension):
-        try:
-            self.bot.unload_extension("cogs.{}".format(extension))
-            self.bot.load_extension("cogs.{}".format(extension))
-            embed = discord.Embed(title="<:CheckMark:473276943341453312> Cog reloaded:", color=0x5bff69, description="**Cog:** `cogs\{}.py`".format(extension))
-            await ctx.send(embed=embed)
-            print('\x1b[1;32;40m' + '[COG-RELOADED]: ' + '\x1b[0m' + '{} was reloaded successfully'.format(extension))
-        except Exception as error:
-            print('\x1b[1;31;40m' + '[COG-RELOAD-ERROR]: ' + '\x1b[0m' + '{} was not reloaded due to an error: {} '.format(extension, error))
-            embed = discord.Embed(title="<:WrongMark:473277055107334144> Error reloading cog:", color=0xff775b, description="**Cog:** `cogs\{}.py`\n**Errors:**\n```{}```".format(extension, error))
-            await ctx.send(embed=embed)
+        if ctx.author.id == 396153668820402197:
+            try:
+                self.bot.unload_extension("cogs.{}".format(extension))
+                self.bot.load_extension("cogs.{}".format(extension))
+                embed = discord.Embed(title="<:CheckMark:473276943341453312> Cog reloaded:", color=0x5bff69, description="**Cog:** `cogs\{}.py`".format(extension))
+                await ctx.send(embed=embed)
+                print('\x1b[1;32;40m' + '[COG-RELOADED]: ' + '\x1b[0m' + '{} was reloaded successfully'.format(extension))
+            except Exception as error:
+                print('\x1b[1;31;40m' + '[COG-RELOAD-ERROR]: ' + '\x1b[0m' + '{} was not reloaded due to an error: {} '.format(extension, error))
+                embed = discord.Embed(title="<:WrongMark:473277055107334144> Error reloading cog:", color=0xff775b, description="**Cog:** `cogs\{}.py`\n**Errors:**\n```{}```".format(extension, error))
+                await ctx.send(embed=embed)
+        else:
+            pass
 
 
             
