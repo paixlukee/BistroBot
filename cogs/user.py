@@ -98,15 +98,15 @@ class Shop(commands.Cog):
         r4 = rnd(food.food[country])
         if 'ITEM' in rm and not 'ITEM2' in rm:
             count = r1['price']
-            msg = str(rm).replace("ITEM", r1['name']).replace("COUNT", count)
+            msg = str(rm).replace("ITEM", r1['name']).replace("COUNT", str(count))
             await self.add_money(user=ctx.author.id, count=count)
         elif 'ITEM2' in rm and not 'ITEM4' in rm:
             count = r1['price']+r2['price']+r3['price']
-            msg = str(rm).replace("ITEM", r1['name']).replace("ITEM2", r2).replace("ITEM3", r3['name']).replace("COUNT", count)
+            msg = str(rm).replace("ITEM", r1['name']).replace("ITEM2", r2).replace("ITEM3", r3['name']).replace("COUNT", str(count))
             await self.add_money(user=ctx.author.id, count=count)
         else:
             count = r1['price']+r2['price']+r3['price']+r4['price']
-            msg = str(rm).replace("ITEM", r1['name']).replace("ITEM2", r2['name']).replace("ITEM3", r3['name']).replace("ITEM4", r4['name']).replace("COUNT", count)
+            msg = str(rm).replace("ITEM", r1['name']).replace("ITEM2", r2['name']).replace("ITEM3", r3['name']).replace("ITEM4", r4['name']).replace("COUNT", str(count))
             await self.add_money(user=ctx.author.id, count=count)
         if 'TIP' in rm and not 'TIP2' in rm:
             tpc = random.randint(2,4)
