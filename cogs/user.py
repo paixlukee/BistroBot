@@ -97,15 +97,15 @@ class Shop(commands.Cog):
         r3 = rnd(food.food[country])
         r4 = rnd(food.food[country])
         if 'ITEM' in rm and not 'ITEM2' in rm:
-            count = r1['money']
+            count = r1['price']
             msg = str(rm).replace("ITEM", r1).replace("COUNT", count)
             await self.add_money(user=ctx.author.id, count=count)
         elif 'ITEM2' in rm and not 'ITEM4' in rm:
-            count = r1['money']+r2['money']+r3['money']
+            count = r1['price']+r2['price']+r3['price']
             msg = str(rm).replace("ITEM", r1).replace("ITEM2", r2).replace("ITEM3", r3).replace("COUNT", count)
             await self.add_money(user=ctx.author.id, count=count)
         else:
-            count = r1['money']+r2['money']+r3['money']+r4['money']
+            count = r1['price']+r2['price']+r3['price']+r4['price']
             msg = str(rm).replace("ITEM", r1).replace("ITEM2", r2).replace("ITEM3", r3).replace("ITEM4", r4).replace("COUNT", count)
             await self.add_money(user=ctx.author.id, count=count)
         if 'TIP' in rm and not 'TIP2' in rm:
