@@ -79,6 +79,7 @@ if __name__ == '__main__':
     bot.load_extension("cogs.help")
     bot.load_extension("cogs.shop")
     bot.load_extension("cogs.user")
+    bot.load_extension("cogs.stats")
 
 
 bot.run(config.token, bot=True, reconnect=True)
