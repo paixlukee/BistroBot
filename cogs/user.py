@@ -96,7 +96,9 @@ class Shop(commands.Cog):
         r2 = rnd(food.food[country])
         r3 = rnd(food.food[country])
         r4 = rnd(food.food[country])
-        if 'ITEM' in rm and not 'ITEM2' in rm:
+        if 'happy' in rm or 'refused' in rm:
+            msg = str(rm).replace("ITEM", r1['name'])
+        elif 'ITEM' in rm and not 'ITEM2' in rm:
             count = r1['price']
             msg = str(rm).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
             await self.add_money(user=ctx.author.id, count=count)
