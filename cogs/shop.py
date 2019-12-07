@@ -368,11 +368,11 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 300, commands.BucketType.user)
     async def clean(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
-        to_clean = [{'name': 'sink', 'exp': 4}, {'name': 'oven', 'exp': 8}, {'name': 'counters', 'price': 12}, {'name': 'floors', 'price': 16}, {'name': 'bathrooms', 'price': 20}, {'name': 'kitchen', 'price': 24}]
+        to_clean = [{'name': 'sink', 'exp': 4}, {'name': 'oven', 'exp': 8}, {'name': 'counters', 'exp': 12}, {'name': 'floors', 'exp': 16}, {'name': 'bathrooms', 'exp': 20}, {'name': 'kitchen', 'exp': 24}]
         if post:
             rn = rnd(to_clean)
             await ctx.send(f"You've cleaned the {rn['name']} and earned {rn['exp']} EXP.")
-            await self.add_exp(ctx.author.id, post['exp'])
+            await self.add_exp(user=ctx.author.id, count=rn['exp'])
         else:
             await ctx.send("You don't have a restaurant")
 
