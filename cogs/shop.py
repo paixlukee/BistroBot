@@ -79,7 +79,8 @@ class Shop(commands.Cog):
                 await ctx.send(embed=embed)
             else:
                 await ctx.send("I couldn't find that restaurant in our database. Did you spell it right? Names are case sensitive.")
-
+                            
+                                 
     @commands.command(aliases=['Rate'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def rate(self, ctx, user:discord.User=None):
@@ -116,7 +117,7 @@ class Shop(commands.Cog):
                     db.market.update_one({"owner": user.id}, {"$push":{"ratings": {"rating": int(rating.content), "user":str(ctx.author.id)}}})
 
     @commands.group(aliases=['settings', 'Set', 'Settings'])
-    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def set(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
