@@ -121,7 +121,8 @@ class Shop(commands.Cog):
     async def buy(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost**\n`r!buy custom` - **Buy a restaurant customisation item**")
-            await ctx.send(embed=embed)                                         
+            await ctx.send(embed=embed)  
+            self.bot.get_command("buy").reset_cooldown(ctx)
 
     @buy.command(aliases=['Boost'])
     async def boost(self, ctx):
@@ -136,6 +137,7 @@ class Shop(commands.Cog):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(colour=0xa82021, title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
             await ctx.send(embed=embed)
+            self.bot.get_command("set").reset_cooldown(ctx)
 
     @set.command(aliases=['Logo', 'image', 'icon'])
     async def logo(self, ctx):
