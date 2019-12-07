@@ -116,11 +116,25 @@ class Shop(commands.Cog):
                     await msg.edit(embed=embed)
                     db.market.update_one({"owner": user.id}, {"$push":{"ratings": {"rating": int(rating.content), "user":str(ctx.author.id)}}})
 
+    @commands.group(aliases=['Buy'])
+    @commands.cooldown(1, 30, commands.BucketType.user)
+    async def buy(self, ctx):
+        if ctx.invoked_subcommand is None:
+            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost**\n`r!buy custom` - **Buy a restaurant customisation item**")
+            await ctx.send(embed=embed)                                         
+
+    @buy.command(aliases=['Boost'])
+    async def boost(self, ctx):
+        embed = discord.Embed(colour=0xa82021, title="Which boost would you like to buy?", description="[1] Double XP - 5 minutes")
+        embed.set_footer(text="You have 90 seconds to reply with the number")
+        await ctx.send(embed=embed)
+                                          
+                                          
     @commands.group(aliases=['settings', 'Set', 'Settings'])
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def set(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
+            embed = discord.Embed(colour=0xa82021, title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
             await ctx.send(embed=embed)
 
     @set.command(aliases=['Logo', 'image', 'icon'])
