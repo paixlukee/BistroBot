@@ -89,7 +89,24 @@ class Shop(commands.Cog):
         count = 200   
         if posts:
             await self.add_money(user=ctx.author.id, count=count)
-            await ctx.send(f"{ctx.author.mention}, you've received your daily **${count}**.")
+            embed = discord.Embed(colour=0xa82021, description="Want even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `r!votereward` to gain another $150.")
+            await ctx.send(embed=embed, content=f"{ctx.author.mention}, you've received your daily **${count}**.")
+        else:
+            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
+            
+    @commands.command(pass_context=True, aliases=['Votereward'])
+    @commands.cooldown(1, 43200, commands.BucketType.user)
+    async def votereward(self, ctx):
+        posts = db.market.find_one({"owner": ctx.author.id})                          
+        count = 150
+        foo = 'bar'
+        if posts:
+            if foo = 'bar':
+                #await self.add_money(user=ctx.author.id, count=count)
+                await ctx.send("This does nothing yet.")
+            else:
+                await ctx.send("You haven't upvoted! Upvote here: <https://top.gg/bot/648065060559781889>")
+                self.bot.get_command("votereward").reset_cooldown(ctx)
         else:
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
                        
