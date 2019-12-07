@@ -101,7 +101,7 @@ class Shop(commands.Cog):
         count = 150
         foo = 'bar'
         if posts:
-            if foo = 'bar':
+            if foo == 'bar':
                 #await self.add_money(user=ctx.author.id, count=count)
                 await ctx.send("This does nothing yet.")
             else:
