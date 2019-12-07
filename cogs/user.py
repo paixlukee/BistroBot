@@ -27,6 +27,7 @@ class Shop(commands.Cog):
 
         
     @commands.command(aliases=['User', 'Profile', 'profile'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def user(self, ctx, user:discord.User=None):
         if not user:
             user = ctx.author
@@ -42,6 +43,7 @@ class Shop(commands.Cog):
             await ctx.send("This user doesn't have a restaurant")
         
     @commands.command(aliases=['Balance', 'bal'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def balance(self, ctx, user:discord.User=None):
         if not user:
             user = ctx.author
