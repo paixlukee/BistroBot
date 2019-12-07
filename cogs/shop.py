@@ -281,7 +281,7 @@ class Shop(commands.Cog):
         else:
             if it['price'] < 4:
                 sp = it['price'] - 1
-            elif it['price'] < 6
+            elif it['price'] < 6:
                 sp = it['price'] - 2
             else:
                 sp = it['price'] - 3
