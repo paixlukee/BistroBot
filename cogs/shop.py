@@ -372,7 +372,7 @@ class Shop(commands.Cog):
         if post:
             rn = rnd(to_clean)
             await ctx.send(f"You've cleaned the {rn['name']} and earned {rn['exp']} EXP.")
-            await self.add_exp(ctx.author.id, rn['exp'])
+            await self.add_exp(ctx.author.id, post['exp'])
         else:
             await ctx.send("You don't have a restaurant")
 
