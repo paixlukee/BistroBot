@@ -25,13 +25,14 @@ class Shop(commands.Cog):
         self.bot = bot
         self.prefix = 'r!'
         self.countries = ['CHINA', 'FRANCE','GREECE', 'INDIA', 'ITALY', 'JAPAN', 'MEXICO', 'UNITED KINGDOM', 'UNITED STATES']
-        self.flags = {"china":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_China.png", "france":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_France.png", 
+        self.flags = {"china":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_China.png", "france":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_France.png",
                      "greece":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Greece.png", "india":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_India.png",
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
-     
+
     @commands.command(aliases=['Menu'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def menu(self, ctx, *, restaurant=None):
         def nc(m):
             return m.author == ctx.message.author
@@ -60,12 +61,10 @@ class Shop(commands.Cog):
                     pn = int(choice.content)
                     embed = discord.Embed()
                     country = n[pn-1][str(pn)]['country']
-                    #print(n)
-                    #print(n[pn][pn+1])
                     embed.set_author(icon_url=self.flags[country], name=f"{n[pn-1][str(pn)]['name']}'s Menu")
                     desc = ""
                     for x in n[pn-1][str(pn)]['items']:
-                        desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
+                        desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold\n"
                     embed.description = desc
                     await ctx.send(embed=embed)
             elif post.count() == 1:
@@ -75,44 +74,54 @@ class Shop(commands.Cog):
                 embed.set_author(icon_url=self.flags[country], name=f"{post['name']}'s Menu")
                 desc = ""
                 for x in post['items']:
-                    desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold | {x['stock']} in Stock\n"
-                embed.description = desc  
+                    desc += f"{x['name']} | ${x['price']} | {x['sold']} Sold\n"#| {x['stock']} in Stock
+                embed.description = desc
                 await ctx.send(embed=embed)
             else:
                 await ctx.send("I couldn't find that restaurant in our database. Did you spell it right? Names are case sensitive.")
-        
-        
+
     @commands.command(aliases=['Rate'])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def rate(self, ctx, user:discord.User=None):
         post = db.market.find_one({"owner": user.id})
         def nc(m):
             return m.author == ctx.message.author
         if not user:
             await ctx.send("You must tag the restaurant owner. Example: `r!rate @lukee#0420`")
+        elif user == ctx.author:
+            await ctx.send("You cannot rate your own restaurant.")
         else:
-            embed = discord.Embed(colour=0xa82021, description=f"Out of 5 stars, how would you rate {post['name']}?")
-            embed.set_footer(text="You have 90 seconds to reply")
-            msg = await ctx.send(embed=embed)
-            rating = await self.bot.wait_for('message', check=nc, timeout=90)
-            try:
-                await rating.delete()
-            except:
-                pass
-            if not rating.content.isdigit() or int(rating.content) > 5 or int(rating.content) < 0:
-                embed = discord.Embed(colour=0xa82021, description="The rating must be from 0-5.")
-                embed.set_author(name="Failed.")
-                await msg.edit(embed=embed)
+            posts = db.market.find_one({"owner": user.id})
+            rus = []
+            for x in posts['ratings']:
+                rus.append(x['user'])
+            if ctx.author.id in rus:
+                await ctx.send("You already rated this restaurant.")
             else:
-                embed = discord.Embed(colour=0xa82021, description=f"You have successfully rated {post['name']}.")
-                await msg.edit(embed=embed)
-                db.market.update_one({"owner": user.id}, {"$push":{"ratings": {"rating": int(rating.content), "user":str(ctx.author.id)}}})
-        
+                embed = discord.Embed(colour=0xa82021, description=f"Out of 5 stars, how would you rate {post['name']}?")
+                embed.set_footer(text="You have 90 seconds to reply")
+                msg = await ctx.send(embed=embed)
+                rating = await self.bot.wait_for('message', check=nc, timeout=90)
+                try:
+                    await rating.delete()
+                except:
+                    pass
+                if not rating.content.isdigit() or int(rating.content) > 5 or int(rating.content) < 0:
+                    embed = discord.Embed(colour=0xa82021, description="The rating must be from 0-5.")
+                    embed.set_author(name="Failed.")
+                    await msg.edit(embed=embed)
+                else:
+                    embed = discord.Embed(colour=0xa82021, description=f"You have successfully rated {post['name']}.")
+                    await msg.edit(embed=embed)
+                    db.market.update_one({"owner": user.id}, {"$push":{"ratings": {"rating": int(rating.content), "user":str(ctx.author.id)}}})
+
     @commands.group(aliases=['settings', 'Set', 'Settings'])
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def set(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
             await ctx.send(embed=embed)
-            
+
     @set.command(aliases=['Logo', 'image', 'icon'])
     async def logo(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
@@ -136,7 +145,7 @@ class Shop(commands.Cog):
             embed = discord.Embed(colour=0xa82021, description="Perfect! Your image has been sent to the Restaurant Bot staff team for reviewal.\n\n This process may take up to 24 hours. But don't worry, it will probably be even quicker.")
             embed.set_footer(text="Too many NSFW requests can end up in a ban from Restaurant Bot!")
             await msg.edit(embed=embed)
-            
+
             se = discord.Embed(description=link.content)
             se2 = discord.Embed()
             se.set_footer(icon_url=ctx.author.avatar_url_as(format='png'), text=f"{ctx.author} | {ctx.author.id}")
@@ -156,7 +165,7 @@ class Shop(commands.Cog):
                 se2.description = '*Logo denied*'
                 await sem.edit(embed=se2)
                 await ctx.author.send("Your logo has been denied.")
-    
+
     @set.command(aliases=['Description', 'desc'])
     async def description(self, ctx):
         def nc(m):
@@ -177,34 +186,83 @@ class Shop(commands.Cog):
             embed = discord.Embed(colour=0xa82021, description="Great! Your restaurant's description has been set!")
             await msg.edit(embed=embed)
             db.market.update_one({"owner": ctx.author.id}, {"$set":{"description": desc.content}})
-            
+
     @set.command(aliases=['Name'])
     async def name(self, ctx):
         def nc(m):
             return m.author == ctx.message.author
-        embed = discord.Embed(colour=0xa82021, description="Names must me 36 characters or less.\n\nReply with your desired name.")
-        embed.set_footer(text="You have 90 seconds to reply")
-        msg = await ctx.send(embed=embed)
-        name = await self.bot.wait_for('message', check=nc, timeout=90)
-        try:
-            await name.delete()
-        except:
-            pass
-        if len(name.content) > 130:
-            embed = discord.Embed(colour=0xa82021, description="Name is more than 36 characters.")
-            embed.set_author(name="Failed.")
-            await msg.edit(embed=embed)
+        post = db.market.find_one({"owner": int(ctx.author.id)})
+        if post:
+            embed = discord.Embed(colour=0xa82021, description="Names must me 36 characters or less.\n\nReply with your desired name.")
+            embed.set_footer(text="You have 90 seconds to reply")
+            msg = await ctx.send(embed=embed)
+            name = await self.bot.wait_for('message', check=nc, timeout=90)
+            try:
+                await name.delete()
+            except:
+                pass
+            if len(name.content) > 130:
+                embed = discord.Embed(colour=0xa82021, description="Name is more than 36 characters.")
+                embed.set_author(name="Failed.")
+                await msg.edit(embed=embed)
+            else:
+                embed = discord.Embed(colour=0xa82021, description="Awesome! Your restaurant's name has been set!")
+                await msg.edit(embed=embed)
+                db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": name.content}})
         else:
-            embed = discord.Embed(colour=0xa82021, description="Awesome! Your restaurant's name has been set!")
-            await msg.edit(embed=embed)
-            db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": name.content}})
-                                      
+            await ctx.send("You don't have a restaurant. Create one with `r!start`.")
+
     @set.command(aliases=['Price'])
     async def price(self, ctx):
         def nc(m):
             return m.author == ctx.message.author
         post = db.market.find_one({"owner": int(ctx.author.id)})
-        embed = discord.Embed(colour=0xa82021, description="What item would you like to change the price of?")
+        if post:
+            embed = discord.Embed(colour=0xa82021, description="What item would you like to change the price of?")
+            embed.set_footer(text="You have 90 seconds to reply")
+            msg = await ctx.send(embed=embed)
+            item = await self.bot.wait_for('message', check=nc, timeout=90)
+            try:
+                await item.delete()
+            except:
+                pass
+            it = None
+            for x in post['items']:
+                if x['name'].lower() == item.content.lower():
+                    it = x
+            if not it:
+                embed = discord.Embed(colour=0xa82021, description=f"That item is not on your menu. Check it with `r!menu {post['name']}`")
+                embed.set_author(name="Failed.")
+                await msg.edit(embed=embed)
+            else:
+                embed = discord.Embed(colour=0xa82021, description="What price do you want to set it at?\n\nIt may not be less than $1 or more than $45")
+                await msg.edit(embed=embed)
+                #db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": name.content}})
+                price = await self.bot.wait_for('message', check=nc, timeout=90)
+                try:
+                    await price.delete()
+                except:
+                    pass
+                if not price.content.isdigit() or int(price.content) > 45 or int(price.content) < 1:
+                    embed = discord.Embed(colour=0xa82021, description=f"Prices may not be less than $1 or more than $45")
+                    embed.set_author(name="Failed.")
+                    await msg.edit(embed=embed)
+                else:
+                    embed = discord.Embed(colour=0xa82021, description="Amazing! The price has been set.")
+                    await msg.edit(embed=embed)
+                    db.market.update_one({"owner": ctx.author.id}, {"$pull":{"items": it}})
+                    db.market.update_one({"owner": ctx.author.id}, {"$push":{"items":{"name": it['name'],"price": int(price.content),"stock": it['stock'],"sold": it['sold']}}})
+        else:
+            await ctx.send("You don't have a restaurant. Create one with `r!start`.")
+
+    @set.command(aliases=['Stock'])
+    @commands.is_owner()
+    async def stock(self, ctx):
+        # not gonna use
+        def nc(m):
+            return m.author == ctx.message.author
+        post = db.market.find_one({"owner": int(ctx.author.id)})
+        embed = discord.Embed(colour=0xa82021, description="What item would you like to stock?\n\nType all to stock all items.")
         embed.set_footer(text="You have 90 seconds to reply")
         msg = await ctx.send(embed=embed)
         item = await self.bot.wait_for('message', check=nc, timeout=90)
@@ -221,7 +279,13 @@ class Shop(commands.Cog):
             embed.set_author(name="Failed.")
             await msg.edit(embed=embed)
         else:
-            embed = discord.Embed(colour=0xa82021, description="What price do you want to set it at?\n\nIt may not be less than $1 or more than $45")
+            if it['price'] < 4:
+                sp = it['price'] - 1
+            elif it['price'] < 6
+                sp = it['price'] - 2
+            else:
+                sp = it['price'] - 3
+            embed = discord.Embed(colour=0xa82021, description=f"How many would you like to stock?\n\nStocking this item once would cost you ${sp}.")
             await msg.edit(embed=embed)
             #db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": name.content}})
             price = await self.bot.wait_for('message', check=nc, timeout=90)
@@ -236,11 +300,11 @@ class Shop(commands.Cog):
             else:
                 embed = discord.Embed(colour=0xa82021, description="Amazing! The price has been set.")
                 await msg.edit(embed=embed)
-                db.market.update_one({"owner": ctx.author.id}, {"$pull":{"items": it}})     
+                db.market.update_one({"owner": ctx.author.id}, {"$pull":{"items": it}})
                 db.market.update_one({"owner": ctx.author.id}, {"$push":{"items":{"name": it['name'],"price": int(price.content),"stock": it['stock'],"sold": it['sold']}}})
-                                  
-        
+
     @commands.command(aliases=['Random', 'rr'])
+    @commands.cooldown(1, 2, commands.BucketType.user)
     async def random(self, ctx, user:discord.User=None):
         if not user:
             user = ctx.author
@@ -257,7 +321,7 @@ class Shop(commands.Cog):
         except StopIteration:
             return
         if not post:
-            await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.') 
+            await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.') #you will never see this error, but im not taking it out
         else:
             def react(reaction, user):
                 return str(reaction.emoji) == '<:FilledStar:651156130424291368>'
@@ -287,7 +351,7 @@ class Shop(commands.Cog):
             embed = discord.Embed(description=post['description'])
             embed.set_author(icon_url=self.flags[country], name=post['name'])
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + ", " + post['items'][3]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
-            embed.add_field(name=":bar_chart: Level", value=post['level'])
+            embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
@@ -298,15 +362,28 @@ class Shop(commands.Cog):
                 embed.set_thumbnail(url=post['logo_url'])
             embed.set_footer(text=f"Random Restaurant | Last Stock: {post['laststock']}")
             msg = await ctx.send(embed=embed)
-            await msg.add_reaction('❤️')            
+            await msg.add_reaction('❤️')
+
+    @commands.command(aliases=['Clean'])
+    @commands.cooldown(1, 300, commands.BucketType.user)
+    async def clean(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        to_clean = [{'name': 'sink', 'exp': 4}, {'name': 'oven', 'exp': 8}, {'name': 'counters', 'price': 12}, {'name': 'floors', 'price': 16}, {'name': 'bathrooms', 'price': 20}, {'name': 'kitchen', 'price': 24}]
+        if post:
+            rn = rnd(to_clean)
+            await ctx.send(f"You've cleaned the {rn['name']} and earned {rn['exp']} EXP.")
+            await self.add_exp(ctx.author.id, rn['exp'])
+        else:
+            await ctx.send("You don't have a restaurant")
 
     @commands.command(aliases=['Restaurant', 'r'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def restaurant(self, ctx, user:discord.User=None):
         if not user:
             user = ctx.author
         post = db.market.find_one({"owner": user.id})
         if not post:
-            await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.') 
+            await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.')
         else:
             def react(reaction, user):
                 return str(reaction.emoji) == '<:FilledStar:651156130424291368>'
@@ -336,7 +413,7 @@ class Shop(commands.Cog):
             embed = discord.Embed(description=post['description'])
             embed.set_author(icon_url=self.flags[country], name=post['name'])
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + ", " + post['items'][3]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
-            embed.add_field(name=":bar_chart: Level", value=post['level'])
+            embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
@@ -347,10 +424,9 @@ class Shop(commands.Cog):
                 embed.set_thumbnail(url=post['logo_url'])
             embed.set_footer(text=f"Last Stock: {post['laststock']}")
             msg = await ctx.send(embed=embed)
-            #await msg.add_reaction('<:FilledStar:651156130424291368>')  
-                             
 
     @commands.command(aliases=['Start', 'create'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
     async def start(self, ctx):
         user = db.market.find_one({"owner": ctx.author.id})
         if not user:
@@ -416,20 +492,26 @@ class Shop(commands.Cog):
             await ctx.send(f'You already have a restaurant created. View it with {self.prefix}restaurant')
 
 
+    async def add_exp(self, user, count):
+        data = db.market.find_one({"owner": user})
+        bal = data['exp']
+        exp = int(bal) + count
+        db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
+
     async def update_data(self, user, country, name, desc):
         set1 = random.randint(0,9)
-        set2 = rnd(string.ascii_letters) 
-        set3 = rnd(string.ascii_letters) 
+        set2 = rnd(string.ascii_letters)
+        set3 = rnd(string.ascii_letters)
         set4 = random.randint(0,9)
-        set5 = rnd(string.ascii_letters) 
-        set6 = rnd(string.ascii_letters) 
-        set7 = rnd(string.ascii_letters) 
+        set5 = rnd(string.ascii_letters)
+        set6 = rnd(string.ascii_letters)
+        set7 = rnd(string.ascii_letters)
         #items = []
         #for x in food.food:
             #if x == country:
                 #items = x
-                             
-        id = str(set1) + set2 + set3 + str(set4) + set5 + set6 + set7      
+
+        id = str(set1) + set2 + set3 + str(set4) + set5 + set6 + set7
         post = {
             "owner": user.id,
             "money":600,
@@ -443,7 +525,8 @@ class Shop(commands.Cog):
             "id":id,
             "logo_url":None,
             "ratings":[{"rating":5, "user":0}],
-            "level": 0
+            "level": 0,
+            "exp":0
         }
         db.market.insert_one(post)
 
