@@ -31,20 +31,26 @@ class Shop(commands.Cog):
         if not user:
             user = ctx.author
         post = db.market.find_one({"owner": int(user.id)})
-        embed = discord.Embed(colour=0xa82021, description=str(user))
-        embed.set_author(icon_url=user.avatar_url_as(format='png'), name="User Stats")
-        embed.set_thumbnail(url=user.avatar_url_as(format='png'))
-        embed.add_field(name="Restaurant", value=post['name'])
-        embed.add_field(name="Money", value="$" + str(post['money']))
-        await ctx.send(embed=embed)
+        if post:
+            embed = discord.Embed(colour=0xa82021, description=str(user))
+            embed.set_author(icon_url=user.avatar_url_as(format='png'), name="User Stats")
+            embed.set_thumbnail(url=user.avatar_url_as(format='png'))
+            embed.add_field(name="Restaurant", value=post['name'])
+            embed.add_field(name="Money", value="$" + str(post['money']))
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("This user doesn't have a restaurant")
         
     @commands.command(aliases=['Balance', 'bal'])
     async def balance(self, ctx, user:discord.User=None):
         if not user:
             user = ctx.author
         post = db.market.find_one({"owner": int(user.id)})
-        bal = format(post['money'], ",d")
-        await ctx.send(f"**{user.name}**'s balance is **${bal}**.")
+        if post:
+            bal = format(post['money'], ",d")
+            await ctx.send(f"**{user.name}**'s balance is **${bal}**.")
+        else:
+            await ctx.send("This user doesn't have a restaurant")
                        
     @commands.command(pass_context=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -65,14 +71,14 @@ class Shop(commands.Cog):
             await ctx.send(f"You don't have enough money.")
 
         elif posts_user is None:
-            await ctx.send(f"**{user.name}** doesn't have an account.")
+            await ctx.send(f"**{user.name}** doesn't have a restaurant.")
 
         elif not posts is None:
             await self.add_money(user=user.id, count=count)
             await self.take_money(user=ctx.author.id, count=count)
             await ctx.send(f"{user.mention}, **{ctx.message.author}** has donated **${count}** to you.")
         else:
-            await ctx.send("You don't have an account. Create one by doing `r!start`.") 
+            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
                        
     @commands.command(pass_context=True, aliases=['Daily'])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -83,45 +89,48 @@ class Shop(commands.Cog):
             await self.add_money(user=ctx.author.id, count=count)
             await ctx.send(f"{ctx.author.mention}, you've received your daily **${count}**.")
         else:
-            await ctx.send("You don't have an account. Create one by doing `r!start`.") 
+            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
                        
     @commands.command(aliases=['Work'])
     @commands.cooldown(1, 600, commands.BucketType.user)
     async def work(self, ctx):
         posts = db.utility.find_one({"utility": "res"})
         user = db.market.find_one({"owner": ctx.author.id})
-        country = str(user['country'])
-        rm = rnd(posts['resp'])['text']
-        count = 0
-        r1 = rnd(food.food[country])
-        r2 = rnd(food.food[country])
-        r3 = rnd(food.food[country])
-        r4 = rnd(food.food[country])
-        if 'happy' in rm or 'refused' in rm:
-            msg = str(rm).replace("ITEM", r1['name'])
-        elif 'ITEM' in rm and not 'ITEM2' in rm:
-            count = r1['price']
-            msg = str(rm).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
-            await self.add_money(user=ctx.author.id, count=count)
-        elif 'ITEM2' in rm and not 'ITEM4' in rm:
-            count = r1['price']+r2['price']+r3['price']
-            msg = str(rm).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
-            await self.add_money(user=ctx.author.id, count=count)
+        if user:
+            country = str(user['country'])
+            rm = rnd(posts['resp'])['text']
+            count = 0
+            r1 = rnd(food.food[country])
+            r2 = rnd(food.food[country])
+            r3 = rnd(food.food[country])
+            r4 = rnd(food.food[country])
+            if 'happy' in rm or 'refused' in rm:
+                msg = str(rm).replace("ITEM", r1['name'])
+            elif 'ITEM' in rm and not 'ITEM2' in rm:
+                count = r1['price']
+                msg = str(rm).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
+                await self.add_money(user=ctx.author.id, count=count)
+            elif 'ITEM2' in rm and not 'ITEM4' in rm:
+                count = r1['price']+r2['price']+r3['price']
+                msg = str(rm).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
+                await self.add_money(user=ctx.author.id, count=count)
+            else:
+                count = r1['price']+r2['price']+r3['price']+r4['price']
+                msg = str(rm).replace("ITEM4", r4['name']).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
+                await self.add_money(user=ctx.author.id, count=count)
+            if 'TIP' in rm and not 'TIP2' in rm:
+                tpc = random.randint(2,4)
+                msg = msg.replace("TIP", str(tpc))
+                await self.add_money(user=ctx.author.id, count=tpc)
+            else:
+                tpc = random.randint(8,10)
+                msg = msg.replace("TIP", "$" + str(tpc))
+                await self.add_money(user=ctx.author.id, count=tpc)
+
+            await ctx.send(f"{ctx.author.mention}, {msg}")
         else:
-            count = r1['price']+r2['price']+r3['price']+r4['price']
-            msg = str(rm).replace("ITEM4", r4['name']).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
-            await self.add_money(user=ctx.author.id, count=count)
-        if 'TIP' in rm and not 'TIP2' in rm:
-            tpc = random.randint(2,4)
-            msg = msg.replace("TIP", str(tpc))
-            await self.add_money(user=ctx.author.id, count=tpc)
-        else:
-            tpc = random.randint(8,10)
-            msg = msg.replace("TIP", "$" + str(tpc))
-            await self.add_money(user=ctx.author.id, count=tpc)
-                       
-        await ctx.send(f"{ctx.author.mention}, {msg}")
-        
+            await ctx.send("You don't have a restaurant. Create one with `r!start`.")
+                   
 
     async def add_money(self, user:int, count):
         data = db.market.find_one({"owner": user})
