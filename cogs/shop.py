@@ -79,8 +79,8 @@ class Shop(commands.Cog):
                 await ctx.send(embed=embed)
             else:
                 await ctx.send("I couldn't find that restaurant in our database. Did you spell it right? Names are case sensitive.")
-                            
-                                 
+
+
     @commands.command(aliases=['Rate'])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def rate(self, ctx, user:discord.User=None):
@@ -116,21 +116,44 @@ class Shop(commands.Cog):
                     await msg.edit(embed=embed)
                     db.market.update_one({"owner": user.id}, {"$push":{"ratings": {"rating": int(rating.content), "user":str(ctx.author.id)}}})
 
+    @commands.command(aliases=['Inventory', 'inv'])
+    async def inventory(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        if post:
+            embed = discord.Embed(colour=0xa82021)
+            embed.set_author(icon_url=ctx.author.avatar_url_as(format='png'), name="Your Inventory")
+            #cn = 0
+            #desc = ""
+            #n = []
+            #for x in post:
+                #cn += 1
+                #n.append({str(cn):x})
+                #own = self.bot.get_user(x['owner'])
+                #desc += f"[{cn}] {x['name']} | {own}\n"
+            await ctx.send()
+        else:
+            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+
     @commands.group(aliases=['Buy'])
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def buy(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost**\n`r!buy custom` - **Buy a restaurant customisation item**")
-            await ctx.send(embed=embed)  
+            await ctx.send(embed=embed)
             self.bot.get_command("buy").reset_cooldown(ctx)
 
     @buy.command(aliases=['Boost'])
     async def boost(self, ctx):
-        embed = discord.Embed(colour=0xa82021, title="Which boost would you like to buy?", description="[1] Double XP - 5 minutes")
+        embed = discord.Embed(colour=0xa82021, title="Which boost would you like to buy?", description="[1] Double XP - 5 minutes - $500")
         embed.set_footer(text="You have 90 seconds to reply with the number")
         await ctx.send(embed=embed)
-                                          
-                                          
+
+    @buy.command(aliases=['Custom'])
+    async def custom(self, ctx):
+        embed = discord.Embed(colour=0xa82021, title="Which customisation item would you like to buy?", description="[1] Embed Colour - All Colours - $800")
+        embed.set_footer(text="You have 90 seconds to reply with the number")
+        await ctx.send(embed=embed)
+
     @commands.group(aliases=['settings', 'Set', 'Settings'])
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def set(self, ctx):
@@ -379,7 +402,7 @@ class Shop(commands.Cog):
                 embed.set_thumbnail(url=post['logo_url'])
             embed.set_footer(text=f"Random Restaurant | Last Stock: {post['laststock']}")
             msg = await ctx.send(embed=embed)
-            await msg.add_reaction('❤️')
+            await msg.add_reaction('❤')
 
     @commands.command(aliases=['Clean'])
     @commands.cooldown(1, 300, commands.BucketType.user)
@@ -542,8 +565,8 @@ class Shop(commands.Cog):
             "id":id,
             "logo_url":None,
             "ratings":[{"rating":5, "user":0}],
-            "level": 0,
-            "exp":0
+            "exp":0,
+            "inventory":[]
         }
         db.market.insert_one(post)
 
