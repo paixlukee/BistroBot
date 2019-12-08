@@ -21,7 +21,7 @@ class Help(commands.Cog):
 
     @commands.group(aliases=['cmds', 'commands', 'Help'])
     async def help(self, ctx):
-        embed = discord.Embed(description='Welcome to **Restaurant** Here is a list of commands that you are able to use.\n\n'\
+        embed = discord.Embed(description='Welcome to **Restaurant** Here is a list of commands that you are able to use.\n\n**Restaurant** will receive more updates in the near future, only certain features are out at the moment. Expect bugs, and report them [here](https://discord.gg/BCRtw7c). \n\n'\
         f'`{self.prefix}start` - **Create your own restaurant.**\n'\
         f'`{self.prefix}restaurant [@user]` - **Show restaurant details**\n'\
         f'`{self.prefix}random` - **View a random restaurant**\n'\
