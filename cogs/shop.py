@@ -30,7 +30,25 @@ class Shop(commands.Cog):
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
-
+        
+    @commands.command(aliases=['Delete'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def delete(self, ctx):
+        def ans(m):
+            return m.author == ctx.message.author
+        if not restaurant:
+            post = db.market.find({"owner": ctx.author.id})
+            msg = await ctx.send("Are you sure you want to delete your restaurant? Deleting will erase all of your hardwork. If you're sure, reply with \"I'm sure\".")
+            try:   
+                a = await self.bot.wait_for('message', check=ans, timeout=20)
+                if a.content.lower == "i'm sure":
+                    await ctx.send("Account deleted. Thanks for using Restaurant.")
+                    await db.market.delete_one({"owner": ctx.author.id})
+            except asyncio.TimeoutError:
+                await msg.edit('You took too long to answer. Deletion canceled.')
+        else: 
+            await ctx.send("You don't have a restaurant. Create one with `r!start`.")
+        
     @commands.command(aliases=['Menu'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def menu(self, ctx, *, restaurant=None):
@@ -390,7 +408,7 @@ class Shop(commands.Cog):
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(description=post['description'])
             embed.set_author(icon_url=self.flags[country], name=post['name'])
-            embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + ", " + f"... To view the full menu, do `r!menu {post['name']}`")
+            embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             #embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
@@ -452,7 +470,7 @@ class Shop(commands.Cog):
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(description=post['description'])
             embed.set_author(icon_url=self.flags[country], name=post['name'])
-            embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + ", " + f"... To view the full menu, do `r!menu {post['name']}`")
+            embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             #embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
