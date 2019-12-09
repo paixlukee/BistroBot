@@ -432,7 +432,7 @@ class Shop(commands.Cog):
         to_clean = [{'name': 'sink', 'exp': 4}, {'name': 'oven', 'exp': 8}, {'name': 'counters', 'exp': 12}, {'name': 'floors', 'exp': 16}, {'name': 'bathrooms', 'exp': 20}, {'name': 'kitchen', 'exp': 24}]
         if post:
             rn = rnd(to_clean)
-            await ctx.send(f"You've cleaned the {rn['name']} and earned {rn['exp']} EXP.")
+            await ctx.send(f"{ctx.author.mention}, You've cleaned the {rn['name']} and earned {rn['exp']} EXP.")
             await self.add_exp(user=ctx.author.id, count=rn['exp'])
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
