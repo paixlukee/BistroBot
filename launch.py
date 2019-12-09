@@ -38,6 +38,16 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
+    log = bot.get_channel(653466873089753098)
+    server = guild
+    embed = discord.Embed(colour=0x62f442, description=f"RB has joined `{guild.name}`! RB is now in `{str(len(bot.guilds))}` guilds!")
+    online = len([x for x in guild.members if x.status == discord.Status.online])
+    idle = len([x for x in guild.members if x.status == discord.Status.idle])
+    dnd = len([x for x in guild.members if x.status == discord.Status.dnd])
+    offline = len([x for x in guild.members if x.status == discord.Status.offline])
+    embed.add_field(name=f"Members ({len(guild.members)}):", value=f"<:status_online:596576749790429200> {online} <:status_idle:596576773488115722> {idle} <:status_dnd:596576774364856321> {dnd} <:status_offline:596576752013279242> {offline}")
+    embed.set_footer(text=f'ID: {guild.id}', icon_url=guild.icon_url_as(format='png'))
+    await log.send(embed=embed)
     server = guild
     targets = [
             discord.utils.get(server.channels, name="bot"),
@@ -63,6 +73,13 @@ async def on_guild_join(guild):
         except:
             continue
         break
+        
+@bot.event
+async def on_guild_remove(guild):
+    log = bot.get_channel(653466873089753098)
+    embed = discord.Embed(colour=0xf44141, description=f"RB has been kicked from `{guild.name}`.. RB is now in `{str(len(bot.guilds))}` guilds.")
+    embed.set_footer(text=f'ID: {guild.id}', icon_url=guild.icon_url_as(format='png'))
+    await log.send(embed=embed)
 
 
 @bot.event
