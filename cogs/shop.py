@@ -36,8 +36,8 @@ class Shop(commands.Cog):
     async def delete(self, ctx):
         def ans(m):
             return m.author == ctx.message.author
-        if not restaurant:
-            post = db.market.find({"owner": ctx.author.id})
+        post = db.market.find({"owner": ctx.author.id})
+        if not post:
             msg = await ctx.send("Are you sure you want to delete your restaurant? Deleting will erase all of your hardwork. If you're sure, reply with \"I'm sure\".")
             try:   
                 a = await self.bot.wait_for('message', check=ans, timeout=20)
