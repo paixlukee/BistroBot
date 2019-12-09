@@ -31,6 +31,21 @@ class Shop(commands.Cog):
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         
+    @commands.command(aliases=['Leaderboard', 'lb'])
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def leaderboard(self, ctx):
+        await ctx.trigger_typing()
+        page = 1
+        start = (page - 1) * 8
+        end = start + 8
+        embed = discord.Embed(colour=0xa82021, description="Global Restaurant Leaderboard")
+        find_c = db.posts.find().sort("exp", -1)
+        for x in find_c[start:end]:
+            exp = format(x['exp'], ",d")
+            embed.add_field(name=x['name'], value=f":bar_chart: {exp}", inline=False)
+        embed.set_footer(text=f"Sort by: experience")
+        await ctx.send(embed=embed)
+        
     @commands.command(aliases=['Delete'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def delete(self, ctx):
