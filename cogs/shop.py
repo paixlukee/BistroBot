@@ -44,7 +44,7 @@ class Shop(commands.Cog):
             except asyncio.TimeoutError:
                 await ctx.send('You took too long to answer. Deletion canceled.')
             else:
-                if a.content.lower == "i'm sure":
+                if a.content.lower() == "i'm sure":
                     await ctx.send("Account deleted. Thanks for using Restaurant.")
                     await db.market.delete_one({"owner": ctx.author.id})
                 else:
