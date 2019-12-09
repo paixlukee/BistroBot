@@ -39,7 +39,7 @@ class Shop(commands.Cog):
         start = (page - 1) * 8
         end = start + 8
         embed = discord.Embed(colour=0xa82021, description="Global Restaurant Leaderboard")
-        find_c = db.posts.find().sort("exp", -1)
+        find_c = db.market.find().sort("exp", -1)
         for x in find_c[start:end]:
             exp = format(x['exp'], ",d")
             embed.add_field(name=x['name'], value=f":bar_chart: {exp}", inline=False)
