@@ -37,7 +37,7 @@ class Shop(commands.Cog):
         def ans(m):
             return m.author == ctx.message.author
         post = db.market.find({"owner": ctx.author.id})
-        if not post:
+        if post:
             msg = await ctx.send("Are you sure you want to delete your restaurant? Deleting will erase all of your hardwork. If you're sure, reply with \"I'm sure\".")
             try:   
                 a = await self.bot.wait_for('message', check=ans, timeout=20)
