@@ -432,7 +432,7 @@ class Shop(commands.Cog):
             await ctx.send(f"You've cleaned the {rn['name']} and earned {rn['exp']} EXP.")
             await self.add_exp(user=ctx.author.id, count=rn['exp'])
         else:
-            await ctx.send("You don't have a restaurant")
+            await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
     @commands.command(aliases=['Restaurant', 'r'])
     @commands.cooldown(1, 3, commands.BucketType.user)
