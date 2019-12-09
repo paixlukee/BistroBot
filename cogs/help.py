@@ -34,6 +34,7 @@ class Help(commands.Cog):
         f'`{self.prefix}daily` - **Receive your daily cash**\n'\
         f'`{self.prefix}work` - **Work at your restaurant and get money**\n'\
         f'`{self.prefix}clean` - **Clean the restaurant and gain XP**\n'\
+        f'`{self.prefix}delete` - **Delete your restaurant**\n'
         )
         embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
         embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
