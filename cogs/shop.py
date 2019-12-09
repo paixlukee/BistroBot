@@ -41,11 +41,14 @@ class Shop(commands.Cog):
             msg = await ctx.send("Are you sure you want to delete your restaurant? Deleting will erase all of your hardwork. If you're sure, reply with \"I'm sure\".")
             try:   
                 a = await self.bot.wait_for('message', check=ans, timeout=20)
+            except asyncio.TimeoutError:
+                await msg.edit('You took too long to answer. Deletion canceled.')
+            else:
                 if a.content.lower == "i'm sure":
                     await ctx.send("Account deleted. Thanks for using Restaurant.")
                     await db.market.delete_one({"owner": ctx.author.id})
-            except asyncio.TimeoutError:
-                await msg.edit('You took too long to answer. Deletion canceled.')
+                else:
+                    await msg.edit('Deletion canceled.')
         else: 
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
         
