@@ -84,7 +84,6 @@ class Dev(commands.Cog):
                     'json': json,
                     'db': db,
                     'rnd': rnd,
-                    'do': do,
                     'time_rx': re.compile('[0-9]+'),
                     '_': self._last_result
                 }
