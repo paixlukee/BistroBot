@@ -132,7 +132,7 @@ class Shop(commands.Cog):
             rus = []
             for x in posts['ratings']:
                 rus.append(x['user'])
-            if ctx.author.id in rus:
+            if str(ctx.author.id) in rus:
                 await ctx.send("You already rated this restaurant.")
             else:
                 embed = discord.Embed(colour=0xa82021, description=f"Out of 5 stars, how would you rate {post['name']}?")
@@ -191,7 +191,7 @@ class Shop(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.group(aliases=['settings', 'Set', 'Settings'])
-    @commands.cooldown(1, 30, commands.BucketType.user)
+    @commands.cooldown(1, 4, commands.BucketType.user)
     async def set(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(colour=0xa82021, title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
