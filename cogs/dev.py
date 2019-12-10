@@ -19,6 +19,9 @@ import food
 import config
 import psutil
 
+client = MongoClient(config.mongo_client)
+db = client['siri']
+
 class Dev(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -90,11 +93,11 @@ class Dev(commands.Cog):
                     result = eval(code, env)
                 except SyntaxError as e:
                     embed=discord.Embed(colour=0xff0000, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
-                    embed.set_footer(text="\u200b", icon_url=ctx.me.avatar_url_as(format='png'))
+                    embed.set_footer(text="Error")
                     return await ctx.send(embed=embed)
                 except Exception as e:
                     embed=discord.Embed(colour=0xff0000, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
-                    embed.set_footer(text="\u200b", icon_url=ctx.me.avatar_url_as(format='png'))
+                    embed.set_footer(text="Error")
                     return await ctx.send(embed=embed)
 
                 if asyncio.iscoroutine(result):
@@ -118,10 +121,12 @@ class Dev(commands.Cog):
                             embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n\u200b{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{result}```")
                             return await ctx.send(embed=embed)
                         except Exception as e:
-                            embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
+                            embed=discord.Embed(colour=0xff0000, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
+                            embed.set_footer(text="Error")
                             return await ctx.send(embed=embed)
             except Exception as e:
-                embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
+                embed=discord.Embed(colour=0xff0000, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
+                embed.set_footer(text="Error")
                 return await ctx.send(embed=embed)
         else:
             pass
