@@ -28,6 +28,7 @@ class Dev(commands.Cog):
         self.prefix = 'r!'
         self.process = psutil.Process(os.getpid())
         self.rs = []
+        self._last_result = None
 
     @commands.command(aliases=['Stats', 'info', 'botinfo', 'status'])
     @commands.cooldown(1, 2, commands.BucketType.user)
