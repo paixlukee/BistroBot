@@ -6,12 +6,16 @@ import random
 import math
 import time
 from discord.ext.commands import errors, converter
-from random import choice, randint
-from random import choice, randint as rnd
+from random import randint, choice as rnd
 import aiohttp
 import asyncio
 import json
 import os
+import re
+from pymongo import MongoClient
+import pymongo
+import string
+import food
 import config
 import psutil
 
@@ -51,6 +55,76 @@ class Dev(commands.Cog):
         f" [[Support]](https://discord.gg/BCRtw7c)")
         stat.set_footer(text="Thanks for using Restaurant! | Res-V1")
         await ctx.send(embed=stat)
+        
+    @commands.command(aliases=['debug', 'ev'])
+    async def eval(self, ctx, *, code):
+        if ctx.author.id == 396153668820402197:
+            o_code = code
+            code = code.replace('“', '"').replace('”', '"').replace("-silent", "").replace("-s", "").replace("```py", "").replace("```", "")
+            try:
+                env = {
+                    'bot': ctx.bot,
+                    'ctx': ctx,
+                    'channel': ctx.message.channel,
+                    'author': ctx.message.author,
+                    'guild': ctx.message.guild,
+                    'message': ctx.message,
+                    'discord': discord,
+                    'random': random,
+                    'commands': commands,
+                    'requests': requests,
+                    'asyncio': asyncio,
+                    're': re,
+                    'os': os,
+                    'pymongo': pymongo,
+                    'MongoClient': client,
+                    'json': json,
+                    'db': db,
+                    'rnd': rnd,
+                    'do': do,
+                    'time_rx': re.compile('[0-9]+'),
+                    '_': self._last_result
+                }
+
+                try:
+                    result = eval(code, env)
+                except SyntaxError as e:
+                    embed=discord.Embed(colour=0xff0000, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
+                    embed.set_footer(text="\u200b", icon_url=ctx.me.avatar_url_as(format='png'))
+                    return await ctx.send(embed=embed)
+                except Exception as e:
+                    embed=discord.Embed(colour=0xff0000, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
+                    embed.set_footer(text="\u200b", icon_url=ctx.me.avatar_url_as(format='png'))
+                    return await ctx.send(embed=embed)
+
+                if asyncio.iscoroutine(result):
+                    result = await result
+
+                self._last_result = result
+
+                if code == "bot.http.token":
+                    embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{result}```")
+                    return await ctx.send(embed=embed)
+
+                elif o_code.endswith(" -silent") or o_code.endswith(" -s"):
+                    pass
+
+                else:
+                    if len(str(result)) > 1500:
+                        r = requests.post(f"https://hastebin.com/documents", data=str(result).encode('utf-8')).json()
+                        return await ctx.send(":weary::ok_hand: The output is too long to send to chat. Here is a hastebin file for ya.. :point_right: https://hastebin.com/" + r['key'])                    
+                    else:
+                        try:
+                            embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n\u200b{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{result}```")
+                            return await ctx.send(embed=embed)
+                        except Exception as e:
+                            embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
+                            return await ctx.send(embed=embed)
+            except Exception as e:
+                embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
+                return await ctx.send(embed=embed)
+        else:
+            pass
 
 
 
