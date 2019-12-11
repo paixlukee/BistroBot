@@ -171,7 +171,8 @@ class Shop(commands.Cog):
         money = int(bal) - count
         db.market.update_one({"owner": user}, {"$set":{"money": money}})
         
-    async def add_sold(self, user, item):
+    async def add_sold(self, user, sold):
+        item = sold
         data = db.market.find_one({"owner": user})
         bal = data['items'][item]['sold']
         tc = int(bal) + 1
