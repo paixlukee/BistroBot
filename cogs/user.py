@@ -180,8 +180,8 @@ class Shop(commands.Cog):
                 it = x
         bal = it['sold']
         tc = int(bal) + 1
-        db.market.update_one({"owner": user}, {"$pull":{items: {"name": item, "price": it['price'], "stock": it['stock'], "sold": bal}}})
-        db.market.update_one({"owner": user}, {"$push":{items: {"name": item, "price": it['price'], "stock": it['stock'], "sold": tc}}})
+        db.market.update_one({"owner": user}, {"$pull":{"items": {"name": item, "price": it['price'], "stock": it['stock'], "sold": bal}}})
+        db.market.update_one({"owner": user}, {"$push":{"items": {"name": item, "price": it['price'], "stock": it['stock'], "sold": tc}}})
                     
 
 def setup(bot):
