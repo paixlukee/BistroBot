@@ -33,7 +33,8 @@ class Help(commands.Cog):
         f'`{self.prefix}donate <@user> <amount>` - **Donate money to someone else**\n'\
         f'`{self.prefix}daily` - **Receive your daily cash**\n'\
         f'`{self.prefix}work` - **Work at your restaurant and get money**\n'\
-        f'`{self.prefix}clean` - **Clean the restaurant and gain XP**\n'\
+        f'`{self.prefix}clean` - **Clean the restaurant and receive EXP**\n'\
+        f'`{self.prefix}cook` - **Cook an item and receive EXP**\n'\
         f'`{self.prefix}leaderboard` - **View global leaderboard**\n'\
         f'`{self.prefix}delete` - **Delete your restaurant**\n'
         )
