@@ -133,23 +133,7 @@ class Botdev(commands.Cog):
         else:
             pass
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        colours = [0x37749c, 0xd84eaf, 0x45b4de, 0x42f4c5, 0xffb5f3, 0x42eef4, 0xe751ff, 0x51ffad]
-        if isinstance(error, commands.NotOwner):
-            await ctx.send("<:RedTick:653464977788895252> You are not authorised to use this command!")
-        elif isinstance(error, commands.BadArgument):
-            await ctx.send(f"<:RedTick:653464977788895252> Error! {error}")
-        elif isinstance(error, commands.CommandOnCooldown):
-            minutes, seconds = divmod(error.retry_after, 60)
-            hours, minutes = divmod(minutes, 60)
-            if hours >= 1:
-                hours = f"{round(hours)}h"
-            else:
-                hours = ""
-            await ctx.send(f"<:RedTick:653464977788895252> You are on cooldown! Please wait **{hours} {round(minutes)}m {round(seconds)}s**.")
-        else:
-            print("\x1b[1;31;40m" + f"[{type(error).__name__.upper()}]: " + "\x1b[0m" + str(error))
+
 
             
 def setup(bot):
