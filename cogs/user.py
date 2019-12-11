@@ -129,14 +129,22 @@ class Shop(commands.Cog):
                 count = r1['price']
                 msg = str(rm).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
                 await self.add_money(user=ctx.author.id, count=count)
+                await self.add_sold(user=ctx.author.id, sold=r1['name'])
             elif 'ITEM2' in rm and not 'ITEM4' in rm:
                 count = r1['price']+r2['price']+r3['price']
                 msg = str(rm).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
                 await self.add_money(user=ctx.author.id, count=count)
+                await self.add_sold(user=ctx.author.id, sold=r1['name'])
+                await self.add_sold(user=ctx.author.id, sold=r2['name'])
+                await self.add_sold(user=ctx.author.id, sold=r3['name'])
             else:
                 count = r1['price']+r2['price']+r3['price']+r4['price']
                 msg = str(rm).replace("ITEM4", r4['name']).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
                 await self.add_money(user=ctx.author.id, count=count)
+                await self.add_sold(user=ctx.author.id, sold=r1['name'])
+                await self.add_sold(user=ctx.author.id, sold=r2['name'])
+                await self.add_sold(user=ctx.author.id, sold=r3['name'])
+                await self.add_sold(user=ctx.author.id, sold=r4['name'])
             if 'TIP' in rm and not 'TIP2' in rm:
                 tpc = random.randint(2,4)
                 msg = msg.replace("TIP", str(tpc))
@@ -162,6 +170,13 @@ class Shop(commands.Cog):
         bal = data['money']
         money = int(bal) - count
         db.market.update_one({"owner": user}, {"$set":{"money": money}})
+        
+    async def add_sold(self, user, item):
+        data = db.market.find_one({"owner": user})
+        bal = data['items'][item]['sold']
+        tc = int(bal) + 1
+        db.market.update_one({"owner": user}, {"$pull":{items: {"name": item, "price": data['items'][item]['price'], "stock": data['items'][item]['stock'], "sold": bal}}})
+        db.market.update_one({"owner": user}, {"$push":{items: {"name": item, "price": data['items'][item]['price'], "stock": data['items'][item]['stock'], "sold": tc}}})
                     
 
 def setup(bot):
