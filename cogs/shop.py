@@ -447,11 +447,24 @@ class Shop(commands.Cog):
         to_clean = [{'name': 'sink', 'exp': 4}, {'name': 'oven', 'exp': 8}, {'name': 'counters', 'exp': 12}, {'name': 'floors', 'exp': 16}, {'name': 'bathrooms', 'exp': 20}, {'name': 'kitchen', 'exp': 24}]
         if post:
             rn = rnd(to_clean)
-            await ctx.send(f"{ctx.author.mention}, You've cleaned the {rn['name']} and earned {rn['exp']} EXP.")
+            await ctx.send(f"{ctx.author.mention}, You cleaned the {rn['name']} and earned {rn['exp']} EXP.")
             await self.add_exp(user=ctx.author.id, count=rn['exp'])
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
+    @commands.command(aliases=['Cook', 'Bake', 'bake'])
+    @commands.cooldown(1, 150, commands.BucketType.user)
+    async def cook(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
+        if post:
+            rn = rnd(to_cook)
+            ri = rnd(post['items'])
+            await ctx.send(f"{ctx.author.mention}, You made {rn['adj']} {ri['name']} and earned {rn['exp']} EXP.")
+            await self.add_exp(user=ctx.author.id, count=rn['exp'])
+        else:
+            await ctx.send("You don't have a restaurant. Create one with `r!start`.")
+                           
     @commands.command(aliases=['Restaurant', 'r'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def restaurant(self, ctx, user:discord.User=None):
