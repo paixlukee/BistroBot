@@ -173,11 +173,11 @@ class Shop(commands.Cog):
         
     async def add_sold(self, user, sold):
         item = sold
+        data = db.market.find_one({"owner": user})
         it = None
-        for x in post['items']:
+        for x in data['items']:
             if x['name'] == item:
                 it = x
-        data = db.market.find_one({"owner": user})
         bal = it['sold']
         tc = int(bal) + 1
         db.market.update_one({"owner": user}, {"$pull":{items: {"name": item, "price": it['price'], "stock": it['stock'], "sold": bal}}})
