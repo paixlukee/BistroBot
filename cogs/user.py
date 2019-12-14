@@ -83,7 +83,7 @@ class Shop(commands.Cog):
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
                        
     @commands.command(pass_context=True, aliases=['Daily'])
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1,86400, commands.BucketType.user)
     async def daily(self, ctx):
         posts = db.market.find_one({"owner": ctx.author.id})                          
         count = 200   
@@ -111,7 +111,7 @@ class Shop(commands.Cog):
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
                        
     @commands.command(aliases=['Work'])
-    @commands.cooldown(1, 86400, commands.BucketType.user)
+    @commands.cooldown(1, 600, commands.BucketType.user)
     async def work(self, ctx):
         posts = db.utility.find_one({"utility": "res"})
         user = db.market.find_one({"owner": ctx.author.id})
