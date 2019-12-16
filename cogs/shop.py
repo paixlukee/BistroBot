@@ -157,19 +157,19 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def buy(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost**\n`r!buy custom` - **Buy a restaurant customisation item**")
+            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost chest**\n`r!buy custom` - **Buy a restaurant customisation chest**")
             await ctx.send(embed=embed)
             self.bot.get_command("buy").reset_cooldown(ctx)
 
     @buy.command(aliases=['Boost'])
     async def boost(self, ctx):
-        embed = discord.Embed(colour=0xa82021, title="Which boost would you like to buy?", description="[1] Double XP - 5 minutes - $500")
+        embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Double XP - 5 minutes - $500")
         embed.set_footer(text="You have 90 seconds to reply with the number")
         await ctx.send(embed=embed)
 
     @buy.command(aliases=['Custom'])
     async def custom(self, ctx):
-        embed = discord.Embed(colour=0xa82021, title="Which customisation item would you like to buy?", description="[1] Embed Colour - All Colours - $800")
+        embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Common Customisation Chest - $150 <:CustomChest1:655981726077550615>\n[2] Uncommon Customisation Chest - $300 <:CustomChest2:655981738148888598>")
         embed.set_footer(text="You have 90 seconds to reply with the number")
         await ctx.send(embed=embed)
 
