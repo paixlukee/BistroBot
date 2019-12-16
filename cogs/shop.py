@@ -152,23 +152,6 @@ class Shop(commands.Cog):
                     await msg.edit(embed=embed)
                     db.market.update_one({"owner": user.id}, {"$push":{"ratings": {"rating": int(rating.content), "user":str(ctx.author.id)}}})
 
-    @commands.command(aliases=['Inventory', 'inv'])
-    async def inventory(self, ctx):
-        post = db.market.find_one({"owner": ctx.author.id})
-        if post:
-            embed = discord.Embed(colour=0xa82021)
-            embed.set_author(icon_url=ctx.author.avatar_url_as(format='png'), name="Your Inventory")
-            #cn = 0
-            #desc = ""
-            #n = []
-            #for x in post:
-                #cn += 1
-                #n.append({str(cn):x})
-                #own = self.bot.get_user(x['owner'])
-                #desc += f"[{cn}] {x['name']} | {own}\n"
-            await ctx.send()
-        else:
-            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
 
     @commands.group(aliases=['Buy'])
     @commands.cooldown(1, 30, commands.BucketType.user)
