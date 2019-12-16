@@ -86,17 +86,42 @@ class Shop(commands.Cog):
     @commands.cooldown(1,86400, commands.BucketType.user)
     async def daily(self, ctx):
         posts = db.market.find_one({"owner": ctx.author.id})                          
-        count = 200   
         if posts:
-            await self.add_money(user=ctx.author.id, count=count)
-            embed = discord.Embed(colour=0xa82021, description="Want even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `r!votereward` to gain another $150.")
-            await ctx.send(embed=embed, content=f"{ctx.author.mention}, you've received your daily **${count}**.")
+            ri = random.randint(1,11)
+            rci = random.randint(150, 250)
+            chest = [f'{rci} Cash']
+            if ri == 10:
+                chest.append('x1.1 EXP boost for 24 hours')
+                db.market.update_one({"owner": user}, {"$push":{"inventory": {"boost": {"type":"experience", "multiply":1.1, "time":24}}}})
+            else:
+                pass
+            await self.add_money(user=ctx.author.id, count=rci)
+            embed = discord.Embed(colour=0xa82021, description="\n".join(chest) + "\n\nWant even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `r!votereward` to receive another chest.")
+            await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your daily chest and received...")
         else:
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
             
+    @commands.command(aliases=['Inventory', 'inv'])
+    async def inventory(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        if post:
+            embed = discord.Embed(colour=0xa82021)
+            embed.set_author(icon_url=ctx.author.avatar_url_as(format='png'), name="Your Inventory")
+            #cn = 0
+            #desc = ""
+            #n = []
+            #for x in post:
+                #cn += 1
+                #n.append({str(cn):x})
+                #own = self.bot.get_user(x['owner'])
+                #desc += f"[{cn}] {x['name']} | {own}\n"
+            await ctx.send()
+        else:
+            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+            
     @commands.command(pass_context=True, aliases=['Votereward'])
     @commands.cooldown(1, 43200, commands.BucketType.user)
-    async def votereward(self, ctx):
+    async def votereward(self, ctx): #http://pixelartmaker.com/art/f697739d6ed8a4b.png
         posts = db.market.find_one({"owner": ctx.author.id})                          
         count = 150
         foo = 'bar'
