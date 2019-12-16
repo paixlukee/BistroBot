@@ -97,6 +97,7 @@ class Shop(commands.Cog):
                 pass
             await self.add_money(user=ctx.author.id, count=rci)
             embed = discord.Embed(colour=0xa82021, description="\n".join(chest) + "\n\nWant even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `r!votereward` to receive another chest.")
+            embed.set_image(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
             await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your daily chest and received...")
         else:
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
