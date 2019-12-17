@@ -20,7 +20,7 @@ async def post(count, list:str):
               data = {'server_count': count}
               headers = {'Authorization': dbl_token}
               p = requests.post('https://discordbots.org/api/bots/648065060559781889/stats', data=data, headers=headers).json()
-              return f"{list.upper(): Server count posted}"
+              return f"{list.upper()}: Server count posted"
           except Exception as e:
               return f'{type(e).__name__}: {e}'
               
