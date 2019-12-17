@@ -177,12 +177,12 @@ class Shop(commands.Cog):
                 await self.add_sold(user=ctx.author.id, sold=r4['name'])
             if 'TIP' in rm and not 'TIP2' in rm:
                 tpc = random.randint(2,4)
-                msg = msg.replace("TIP", str(tpc))
-                await self.add_money(user=ctx.author.id, count=tpc)
-            else:
-                tpc = random.randint(8,10)
                 msg = msg.replace("TIP", "$" + str(tpc))
                 await self.add_money(user=ctx.author.id, count=tpc)
+            else:
+                tpct = random.randint(8,10)
+                msg = msg.replace("TIP", "$" + str(tpct))
+                await self.add_money(user=ctx.author.id, count=tpct)
 
             await ctx.send(f"{ctx.author.mention}, {msg}")
         else:
