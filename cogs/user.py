@@ -129,7 +129,7 @@ class Shop(commands.Cog):
         if posts:
             if r['voted'] == 1:
                 await self.add_money(user=ctx.author.id, count=rci)
-                embed = discord.Embed(colour=0x7289da, description="\n".join(chest)")
+                embed = discord.Embed(colour=0x7289da, description=f"{rci} Cash")
                 embed.set_thumbnail(url="http://pixelartmaker.com/art/f697739d6ed8a4b.png")
                 embed.set_footer(text="Thanks for upvoting! Come back in 12 hours!")
                 await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your DBL chest and received...")
