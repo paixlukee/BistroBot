@@ -124,14 +124,17 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 43200, commands.BucketType.user)
     async def votereward(self, ctx): #http://pixelartmaker.com/art/f697739d6ed8a4b.png
         posts = db.market.find_one({"owner": ctx.author.id})                          
-        count = 150
-        foo = 'bar'
+        rci = random.randint(50,100)
+        r = requests.get(f"https://discordbots.org/api/bots/648065060559781889/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()   
         if posts:
-            if foo == 'bar':
-                #await self.add_money(user=ctx.author.id, count=count)
-                await ctx.send("This does nothing yet.")
+            if r['voted'] == 1:
+                await self.add_money(user=ctx.author.id, count=rci)
+                embed = discord.Embed(colour=0x7289da, description="\n".join(chest)")
+                embed.set_thumbnail(url="http://pixelartmaker.com/art/f697739d6ed8a4b.png")
+                embed.set_footer(text="Thanks for upvoting! Come back in 12 hours!")
+                await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your DBL chest and received...")
             else:
-                await ctx.send("You haven't upvoted! Upvote here: <https://top.gg/bot/648065060559781889>")
+                await ctx.send("You haven't upvoted! Upvote here: <https://top.gg/bot/648065060559781889/vote>")
                 self.bot.get_command("votereward").reset_cooldown(ctx)
         else:
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
