@@ -214,6 +214,7 @@ class Shop(commands.Cog):
             sem = await self.bot.get_channel(650994466307571714).send(embed=se)
             await sem.add_reaction('✅')
             await sem.add_reaction('❎')
+            await asyncio.sleep(2)
             reaction, user = await self.bot.wait_for('reaction_add', check=react)
             if reaction.emoji == '✅':
                 se2.description = '*Logo accepted*'
