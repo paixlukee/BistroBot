@@ -17,3 +17,17 @@ banners = {
     {"name": "Burger Stop", "url": "https://i.ibb.co/SJpwVNL/banner.jpg"}
     ]
 }
+colours = {
+"common": [
+    {"colour": "Red", "hex": 0xff0000},
+    {"colour": "Green", "hex": 0x00ff00},
+    {"colour": "Blue", "hex": 0x0000ff},
+    {"colour": "White", "hex": 0xffffff}
+    ],
+"uncommon": [
+    {"colour": "Orange", "hex": 0xffa500},
+    {"colour": "Yellow", "hex": 0xffff00},
+    {"colour": "Violet", "hex": 0x6a0dad},
+    {"colour": "Light Blue", "hex": 0x008080},
+    ]
+}
