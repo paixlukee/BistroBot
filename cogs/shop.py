@@ -16,6 +16,7 @@ from pymongo import MongoClient
 import pymongo
 import string
 import food
+import items
 
 client = MongoClient(config.mongo_client)
 db = client['siri']
@@ -30,7 +31,7 @@ class Shop(commands.Cog):
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
-        
+
     @commands.command(aliases=['Leaderboard', 'lb'])
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def leaderboard(self, ctx):
@@ -45,7 +46,7 @@ class Shop(commands.Cog):
             embed.add_field(name=x['name'], value=f":bar_chart: {exp}", inline=False)
         embed.set_footer(text=f"Sort by: experience")
         await ctx.send(embed=embed)
-        
+
     @commands.command(aliases=['Delete'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def delete(self, ctx):
@@ -54,7 +55,7 @@ class Shop(commands.Cog):
         post = db.market.find({"owner": ctx.author.id})
         if post:
             msg = await ctx.send("Are you sure you want to delete your restaurant? Deleting will erase all of your hardwork. If you're sure, reply with \"I'm sure\".")
-            try:   
+            try:
                 a = await self.bot.wait_for('message', check=ans, timeout=20)
             except asyncio.TimeoutError:
                 await ctx.send('You took too long to answer. Deletion canceled.')
@@ -64,9 +65,9 @@ class Shop(commands.Cog):
                     await db.market.delete_one({"owner": ctx.author.id})
                 else:
                     await ctx.send('Deletion canceled.')
-        else: 
+        else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
-        
+
     @commands.command(aliases=['Menu'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def menu(self, ctx, *, restaurant=None):
@@ -154,24 +155,78 @@ class Shop(commands.Cog):
 
 
     @commands.group(aliases=['Buy'])
-    @commands.cooldown(1, 30, commands.BucketType.user)
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def buy(self, ctx):
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost chest**\n`r!buy custom` - **Buy a restaurant customisation chest**")
             await ctx.send(embed=embed)
-            self.bot.get_command("buy").reset_cooldown(ctx)
 
     @buy.command(aliases=['Boost'])
     async def boost(self, ctx):
+        def nc(m):
+            return m.author == ctx.message.author
         embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Double XP - 5 minutes - $500")
         embed.set_footer(text="You have 90 seconds to reply with the number")
         await ctx.send(embed=embed)
+        choice = await self.bot.wait_for('message', check=nc, timeout=90)
+        post = db.market.find_one({"owner": int(ctx.author.id)})
+        embed = discord.Embed(colour=0xa82021, description="What item would you like to stock?\n\nType all to stock all items.")
+        embed.set_footer(text="You have 90 seconds to reply")
+        msg = await ctx.send(embed=embed)
+        item = await self.bot.wait_for('message', check=nc, timeout=90)
 
     @buy.command(aliases=['Custom'])
     async def custom(self, ctx):
-        embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Common Customisation Chest - $150 <:CustomChest1:655981726077550615>\n[2] Uncommon Customisation Chest - $300 <:CustomChest2:655981738148888598>")
+        def nc(m):
+            return m.author == ctx.message.author
+        post = db.market.find_one({"owner": ctx.author.id})
+        if not 'colour' in post:
+            db.market.update_one({"owner": ctx.author.id}, {"$set":{"colour": None}})
+            db.market.update_one({"owner": ctx.author.id}, {"$set":{"banner": None}})
+        else:
+            pass
+        embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Profile Colour Chest - $200 <:CustomChest1:655981726077550615>\n[2] Profile Banner Chest - $400 <:CustomChest2:655981738148888598>")
         embed.set_footer(text="You have 90 seconds to reply with the number")
         await ctx.send(embed=embed)
+        choice = await self.bot.wait_for('message', check=nc, timeout=90)
+        if int(choice.content) == 1:
+            if post['money'] < 200:
+                await ctx.send("You don't have enough money for this.")
+            else:
+                rn = random.randint(1,3)
+                if not rn == 1:
+                    chosen = rnd(items.colours['common'])
+                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"colour": chosen}}})
+                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['colour']} (Common)")
+                    embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                    embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
+                    await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
+                else:
+                    chosen = rnd(items.colours['uncommon'])
+                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"colour": chosen}}})
+                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['colour']} (Uncommon)")
+                    embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                    embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
+                    await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
+        elif int(choice.content) == 2:
+                rn = random.randint(1,3)
+                if not rn == 1:
+                    chosen = rnd(items.banners['common'])
+                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner](chosen['url'])")
+                    embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
+                    embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                    await ctx.send(embed=embed, content='you opened a Profile Banner Chest and received...')
+                else:
+                    chosen = rnd(items.banners['uncommon'])
+                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner](chosen['url'])")
+                    embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
+                    embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                    await ctx.send(embed=embed, content='you opened a Profile Banner Chest and received...')
+        else:
+            await ctx.send("That is not an option.")
+
 
     @commands.group(aliases=['settings', 'Set', 'Settings'])
     @commands.cooldown(1, 4, commands.BucketType.user)
@@ -448,7 +503,7 @@ class Shop(commands.Cog):
             await self.add_exp(user=ctx.author.id, count=rn['exp'])
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
-                           
+
     @commands.command(aliases=['Restaurant', 'r'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def restaurant(self, ctx, user:discord.User=None):
@@ -558,11 +613,11 @@ class Shop(commands.Cog):
                         await msg1.edit(embed=failed)
                     else:
                         await self.update_data(ctx.author, country.content.lower(), name.content, desc.content)
-                        embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nI have given you $600 to start. View your restaurant with `{self.prefix}restaurant`')
+                        embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant`, and view all Restaurant commands with `r!help`.')
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
         else:
-            await ctx.send(f'You already have a restaurant created. View it with {self.prefix}restaurant')
+            await ctx.send(f'You already have a restaurant created. View it with `{self.prefix}restaurant`.')
 
 
     async def add_exp(self, user, count):
@@ -587,7 +642,7 @@ class Shop(commands.Cog):
         id = str(set1) + set2 + set3 + str(set4) + set5 + set6 + set7
         post = {
             "owner": user.id,
-            "money":600,
+            "money":0,
             "items":food.food[country],
             "country":country,
             "name":name,
