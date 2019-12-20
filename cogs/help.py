@@ -17,31 +17,59 @@ import config
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.prefix = 'r!'
+        self.pr = 'r!'
 
     @commands.group(aliases=['cmds', 'commands', 'Help'])
-    async def help(self, ctx):
-        embed = discord.Embed(description='Welcome to **Restaurant** Here is a list of commands that you are able to use.\n\n**Restaurant** will receive more updates in the near future, only certain features are out at the moment. Expect bugs, and report them [here](https://discord.gg/BCRtw7c). \n\n'\
-        f'`{self.prefix}start` - **Create your own restaurant.**\n'\
-        f'`{self.prefix}restaurant [@user]` - **Show restaurant details**\n'\
-        f'`{self.prefix}random` - **View a random restaurant**\n'\
-        f'`{self.prefix}menu <restaurant-name>` - **View a restaurant menu**\n'\
-        f'`{self.prefix}rate <@user>` - **Rate someone\'s restaurant**\n'\
-        f'`{self.prefix}set` - **Configurate your restaurant settings**\n'\
-        f'`{self.prefix}user [@user]` - **View a user profile**\n'\
-        f'`{self.prefix}balance` - **View your balance**\n'\
-        f'`{self.prefix}donate <@user> <amount>` - **Donate money to someone else**\n'\
-        f'`{self.prefix}daily` - **Receive your daily cash**\n'\
-        f'`{self.prefix}work` - **Work at your restaurant and get money**\n'\
-        f'`{self.prefix}clean` - **Clean the restaurant and receive EXP**\n'\
-        f'`{self.prefix}cook` - **Cook an item and receive EXP**\n'\
-        f'`{self.prefix}leaderboard` - **View global leaderboard**\n'\
-        f'`{self.prefix}delete` - **Delete your restaurant**\n'
-        )
-        embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
-        embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
-        await ctx.send(embed=embed)
-        #        f'`{self.prefix}buy` - **Buy an item from the restaurant shop**\n'\
+    async def help(self, ctx, page=None):
+        #keeping this hardcoded, because it will only make me do more work :)
+        page = int(page.lower().replace("#", "").replace("page", ""))
+        pages = [1,2,3]
+        if not page or not page in pages: 
+            embed = discord.Embed(colour=0xa82021, description="Welcome! Here is a list of commands that you are able to use.")
+            embed.add_field(name="Page #1 | Restaurant", value="The main restaurant commands.")
+            embed.add_field(name="Page #2 | User", value="Commands that interact with regular users.")
+            embed.add_field(name="Page #3 | Inventory", value="Buy, use, and view items in your inventory.")
+            #embed.add_field(name="Page #4 | Configuration", value="Configurate guild-only settings,")
+            embed.set_author(icon_url=ctx.avatar_url_as(format='png'), name="Restaurant Help Manual")
+            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_footer(text="To view a page, put the page number right after the command. Example: r!help 1")
+            await ctx.send(embed=embed)
+        elif page == 1:
+            embed = discord.Embed(colour=0xa82021, description="The main restaurant commands.")
+            embed.add_field(name=f"{self.pr}start", value="Create your restaurant")
+            embed.add_field(name=f"{self.pr}restaurant [@user]", value="View your own restaurant")
+            embed.add_field(name=f"{self.pr}rate <@user>", value="Rate a restaurant")
+            embed.add_field(name=f"{self.pr}menu <restaurant-name>", value="View a restaurant menu")
+            embed.add_field(name=f"{self.pr}set", value="Configurate your restaurant settings")
+            embed.add_field(name=f"{self.pr}daily", value="Receive your daily cash")
+            embed.add_field(name=f"{self.pr}work", value="Work at your restaurant and receive money")
+            embed.add_field(name=f"{self.pr}clean", value="Clean your restaurant and receive EXP")
+            embed.add_field(name=f"{self.pr}cook", value="Cook an item and receive EXP")
+            embed.add_field(name=f"{self.pr}leaderboard", value="View the global restaurant leaderboard")
+            embed.set_author(icon_url=ctx.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 1")
+            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
+            await ctx.send(embed=embed)
+        elif page == 2:
+            embed = discord.Embed(colour=0xa82021, description="Commands that interact with regular users.")
+            embed.add_field(name=f"{self.pr}profile [@user]", value="View a user profile")
+            embed.add_field(name=f"{self.pr}balance", value="View your balanece")
+            embed.add_field(name=f"{self.pr}donate <@user> <amount>", value="Donate money to someone else")
+            embed.set_author(icon_url=ctx.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 2")
+            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
+            await ctx.send(embed=embed)
+        elif page == 3:
+            embed = discord.Embed(colour=0xa82021, description="Buy, use, and view items in your inventory.")
+            embed.add_field(name=f"{self.pr}inventory", value="View your inventory")
+            embed.add_field(name=f"{self.pr}use <item>", value="View your balanece")
+            embed.add_field(name=f"{self.pr}buy", value="View shop and buy items")
+            embed.set_author(icon_url=ctx.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 3")
+            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
+            await ctx.send(embed=embed)
+         else:
+            pass
 
 
 
