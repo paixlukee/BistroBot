@@ -592,7 +592,7 @@ class Shop(commands.Cog):
                 embed.set_image(url=post['banner'])
             else:
                 pass
-            if not post['colour']:
+            if post['colour']:
                 embed.colour = post['colour']
             else:
                 pass   
