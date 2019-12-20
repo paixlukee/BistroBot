@@ -116,8 +116,11 @@ class Shop(commands.Cog):
                 elif 'banner' in x:
                     names.append(f"<:BannerIcon:657457820295495699> {x['banner']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")
                 else:#if 'boost' in x:
-                    pass#names.append(f"<:EarningsBoost:651474110022418433> {x['boost']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")   
-            embed.description = "\n".join(names)                   
+                    pass#names.append(f"<:EarningsBoost:651474110022418433> {x['boost']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")
+            if names:
+                embed.description = "\n".join(names)   
+            else:
+                embed.description = "Nothing to see here."
             await ctx.send(embed=embed)
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
