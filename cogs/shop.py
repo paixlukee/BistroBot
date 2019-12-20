@@ -239,7 +239,7 @@ class Shop(commands.Cog):
                     embed = discord.Embed(colour=0xa82021, description=f"{chosen['colour']} (Common)")
                     embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
                     embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
-                    await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
+                    await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Colour Chest and received...')
                 else:
                     chosen = rnd(items.colours['uncommon'])
                     chosen['rarity'] = "Uncommon"
@@ -247,7 +247,7 @@ class Shop(commands.Cog):
                     embed = discord.Embed(colour=0xa82021, description=f"{chosen['colour']} (Uncommon)")
                     embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
                     embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
-                    await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
+                    await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Colour Chest and received...')
         elif int(choice.content) == 2:
                 rn = random.randint(1,3)
                 if not rn == 1:
