@@ -68,7 +68,7 @@ class Help(commands.Cog):
             embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
-         else:
+        else:
             pass
 
 
