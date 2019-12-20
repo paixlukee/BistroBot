@@ -231,6 +231,7 @@ class Shop(commands.Cog):
             if post['money'] < 200:
                 await ctx.send("You don't have enough money for this.")
             else:
+                await self.take_money(ctx.author.id, 200)
                 rn = random.randint(1,3)
                 if not rn == 1:
                     chosen = rnd(items.colours['common'])
@@ -249,6 +250,7 @@ class Shop(commands.Cog):
                     embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
                     await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Colour Chest and received...')
         elif int(choice.content) == 2:
+                await self.take_money(ctx.author.id, 400)
                 rn = random.randint(1,3)
                 if not rn == 1:
                     chosen = rnd(items.banners['common'])
@@ -673,7 +675,18 @@ class Shop(commands.Cog):
         else:
             await ctx.send(f'You already have a restaurant created. View it with `{self.prefix}restaurant`.')
 
+    async def add_money(self, user:int, count):
+        data = db.market.find_one({"owner": user})
+        bal = data['money']
+        money = int(bal) + count
+        db.market.update_one({"owner": user}, {"$set":{"money": money}})
 
+    async def take_money(self, user:int, count:int):
+        data = db.market.find_one({"owner": user})
+        bal = data['money']
+        money = int(bal) - count
+        db.market.update_one({"owner": user}, {"$set":{"money": money}})
+                             
     async def add_exp(self, user, count):
         data = db.market.find_one({"owner": user})
         bal = data['exp']
