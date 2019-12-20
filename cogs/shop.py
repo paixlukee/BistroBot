@@ -167,7 +167,7 @@ class Shop(commands.Cog):
         #def nc(m):
             #return m.author == ctx.message.author
         #post = db.market.find_one({"owner": ctx.author.id})
-        if x = 'y':
+        if x == 'y':
             embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Double EXP - 24 Hours - $900 <:EarningsBoost:651474110022418433>\n[2] Profile Banner Chest - $1,000 <:EarningsBoost2:651474232219271210>")
             embed.set_footer(text="You have 90 seconds to reply with the number")
             await ctx.send(embed=embed)
