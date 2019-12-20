@@ -163,17 +163,55 @@ class Shop(commands.Cog):
 
     @buy.command(aliases=['Boost'])
     async def boost(self, ctx):
-        def nc(m):
-            return m.author == ctx.message.author
-        embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Double XP - 5 minutes - $500")
-        embed.set_footer(text="You have 90 seconds to reply with the number")
-        await ctx.send(embed=embed)
-        choice = await self.bot.wait_for('message', check=nc, timeout=90)
-        post = db.market.find_one({"owner": int(ctx.author.id)})
-        embed = discord.Embed(colour=0xa82021, description="What item would you like to stock?\n\nType all to stock all items.")
-        embed.set_footer(text="You have 90 seconds to reply")
-        msg = await ctx.send(embed=embed)
-        item = await self.bot.wait_for('message', check=nc, timeout=90)
+        x = 'x'
+        #def nc(m):
+            #return m.author == ctx.message.author
+        #post = db.market.find_one({"owner": ctx.author.id})
+        if x = 'y':
+            embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Double EXP - 24 Hours - $900 <:EarningsBoost:651474110022418433>\n[2] Profile Banner Chest - $1,000 <:EarningsBoost2:651474232219271210>")
+            embed.set_footer(text="You have 90 seconds to reply with the number")
+            await ctx.send(embed=embed)
+            choice = await self.bot.wait_for('message', check=nc, timeout=90)
+            if int(choice.content) == 1:
+                if post['money'] < 200:
+                    await ctx.send("You don't have enough money for this.")
+                else:
+                    rn = random.randint(1,3)
+                    if not rn == 1:
+                        chosen = rnd(items.colours['common'])
+                        db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"colour": chosen}}})
+                        embed = discord.Embed(colour=0xa82021, description=f"{chosen['colour']} (Common)")
+                        embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
+                        embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
+                        await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
+                    else:
+                        chosen = rnd(items.colours['uncommon'])
+                        db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"colour": chosen}}})
+                        embed = discord.Embed(colour=0xa82021, description=f"{chosen['colour']} (Uncommon)")
+                        embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
+                        embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
+                        await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
+            elif int(choice.content) == 2:
+                    rn = random.randint(1,3)
+                    if not rn == 1:
+                        chosen = rnd(items.banners['common'])
+                        db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                        embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Common) [View banner]({chosen['url']})")
+                        embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                        embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                        await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                    else:
+                        chosen = rnd(items.banners['uncommon'])
+                        db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                        embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner]({chosen['url']})")
+                        embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                        embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                        await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+            else:
+                await ctx.send("That is not an option.")
+
+        else:
+            await ctx.send("Boosts are still in the works! Suggest what you want to see here: <https://discord.gg/BCRtw7c>")
 
     @buy.command(aliases=['Custom'])
     async def custom(self, ctx):
@@ -196,34 +234,38 @@ class Shop(commands.Cog):
                 rn = random.randint(1,3)
                 if not rn == 1:
                     chosen = rnd(items.colours['common'])
+                    chosen['rarity'] = "Common"
                     db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"colour": chosen}}})
                     embed = discord.Embed(colour=0xa82021, description=f"{chosen['colour']} (Common)")
-                    embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                    embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
                     embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
                     await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
                 else:
                     chosen = rnd(items.colours['uncommon'])
+                    chosen['rarity'] = "Uncommon"
                     db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"colour": chosen}}})
                     embed = discord.Embed(colour=0xa82021, description=f"{chosen['colour']} (Uncommon)")
-                    embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                    embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
                     embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
                     await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
         elif int(choice.content) == 2:
                 rn = random.randint(1,3)
                 if not rn == 1:
                     chosen = rnd(items.banners['common'])
+                    chosen['rarity'] = "Common"
                     db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
-                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner](chosen['url'])")
-                    embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
+                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Common) [View banner]({chosen['url']})")
+                    embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
                     embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
-                    await ctx.send(embed=embed, content='you opened a Profile Banner Chest and received...')
+                    await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
                 else:
                     chosen = rnd(items.banners['uncommon'])
+                    chosen['rarity'] = "Common"
                     db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
-                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner](chosen['url'])")
-                    embed.set_thumbnail(url="http://pixelartmaker.com/art/5dd01d7e459201b.png")
+                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner]({chosen['url']})")
+                    embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
                     embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
-                    await ctx.send(embed=embed, content='you opened a Profile Banner Chest and received...')
+                    await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
         else:
             await ctx.send("That is not an option.")
 
@@ -251,11 +293,7 @@ class Shop(commands.Cog):
             await link.delete()
         except:
             pass
-        if not link.content.startswith('http'):
-            embed = discord.Embed(colour=0xa82021, description="That is not a valid link.")
-            embed.set_author(name="Failed.")
-            await msg.edit(embed=embed)
-        else:
+        if link.content.startswith('http') and link.content.endswith('.jpg') or link.content.startswith('http') and link.content.endswith('.png') or link.content.startswith('http') and link.content.endswith('.jpeg') or link.content.startswith('http') and link.content.endswith('.gif'):
             embed = discord.Embed(colour=0xa82021, description="Perfect! Your image has been sent to the Restaurant Bot staff team for reviewal.\n\n This process may take up to 24 hours. But don't worry, it will probably be even quicker.")
             embed.set_footer(text="Too many NSFW requests can end up in a ban from Restaurant Bot!")
             await msg.edit(embed=embed)
@@ -280,6 +318,10 @@ class Shop(commands.Cog):
                 se2.description = '*Logo denied*'
                 await sem.edit(embed=se2)
                 await ctx.author.send("Your logo has been denied.")
+        else:
+            embed = discord.Embed(colour=0xa82021, description="That is not a valid link. It must end with `.png`, `.jpg`, `.jpeg`, or `.gif`.")
+            embed.set_author(name="Failed.")
+            await msg.edit(embed=embed)
 
     @set.command(aliases=['Description', 'desc'])
     async def description(self, ctx):
@@ -323,7 +365,8 @@ class Shop(commands.Cog):
             else:
                 embed = discord.Embed(colour=0xa82021, description="Awesome! Your restaurant's name has been set!")
                 await msg.edit(embed=embed)
-                db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": name.content}})
+                new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG')
+                db.market.update_one({"owner": ctx.author.id}, {"$set":{"name": new_name}})
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
@@ -612,7 +655,8 @@ class Shop(commands.Cog):
                         failed.set_author(name="Creation Failed.")
                         await msg1.edit(embed=failed)
                     else:
-                        await self.update_data(ctx.author, country.content.lower(), name.content, desc.content)
+                        new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG')
+                        await self.update_data(ctx.author, country.content.lower(), new_name, desc.content)
                         embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant`, and view all Restaurant commands with `r!help`.')
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
@@ -634,11 +678,6 @@ class Shop(commands.Cog):
         set5 = rnd(string.ascii_letters)
         set6 = rnd(string.ascii_letters)
         set7 = rnd(string.ascii_letters)
-        #items = []
-        #for x in food.food:
-            #if x == country:
-                #items = x
-
         id = str(set1) + set2 + set3 + str(set4) + set5 + set6 + set7
         post = {
             "owner": user.id,
@@ -654,7 +693,9 @@ class Shop(commands.Cog):
             "logo_url":None,
             "ratings":[{"rating":5, "user":0}],
             "exp":0,
-            "inventory":[]
+            "inventory":[],
+            "colour": None,
+            "banner": None
         }
         db.market.insert_one(post)
 
