@@ -109,15 +109,16 @@ class Shop(commands.Cog):
         if post:
             embed = discord.Embed(colour=0xa82021)
             embed.set_author(icon_url=ctx.author.avatar_url_as(format='png'), name="Your Inventory")
-            #cn = 0
-            #desc = ""
-            #n = []
-            #for x in post:
-                #cn += 1
-                #n.append({str(cn):x})
-                #own = self.bot.get_user(x['owner'])
-                #desc += f"[{cn}] {x['name']} | {own}\n"
-            await ctx.send()
+            names = []
+            for x in post['inventory']:
+                if 'colour' in x:
+                    names.append(f"<:Colour:657454035313360913> {x['colour']['colour']} ({x['colour']['rarity']})")
+                elif 'banner' in x:
+                    names.append(f"<:BannerIcon:657457820295495699> {x['banner']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")
+                else:#if 'boost' in x:
+                    pass#names.append(f"<:EarningsBoost:651474110022418433> {x['boost']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")   
+            embed.description = names.join("\n")                   
+            await ctx.send(embed=embed)
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
             
