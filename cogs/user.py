@@ -124,6 +124,30 @@ class Shop(commands.Cog):
             await ctx.send(embed=embed)
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+                                 
+    @commands.command(aliases=['Use'])
+    async def use(self, ctx, *, item):
+        post = db.market.find_one({"owner": ctx.author.id})
+        item = item.lower().replace("(uncommon", "").replace("(common)", "").replace("uncommon", "").replace("common", "")
+        w = True
+        if post:
+            for x in post['inventory']:
+                if 'colour' in x:
+                    if x['colour']['colour'].lower() == item:
+                        await asyncio.sleep(1)
+                        db.market.update_one({"owner": ctx.author.id}, {"$set": {"colour": x['colour']['hex']}})
+                elif 'banner' in x:
+                    if x['banner']['name'].lower() == item:
+                        await asyncio.sleep(1)
+                        db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": x['banner']['url']}})
+                else:#if 'boost' in x:
+                    w = False#names.append()
+            if not w:
+                await ctx.send("I could not find that in your inventory. Please only include the item name.")
+            else:
+                await ctx.send("Item used successfully.")
+        else:
+            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
             
     @commands.command(pass_context=True, aliases=['Votereward'])
     @commands.cooldown(1, 43200, commands.BucketType.user)
