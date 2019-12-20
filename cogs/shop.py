@@ -585,10 +585,17 @@ class Shop(commands.Cog):
             embed.set_author(icon_url=self.flags[country], name=post['name'])
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
-            #embed.add_field(name=":chart_with_upwards_trend: Most Sold item", value=list[0]['name'])
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
             embed.add_field(name=":name_badge: Owner", value=str(self.bot.get_user(post['owner'])).replace("None", "Unknown"))
+            if post['banner']:
+                embed.set_image(url=post['banner'])
+            else:
+                pass
+            if not post['colour']:
+                embed.colour = post['colour']
+            else:
+                pass   
             if not post['logo_url']:
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
             else:
