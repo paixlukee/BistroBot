@@ -282,7 +282,7 @@ class Shop(commands.Cog):
     async def logo(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
         def react(reaction, user):
-            return str(reaction.emoji) == '✅' or str(reaction.emoji) == '❎' and user != ctx.me
+            return user != ctx.me and str(reaction.emoji) == '✅' or str(reaction.emoji) == '❎'
         def nc(m):
             return m.author == ctx.message.author
         embed = discord.Embed(colour=0xa82021, description="To keep NSFW off of Restaurant Bot, staff members must review every logo.\n\nReply with the image URL for your logo.")
