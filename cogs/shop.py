@@ -557,7 +557,7 @@ class Shop(commands.Cog):
             sw = "".join(list)
             i = post['items']
             ri = rnd(i)
-            in = ri['name']
+            in = i['name']
             await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {in}: `{sw}`')
             b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
