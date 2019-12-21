@@ -557,37 +557,37 @@ class Shop(commands.Cog):
             sw = "".join(li)
             ri = rnd(post['items'])
             na = ri['name']
-            await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {na}: `{sw}`')
+            await ctx.send(f'{ctx.author.mention}, Unscramble the follow letters to make a {na}: `{sw}`')
             b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
             a = time.perf_counter()
             tt = a-b
-            if tt < 4:
+            if tt < 6:
                 if resp.content == word:
                     await ctx.send(f"Perfect! You made a delicious {na} in {round(tt)} seconds! You've earned 20 EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 2 EXP for making a bad {na}.")
-            elif tt < 6:
+            elif tt < 8:
                 if resp.content == word:
                     await ctx.send(f"Amazing! You made a tasty {na} in {round(tt)} seconds! You've earned 16 EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 1 EXP for making a terrible {na}.")
-            elif tt < 8:
+            elif tt < 10:
                 if resp.content == word:
                     await ctx.send(f"Great! You made a delicious {na} in {round(tt)} seconds! You've earned 12 EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
-            elif tt < 10:
+            elif tt < 12:
                 if resp.content == word:
                     await ctx.send(f"Nice! You made a good {na} in {round(tt)} seconds! You've earned 10 EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
-            elif tt < 12:
+            elif tt < 14:
                 if resp.content == word:
                     await ctx.send(f"OK! You made a not-too-bad {na} in {round(tt)} seconds! You've earned 8 EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
-            elif tt < 16:
+            elif tt < 18:
                 if resp.content == word:
                     await ctx.send(f"Eh! You made an okay {na} in {round(tt)} seconds! You've earned 6 EXP.")
                 else:
@@ -656,7 +656,7 @@ class Shop(commands.Cog):
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
             else:
                 embed.set_thumbnail(url=post['logo_url'])
-            embed.set_footer(text=f"Last Stock: {post['laststock']}")
+            embed.set_footer(text=f"Last Work: {post['laststock']}")
             msg = await ctx.send(embed=embed)
 
     @commands.command(aliases=['Start', 'create'])
