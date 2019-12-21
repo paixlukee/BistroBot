@@ -556,14 +556,14 @@ class Shop(commands.Cog):
             random.shuffle(list)
             sw = "".join(list)
             ri = rnd(post['items'])
-            await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {ri['name']}: `{sw}`')
+            await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {ri}: `{sw}`')
             b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
             a = time.perf_counter()
             tt = b-a
             if tt < 4:
                 if resp.content = sw:
-                    await ctx.send(f"Perfect! You made a delicious {ri} in {round(tt)} seconds! You've earned 20 EXP.")
+                    await ctx.send(f"Perfect! You made a delicious {ri['name']} in {round(tt)} seconds! You've earned 20 EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 2 EXP for making a bad {ri['name']}.")
             elif tt < 6:
