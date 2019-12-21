@@ -155,8 +155,8 @@ class Shop(commands.Cog):
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
                                  
-    @commands.command(aliases=['Use'])
-    async def use(self, ctx, *, item):
+    @commands.command(aliases=['Se2ll'])
+    async def se2ll(self, ctx, *, item):
         post = db.market.find_one({"owner": ctx.author.id})
         item = item.lower().replace("(uncommon", "").replace("(common)", "").replace("uncommon", "").replace("common", "")
         w = True
@@ -169,7 +169,7 @@ class Shop(commands.Cog):
                 elif 'banner' in x:
                     if x['banner']['name'].lower() == item:
                         await asyncio.sleep(1)
-                        db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": None}})
+                        db.market.delete_one({"owner": ctx.author.id}, {"$set": {"banner": None}})
                 else:#if 'boost' in x:
                     w = False#names.append()
             if not w:
