@@ -548,7 +548,7 @@ class Shop(commands.Cog):
         def nc(m):
             return m.author == ctx.author and m.channel == ctx.channel
         post = db.market.find_one({"owner": ctx.author.id})
-        words = ['potato', 'bun', 'bread', 'cheese', 'tomato', 'olive', 'fish', 'seafood', 'chicken', 'lettuce', 'rice', 'ham', 'turkey', 'soup', 'meat', 'vegetables', 'fruits', 'sausage', 'noodles', 'pie', 'water', 'milk', 'cake', 'juice', 'cookie', 'pepper']
+        words = ['potato', 'bun', 'bread', 'cheese', 'tomato', 'olive', 'fish', 'seafood', 'chicken', 'lettuce', 'rice', 'ham', 'turkey', 'soup', 'meat', 'fruit', 'noodles', 'pie', 'water', 'milk', 'cake', 'juice', 'cookie', 'pepper']
         #to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
         if post:
             word = rnd(words)
@@ -557,7 +557,7 @@ class Shop(commands.Cog):
             sw = "".join(li)
             ri = rnd(post['items'])
             na = ri['name']
-            await ctx.send(f'{ctx.author.mention}, Unscramble the follow letters to make a {na}: `{sw}`')
+            await ctx.send(f'{ctx.author.mention}, Unscramble the following letters to make a {na}: `{sw}`')
             b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
             a = time.perf_counter()
