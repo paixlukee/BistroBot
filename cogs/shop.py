@@ -563,7 +563,7 @@ class Shop(commands.Cog):
             tt = b-a
             if tt < 4:
                 if resp.content = sw:
-                    await ctx.send(f"Perfect! You made a delicious {ri['name']} in **{round(tt)} seconds! You've earned 20 EXP.")
+                    await ctx.send(f"Perfect! You made a delicious {ri} in {round(tt)} seconds! You've earned 20 EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 2 EXP for making a bad {ri['name']}.")
             elif tt < 6:
