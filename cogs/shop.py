@@ -551,12 +551,11 @@ class Shop(commands.Cog):
         #words = ['potato', 'bun', 'bread', 'cheese', 'tomato', 'olive', 'fish', 'seafood', 'chicken', 'lettuce', 'rice', 'ham', 'turkey', 'soup', 'meat', 'fruit', 'noodles', 'pie', 'water', 'milk', 'cake', 'juice', 'cookie', 'pepper']
         #to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
         if post:
-            word = rnd(post['items'])
+            word = rnd(post['items'])['name']
             li = list(word)
             random.shuffle(li)
             sw = "".join(li)
-            ri = word
-            na = ri['name']
+            na = word
             await ctx.send(f'{ctx.author.mention}, Unscramble the following letters to make a dish: `{sw}`')
             b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
