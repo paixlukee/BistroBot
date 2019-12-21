@@ -72,6 +72,10 @@ class Botdev(commands.Cog):
         t2 = time.perf_counter()
         await ctx.send("Pong! `" + str(round((t2-t1)*1000)) + "ms`")
 
+    @commands.command()    
+    async def invite(self, ctx):
+        await ctx.send("Invite me to your server! <https://discordapp.com/api/oauth2/authorize?client_id=648065060559781889&permissions=10240&scope=bot>")
+
     @commands.command(hidden=True)
     async def load(self, ctx, extension):
         if ctx.author.id == 396153668820402197:
