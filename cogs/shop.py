@@ -555,7 +555,8 @@ class Shop(commands.Cog):
             list = list(word)
             random.shuffle(list)
             sw = "".join(list)
-            ri = rnd(post['items'])
+            i = post['items']
+            ri = rnd(i)
             in = ri['name']
             await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {in}: `{sw}`')
             b = time.perf_counter()
