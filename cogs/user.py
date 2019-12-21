@@ -104,13 +104,17 @@ class Shop(commands.Cog):
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
             
     @commands.command(aliases=['Inventory', 'inv'])
-    async def inventory(self, ctx):
+    async def inventory(self, ctx, page=1):
         post = db.market.find_one({"owner": ctx.author.id})
         if post:
             embed = discord.Embed(colour=0xa82021)
             embed.set_author(icon_url=ctx.author.avatar_url_as(format='png'), name="Your Inventory")
             names = []
-            for x in post['inventory']:
+            items_per_page = 12
+            pages = math.ceil(len(post['inventory']) / 12)
+            start = (page - 1) * 12
+            end = start + 12
+            for x in post['inventory'][start:end]:
                 if 'colour' in x:
                     names.append(f"<:Colour:657454035313360913> {x['colour']['colour']} ({x['colour']['rarity']})")
                 elif 'banner' in x:
@@ -121,6 +125,8 @@ class Shop(commands.Cog):
                 embed.description = "\n".join(names)   
             else:
                 embed.description = "Nothing to see here."
+            np = page+1
+            embed.set_footer(text=f"Page {page} of {pages} | r!page {np} to see the next page")
             await ctx.send(embed=embed)
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
@@ -146,6 +152,30 @@ class Shop(commands.Cog):
                 await ctx.send("I could not find that in your inventory. Please only include the item name.")
             else:
                 await ctx.send("Item used successfully.")
+        else:
+            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+                                 
+    @commands.command(aliases=['Use'])
+    async def use(self, ctx, *, item):
+        post = db.market.find_one({"owner": ctx.author.id})
+        item = item.lower().replace("(uncommon", "").replace("(common)", "").replace("uncommon", "").replace("common", "")
+        w = True
+        if post:
+            for x in post['inventory']:
+                if 'colour' in x:
+                    if x['colour']['colour'].lower() == item:
+                        await asyncio.sleep(1)
+                        db.market.update_one({"owner": ctx.author.id}, {"$set": {"colour": None}})
+                elif 'banner' in x:
+                    if x['banner']['name'].lower() == item:
+                        await asyncio.sleep(1)
+                        db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": None}})
+                else:#if 'boost' in x:
+                    w = False#names.append()
+            if not w:
+                await ctx.send("I could not find that in your inventory. Please only include the item name.")
+            else:
+                await ctx.send("Item sold successfully for")
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
             
