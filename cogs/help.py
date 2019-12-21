@@ -32,6 +32,7 @@ class Help(commands.Cog):
             embed.add_field(name="Page #1 | Restaurant", value="The main restaurant commands.")
             embed.add_field(name="Page #2 | User", value="Commands that interact with regular users.")
             embed.add_field(name="Page #3 | Inventory", value="Buy, use, and view items in your inventory.")
+            embed.add_field(name="Page #4 | Bot", value="Commands that have to do with the main bot.")
             #embed.add_field(name="Page #4 | Configuration", value="Configurate guild-only settings,")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual")
             embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
@@ -65,11 +66,20 @@ class Help(commands.Cog):
         elif page == 3:
             embed = discord.Embed(colour=0xa82021, description="Buy, use, and view items in your inventory.")
             embed.add_field(name=f"{self.pr}inventory", value="View your inventory")
-            embed.add_field(name=f"{self.pr}use <item>", value="View your balanece")
+            embed.add_field(name=f"{self.pr}use <item>", value="View your balance")
             embed.add_field(name=f"{self.pr}buy", value="View shop and buy items")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 3")
             embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
+            await ctx.send(embed=embed)
+        elif page == 4:
+            embed = discord.Embed(colour=0xa82021, description="Commands that have to do with the main bot.")
+            embed.add_field(name=f"{self.pr}ping", value="View the ping")
+            embed.add_field(name=f"{self.pr}info", value="View information about Restaurant Bot")
+            embed.add_field(name=f"{self.pr}invite", value="Get the invite URL")
+            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 4")
+            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            #embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
         else:
             pass
