@@ -545,13 +545,57 @@ class Shop(commands.Cog):
     @commands.command(aliases=['Cook', 'Bake', 'bake'])
     @commands.cooldown(1, 150, commands.BucketType.user)
     async def cook(self, ctx):
+        def nc(m):
+            return m.author == ctx.author and m.channel == ctx.channel
         post = db.market.find_one({"owner": ctx.author.id})
-        to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
+        words = ['potato', 'bun', 'bread', 'cheese', 'tomato', 'olive', 'fish', 'seafood', 'chicken', 'lettuce', 'rice', 'ham', 'turkey', 'soup', 'meat', 'vegetables', 'fruits', 'sausage', 'noodles', 'pie', 'water', 'milk', 'cake', 'juice', 'cookie', 'pepper']
+        #to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
         if post:
-            rn = rnd(to_cook)
+            word = rnd(words)
+            list = list(word)
+            random.shuffle(list)
+            sw = "".join(list)
             ri = rnd(post['items'])
-            await ctx.send(f"{ctx.author.mention}, You made {rn['adj']} {ri['name']} and earned {rn['exp']} EXP.")
-            await self.add_exp(user=ctx.author.id, count=rn['exp'])
+            await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {ri['name']}: `{sw}`')
+            b = time.perf_counter()
+            resp = await self.bot.wait_for('message', check=nc, timeout=240)
+            a = time.perf_counter()
+            tt = b-a
+            if tt < 4:
+                if resp.content = sw:
+                    await ctx.send(f"Perfect! You made a delicious {ri['name']} in **{round(tt)} seconds! You've earned 20 EXP.")
+                else:
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 2 EXP for making a bad {ri['name']}.")
+            elif tt < 6:
+                if resp.content = sw:
+                    await ctx.send(f"Amazing! You made a tasty {ri['name']} in {round(tt)} seconds! You've earned 16 EXP.")
+                else:
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 1 EXP for making a terrible {ri['name']}.")
+            elif tt < 8:
+                if resp.content = sw:
+                    await ctx.send(f"Great! You made a delicious {ri['name']} in {round(tt)} seconds! You've earned 12 EXP.")
+                else:
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+            elif tt < 10:
+                if resp.content = sw:
+                    await ctx.send(f"Nice! You made a good {ri['name']} in {round(tt)} seconds! You've earned 10 EXP.")
+                else:
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+            elif tt < 12:
+                if resp.content = sw:
+                    await ctx.send(f"OK! You made a not-too-bad {ri['name']} in {round(tt)} seconds! You've earned 8 EXP.")
+                else:
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+            elif tt < 16:
+                if resp.content = sw:
+                    await ctx.send(f"Eh! You made an okay {ri['name']} in {round(tt)} seconds! You've earned 6 EXP.")
+                else:
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+            else:
+                if resp.content = sw:
+                    await ctx.send(f"Uh oh! You made a disgusting {ri['name']} in {round(tt)} seconds! You've earned 1 EXP.")
+                else:
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
@@ -604,7 +648,7 @@ class Shop(commands.Cog):
                 if post['colour']:
                     embed.colour = post['colour']
                 else:
-                    pass   
+                    pass
             except:
                 pass
             if not post['logo_url']:
@@ -692,7 +736,7 @@ class Shop(commands.Cog):
         bal = data['money']
         money = int(bal) - count
         db.market.update_one({"owner": user}, {"$set":{"money": money}})
-                             
+
     async def add_exp(self, user, count):
         data = db.market.find_one({"owner": user})
         bal = data['exp']
