@@ -762,7 +762,7 @@ class Shop(commands.Cog):
             "description":desc,
             "customers":0,
             "boost":None,
-            "laststock": "Has not stocked yet.",
+            "laststock": "Has not worked yet.",
             "id":id,
             "logo_url":None,
             "ratings":[{"rating":5, "user":0}],
