@@ -573,7 +573,7 @@ class Shop(commands.Cog):
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 1 EXP for making a terrible {na}.")
             elif tt < 8:
-                if resp.content = sw:
+                if resp.content == sw:
                     await ctx.send(f"Great! You made a delicious {na} in {round(tt)} seconds! You've earned 12 EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
