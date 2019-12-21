@@ -192,6 +192,9 @@ class Shop(commands.Cog):
                         embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
                         await ctx.send(embed=embed, content='you opened a Profile Colour Chest and received...')
             elif int(choice.content) == 2:
+                if post['money'] < 200:
+                    await ctx.send("You don't have enough money for this.")
+                else:
                     rn = random.randint(1,3)
                     if not rn == 1:
                         chosen = rnd(items.banners['common'])
@@ -250,24 +253,27 @@ class Shop(commands.Cog):
                     embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['colour']} to use it.")
                     await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Colour Chest and received...')
         elif int(choice.content) == 2:
-                await self.take_money(ctx.author.id, 400)
-                rn = random.randint(1,3)
-                if not rn == 1:
-                    chosen = rnd(items.banners['common'])
-                    chosen['rarity'] = "Common"
-                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
-                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Common) [View banner]({chosen['url']})")
-                    embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
-                    embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
-                    await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                if post['money'] < 400:
+                    await ctx.send("You don't have enough money for this.")
                 else:
-                    chosen = rnd(items.banners['uncommon'])
-                    chosen['rarity'] = "Common"
-                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
-                    embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner]({chosen['url']})")
-                    embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
-                    embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
-                    await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                    await self.take_money(ctx.author.id, 400)
+                    rn = random.randint(1,3)
+                    if not rn == 1:
+                        chosen = rnd(items.banners['common'])
+                        chosen['rarity'] = "Common"
+                        db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                        embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Common) [View banner]({chosen['url']})")
+                        embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                        embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                        await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                    else:
+                        chosen = rnd(items.banners['uncommon'])
+                        chosen['rarity'] = "Common"
+                        db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                        embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner]({chosen['url']})")
+                        embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                        embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                        await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
         else:
             await ctx.send("That is not an option.")
 
