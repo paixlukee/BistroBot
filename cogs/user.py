@@ -203,6 +203,8 @@ class Shop(commands.Cog):
     async def work(self, ctx):
         posts = db.utility.find_one({"utility": "res"})
         user = db.market.find_one({"owner": ctx.author.id})
+        now = datetime.datetime.now()
+        db.market.update_one({"owner": ctx.author.id}, {"$set":{"laststock": now.strftime("%d/%m/%Y %H:%M")}})
         if user:
             country = str(user['country'])
             rm = rnd(posts['resp'])['text']
