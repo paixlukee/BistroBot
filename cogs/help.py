@@ -26,7 +26,7 @@ class Help(commands.Cog):
             page = int(page.lower().replace("#", "").replace("page", ""))
         except:
             pass
-        pages = [1,2,3]
+        pages = [1,2,3,4]
         if not page or not page in pages: 
             embed = discord.Embed(colour=0xa82021, description="Welcome! Here is a list of commands that you are able to use.")
             embed.add_field(name="Page #1 | Restaurant", value="The main restaurant commands.")
