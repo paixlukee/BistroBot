@@ -552,9 +552,9 @@ class Shop(commands.Cog):
         #to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
         if post:
             word = rnd(words)
-            list = list(word)
-            random.shuffle(list)
-            sw = "".join(list)
+            li = list(word)
+            random.shuffle(li)
+            sw = "".join(li)
             ri = rnd(post['items'])
             na = ri['name']
             await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {na}: `{sw}`')
