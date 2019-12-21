@@ -556,46 +556,47 @@ class Shop(commands.Cog):
             random.shuffle(list)
             sw = "".join(list)
             ri = rnd(post['items'])
-            await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {ri}: `{sw}`')
+            in = ri['name']
+            await ctx.send(f'{ctx.author.mention}, Unscramble the follow letter to make a {in}: `{sw}`')
             b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
             a = time.perf_counter()
             tt = b-a
             if tt < 4:
-                if resp.content = sw:
-                    await ctx.send(f"Perfect! You made a delicious {ri['name']} in {round(tt)} seconds! You've earned 20 EXP.")
+                if resp.content == sw:
+                    await ctx.send(f"Perfect! You made a delicious {in} in {round(tt)} seconds! You've earned 20 EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 2 EXP for making a bad {ri['name']}.")
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 2 EXP for making a bad {in}.")
             elif tt < 6:
-                if resp.content = sw:
-                    await ctx.send(f"Amazing! You made a tasty {ri['name']} in {round(tt)} seconds! You've earned 16 EXP.")
+                if resp.content == sw:
+                    await ctx.send(f"Amazing! You made a tasty {in} in {round(tt)} seconds! You've earned 16 EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 1 EXP for making a terrible {ri['name']}.")
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 1 EXP for making a terrible {in}.")
             elif tt < 8:
                 if resp.content = sw:
-                    await ctx.send(f"Great! You made a delicious {ri['name']} in {round(tt)} seconds! You've earned 12 EXP.")
+                    await ctx.send(f"Great! You made a delicious {in} in {round(tt)} seconds! You've earned 12 EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {in}.")
             elif tt < 10:
-                if resp.content = sw:
-                    await ctx.send(f"Nice! You made a good {ri['name']} in {round(tt)} seconds! You've earned 10 EXP.")
+                if resp.content == sw:
+                    await ctx.send(f"Nice! You made a good {in} in {round(tt)} seconds! You've earned 10 EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {in}.")
             elif tt < 12:
-                if resp.content = sw:
-                    await ctx.send(f"OK! You made a not-too-bad {ri['name']} in {round(tt)} seconds! You've earned 8 EXP.")
+                if resp.content == sw:
+                    await ctx.send(f"OK! You made a not-too-bad {in} in {round(tt)} seconds! You've earned 8 EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {in}.")
             elif tt < 16:
-                if resp.content = sw:
-                    await ctx.send(f"Eh! You made an okay {ri['name']} in {round(tt)} seconds! You've earned 6 EXP.")
+                if resp.content == sw:
+                    await ctx.send(f"Eh! You made an okay {in} in {round(tt)} seconds! You've earned 6 EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {in}.")
             else:
-                if resp.content = sw:
-                    await ctx.send(f"Uh oh! You made a disgusting {ri['name']} in {round(tt)} seconds! You've earned 1 EXP.")
+                if resp.content == sw:
+                    await ctx.send(f"Uh oh! You made a disgusting {in} in {round(tt)} seconds! You've earned 1 EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {ri['name']}.")
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {in}.")
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
