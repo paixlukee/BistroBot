@@ -561,7 +561,7 @@ class Shop(commands.Cog):
             b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
             a = time.perf_counter()
-            tt = b-a
+            tt = a-b
             if tt < 4:
                 if resp.content == sw:
                     await ctx.send(f"Perfect! You made a delicious {na} in {round(tt)} seconds! You've earned 20 EXP.")
