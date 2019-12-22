@@ -288,12 +288,18 @@ class Shop(commands.Cog):
         cn = 0
         desc = ""
         n = []
+        items = []
         country = post['country']
+        for x in post['items']:
+            items.append(x['name'])                              
         for x in extra.extra[country]:
-            cn += 1
-            n.append({str(cn):x})
-            sp = x['price']
-            desc += f"[{cn}] {x['name']} | Selling Price: {sp}\n"
+            if x['name'] in items:
+                pass
+            else:
+                cn += 1
+                n.append({str(cn):x})
+                sp = x['price']
+                desc += f"[{cn}] {x['name']} | Selling Price: {sp}\n"
         embed.description = f"All menu items cost $600\n{desc}"
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
@@ -303,7 +309,7 @@ class Shop(commands.Cog):
                 name = n[0][ch]['name']
                 await ctx.send(f'{ctx.author.mention}, Item {name} was added to your menu.')
                 await self.take_money(ctx.author.id, 600)
-                db.market.update_one({"owner": ctx.author.id}, {"$push": {"item":n[0][ch]}})
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"items":n[0][ch]}})
             else:
                 await ctx.send("That is not an option.")
         else:
