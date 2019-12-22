@@ -559,8 +559,9 @@ class Shop(commands.Cog):
                 random.shuffle(li)
                 sw = "".join(li)
                 new.append(sw)      
-            na = " ".join(new)
-            await ctx.send(f'{ctx.author.mention}, Unscramble this item on your menu to make it: `{na}`')
+            sw = " ".join(new)
+            na = word
+            await ctx.send(f'{ctx.author.mention}, Unscramble this item on your menu to make it: `{sw}`')
             b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
             a = time.perf_counter()
