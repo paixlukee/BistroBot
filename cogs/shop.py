@@ -292,7 +292,7 @@ class Shop(commands.Cog):
         for x in extra.extra[country]:
             cn += 1
             n.append({str(cn):x})
-            sp =
+            sp = x['price']
             desc += f"[{cn}] {x['name']} | Selling Price: {sp}\n"
         embed.description = f"All menu items cost $600\n{desc}"
         await ctx.send(embed=embed)
