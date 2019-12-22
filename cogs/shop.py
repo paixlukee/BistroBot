@@ -298,8 +298,9 @@ class Shop(commands.Cog):
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
         ch = choice.content.replace("[", "").replace("]", "").replace("r!", "")
+        print(ch)
         if post['money'] > 600:
-            if ch-1 in n:
+            if int(ch)-1 in n:
                 name = n[ch-1][str(ch)]['name']
                 await ctx.send(f'{ctx.author.mention}, Item {name} was added to your menu.')
                 await self.take_money(ctx.author.id, 600)
