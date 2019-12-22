@@ -658,7 +658,7 @@ class Shop(commands.Cog):
             user = ctx.author
         post = db.market.find_one({"owner": user.id})
         if not post:
-            await ctx.send(f'I couldn\'t find {user.name}\'s restaurant in our database.')
+            await ctx.send('I couldn\'t find that restaurant in our database.')
         else:
             def react(reaction, user):
                 return str(reaction.emoji) == '<:FilledStar:651156130424291368>'
