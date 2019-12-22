@@ -298,13 +298,12 @@ class Shop(commands.Cog):
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
         ch = choice.content.replace("[", "").replace("]", "").replace("r!", "")
-        print(n)
         if post['money'] > 600:
-            if str(int(ch)+1) in n:
-                name = n[str(int(ch)+1)]['name']
+            if ch in n[0]:
+                name = n[0][str(int(ch)+1)]['name']
                 await ctx.send(f'{ctx.author.mention}, Item {name} was added to your menu.')
                 await self.take_money(ctx.author.id, 600)
-                db.market.update_one({"owner": ctx.author.id}, {"$push": {"item":n[str(int(ch)+1)]}})
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"item":n[0][str(int(ch)+1)]}})
             else:
                 await ctx.send("That is not an option.")
         else:
