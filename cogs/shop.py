@@ -300,10 +300,10 @@ class Shop(commands.Cog):
         ch = choice.content.replace("[", "").replace("]", "").replace("r!", "")
         if post['money'] > 600:
             if int(ch) in n:
-                name = n[ch]['name']
+                name = n[ch-1][str(ch)]['name']
                 await ctx.send(f'{ctx.author.mention}, Item {name} was added to your menu.')
                 await self.take_money(ctx.author.id, 600)
-                db.market.update_one({"owner": ctx.author.id}, {"$push": {"item":n[ch]}})
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"item":n[ch-1][str(ch)]}})
             else:
                 await ctx.send("That is not an option.")
         else:
