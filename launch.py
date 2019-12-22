@@ -21,7 +21,7 @@ import config
 
 
 bot = commands.Bot(command_prefix="r!")
-
+extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 async def status_task():
     users = len(set(bot.get_all_members()))
@@ -90,13 +90,12 @@ async def on_message(message):
         await bot.process_commands(message)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
     bot.load_extension("cogs.bot")
     bot.remove_command("help")
-    bot.load_extension("cogs.help")
-    bot.load_extension("cogs.shop")
-    bot.load_extension("cogs.user")
-    bot.load_extension("cogs.dev")
+    for x in extensions:
+        bot.load_extension('cogs.'+x)
+
 
 
 bot.run(config.token, bot=True, reconnect=True)
