@@ -226,7 +226,7 @@ class Shop(commands.Cog):
             db.market.update_one({"owner": ctx.author.id}, {"$set":{"banner": None}})
         else:
             pass
-        embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Profile Colour Chest - $200 <:CustomChest1:655981726077550615>\n[2] Profile Banner Chest - $400 <:CustomChest2:655981738148888598>")
+        embed = discord.Embed(colour=0xa82021, title="Which chest would you like to buy?", description="[1] Restaurant Colour Chest - $200 <:CustomChest1:655981726077550615>\n[2] Restaurant Banner Chest - $400 <:CustomChest2:655981738148888598>")
         embed.set_footer(text="You have 90 seconds to reply with the number")
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
