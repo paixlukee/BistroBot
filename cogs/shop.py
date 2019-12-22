@@ -298,7 +298,7 @@ class Shop(commands.Cog):
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
         ch = choice.content.replace("[", "").replace("]", "").replace("r!", "")
-        #print(n)
+        print(n)
         if post['money'] > 600:
             if str(int(ch)+1) in n:
                 name = n[str(int(ch)+1)]['name']
