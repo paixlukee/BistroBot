@@ -17,6 +17,7 @@ import pymongo
 import string
 import food
 import items
+import extra
 
 client = MongoClient(config.mongo_client)
 db = client['siri']
@@ -158,7 +159,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def buy(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost chest**\n`r!buy custom` - **Buy a restaurant customisation chest**")
+            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost chest**\n`r!buy custom` - **Buy a restaurant customisation chest**\n`r!buy food` - **Buy a menu item and have it added to your inventory**"")
             await ctx.send(embed=embed)
 
     @buy.command(aliases=['Boost'])
@@ -276,6 +277,36 @@ class Shop(commands.Cog):
                         await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
         else:
             await ctx.send("That is not an option.")
+
+    @buy.command(aliases=['Food'])
+    async def food(self, ctx):
+        def nc(m):
+            return m.author == ctx.message.author
+        post = db.market.find_one({"owner": ctx.author.id})
+        embed = discord.Embed(colour=0xa82021, title="Which food item would you like to add to your menu?")
+        embed.set_footer(text="You have 90 seconds to reply with the number")
+        cn = 0
+        desc = ""
+        n = []
+        country = post['country']
+        for x in extra.extra[country]:
+            cn += 1
+            n.append({str(cn):x})
+            sp =
+            desc += f"[{cn}] {x['name']} | Selling Price: {sp}\n"
+        embed.description = f"All menu items cost $600\n{desc}"
+        await ctx.send(embed=embed)
+        choice = await self.bot.wait_for('message', check=nc, timeout=90)
+        ch = choice.content.replace("[", "").replace("]", "").replace("r!", "")
+        if post['money'] > 600:
+            if int(ch) in n:
+                await ctx.send(f'{ctx.author.mention}, Item {n[ch]['name']} was added to your menu.')
+                await self.take_money(ctx.author.id, 600)
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"item":n[ch]}})
+            else:
+                await ctx.send("That is not an option.")
+        else:
+            await ctx.send("You don't have enough money for this.")
 
 
     @commands.group(aliases=['settings', 'Set', 'Settings'])
@@ -558,7 +589,7 @@ class Shop(commands.Cog):
                 li = list(x)
                 random.shuffle(li)
                 sw = "".join(li)
-                new.append(sw)      
+                new.append(sw)
             sw = " ".join(new)
             na = word
             await ctx.send(f'{ctx.author.mention}, Unscramble this item on your menu to make it: `{sw}`')
