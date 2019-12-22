@@ -159,7 +159,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def buy(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost chest**\n`r!buy custom` - **Buy a restaurant customisation chest**\n`r!buy food` - **Buy a menu item and have it added to your inventory**"")
+            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost chest**\n`r!buy custom` - **Buy a restaurant customisation chest**\n`r!buy food` - **Buy a menu item and have it added to your inventory**")
             await ctx.send(embed=embed)
 
     @buy.command(aliases=['Boost'])
