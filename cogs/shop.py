@@ -575,7 +575,7 @@ class Shop(commands.Cog):
         if bet == None:
             await ctx.send('Please provide your bet with the command. Example: `r!slots 50`')
         elif not int(posts['money']) > int(bet) or int(posts['money']) == int(bet):
-            await ctx.send('You can\'t bet what you don\'t have.')
+            await ctx.send('You don\'t have enough money.')
         elif int(bet) < 25:
             await ctx.send('Your bet must be above $25.')
         else:
@@ -591,22 +591,22 @@ class Shop(commands.Cog):
                 else: 
                     won = bet*3
                     slot1 = discord.Embed(colour=0xa82021, description=f"Amazing! You've won ${won}!\n\n{a}   {b}   {c}")
-                await ctx.send(embed=slot1)
+                await ctx.send(embed=slot1, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                 await self.add_money(user=ctx.author.id, count=won)
             elif a == b or a == c or b == c:
                 won = bet*2
                 slot2 = discord.Embed(colour=0xa82021, description=f"Nice! You've won ${won}!\n\n{a}   {b}   {c}")
-                await ctx.send(embed=slot2)
+                await ctx.send(embed=slot2, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                 await self.add_money(user=ctx.author.id, count=won)
             else:
                 if a in fruits and b in fruits and c in fruits:
                     won = bet*3
                     slot2 = discord.Embed(colour=0xa82021, description=f"Fruit Bonanza! You've won ${won}!\n\n{a}   {b}   {c}")
-                    await ctx.send(embed=slot2)
+                    await ctx.send(embed=slot2, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                     await self.add_money(user=ctx.author.id, count=won)
                 else:                    
                     slot3 = discord.Embed(colour=0xa82021, description=f"Aw! You didn't win anything.\n\n{a}   {b}   {c}")
-                    await ctx.send(embed=slot3)
+                    await ctx.send(embed=slot3, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                     await self.take_money(user=ctx.author.id, count=bet)
 
     @commands.command(aliases=['Clean'])
