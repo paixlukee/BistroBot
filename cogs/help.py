@@ -49,6 +49,7 @@ class Help(commands.Cog):
             embed.add_field(name=f"{self.pr}work", value="Work at your restaurant and receive money")
             embed.add_field(name=f"{self.pr}clean", value="Clean your restaurant and receive EXP")
             embed.add_field(name=f"{self.pr}cook", value="Cook an item and receive EXP")
+            embed.add_field(name=f"{self.pr}slots <bet>", value="Use your money on a slot machine.")
             embed.add_field(name=f"{self.pr}leaderboard", value="View the global restaurant leaderboard")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 1")
             embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
