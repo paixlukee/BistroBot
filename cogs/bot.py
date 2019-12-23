@@ -158,7 +158,7 @@ class Botdev(commands.Cog):
             if isinstance(error, ig):
                 return
             embed = discord.Embed(colour=0xa82021)
-            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), text="Command Error")
+            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Command Error")
             embed.set_footer(text=f"Author: {ctx.author} `ID: {ctx.author.id}`")
             description = f"**Command**: {ctx.command.qualified_name}\n"\
                           f"**Author**: {ctx.author} `ID: {ctx.author.id}`\n"\
