@@ -153,6 +153,22 @@ class Botdev(commands.Cog):
             await ctx.send(f"<:RedTick:653464977788895252> You are on cooldown! Please wait **{hours} {round(minutes)}m {round(seconds)}s**.")
         else:
             print("\x1b[1;31;40m" + f"[{type(error).__name__.upper()}]: " + "\x1b[0m" + str(error))
+            ig = (commands.CommandNotFound, commands.CommandOnCooldown, discord.Forbidden, commands.NoPrivateMessage, commands.DisabledCommand, commands.CheckFailure, commands.UserInputError)
+            error = getattr(error, 'original', error)
+            if isinstance(error, ig):
+                return
+            embed = discord.Embed(colour=0xa82021)
+            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), text="Command Error")
+            embed.set_footer(text=f"Author: {ctx.author} `ID: {ctx.author.id}`")
+            description = f"**Command**: {ctx.command.qualified_name}\n"\
+                          f"**Author**: {ctx.author} `ID: {ctx.author.id}`\n"\
+                          f"**Channel**: {ctx.channel} `ID: {ctx.channel.id}`"
+            if ctx.guild:
+                description += f'\n**Guild**: {ctx.guild} `ID: {ctx.guild.id}`'
+            fe = ''.join(traceback.format_exception(type(error), error, error.__traceback__, chain=False))
+            description += f'\n```py\n{fe}\n```'
+            embed.timestamp = datetime.datetime.utcnow()
+            await bot.get_channel(658708974836645888).send(embed=embed)
 
 
             
