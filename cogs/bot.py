@@ -168,7 +168,7 @@ class Botdev(commands.Cog):
             fe = ''.join(traceback.format_exception(type(error), error, error.__traceback__, chain=False))
             description += f'\n```py\n{fe}\n```'
             embed.timestamp = datetime.datetime.utcnow()
-            await bot.get_channel(658708974836645888).send(embed=embed)
+            await self.bot.get_channel(658708974836645888).send(embed=embed)
 
 
             
