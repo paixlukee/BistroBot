@@ -570,7 +570,7 @@ class Shop(commands.Cog):
                              
     @commands.command(aliases=['Slots', 'slot'])
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def slots(self, ctx, bet:int = None):
+    async def slots(self, ctx, bet = None):
         posts = db.market.find_one({"owner": ctx.author.id})
         if bet == None:
             await ctx.send('Please provide your bet with the command. Example: `r!slots 50`')
@@ -579,33 +579,39 @@ class Shop(commands.Cog):
         elif int(bet) < 25:
             await ctx.send('Your bet must be above $25.')
         else:
-            emojis = [':ramen:', ':cherries:', ':grapes:', ':banana:', ':poultry_leg:', ':pizza:', ':taco:', ':hamburger:', ':hotdog:']
+            emojis = [':ramen:', ':cherries:', ':grapes:', ':banana:', ':poultry_leg:', ':pizza:', ':taco:', ':hamburger:']
             fruits = [':cherries:', ':grapes:', ':banana:']
             a = random.choice(emojis)
             b = random.choice(emojis)
             c = random.choice(emojis)
+            d = random.choice(emojis)
+            e = random.choice(emojis)
+            f = random.choice(emojis)
+            g = random.choice(emojis)
+            h = random.choice(emojis)
+            i = random.choice(emojis)                
             if a == b == c:
                 if a == ':ramen:':
                     won = bet*6
-                    slot1 = discord.Embed(colour=0xa82021, description=f"JACKPOT! You've won ${won}!\n\n{a}   {b}   {c}")
+                    slot1 = discord.Embed(colour=0xa82021, description=f"JACKPOT! You've won ${won}!\n\n{d}   {e}   {f} ``\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                 else: 
                     won = bet*3
-                    slot1 = discord.Embed(colour=0xa82021, description=f"Amazing! You've won ${won}!\n\n{a}   {b}   {c}")
+                    slot1 = discord.Embed(colour=0xa82021, description=f"Amazing! You've won ${won}!\n\n{d}   {e}   {f} ``\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                 await ctx.send(embed=slot1, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                 await self.add_money(user=ctx.author.id, count=won)
             elif a == b or a == c or b == c:
                 won = bet*2
-                slot2 = discord.Embed(colour=0xa82021, description=f"Nice! You've won ${won}!\n\n{a}   {b}   {c}")
+                slot2 = discord.Embed(colour=0xa82021, description=f"Nice! You've won ${won}!\n\n{d}   {e}   {f} ``\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                 await ctx.send(embed=slot2, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                 await self.add_money(user=ctx.author.id, count=won)
             else:
                 if a in fruits and b in fruits and c in fruits:
                     won = bet*3
-                    slot2 = discord.Embed(colour=0xa82021, description=f"Fruit Bonanza! You've won ${won}!\n\n{a}   {b}   {c}")
+                    slot2 = discord.Embed(colour=0xa82021, description=f"Fruit Bonanza! You've won ${won}!\n\n{d}   {e}   {f} ``\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                     await ctx.send(embed=slot2, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                     await self.add_money(user=ctx.author.id, count=won)
                 else:                    
-                    slot3 = discord.Embed(colour=0xa82021, description=f"Aw! You didn't win anything.\n\n{a}   {b}   {c}")
+                    slot3 = discord.Embed(colour=0xa82021, description=f"Aw! You didn't win anything.\n\n{d}   {e}   {f} ``\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                     await ctx.send(embed=slot3, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                     await self.take_money(user=ctx.author.id, count=bet)
 
