@@ -167,6 +167,7 @@ class Botdev(commands.Cog):
                 description += f'\n**Guild**: {ctx.guild} `ID: {ctx.guild.id}`'
             fe = ''.join(traceback.format_exception(type(error), error, error.__traceback__, chain=False))
             description += f'\n```py\n{fe}\n```'
+            embed.description = description
             embed.timestamp = datetime.datetime.utcnow()
             await self.bot.get_channel(658708974836645888).send(embed=embed)
 
