@@ -570,7 +570,7 @@ class Shop(commands.Cog):
                              
     @commands.command(aliases=['Slots', 'slot'])
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def slots(self, ctx, bet = None):
+    async def slots(self, ctx, bet:int = None):
         posts = db.market.find_one({"owner": ctx.author.id})
         if bet == None:
             await ctx.send('Please provide your bet with the command. Example: `r!slots 50`')
