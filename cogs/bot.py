@@ -52,16 +52,18 @@ class Botdev(commands.Cog):
             pass
 
     @commands.command(hidden=True)
-    @commands.is_owner()
     async def shell(self, ctx, *, code):
-        embed = discord.Embed(colour=0x000fff, description=f"```css\nConnecting to shell..```")
-        embed.set_author(name="Please Wait.", icon_url=self.bot.user.avatar_url)
-        msg = await ctx.send(embed=embed)
-        shell = await self.run_cmd(code)
-        embed = discord.Embed(colour=0x000fff, description=f"```css\n{shell}```")
-        embed.set_author(name="Shell", icon_url=self.bot.user.avatar_url)
-        await msg.delete()
-        await ctx.send(embed=embed)
+        if ctx.author.id == 396153668820402197:
+            embed = discord.Embed(description=f"```css\nConnecting to shell..```")
+            embed.set_author(name="Please Wait.", icon_url=self.bot.user.avatar_url)
+            msg = await ctx.send(embed=embed)
+            shell = await self.run_cmd(code)
+            embed = discord.Embed(description=f"```css\n{shell}```")
+            embed.set_author(name="Shell", icon_url=self.bot.user.avatar_url)
+            await msg.delete()
+            await ctx.send(embed=embed)
+        else:
+            pass
 
 
     @commands.command(pass_context=True)
