@@ -116,7 +116,7 @@ class Shop(commands.Cog):
             end = start + 12
             for x in post['inventory'][start:end]:
                 if 'colour' in x:
-                    names.append(f"<:Colour:657454035313360913> {x['colour']['colour']} ({x['colour']['rarity']})")
+                    names.append(f"<:ColourIcon:659418340703469584> {x['colour']['colour']} ({x['colour']['rarity']})")
                 elif 'banner' in x:
                     names.append(f"<:BannerIcon:657457820295495699> {x['banner']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")
                 else:#if 'boost' in x:
