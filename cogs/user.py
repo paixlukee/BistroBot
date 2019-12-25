@@ -20,7 +20,7 @@ import food
 client = MongoClient(config.mongo_client)
 db = client['siri']
 
-class Shop(commands.Cog):
+class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
@@ -126,7 +126,7 @@ class Shop(commands.Cog):
             else:
                 embed.description = "Nothing to see here."
             np = page+1
-            embed.set_footer(text=f"Page {page} of {pages} | r!page {np} to see the next page")
+            embed.set_footer(text=f"Page {page} of {pages} | r!inventory {np} to see the next page")
             await ctx.send(embed=embed)
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
@@ -274,5 +274,5 @@ class Shop(commands.Cog):
         db.market.update_one({"owner": user}, {"$push":{"items": {"name": item, "price": it['price'], "stock": it['stock'], "sold": tc}}})
                     
 
-def setup(bot):
+def User(bot):
     bot.add_cog(Shop(bot))
