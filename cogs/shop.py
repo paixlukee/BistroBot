@@ -574,7 +574,7 @@ class Shop(commands.Cog):
         posts = db.market.find_one({"owner": ctx.author.id})
         if bet == None:
             await ctx.send('Please provide your bet with the command. Example: `r!slots 50`')
-        elif not int(posts['money']) => int(bet) or int(posts['money']) == int(bet):
+        elif not int(posts['money']) >= int(bet) or int(posts['money']) == int(bet):
             await ctx.send('You don\'t have enough money.')
         elif int(bet) < 25:
             await ctx.send('Your bet must be above $25.')
