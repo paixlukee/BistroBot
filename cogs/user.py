@@ -91,8 +91,8 @@ class User(commands.Cog):
             rci = random.randint(150, 250)
             chest = [f'{rci} Cash']
             if ri == 10:
-                chest.append('x1.1 EXP boost for 24 hours')
-                db.market.update_one({"owner": user}, {"$push":{"inventory": {"boost": {"type":"experience", "multiply":1.1, "time":24}}}})
+                chest.append('x1.1 EXP boost for 24 hours (No use yet.)')
+                db.market.update_one({"owner": ctx.author}, {"$push":{"inventory": {"boost": {"type":"experience", "multiply":1.1, "time":24}}}})
             else:
                 pass
             await self.add_money(user=ctx.author.id, count=rci)
