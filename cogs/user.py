@@ -131,7 +131,7 @@ class User(commands.Cog):
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
 
-    @command.command(aliases=['Eat', 'Dine', 'dine'])
+    @commands.command(aliases=['Eat', 'Dine', 'dine'])
     async def eat(self, ctx, *, restaurant):
         post = db.market.find_one({"owner":ctx.author.id})
         def nc(m):
