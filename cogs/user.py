@@ -148,7 +148,7 @@ class User(commands.Cog):
             items = []
             for x in res['items']:
                 items.append(x['name'])
-            li = ','.join(items)
+            li = ', '.join(items)
             embed = discord.Embed(colour=0xa82021, description=f"Welcome to {res['name']}!\n\nWhich item would you like to order?\n\n**Menu**: {li}")
             embed.set_footer(text='You have 90 seconds to respond with a menu item.')
             cmsg = await ctx.send(embed=embed)
@@ -164,7 +164,7 @@ class User(commands.Cog):
                     newi.append(x)
             if chi.content in items:
                 item = newi[0]
-                if post['money'] <= item['price']:
+                if post['money'] >= item['price']:
                     rxp = round(1.2*item['price'])
                     await ctx.send(f"You've ordered a {item['name']} from {res['name']}. You've earned {rxp} EXP for dining in.")
                     await self.take_money(ctx.author.id, item['price'])                
