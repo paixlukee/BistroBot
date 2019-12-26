@@ -74,6 +74,8 @@ class Shop(commands.Cog):
     async def menu(self, ctx, *, restaurant=None):
         def nc(m):
             return m.author == ctx.message.author
+        if ctx.message.mentions:
+            restaurant = db.market.find_one({"owner":ctx.message.mentions[0].id})['name']
         if not restaurant:
             await ctx.send("You must include the restaurant name. Example: `r!menu McDonalds`")
         else:
