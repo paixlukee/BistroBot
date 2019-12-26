@@ -19,6 +19,9 @@ import food
 import config
 from .utils import do
 import psutil
+import food
+import items
+import extra
 
 client = MongoClient(config.mongo_client)
 db = client['siri']
@@ -86,6 +89,9 @@ class Dev(commands.Cog):
                     'json': json,
                     'db': db,
                     'rnd': rnd,
+                    'food': food,
+                    'extra': extra,
+                    'items': items,
                     'do':do,
                     'time_rx': re.compile('[0-9]+'),
                     '_': self._last_result
