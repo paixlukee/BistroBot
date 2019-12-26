@@ -141,15 +141,16 @@ class User(commands.Cog):
             res = db.market.find_one({"owner":user})
         elif db.market.find_one({"name": restaurant}):
             res = db.market.find_one({"name": restaurant})
+                                 
         else:
-            pass
+            res = None
         if res:
             items = []
             for x in res['items']:
                 items.append(x['name'])
             li = ','.join(items)
             embed = discord.Embed(colour=0xa82021, description=f"Welcome to {res['name']}!\n\nWhich item would you like to order?\n\n**Menu**: {li}")
-            embed.set_footer('You have 90 seconds to respond with a menu item.')
+            embed.set_footer(text='You have 90 seconds to respond with a menu item.')
             cmsg = await ctx.send(embed=embed)
             chi = await self.bot.wait_for('message', check=nc, timeout=90)
             await cmsg.delete()
