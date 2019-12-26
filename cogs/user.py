@@ -104,6 +104,7 @@ class User(commands.Cog):
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
 
     @commands.command(aliases=['Inventory', 'inv'])
+    @commands.cooldown(1,30, commands.BucketType.user)
     async def inventory(self, ctx, page=1):
         post = db.market.find_one({"owner": ctx.author.id})
         if post:
@@ -140,11 +141,12 @@ class User(commands.Cog):
             user = restaurant.replace('<@', '').replace('>', '')
             res = db.market.find_one({"owner":user})
         elif db.market.find_one({"name": restaurant}):
-            res = db.market.find_one({"name": restaurant})
-                                 
+            res = db.market.find_one({"name": restaurant})                                 
         else:
             res = None
-        if res:
+        if res['owner'] == ctx.author.id:
+            await ctx.send("You can't dine in at your own restaurant.")
+        elif res:
             items = []
             for x in res['items']:
                 items.append(x['name'])
@@ -170,6 +172,7 @@ class User(commands.Cog):
                     await self.take_money(ctx.author.id, item['price'])                
                     await self.add_exp(ctx.author.id, rxp)
                     await self.add_money(res['owner'], round(item['price']/1.8))
+                    await self.add_sold(res['owner'], item['name'])
                 else:
                     await ctx.send("You don't have enough money for this.")
             else:
@@ -178,6 +181,7 @@ class User(commands.Cog):
             await ctx.send("I couldn't find that restaurant. Try tagging the owner instead.")
 
     @commands.command(aliases=['Use'])
+    @commands.cooldown(1,10, commands.BucketType.user)
     async def use(self, ctx, *, item):
         post = db.market.find_one({"owner": ctx.author.id})
         item = item.lower().replace("(uncommon", "").replace("(common)", "").replace("uncommon", "").replace("common", "")
