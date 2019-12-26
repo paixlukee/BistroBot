@@ -25,7 +25,7 @@ class User(commands.Cog):
         self.bot = bot
         self.prefix = 'r!'
 
-        
+
     @commands.command(aliases=['User', 'Profile', 'profile'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def user(self, ctx, user:discord.User=None):
@@ -41,7 +41,7 @@ class User(commands.Cog):
             await ctx.send(embed=embed)
         else:
             await ctx.send("This user doesn't have a restaurant")
-        
+
     @commands.command(aliases=['Balance', 'bal'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def balance(self, ctx, user:discord.User=None):
@@ -53,16 +53,16 @@ class User(commands.Cog):
             await ctx.send(f"**{user.name}**'s balance is **${bal}**.")
         else:
             await ctx.send("This user doesn't have a restaurant")
-                       
+
     @commands.command(pass_context=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def donate(self, ctx, user: discord.User=None, count:int=None):
         posts_user = db.market.find_one({"owner": user.id})
-        posts = db.market.find_one({"owner": ctx.author.id})                          
+        posts = db.market.find_one({"owner": ctx.author.id})
 
         if ctx.author == user:
             await ctx.send("You cannot donate money to yourself!")
-                       
+
         elif not count or not user:
             await ctx.send("You must include both the user and the amount of money. Example: `r!donate @lukee#0420 25`")
 
@@ -80,12 +80,12 @@ class User(commands.Cog):
             await self.take_money(user=ctx.author.id, count=count)
             await ctx.send(f"{user.mention}, **{ctx.message.author}** has donated **${count}** to you.")
         else:
-            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
-                       
+            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
+
     @commands.command(pass_context=True, aliases=['Daily'])
     @commands.cooldown(1,86400, commands.BucketType.user)
     async def daily(self, ctx):
-        posts = db.market.find_one({"owner": ctx.author.id})                          
+        posts = db.market.find_one({"owner": ctx.author.id})
         if posts:
             ri = random.randint(1,11)
             rci = random.randint(150, 250)
@@ -101,8 +101,8 @@ class User(commands.Cog):
             embed.set_footer(text="Come back in 24 hours!")
             await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your daily chest and received...")
         else:
-            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
-            
+            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
+
     @commands.command(aliases=['Inventory', 'inv'])
     async def inventory(self, ctx, page=1):
         post = db.market.find_one({"owner": ctx.author.id})
@@ -122,7 +122,7 @@ class User(commands.Cog):
                 else:#if 'boost' in x:
                     pass#names.append(f"<:EarningsBoost:651474110022418433> {x['boost']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")
             if names:
-                embed.description = "\n".join(names)   
+                embed.description = "\n".join(names)
             else:
                 embed.description = "Nothing to see here."
             np = page+1
@@ -130,7 +130,50 @@ class User(commands.Cog):
             await ctx.send(embed=embed)
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
-                                 
+
+    @command.command(aliases=['Eat', 'Dine', 'dine'])
+    async def eat(self, ctx, *, restaurant):
+        post = db.market.find_one({"owner":ctx.author.id})
+        def nc(m):
+            return m.author == ctx.message.author
+        if '<@' in list(restaurant):
+            user = restaurant.replace('<@', '').replace('>', '')
+            res = db.market.find_one({"owner":user})
+        elif db.market.find_one({"name": restaurant}):
+            res = db.market.find_one({"name": restaurant})
+        else:
+            pass
+        if res:
+            items = []
+            for x in res['items']:
+                items.append(x['name'])
+            li = ','.join(items)
+            embed = discord.Embed(colour=0xa82021, description=f"Welcome to {res['name']}!\n\nWhich item would you like to order?\n\n**Menu**: {li}")
+            embed.set_footer('You have 90 seconds to respond with a menu item.')
+            cmsg = await ctx.send(embed=embed)
+            chi = await self.bot.wait_for('message', check=nc, timeout=90)
+            await cmsg.delete()
+            try:
+                await chi.delete()
+            except:
+                pass
+            newi = []
+            for x in res['items']:
+                if x['name'] == chi.content:
+                    newi.append(x)
+            if chi.content in newi:
+                item = newi[0]
+                if post['money'] =< item['price']:
+                    rxp = round(1.2*item['price'])
+                    await ctx.send(f"You've ordered a {item['name']} from {res['name']}. You've earned {rxp} EXP for dining in.")
+                    await self.take_money(ctx.author.id, item['price'])                
+                    await self.add_exp(ctx.author.id, rxp)
+                    await self.add_money(res['owner'], round(item['price']/1.8))
+                else:
+                    await ctx.send("You don't have enough money for this.")
+            else:
+                await ctx.send("That item is not on the menu.")
+
     @commands.command(aliases=['Use'])
     async def use(self, ctx, *, item):
         post = db.market.find_one({"owner": ctx.author.id})
@@ -154,7 +197,7 @@ class User(commands.Cog):
                 await ctx.send("Item used successfully.")
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
-                                 
+
     @commands.command(aliases=['Se2ll'])
     async def se2ll(self, ctx, *, item):
         post = db.market.find_one({"owner": ctx.author.id})
@@ -178,13 +221,13 @@ class User(commands.Cog):
                 await ctx.send("Item sold successfully for")
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
-            
+
     @commands.command(pass_context=True, aliases=['Votereward'])
     @commands.cooldown(1, 43200, commands.BucketType.user)
     async def votereward(self, ctx): #http://pixelartmaker.com/art/f697739d6ed8a4b.png
-        posts = db.market.find_one({"owner": ctx.author.id})                          
+        posts = db.market.find_one({"owner": ctx.author.id})
         rci = random.randint(50,100)
-        r = requests.get(f"https://discordbots.org/api/bots/648065060559781889/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()   
+        r = requests.get(f"https://discordbots.org/api/bots/648065060559781889/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()
         if posts:
             if r['voted'] == 1:
                 await self.add_money(user=ctx.author.id, count=rci)
@@ -196,8 +239,8 @@ class User(commands.Cog):
                 await ctx.send("You haven't upvoted! Upvote here: <https://top.gg/bot/648065060559781889/vote>")
                 self.bot.get_command("votereward").reset_cooldown(ctx)
         else:
-            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.") 
-                       
+            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
+
     @commands.command(aliases=['Work'])
     @commands.cooldown(1, 600, commands.BucketType.user)
     async def work(self, ctx):
@@ -247,7 +290,7 @@ class User(commands.Cog):
             await ctx.send(f"{ctx.author.mention}, {msg}")
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
-                   
+
 
     async def add_money(self, user:int, count):
         data = db.market.find_one({"owner": user})
@@ -260,7 +303,13 @@ class User(commands.Cog):
         bal = data['money']
         money = int(bal) - count
         db.market.update_one({"owner": user}, {"$set":{"money": money}})
-        
+
+    async def add_exp(self, user, count):
+        data = db.market.find_one({"owner": user})
+        bal = data['exp']
+        exp = int(bal) + count
+        db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
+
     async def add_sold(self, user, sold):
         item = sold
         data = db.market.find_one({"owner": user})
@@ -272,7 +321,8 @@ class User(commands.Cog):
         tc = int(bal) + 1
         db.market.update_one({"owner": user}, {"$pull":{"items": {"name": item, "price": it['price'], "stock": it['stock'], "sold": bal}}})
         db.market.update_one({"owner": user}, {"$push":{"items": {"name": item, "price": it['price'], "stock": it['stock'], "sold": tc}}})
-                    
+
 
 def User(bot):
     bot.add_cog(Shop(bot))
+
