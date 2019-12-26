@@ -162,7 +162,7 @@ class User(commands.Cog):
             for x in res['items']:
                 if x['name'] == chi.content:
                     newi.append(x)
-            if chi.content in newi:
+            if chi.content in items:
                 item = newi[0]
                 if post['money'] <= item['price']:
                     rxp = round(1.2*item['price'])
@@ -174,6 +174,8 @@ class User(commands.Cog):
                     await ctx.send("You don't have enough money for this.")
             else:
                 await ctx.send("That item is not on the menu.")
+        else:
+            await ctx.send("I couldn't find that restaurant. Try tagging the owner instead.")
 
     @commands.command(aliases=['Use'])
     async def use(self, ctx, *, item):
