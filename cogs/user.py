@@ -140,7 +140,7 @@ class User(commands.Cog):
         if not restaurant:
             await ctx.send("You didn't include a restaurant! Example: `r!dine @lukee#0420` or `r!dine McDonalds`.")
         if ctx.message.mentions:
-            if len(ctx.message.mentions) > 1:
+            if len(ctx.message.mentions) >= 2:
                 res = db.market.find_one({"owner":ctx.message.mentions[1].id})
             else:
                 res = db.market.find_one({"owner":ctx.message.mentions[0].id})
