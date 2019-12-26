@@ -104,7 +104,6 @@ class User(commands.Cog):
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
 
     @commands.command(aliases=['Inventory', 'inv'])
-    @commands.cooldown(1,30, commands.BucketType.user)
     async def inventory(self, ctx, page=1):
         post = db.market.find_one({"owner": ctx.author.id})
         if post:
@@ -133,18 +132,19 @@ class User(commands.Cog):
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
 
     @commands.command(aliases=['Eat', 'Dine', 'dine'])
+    @commands.cooldown(1,30, commands.BucketType.user)
     async def eat(self, ctx, *, restaurant):
         post = db.market.find_one({"owner":ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
-        if '<@' in list(restaurant):
-            user = restaurant.replace('<@', '').replace('>', '')
-            res = db.market.find_one({"owner":user})
+        if ctx.message.mentions:
+            res = db.market.find_one({"owner":ctx.message.mentions[0].id})
         elif db.market.find_one({"name": restaurant}):
             res = db.market.find_one({"name": restaurant})                                 
         else:
             res = None
         if res['owner'] == ctx.author.id:
+            await bot.get_command("eat").reset_cooldown(ctx)
             await ctx.send("You can't dine in at your own restaurant.")
         elif res:
             items = []
@@ -174,10 +174,13 @@ class User(commands.Cog):
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
                 else:
+                    await bot.get_command("eat").reset_cooldown(ctx)
                     await ctx.send("You don't have enough money for this.")
             else:
+                await bot.get_command("eat").reset_cooldown(ctx)
                 await ctx.send("That item is not on the menu.")
         else:
+            await bot.get_command("eat").reset_cooldown(ctx)
             await ctx.send("I couldn't find that restaurant. Try tagging the owner instead.")
 
     @commands.command(aliases=['Use'])
