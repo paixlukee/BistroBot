@@ -75,7 +75,7 @@ class Shop(commands.Cog):
         def nc(m):
             return m.author == ctx.message.author
         if ctx.message.mentions:
-            if len(ctx.message.mentions) > 1:
+            if len(ctx.message.mentions) >= 2:
                 restaurant = db.market.find_one({"owner":ctx.message.mentions[1].id})['name']
             else:
                 restaurant = db.market.find_one({"owner":ctx.message.mentions[0].id})['name']
