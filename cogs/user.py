@@ -163,7 +163,7 @@ class User(commands.Cog):
                     newi.append(x)
             if chi.content in newi:
                 item = newi[0]
-                if post['money'] =< item['price']:
+                if post['money'] <= item['price']:
                     rxp = round(1.2*item['price'])
                     await ctx.send(f"You've ordered a {item['name']} from {res['name']}. You've earned {rxp} EXP for dining in.")
                     await self.take_money(ctx.author.id, item['price'])                
