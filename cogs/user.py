@@ -133,10 +133,12 @@ class User(commands.Cog):
 
     @commands.command(aliases=['Eat', 'Dine', 'dine'])
     @commands.cooldown(1,30, commands.BucketType.user)
-    async def eat(self, ctx, *, restaurant):
+    async def eat(self, ctx, *, restaurant=None):
         post = db.market.find_one({"owner":ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
+        if not restaurant:
+            await ctx.send("You didn't include a restaurant! Example: `r!dine @lukee#0420` or `r!dine McDonalds`.")
         if ctx.message.mentions:
             res = db.market.find_one({"owner":ctx.message.mentions[0].id})
         elif db.market.find_one({"name": restaurant}):
@@ -144,7 +146,7 @@ class User(commands.Cog):
         else:
             res = None
         if res['owner'] == ctx.author.id:
-            await bot.get_command("eat").reset_cooldown(ctx)
+            await self.bot.get_command("eat").reset_cooldown(ctx)
             await ctx.send("You can't dine in at your own restaurant.")
         elif res:
             items = []
