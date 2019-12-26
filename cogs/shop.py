@@ -63,7 +63,7 @@ class Shop(commands.Cog):
             else:
                 if a.content.lower() == "i'm sure":
                     await ctx.send("Account deleted. Thanks for using Restaurant.")
-                    await db.market.delete_one({"owner": ctx.author.id})
+                    db.market.delete_one({"owner": ctx.author.id})
                 else:
                     await ctx.send('Deletion canceled.')
         else:
