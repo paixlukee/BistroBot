@@ -131,9 +131,9 @@ class User(commands.Cog):
         else:
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
 
-    @commands.command(aliases=['Eat', 'Dine', 'dine'])
+    @commands.command(aliases=['Dine', 'Eat', 'eat'])
     @commands.cooldown(1,30, commands.BucketType.user)
-    async def eat(self, ctx, *, restaurant=None):
+    async def dine(self, ctx, *, restaurant=None):
         post = db.market.find_one({"owner":ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
@@ -142,8 +142,10 @@ class User(commands.Cog):
         if ctx.message.mentions:
             if len(ctx.message.mentions) >= 2:
                 res = db.market.find_one({"owner":ctx.message.mentions[1].id})
+                print('a')
             else:
                 res = db.market.find_one({"owner":ctx.message.mentions[0].id})
+                print('b')
         elif db.market.find_one({"name": restaurant}):
             res = db.market.find_one({"name": restaurant})                                 
         else:
