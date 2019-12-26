@@ -20,7 +20,7 @@ import json
 import config
 
 
-bot = commands.Bot(command_prefix="r!")
+bot = commands.Bot(command_prefix=commands.when_mentioned_or("r!"))
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 async def status_task():
