@@ -324,5 +324,4 @@ class User(commands.Cog):
 
 
 def User(bot):
-    bot.add_cog(Shop(bot))
-
+    bot.add_cog(User(bot))
