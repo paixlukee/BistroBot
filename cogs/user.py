@@ -20,7 +20,7 @@ import food
 client = MongoClient(config.mongo_client)
 db = client['siri']
 
-class Shop(commands.Cog):
+class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
@@ -323,5 +323,5 @@ class Shop(commands.Cog):
         db.market.update_one({"owner": user}, {"$push":{"items": {"name": item, "price": it['price'], "stock": it['stock'], "sold": tc}}})
 
 
-def Shop(bot):
-    bot.add_cog(Shop(bot))
+def setup(bot):
+    bot.add_cog(User(bot))
