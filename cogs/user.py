@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 import datetime
-import requests
 import random
 import math
 import time
@@ -138,8 +137,8 @@ class User(commands.Cog):
         def nc(m):
             return m.author == ctx.message.author
         if not restaurant:
-            await ctx.send("You didn't include a restaurant! Example: `r!dine @lukee#0420` or `r!dine McDonalds`.")
             self.bot.get_command("dine").reset_cooldown(ctx)
+            await ctx.send("You didn't include a restaurant! Example: `r!dine @lukee#0420` or `r!dine McDonalds`.")
         if ctx.message.mentions:
             if len(ctx.message.mentions) >= 2:
                 res = db.market.find_one({"owner":ctx.message.mentions[0].id})
