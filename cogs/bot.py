@@ -155,7 +155,7 @@ class Botdev(commands.Cog):
             await ctx.send(f"<:RedTick:653464977788895252> You are on cooldown! Please wait **{hours} {round(minutes)}m {round(seconds)}s**.")
         else:
             print("\x1b[1;31;40m" + f"[{type(error).__name__}]: " + "\x1b[0m" + str(error))
-            ig = (commands.CommandNotFound, commands.CommandOnCooldown, discord.Forbidden, commands.NoPrivateMessage, commands.DisabledCommand, commands.CheckFailure, commands.UserInputError)
+            ig = (asyncio.futures.TimeoutError, commands.CommandNotFound, commands.CommandOnCooldown, discord.Forbidden, commands.NoPrivateMessage, commands.DisabledCommand, commands.CheckFailure, commands.UserInputError)
             error = getattr(error, 'original', error)
             if isinstance(error, ig):
                 return
