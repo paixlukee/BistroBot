@@ -149,7 +149,7 @@ class User(commands.Cog):
         else:
             res = None
         if res['owner'] == ctx.author.id:
-            await self.bot.get_command("dine").reset_cooldown(ctx)
+            self.bot.get_command("dine").reset_cooldown(ctx)
             await ctx.send("You can't dine in at your own restaurant.")
         elif res:
             items = []
@@ -179,13 +179,13 @@ class User(commands.Cog):
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
                 else:
-                    await self.bot.get_command("dine").reset_cooldown(ctx)
+                    self.bot.get_command("dine").reset_cooldown(ctx)
                     await ctx.send("You don't have enough money for this.")
             else:
-                await self.bot.get_command("dine").reset_cooldown(ctx)
+                self.bot.get_command("dine").reset_cooldown(ctx)
                 await ctx.send("That item is not on the menu.")
         else:
-            await self.bot.get_command("dine").reset_cooldown(ctx)
+            self.bot.get_command("dine").reset_cooldown(ctx)
             await ctx.send("I couldn't find that restaurant. Try tagging the owner instead.")
 
     @commands.command(aliases=['Use'])
