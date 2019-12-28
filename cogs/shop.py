@@ -69,6 +69,42 @@ class Shop(commands.Cog):
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
+    @commands.command(aliases=['restaurantfuse'])
+    async def fuse(self, ctx):
+        embed = discord.Embed(colour=0xa82021)
+        embed.set_author(name="Restaurant Fusing", icon_url=ctx.me.avatar_url_as(format='png'))
+        embed.set_image(url="https://i.ibb.co/yNMrNnq/restaurantfuse.png")
+        embed.description = "Want to have two food types in one restaurant?\n"\
+                            "Fusing your restaurant will mix foods from two different countries.\n\n"\
+                            "To fuse your restaurant, you need to have **2,000 or more experience**. It costs **$1,000** to fuse.\n\n"\
+                            "Do `r!rfuse` to fuse your restaurant."
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def rfuse(self, ctx):
+        def nc(m):
+            return m.author == ctx.message.author
+        post = db.market.find_one({"owner": ctx.author.id})
+        if not post:
+            await ctx.send("You don't have a restaurant! Create one with `r!restaurant`.")
+        elif post['exp'] <= 2000:
+            await ctx.send("You don't have enough experience to fuse!")
+        elif post['money'] <= 1000:
+            await ctx.send("You don't have enough money to fuse!")
+        else:
+            embed = discord.Embed(colour=0xa82021, description="What country would you like to fuse with?")
+            embed.set_footer(text="You have 90 seconds to answer.")
+            embed.set_author(name="Restaurant Fusing", icon_url=ctx.me.avatar_url_as(format='png'))
+            choice = await self.bot.wait_for('message', check=nc, timeout=90)
+            if not choice.content.upper() in self.countries:
+                embed = discord.Embed(colour=0xa82021, title="Fusing failed.", description="That is not a vaild country.")
+            else:
+                pass
+
+
+
+
+
     @commands.command(aliases=['Menu'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def menu(self, ctx, *, restaurant=None):
@@ -296,7 +332,7 @@ class Shop(commands.Cog):
         items = []
         country = post['country']
         for x in post['items']:
-            items.append(x['name'])                              
+            items.append(x['name'])
         for x in extra.extra[country]:
             if x['name'] in items:
                 pass
@@ -572,7 +608,7 @@ class Shop(commands.Cog):
             embed.set_footer(text=f"Random Restaurant | Last Stock: {post['laststock']}")
             msg = await ctx.send(embed=embed)
             await msg.add_reaction('❤')
-                             
+
     @commands.command(aliases=['Slots', 'slot'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def slots(self, ctx, bet:int = None):
@@ -594,12 +630,12 @@ class Shop(commands.Cog):
             f = random.choice(emojis)
             g = random.choice(emojis)
             h = random.choice(emojis)
-            i = random.choice(emojis)                
+            i = random.choice(emojis)
             if a == b == c:
                 if a == ':ramen:':
                     won = bet*6
                     slot1 = discord.Embed(colour=0xa82021, description=f"JACKPOT! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
-                else: 
+                else:
                     won = bet*3
                     slot1 = discord.Embed(colour=0xa82021, description=f"Amazing! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                 await ctx.send(embed=slot1, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
@@ -615,7 +651,7 @@ class Shop(commands.Cog):
                     slot2 = discord.Embed(colour=0xa82021, description=f"Fruit Bonanza! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                     await ctx.send(embed=slot2, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                     await self.add_money(user=ctx.author.id, count=won)
-                else:                    
+                else:
                     slot3 = discord.Embed(colour=0xa82021, description=f"Aw! You didn't win anything.\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                     await ctx.send(embed=slot3, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                     await self.take_money(user=ctx.author.id, count=bet)
