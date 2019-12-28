@@ -102,9 +102,6 @@ class Shop(commands.Cog):
                 pass
 
 
-
-
-
     @commands.command(aliases=['Menu'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def menu(self, ctx, *, restaurant=None):
@@ -786,7 +783,7 @@ class Shop(commands.Cog):
                 else:
                     pass
                 if post['colour']:
-                    embed.colour = post['colour']
+                    embed.colour = post['colour'].replace(0xffffff, 0xe8e8e8)
                 else:
                     pass
             except:

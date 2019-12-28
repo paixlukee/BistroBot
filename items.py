@@ -22,7 +22,7 @@ colours = {
     {"colour": "Red", "hex": 0xff0000},
     {"colour": "Green", "hex": 0x00ff00},
     {"colour": "Blue", "hex": 0x0000ff},
-    {"colour": "White", "hex": 0xffffff}
+    {"colour": "White", "hex": 0xe8e8e8}
     ],
 "uncommon": [
     {"colour": "Orange", "hex": 0xffa500},
