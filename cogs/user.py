@@ -15,6 +15,7 @@ from pymongo import MongoClient
 import pymongo
 import string
 import food
+import requests
 
 client = MongoClient(config.mongo_client)
 db = client['siri']
@@ -145,7 +146,7 @@ class User(commands.Cog):
             else:
                 res = db.market.find_one({"owner":ctx.message.mentions[0].id})
         elif db.market.find_one({"name": restaurant}):
-            res = db.market.find_one({"name": restaurant})                                 
+            res = db.market.find_one({"name": restaurant})
         else:
             res = None
         if res['owner'] == ctx.author.id:
@@ -174,7 +175,7 @@ class User(commands.Cog):
                 if post['money'] >= item['price']:
                     rxp = round(1.2*item['price'])
                     await ctx.send(f"You've ordered a {item['name']} from {res['name']} for ${item['price']}. You've earned {rxp} EXP for dining in.")
-                    await self.take_money(ctx.author.id, item['price'])                
+                    await self.take_money(ctx.author.id, item['price'])
                     await self.add_exp(ctx.author.id, rxp)
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
