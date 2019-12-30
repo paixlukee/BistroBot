@@ -41,7 +41,7 @@ class Help(commands.Cog):
         elif page == 1:
             embed = discord.Embed(colour=0xa82021, description="The main restaurant commands.")
             embed.add_field(name=f"{self.pr}start", value="Create your restaurant")
-            embed.add_field(name=f"{self.pr}restaurant [@user]", value="View your own restaurant")
+            embed.add_field(name=f"{self.pr}restaurant [restaurant]", value="View your own restaurant")
             embed.add_field(name=f"{self.pr}rate <@user>", value="Rate a restaurant")
             embed.add_field(name=f"{self.pr}menu <restaurant>", value="View a restaurant menu")
             embed.add_field(name=f"{self.pr}set", value="Configurate your restaurant settings")
