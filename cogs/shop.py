@@ -746,7 +746,7 @@ class Shop(commands.Cog):
             if len(ctx.message.mentions) >= 2:
                 post = db.market.find_one({"owner":ctx.message.mentions[1].id})
             else:
-                post = db.market.find_one({"owner":restaurant})
+                post = db.market.find_one({"owner":ctx.message.mentions[0].id})
         else:
             post = db.market.find_one({"owner":restaurant})
         if not post:
