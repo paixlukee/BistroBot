@@ -259,6 +259,7 @@ class User(commands.Cog):
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
 
     @commands.command(aliases=['Trivia'])
+    @commands.cooldown(1, 30, commands.BucketType.user)
     async def trivia(self, ctx):
         embed = discord.Embed(colour=0xa82021)
         question = rnd(trivia.questions)
