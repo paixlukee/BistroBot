@@ -276,7 +276,7 @@ class User(commands.Cog):
                 choices.append({"c":question['answers'][2], "letter": "c"})
             else:
                 choices.append({"d":question['answers'][3], "letter": "d"})
-        answers = "\n".join([f":regional_indicator_{x['letter']}:" for x in choices])
+        answers = "\n".join([f":regional_indicator_{x['letter']}: {x[x['letter']}" for x in choices])
         embed.description = question['question'] + "\n\n" + answers
         embed.set_footer(text="You have 90 seconds to respond with the correct letter.")
         await ctx.send(embed=embed)
@@ -286,7 +286,7 @@ class User(commands.Cog):
             if x[letter] == question['correct']:
                 cl = x['letter']
         b = time.perf_counter()
-        msg = await bot.wait_for('message', check=lambda x: x.author == ctx.author)
+        msg = await self.bot.wait_for('message', check=lambda x: x.author == ctx.author)
         a = time.perf_counter()
         tt = a-b
         if msg.content.lower() == cl or msg.content.lower() == question['correct'].lower():
