@@ -748,7 +748,7 @@ class Shop(commands.Cog):
             else:
                 post = db.market.find_one({"owner":ctx.message.mentions[0].id})
         else:
-            post = db.market.find_one({"owner":restaurant})
+            post = db.market.find_one({"name":restaurant})
         if not post:
             await ctx.send('I couldn\'t find that restaurant in our database.')
         else:
