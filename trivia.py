@@ -11,5 +11,11 @@ questions = [
 {"question": "In movies and literature, which herb is often used as a weapon to kill vampires?", "answers": ["Thymes", "Garlic", "Chamomile", "Rosemary"], "correct":"Garlic"},
 {"question": "In which country did tacos originate?", "answers": ["Spain", "Mexico", "Ecuador", "United States"], "correct":"Mexico"},
 {"question": "Which fruit was considered poisonous in Medieval times?", "answers": ["Raspberry", "Cherry", "Watermelon", "Tomato"], "correct":"Tomato"},
-{"question": "In which country did paella originate?", "answers": ["Spain", "Mexico", "Ecuador", "United States"], "correct":"Spain"}
+{"question": "In which country did paella originate?", "answers": ["Spain", "Mexico", "Ecuador", "United States"], "correct":"Spain"},
+{"question": "Where did the pineapple plant originate?", "answers": ["Hawaii", "South America", "Mexico", "Asia"], "correct":"South America"},
+{"question": "People used to salt meat taken on ships so it would stay good longer.", "answers": ["True", "False"], "correct":"True"},
+{"question": "What is cinnamon made out of?", "answers": ["Bark of a tree", "Leaves", "Cinnmaum Plant", "Salt and Ginger"], "correct":"Bark off a tree"},
+{"question": "Where did Iced Tea Originate?", "answers": ["United Kingdom", "China", "Japan", "United States"], "correct":"United States"},
+{"question": "In ancient China, which meat was reserved only for the Emperor?", "answers": ["Chicken", "Pork", "Beef", "Mutton"], "correct":"Pork"},
+{"question": "In which country did sushi originate?", "answers": ["China", "Japan", "France", "United States"], "correct":"Japan"}
 ]
