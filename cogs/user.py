@@ -280,7 +280,7 @@ class User(commands.Cog):
         for x in choices:
             letter = x['letter']
             opt.append(f":regional_indicator_{x['letter']}: {x[letter]}")
-        answers = "\n".join(optimize)
+        answers = "\n".join(opt)
         embed.description = question['question'] + "\n\n" + answers
         embed.set_footer(text="You have 90 seconds to respond with the correct letter.")
         await ctx.send(embed=embed)
