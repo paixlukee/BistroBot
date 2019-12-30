@@ -261,52 +261,56 @@ class User(commands.Cog):
     @commands.command(aliases=['Trivia'])
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def trivia(self, ctx):
-        embed = discord.Embed(colour=0xa82021)
-        question = rnd(trivia.questions)
-        letters = ["a", "b", "c", "d"]
-        cn = 0
-        desc = ""
-        choices = []
-        for x in question['answers']:
-            cn += 1
-            if cn == 1:
-                choices.append({"a":question['answers'][0], "letter": "a"})
-            elif cn == 2:
-                choices.append({"b":question['answers'][1], "letter": "b"})
-            elif cn == 3:
-                choices.append({"c":question['answers'][2], "letter": "c"})
-            else:
-                choices.append({"d":question['answers'][3], "letter": "d"})
-        opt = []
-        for x in choices:
-            letter = x['letter']
-            opt.append(f":regional_indicator_{x['letter']}: {x[letter]}")
-        answers = "\n".join(opt)
-        embed.description = question['question'] + "\n\n" + answers
-        embed.set_footer(text="You have 90 seconds to respond with the correct letter.")
-        await ctx.send(embed=embed)
-        cl = None
-        for x in choices:
-            letter = x['letter']
-            if x[letter] == question['correct']:
-                cl = x['letter']
-        b = time.perf_counter()
-        msg = await self.bot.wait_for('message', check=lambda x: x.author == ctx.author)
-        a = time.perf_counter()
-        tt = a-b
-        if msg.content.lower() == cl or msg.content.lower() == question['correct'].lower():
-            if tt <= 5:
-                await ctx.send("You've answered correctly in under 5 seconds. You've been awarded $10.")
-                await self.add_money(ctx.author.id, 10)
-            elif tt <= 10:
-                await ctx.send("You've answered correctly in under 10 seconds. You've been awarded $8.")
-                await self.add_money(ctx.author.id, 8)
-            else:
-                await ctx.send("You've answered correctly. You've been awarded $5.")
-                await self.add_money(ctx.author.id, 5)
+        post = db.market.find_one({"owner": ctx.author.id})
+        if not post:
+            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
         else:
-            await ctx.send("You've answered incorrectly. You've been awarded $2 for your efforts.")
-            await self.add_money(ctx.author.id, 2)
+            embed = discord.Embed(colour=0xa82021)
+            question = rnd(trivia.questions)
+            letters = ["a", "b", "c", "d"]
+            cn = 0
+            desc = ""
+            choices = []
+            for x in question['answers']:
+                cn += 1
+                if cn == 1:
+                    choices.append({"a":question['answers'][0], "letter": "a"})
+                elif cn == 2:
+                    choices.append({"b":question['answers'][1], "letter": "b"})
+                elif cn == 3:
+                    choices.append({"c":question['answers'][2], "letter": "c"})
+                else:
+                    choices.append({"d":question['answers'][3], "letter": "d"})
+            opt = []
+            for x in choices:
+                letter = x['letter']
+                opt.append(f":regional_indicator_{x['letter']}: {x[letter]}")
+            answers = "\n".join(opt)
+            embed.description = question['question'] + "\n\n" + answers
+            embed.set_footer(text="You have 90 seconds to respond with the correct letter.")
+            await ctx.send(embed=embed)
+            cl = None
+            for x in choices:
+                letter = x['letter']
+                if x[letter] == question['correct']:
+                    cl = x['letter']
+            b = time.perf_counter()
+            msg = await self.bot.wait_for('message', check=lambda x: x.author == ctx.author)
+            a = time.perf_counter()
+            tt = a-b
+            if msg.content.lower() == cl or msg.content.lower() == question['correct'].lower():
+                if tt <= 5:
+                    await ctx.send("You've answered correctly in under 5 seconds. You've been awarded $10.")
+                    await self.add_money(ctx.author.id, 10)
+                elif tt <= 10:
+                    await ctx.send("You've answered correctly in under 10 seconds. You've been awarded $8.")
+                    await self.add_money(ctx.author.id, 8)
+                else:
+                    await ctx.send("You've answered correctly. You've been awarded $5.")
+                    await self.add_money(ctx.author.id, 5)
+            else:
+                await ctx.send("You've answered incorrectly. You've been awarded $2 for your efforts.")
+                await self.add_money(ctx.author.id, 2)
 
 
 
@@ -314,7 +318,10 @@ class User(commands.Cog):
     @commands.cooldown(1, 60, commands.BucketType.user)
     async def beg(self, ctx):
         numb = random.randint(1,5)
-        if numb == 1 or numb == 2:
+        post = db.market.find_one({"owner": ctx.author.id})
+        if not post:
+            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+        elif numb == 1 or numb == 2:
             await ctx.send("The Bank of Restaria denied your request.")
         else:
             grant = numb*5
