@@ -202,10 +202,14 @@ class User(commands.Cog):
                     if x['colour']['colour'].lower() == item:
                         await asyncio.sleep(1)
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"colour": x['colour']['hex']}})
+                    else:
+                        w = False
                 elif 'banner' in x:
                     if x['banner']['name'].lower() == item:
                         await asyncio.sleep(1)
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": x['banner']['url']}})
+                    else:
+                        w = False
                 else:#if 'boost' in x:
                     w = False#names.append()
             if not w:
