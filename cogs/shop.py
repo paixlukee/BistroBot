@@ -786,7 +786,7 @@ class Shop(commands.Cog):
                     #postc = int(post['colour'])
                     #colour = postc.replace(16777215, 12763842)
                     #print(colour)
-                    embed.colour = colour
+                    embed.colour = post['colour']
                 else:
                     pass
             except:
