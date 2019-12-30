@@ -27,7 +27,7 @@ class Help(commands.Cog):
         except:
             pass
         pages = [1,2,3,4]
-        if not page or not page in pages: 
+        if not page or not page in pages:
             embed = discord.Embed(colour=0xa82021, description="Welcome! Here is a list of commands that you are able to use.")
             embed.add_field(name="Page #1 | Restaurant", value="The main restaurant commands.")
             embed.add_field(name="Page #2 | User", value="Commands that interact with regular users.")
@@ -47,9 +47,11 @@ class Help(commands.Cog):
             embed.add_field(name=f"{self.pr}set", value="Configurate your restaurant settings")
             embed.add_field(name=f"{self.pr}daily", value="Receive your daily cash")
             embed.add_field(name=f"{self.pr}work", value="Work at your restaurant and receive money")
+            embed.add_field(name=f"{self.pr}beg", value="Beg the bank to give you a grant")
             embed.add_field(name=f"{self.pr}clean", value="Clean your restaurant and receive EXP")
             embed.add_field(name=f"{self.pr}cook", value="Cook an item and receive EXP")
             embed.add_field(name=f"{self.pr}slots <bet>", value="Use your money on a slot machine.")
+            embed.add_field(name=f"{self.pr}trivia", value="Play trivia and earn money.")
             embed.add_field(name=f"{self.pr}leaderboard", value="View the global restaurant leaderboard")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 1")
             embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")

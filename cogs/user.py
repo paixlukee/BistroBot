@@ -16,6 +16,7 @@ import pymongo
 import string
 import food
 import requests
+import trivia
 
 client = MongoClient(config.mongo_client)
 db = client['siri']
@@ -257,8 +258,66 @@ class User(commands.Cog):
         else:
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
 
+    @commands.command(aliases=['Trivia'])
+    async def trivia(self, ctx):
+        embed = discord.Embed(colour=0xa82021)
+        question = rnd(trivia.questions)
+        letters = ["a", "b", "c", "d"]
+        cn = 0
+        desc = ""
+        choices = []
+        for x in question['answers']:
+            cn += 1
+            if cn == 1:
+                choices.append({"a":question['answers'][0], "letter": "a"})
+            elif cn == 2:
+                choices.append({"b":question['answers'][1], "letter": "b"})
+            elif cn == 3:
+                choices.append({"c":question['answers'][2], "letter": "c"})
+            else:
+                choices.append({"d":question['answers'][3], "letter": "d"})
+        answers = "\n".join([f":regional_indicator_{x['letter']}:" for x in choices])
+        embed.description = question['question'] + "\n\n" + answers
+        embed.set_footer(text="You have 90 seconds to respond with the correct letter.")
+        await ctx.send(embed=embed)
+        cl = None
+        for x in choices:
+            letter = x['letter']
+            if x[letter] == question['correct']:
+                cl = x['letter']
+        b = time.perf_counter()
+        msg = await bot.wait_for('message', check=lambda x: x.author == ctx.author)
+        a = time.perf_counter()
+        tt = a-b
+        if msg.content.lower() == cl or msg.content.lower() == question['correct'].lower():
+            if tt <= 5:
+                await ctx.send("You've answered correctly in under 5 seconds. You've been awarded $10.")
+                await self.add_money(ctx.author.id, 10)
+            elif tt <= 10:
+                await ctx.send("You've answered correctly in under 10 seconds. You've been awarded $8.")
+                await self.add_money(ctx.author.id, 8)
+            else:
+                await ctx.send("You've answered correctly. You've been awarded $5.")
+                await self.add_money(ctx.author.id, 5)
+        else:
+            await ctx.send("You've answered incorrectly. You've been awarded $2 for your efforts.")
+            await self.add_money(ctx.author.id, 2)
+
+
+
+    @commands.command(aliases=['Beg'])
+    @commands.cooldown(1, 60, commands.BucketType.user)
+    async def beg(self, ctx):
+        numb = random.randint(1,5)
+        if numb == 1 or numb == 2:
+            await ctx.send("The Bank of Restaria denied your request.")
+        else:
+            grant = numb*5
+            await ctx.send(f"The Bank of Restaria granted you ${grant} for your restaurant.")
+            await self.add_money(ctx.author.id, grant)
+
     @commands.command(aliases=['Work'])
-    @commands.cooldown(1, 600, commands.BucketType.user)
+    @commands.cooldown(1, 480, commands.BucketType.user)
     async def work(self, ctx):
         posts = db.utility.find_one({"utility": "res"})
         user = db.market.find_one({"owner": ctx.author.id})

@@ -617,7 +617,7 @@ class Shop(commands.Cog):
         elif int(bet) < 25:
             await ctx.send('Your bet must be above $25.')
         else:
-            emojis = [':ramen:', ':cherries:', ':grapes:', ':banana:', ':poultry_leg:', ':pizza:', ':taco:', ':hamburger:']
+            emojis = [':ramen:', ':cherries:', ':grapes:', ':banana:', ':poultry_leg:', ':pizza:', ':taco:', ':hamburger:', ':hotdog:']
             fruits = [':cherries:', ':grapes:', ':banana:']
             a = random.choice(emojis)
             b = random.choice(emojis)
