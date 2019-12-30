@@ -197,21 +197,28 @@ class User(commands.Cog):
         item = item.lower().replace("(uncommon", "").replace("(common)", "").replace("uncommon", "").replace("common", "")
         w = True
         if post:
+            w = []
             for x in post['inventory']:
                 if 'colour' in x:
-                    if x['colour']['colour'].lower() == item:
+                    if w:
+                        pass
+                    elif x['colour']['colour'].lower() == item.lower():
                         await asyncio.sleep(1)
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"colour": x['colour']['hex']}})
+                        w.append(1)
                     else:
-                        w = False
+                        pass
                 elif 'banner' in x:
-                    if x['banner']['name'].lower() == item:
+                    if w:
+                        pass
+                    elif x['banner']['name'].lower() == item.lower():
                         await asyncio.sleep(1)
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": x['banner']['url']}})
+                        w.append(1)
                     else:
-                        w = False
+                        pass
                 else:#if 'boost' in x:
-                    w = False#names.append()
+                    pass#names.append()
             if not w:
                 await ctx.send("I could not find that in your inventory. Please only include the item name.")
             else:
