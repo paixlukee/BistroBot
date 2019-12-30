@@ -739,6 +739,7 @@ class Shop(commands.Cog):
     @commands.command(aliases=['Restaurant', 'r'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def restaurant(self, ctx, *, restaurant=None):
+        post = None
         if not restaurant:
             post = db.market.find_one({"owner":ctx.author.id})
         elif ctx.message.mentions:
@@ -746,6 +747,8 @@ class Shop(commands.Cog):
                 post = db.market.find_one({"owner":ctx.message.mentions[1].id})
             else:
                 post = db.market.find_one({"owner":restaurant})
+        else:
+            post = db.market.find_one({"owner":restaurant})
         if not post:
             await ctx.send('I couldn\'t find that restaurant in our database.')
         else:
