@@ -843,7 +843,7 @@ class Shop(commands.Cog):
                     failed.set_author(name="Creation Failed.")
                     msg1.edit(embed=failed)
                 else:
-                    embed = discord.Embed(colour=0xa82021, description='Great! What would you like ask your description? It must be 130 characters or less.')
+                    embed = discord.Embed(colour=0xa82021, description='Great! What would you like as your description? It must be 130 characters or less.')
                     embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                     embed.set_footer(text="You have 90 seconds to reply")
                     await msg1.edit(embed=embed)
