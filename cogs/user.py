@@ -276,7 +276,11 @@ class User(commands.Cog):
                 choices.append({"c":question['answers'][2], "letter": "c"})
             else:
                 choices.append({"d":question['answers'][3], "letter": "d"})
-        answers = "\n".join([f":regional_indicator_{x['letter']}: {x[x['letter']}" for x in choices])
+        opt = []
+        for x in choices:
+            letter = x['letter']
+            opt.append(f":regional_indicator_{x['letter']}: {x[letter]}")
+        answers = "\n".join(optimize)
         embed.description = question['question'] + "\n\n" + answers
         embed.set_footer(text="You have 90 seconds to respond with the correct letter.")
         await ctx.send(embed=embed)
