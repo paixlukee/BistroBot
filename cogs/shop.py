@@ -669,7 +669,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 150, commands.BucketType.user)
     async def cook(self, ctx):
         def nc(m):
-            return m.author == ctx.author and m.channel == ctx.channel and m.content != "r!menu"
+            return m.author == ctx.author and m.channel == ctx.channel and not m.content.startswith("r!menu")
         post = db.market.find_one({"owner": ctx.author.id})
         #words = ['potato', 'bun', 'bread', 'cheese', 'tomato', 'olive', 'fish', 'seafood', 'chicken', 'lettuce', 'rice', 'ham', 'turkey', 'soup', 'meat', 'fruit', 'noodles', 'pie', 'water', 'milk', 'cake', 'juice', 'cookie', 'pepper']
         #to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
