@@ -741,6 +741,7 @@ class Shop(commands.Cog):
     async def restaurant(self, ctx, *, restaurant=None):
         if not restaurant:
             await ctx.send("You must include the restaurant name. Example: `r!menu lukee#0420` or `r!menu McDonalds`")
+            post = "T"
         elif ctx.message.mentions:
             if len(ctx.message.mentions) >= 2:
                 post = db.market.find_one({"owner":ctx.message.mentions[1].id})
