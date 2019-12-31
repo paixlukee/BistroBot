@@ -368,7 +368,7 @@ class User(commands.Cog):
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
                 await self.add_sold(user=ctx.author.id, sold=r2['name'])
                 await self.add_sold(user=ctx.author.id, sold=r3['name'])
-            elif 'ITEM4' in rm:
+            else:
                 count = r1['price']+r2['price']+r3['price']+r4['price']
                 msg = str(rm).replace("ITEM4", r4['name']).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
                 await self.add_money(user=ctx.author.id, count=count)
@@ -376,13 +376,13 @@ class User(commands.Cog):
                 await self.add_sold(user=ctx.author.id, sold=r2['name'])
                 await self.add_sold(user=ctx.author.id, sold=r3['name'])
                 await self.add_sold(user=ctx.author.id, sold=r4['name'])
-            if 'TIP' in rm and not 'TIP2' in rm:
+            if not 'TIP2' in rm and 'TIP' in rm:
                 tpc = random.randint(2,4)
                 msg = msg.replace("TIP", "$" + str(tpc))
                 await self.add_money(user=ctx.author.id, count=tpc)
-            else:
+            elif not 'TIP' in rm and 'TIP2' in rm:
                 tpct = random.randint(8,10)
-                msg = msg.replace("TIP", "$" + str(tpct))
+                msg = msg.replace("TIP2", "$" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct)
 
             await ctx.send(f"{ctx.author.mention}, {msg}")
