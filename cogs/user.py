@@ -368,7 +368,7 @@ class User(commands.Cog):
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
                 await self.add_sold(user=ctx.author.id, sold=r2['name'])
                 await self.add_sold(user=ctx.author.id, sold=r3['name'])
-            else:
+            elif 'ITEM4' in rm:
                 count = r1['price']+r2['price']+r3['price']+r4['price']
                 msg = str(rm).replace("ITEM4", r4['name']).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
                 await self.add_money(user=ctx.author.id, count=count)
