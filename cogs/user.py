@@ -376,11 +376,11 @@ class User(commands.Cog):
                 await self.add_sold(user=ctx.author.id, sold=r2['name'])
                 await self.add_sold(user=ctx.author.id, sold=r3['name'])
                 await self.add_sold(user=ctx.author.id, sold=r4['name'])
-            if not 'TIP2' in rm and 'TIP' in rm:
+            if 'TIP' in rm:
                 tpc = random.randint(2,4)
                 msg = msg.replace("TIP", "$" + str(tpc))
                 await self.add_money(user=ctx.author.id, count=tpc)
-            elif not 'TIP' in rm and 'TIP2' in rm:
+            elif 'TIP2' in rm:
                 tpct = random.randint(8,10)
                 msg = msg.replace("TIP2", "$" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct)
