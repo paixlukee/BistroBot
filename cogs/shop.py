@@ -808,12 +808,12 @@ class Shop(commands.Cog):
                 badge = ""
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(description=post['description'])
-            embed.set_author(icon_url=self.flags[country], name=post['name'] + badge)
+            embed.set_author(icon_url=self.flags[country], name=post['name'])
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
-            embed.add_field(name=":name_badge: Owner", value=str(self.bot.get_user(post['owner'])).replace("None", "Unknown"))
+            embed.add_field(name=":name_badge: Owner", value=str(self.bot.get_user(post['owner'])).replace("None", "Unknown") + badge)
             try:
                 if post['banner']:
                     embed.set_image(url=post['banner'])
