@@ -354,6 +354,31 @@ class User(commands.Cog):
             await ctx.send(f"The Bank of Restaria granted you ${grant} for your restaurant.")
             await self.add_money(ctx.author.id, grant)
 
+    @commands.command(aliases=['Donate'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def donate(self, ctx):
+        embed = discord.Embed(colour=0xa82021, title="Donate", description="Want to support restaurant AND receive awesome rewards? To donate now or view information on rewards, click [here](https://www.patreon.com/join/paixlukee).")
+        await ctx.send(embed=embed)
+
+    @commands.command(pass_context=True, aliases=['Weekly'])
+    @commands.cooldown(1,604800, commands.BucketType.user)
+    async def weekly(self, ctx):
+        posts = db.market.find_one({"owner": ctx.author.id})
+        patrons = db.utility.find_one({"utility": "patrons"})
+        if posts:
+            rci = random.randint(1000, 1700)
+            if ctx.author.id in patrons['silver'] or ctx.author.id in patrons['gold'] or ctx.author.id in patrons['diamond']:
+                chest = [f'{rci} Cash']
+                await self.add_money(user=ctx.author.id, count=rci)
+                embed = discord.Embed(colour=0xa82021, description="\n".join(chest) + "\n\nP.S. Thanks for supporting me!")
+                embed.set_thumbnail(url="http://pixelartmaker.com/art/134b1292dc645e7.png")
+                embed.set_footer(text="Come back in 1 week!")
+                await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your patron weekly chest and received...")
+            else:
+                await ctx.send("You must be a silver+ patron to use this command! For more information on restaurant patronage, do `r!donate`.")
+        else:
+            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
+
     @commands.command(aliases=['Work'])
     @commands.cooldown(1, 480, commands.BucketType.user)
     async def work(self, ctx):
