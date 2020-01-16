@@ -358,6 +358,7 @@ class User(commands.Cog):
     @commands.cooldown(1, 480, commands.BucketType.user)
     async def work(self, ctx):
         posts = db.utility.find_one({"utility": "res"})
+        patrons = db.utility.update_one({"utility": "patrons"})
         user = db.market.find_one({"owner": ctx.author.id})
         now = datetime.datetime.now()
         db.market.update_one({"owner": ctx.author.id}, {"$set":{"laststock": now.strftime("%d/%m/%Y %H:%M")}})
