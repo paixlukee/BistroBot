@@ -675,12 +675,11 @@ class Shop(commands.Cog):
         #to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
         if post:
             bar = "`||`" #🟨🟧🟥⬛
+
             desc = f"Say `stop` when the bar gets full. Don't let it get burnt!\n\n{bar}"
             embed = discord.Embed(colour=0xa82021, description=desc)
             await ctx.send(embed=embed)
-            b = time.perf_counter()
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
-            a = time.perf_counter()
             tt = a-b
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
@@ -796,9 +795,21 @@ class Shop(commands.Cog):
                 stars = "<:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368><:FilledStar:651156130424291368>"
             country = str(post['country']).lower()
             ldi = post['items']
+            patrons = db.utility.find_one({"utility": "patrons"})
+            user = self.bot.get_user(post['owner'])
+            if user.id in patrons['bronze']:
+                badge = " <:BronzeBadge:667504528006053947>"
+            elif user.id in patrons['silver']:
+                badge = " <:SilverBadge:667504497051959306>"
+            elif user.id in patrons['gold']:
+                badge = " <:GoldBadge:667496167281655818>"
+            elif user.id in patrons['diamond']:
+                badge = " <:DiamondBadge:667504465397416009>"
+            else:
+                badge = ""
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(description=post['description'])
-            embed.set_author(icon_url=self.flags[country], name=post['name'])
+            embed.set_author(icon_url=self.flags[country], name=post['name'] + badge)
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
