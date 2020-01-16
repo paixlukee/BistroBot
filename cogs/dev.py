@@ -107,7 +107,7 @@ class Dev(commands.Cog):
         embed.add_field(name="Bronze", value=", ".join(bronze))
         embed.add_field(name="Silver", value=", ".join(silver))
         embed.add_field(name="Gold", value=", ".join(gold))
-        embed.add_field(name="Diamond", value=", ".join(Diamond))
+        embed.add_field(name="Diamond", value=", ".join(diamond))
         await ctx.send(embed=embed)
 
     @commands.command(aliases=['debug', 'ev'])
