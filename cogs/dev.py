@@ -86,7 +86,7 @@ class Dev(commands.Cog):
 
     @commands.command(aliases=['ptrs'])
     async def patrons(self, ctx):
-        patrons = db.utility.find_one({"utility": "patrons"}})
+        patrons = db.utility.find_one({"utility": "patrons"})
         bronze = []
         silver = []
         gold = []
