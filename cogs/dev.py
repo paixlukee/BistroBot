@@ -104,10 +104,16 @@ class Dev(commands.Cog):
             user = self.bot.get_user(x)
             diamond.append(f"{user} - {user.id}")
         embed = discord.Embed(description="Listed are users patronising:")
-        embed.add_field(name="Bronze", value=", ".join(bronze))
-        embed.add_field(name="Silver", value=", ".join(silver))
-        embed.add_field(name="Gold", value=", ".join(gold))
-        embed.add_field(name="Diamond", value=", ".join(diamond))
+        if bronze:
+            embed.add_field(name="Bronze", value=", ".join(bronze))
+        if silver:
+            embed.add_field(name="Silver", value=", ".join(silver))
+        if gold:
+            embed.add_field(name="Gold", value=", ".join(gold))
+        if diamond:
+            embed.add_field(name="Diamond", value=", ".join(diamond))
+        else:
+            pass
         await ctx.send(embed=embed)
 
     @commands.command(aliases=['debug', 'ev'])
