@@ -376,7 +376,7 @@ class User(commands.Cog):
                 ml = 1.7
                 ml = round(rci)
             else:
-                pass
+                ml = 1
             country = str(user['country'])
             rm = rnd(posts['resp'])['text']
             count = 0
