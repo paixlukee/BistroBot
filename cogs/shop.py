@@ -796,14 +796,13 @@ class Shop(commands.Cog):
             country = str(post['country']).lower()
             ldi = post['items']
             patrons = db.utility.find_one({"utility": "patrons"})
-            user = self.bot.get_user(post['owner'])
-            if user.id in patrons['bronze']:
+            if post['owner'] in patrons['bronze']:
                 badge = " <:BronzeBadge:667504528006053947>"
-            elif user.id in patrons['silver']:
+            elif post['owner'] in patrons['silver']:
                 badge = " <:SilverBadge:667504497051959306>"
-            elif user.id in patrons['gold']:
+            elif post['owner'] in patrons['gold']:
                 badge = " <:GoldBadge:667496167281655818>"
-            elif user.id in patrons['diamond']:
+            elif post['owner'] in patrons['diamond']:
                 badge = " <:DiamondBadge:667504465397416009>"
             else:
                 badge = ""
