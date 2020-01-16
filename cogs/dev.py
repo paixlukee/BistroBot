@@ -68,6 +68,12 @@ class Dev(commands.Cog):
     async def patron(self, ctx, user_id:int, tier='BRONZE'):
         if ctx.author.id == 396153668820402197:
             db.utility.update_one({"utility": "patrons"}, {"$push":{tier.lower(): user_id}})
+            if tier.lower() == "gold":
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Gold Patron", "url": "http://paixlukee.ml/m/MKAKZ.png"}}}})
+            elif tier.lower() == "diamond":
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Diamond Patron", "url": "http://paixlukee.ml/m/S1L2D.png"}}}})
+            else:
+                pass
             user = self.bot.get_user(user_id)
             await ctx.send(f"**{user}** is now a patron in the **{tier.upper()}** tier! Hell yeah!")
             embed = discord.Embed(colour=0xa82021, title="Thanks!", description="Woah! Thank you so so so much for your patronage!\n\nAll the rewards have been applied to your account. All tiers and information on them are listed [here](https://www.patreon.com/join/paixlukee).")
