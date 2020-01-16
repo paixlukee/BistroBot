@@ -665,6 +665,26 @@ class Shop(commands.Cog):
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
+    @commands.command(aliases=['Cookt', 'Baket', 'baket'])
+    @commands.cooldown(1, 150, commands.BucketType.user)
+    async def cookt(self, ctx):
+        def nc(m):
+            return m.author == ctx.author and m.channel == ctx.channel and not m.content.startswith("r!menu")
+        post = db.market.find_one({"owner": ctx.author.id})
+        #words = ['potato', 'bun', 'bread', 'cheese', 'tomato', 'olive', 'fish', 'seafood', 'chicken', 'lettuce', 'rice', 'ham', 'turkey', 'soup', 'meat', 'fruit', 'noodles', 'pie', 'water', 'milk', 'cake', 'juice', 'cookie', 'pepper']
+        #to_cook = [{'adj': 'a tasty', 'exp': 10}, {'adj': 'a disgusting', 'exp': 0}, {'adj': 'a delicious', 'exp': 15}, {'adj': 'a burnt', 'exp': 1}, {'adj': 'an okay', 'exp': 3}, {'adj': 'a great', 'exp': 6}, {'adj': 'a great', 'exp': 9}, {'adj': 'a not-too-bad', 'exp': 4}]
+        if post:
+            bar = "`||`" #🟨🟧🟥⬛
+            desc = f"Say `stop` when the bar gets full. Don't let it get burnt!\n\n{bar}"
+            embed = discord.Embed(colour=0xa82021, description=desc)
+            await ctx.send(embed=embed)
+            b = time.perf_counter()
+            resp = await self.bot.wait_for('message', check=nc, timeout=240)
+            a = time.perf_counter()
+            tt = a-b
+        else:
+            await ctx.send("You don't have a restaurant. Create one with `r!start`.")
+
     @commands.command(aliases=['Cook', 'Bake', 'bake'])
     @commands.cooldown(1, 150, commands.BucketType.user)
     async def cook(self, ctx):

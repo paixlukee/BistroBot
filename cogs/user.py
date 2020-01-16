@@ -87,9 +87,24 @@ class User(commands.Cog):
     @commands.cooldown(1,86400, commands.BucketType.user)
     async def daily(self, ctx):
         posts = db.market.find_one({"owner": ctx.author.id})
+        patrons = db.utility.update_one({"utility": "patrons"})
         if posts:
             ri = random.randint(1,11)
             rci = random.randint(150, 250)
+            if ctx.author.id in patrons['bronze']:
+                rci *= 1.2
+                rci = round(rci)
+            elif ctx.author.id in patrons['silver']:
+                rci *= 1.4
+                rci = round(rci)
+            elif ctx.author.id in patrons['gold']:
+                rci *= 1.6
+                rci = round(rci)
+            elif ctx.author.id in patrons['diamond']:
+                rci *= 1.7
+                rci = round(rci)
+            else:
+                pass
             chest = [f'{rci} Cash']
             if ri == 10:
                 chest.append('x1.1 EXP boost for 24 hours (No use yet.)')
@@ -347,6 +362,20 @@ class User(commands.Cog):
         now = datetime.datetime.now()
         db.market.update_one({"owner": ctx.author.id}, {"$set":{"laststock": now.strftime("%d/%m/%Y %H:%M")}})
         if user:
+            if ctx.author.id in patrons['bronze']:
+                ml = 1.2
+                ml = round(rci)
+            elif ctx.author.id in patrons['silver']:
+                ml = 1.4
+                ml = round(rci)
+            elif ctx.author.id in patrons['gold']:
+                ml = 1.6
+                ml = round(rci)
+            elif ctx.author.id in patrons['diamond']:
+                ml = 1.7
+                ml = round(rci)
+            else:
+                pass
             country = str(user['country'])
             rm = rnd(posts['resp'])['text']
             count = 0
@@ -358,11 +387,13 @@ class User(commands.Cog):
                 msg = str(rm).replace("ITEM", r1['name'])
             elif 'ITEM' in rm and not 'ITEM2' in rm:
                 count = r1['price']
+                count = count *= ml
                 msg = str(rm).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
                 await self.add_money(user=ctx.author.id, count=count)
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
             elif 'ITEM2' in rm and not 'ITEM4' in rm:
                 count = r1['price']+r2['price']+r3['price']
+                count = count *= ml
                 msg = str(rm).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
                 await self.add_money(user=ctx.author.id, count=count)
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
@@ -370,6 +401,7 @@ class User(commands.Cog):
                 await self.add_sold(user=ctx.author.id, sold=r3['name'])
             else:
                 count = r1['price']+r2['price']+r3['price']+r4['price']
+                count = count *= ml
                 msg = str(rm).replace("ITEM4", r4['name']).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "$" + str(count))
                 await self.add_money(user=ctx.author.id, count=count)
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
@@ -378,10 +410,12 @@ class User(commands.Cog):
                 await self.add_sold(user=ctx.author.id, sold=r4['name'])
             if 'TIP' in rm:
                 tpc = random.randint(2,4)
+                tpc = tpc *= ml
                 msg = msg.replace("TIP", "$" + str(tpc))
                 await self.add_money(user=ctx.author.id, count=tpc)
             elif 'TIP2' in rm:
                 tpct = random.randint(8,10)
+                tpct = tpct *= ml
                 msg = msg.replace("TIP2", "$" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct)
 

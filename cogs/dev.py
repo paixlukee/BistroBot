@@ -37,7 +37,7 @@ class Dev(commands.Cog):
     @commands.command(aliases=['Stats', 'info', 'botinfo', 'status'])
     @commands.cooldown(1, 2, commands.BucketType.user)
     async def stats(self, ctx):
-        
+
         users = len(set(self.bot.get_all_members()))
         channels = []
         for guild in self.bot.guilds:
@@ -63,7 +63,18 @@ class Dev(commands.Cog):
         f" [[Support]](https://discord.gg/BCRtw7c)")
         stat.set_footer(text="Thanks for using Restaurant! | Res-V1")
         await ctx.send(embed=stat)
-        
+
+    @commands.command(aliases=['ptr'])
+    async def patron(self, ctx, user_id, tier='BRONZE'):
+        if ctx.author.id == 396153668820402197:
+            db.utility.update_one({"utility": "patrons"}, {"$push":{tier.lower(): user_id}})
+            user = bot.get_user(user_id)
+            await ctx.send(f"**{user}** is now a patron in the **{tier.upper()}** tier! Hell yeah!")
+            embed = discord.Embed(colour=0xa82021, title="Thanks!", description="Woah! Thank you so so so much for your patronage!\n\nAll the rewards have been applied to your account. All tiers and information on them are listed [here](https://www.patreon.com/join/paixlukee).")
+            await user.send(embed=embed)
+        else:
+            pass
+
     @commands.command(aliases=['debug', 'ev'])
     async def eval(self, ctx, *, code):
         if ctx.author.id == 396153668820402197:
@@ -123,7 +134,7 @@ class Dev(commands.Cog):
                 else:
                     if len(str(result)) > 1500:
                         r = requests.post(f"https://hastebin.com/documents", data=str(result).encode('utf-8')).json()
-                        return await ctx.send(":weary::ok_hand: The output is too long to send to chat. Here is a hastebin file for ya.. :point_right: https://hastebin.com/" + r['key'])                    
+                        return await ctx.send(":weary::ok_hand: The output is too long to send to chat. Here is a hastebin file for ya.. :point_right: https://hastebin.com/" + r['key'])
                     else:
                         try:
                             embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n\u200b{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{result}```")
