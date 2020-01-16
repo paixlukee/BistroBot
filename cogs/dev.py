@@ -75,6 +75,41 @@ class Dev(commands.Cog):
         else:
             pass
 
+    @commands.command(aliases=['uptr'])
+    async def unpatron(self, ctx, user_id:int, tier='BRONZE'):
+        if ctx.author.id == 396153668820402197:
+            db.utility.update_one({"utility": "patrons"}, {"$pull":{tier.lower(): user_id}})
+            user = self.bot.get_user(user_id)
+            await ctx.send(f"**{user}** is no longer a patron in the **{tier.upper()}** tier. :(")
+        else:
+            pass
+
+    @commands.command(aliases=['ptrs'])
+    async def patrons(self, ctx):
+        patrons = db.utility.find_one({"utility": "patrons"}})
+        bronze = []
+        silver = []
+        gold = []
+        diamond = []
+        for x in patrons['bronze']:
+            user = self.bot.get_user(x)
+            bronze.append(f"{user} - {user.id}")
+        for x in patrons['silver']:
+            user = self.bot.get_user(x)
+            silver.append(f"{user} - {user.id}")
+        for x in patrons['gold']:
+            user = self.bot.get_user(x)
+            gold.append(f"{user} - {user.id}")
+        for x in patrons['diamond']:
+            user = self.bot.get_user(x)
+            diamond.append(f"{user} - {user.id}")
+        embed = discord.Embed(description="Listed are users patronising:")
+        embed.add_field(name="Bronze", value=", ".join(bronze))
+        embed.add_field(name="Silver", value=", ".join(silver))
+        embed.add_field(name="Gold", value=", ".join(gold))
+        embed.add_field(name="Diamond", value=", ".join(Diamond))
+        await ctx.send(embed=embed)
+
     @commands.command(aliases=['debug', 'ev'])
     async def eval(self, ctx, *, code):
         if ctx.author.id == 396153668820402197:
