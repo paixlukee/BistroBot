@@ -65,7 +65,7 @@ class Dev(commands.Cog):
         await ctx.send(embed=stat)
 
     @commands.command(aliases=['ptr'])
-    async def patron(self, ctx, user_id, tier='BRONZE'):
+    async def patron(self, ctx, user_id:int, tier='BRONZE'):
         if ctx.author.id == 396153668820402197:
             db.utility.update_one({"utility": "patrons"}, {"$push":{tier.lower(): user_id}})
             user = self.bot.get_user(user_id)
