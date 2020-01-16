@@ -376,8 +376,10 @@ class User(commands.Cog):
                 await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your patron weekly chest and received...")
             else:
                 await ctx.send("You must be a silver+ patron to use this command! For more information on restaurant patronage, do `r!donate`.")
+                self.bot.get_command("weekly").reset_cooldown(ctx)
         else:
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
+            self.bot.get_command("weekly").reset_cooldown(ctx)
 
     @commands.command(aliases=['Work'])
     @commands.cooldown(1, 480, commands.BucketType.user)
