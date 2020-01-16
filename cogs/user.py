@@ -87,7 +87,7 @@ class User(commands.Cog):
     @commands.cooldown(1,86400, commands.BucketType.user)
     async def daily(self, ctx):
         posts = db.market.find_one({"owner": ctx.author.id})
-        patrons = db.utility.update_one({"utility": "patrons"})
+        patrons = db.utility.find_one({"utility": "patrons"})
         if posts:
             ri = random.randint(1,11)
             rci = random.randint(150, 250)
@@ -358,7 +358,7 @@ class User(commands.Cog):
     @commands.cooldown(1, 480, commands.BucketType.user)
     async def work(self, ctx):
         posts = db.utility.find_one({"utility": "res"})
-        patrons = db.utility.update_one({"utility": "patrons"})
+        patrons = db.utility.find_one({"utility": "patrons"})
         user = db.market.find_one({"owner": ctx.author.id})
         now = datetime.datetime.now()
         db.market.update_one({"owner": ctx.author.id}, {"$set":{"laststock": now.strftime("%d/%m/%Y %H:%M")}})
