@@ -63,7 +63,7 @@ class Help(commands.Cog):
             embed.add_field(name=f"{self.pr}balance", value="View your balance")
             embed.add_field(name=f"{self.pr}donate <@user> <amount>", value="Donate money to someone else")
             embed.add_field(name=f"{self.pr}dine <restaurant>", value="Dine at a restaurant and gain EXP")
-            embed.add_field(name=f"{self.pr}donate", value="Donate to the bot")
+            embed.add_field(name=f"{self.pr}donation", value="Donate to the bot")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 2")
             embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")

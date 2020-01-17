@@ -356,7 +356,7 @@ class User(commands.Cog):
 
     @commands.command(aliases=['Donate'])
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def donate(self, ctx):
+    async def donation(self, ctx):
         embed = discord.Embed(colour=0xa82021, title="Donate", description="Want to support restaurant AND receive awesome rewards? To donate now or view information on rewards, click [here](https://www.patreon.com/join/paixlukee).")
         await ctx.send(embed=embed)
 
