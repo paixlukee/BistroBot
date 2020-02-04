@@ -90,14 +90,16 @@ async def on_guild_remove(guild):
 async def on_message(message):
     if message.author.bot:
         return
-    elif message.author.id in db.utility.find_one({"utility":"banlist"}):
-        n = random.randint(1,3)
-        if n == 3:
-            await message.channel.send("You are banned from using restaurant! Appeal at <http://paixlukee.ml/restaurant/appeal.html>.")
-        else:
-            return
     else:
         await bot.process_commands(message)
+
+@bot.check
+async def globally_block_dms(ctx):
+    return ctx.guild is not None
+
+@bot.check
+async def globally_block_banned(ctx):
+    return ctx.author.id not in db.utility.find_one({"utility":"banlist"})
 
 
 if __name__ == '__main__':
