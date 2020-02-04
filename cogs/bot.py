@@ -54,7 +54,7 @@ class Botdev(commands.Cog):
     @commands.command(hidden=True)
     async def ban(self, ctx, id:int, *, reason):
         if ctx.author.id == 396153668820402197:
-            user = bot.get_user(id)
+            user = self.bot.get_user(id)
             await ctx.send(f"**{user}** was banned from using Restaurant.")
             db.market.update_one({"utility": "banlist"}, {"$push":{"banned": user.id}})
             embed = discord.Embed(colour=0xa82021, description=f"You were banned from using **Restaurant**. Reason: `{reason}`\n\nIf you would like to appeal, visit http://paixlukee.ml/restaurant/appeal.html.")
