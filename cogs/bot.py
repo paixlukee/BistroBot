@@ -19,6 +19,9 @@ import json
 
 import config
 
+client = MongoClient(config.mongo_client)
+db = client['siri']
+
 extensions = ['cogs.utility', 'cogs.help', 'cogs.economy', 'cogs.dev', 'cogs.music', 'cogs.server', 'cogs.levels']
 
 class Botdev(commands.Cog):
