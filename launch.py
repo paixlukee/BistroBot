@@ -18,7 +18,11 @@ import sys
 import json
 
 import config
+from pymongo import MongoClient
+import pymongo
 
+client = MongoClient(config.mongo_client)
+db = client['siri']
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("r!"))
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
@@ -73,7 +77,7 @@ async def on_guild_join(guild):
         except:
             continue
         break
-        
+
 @bot.event
 async def on_guild_remove(guild):
     log = bot.get_channel(653466873089753098)
@@ -86,11 +90,17 @@ async def on_guild_remove(guild):
 async def on_message(message):
     if message.author.bot:
         return
+    elif message.author.id in db.utility.find_one({"utility":"banlist"}):
+        n = random.randint(1,3)
+        if n == 3:
+            await message.channel.send("You are banned from using restaurant! Appeal at <http://paixlukee.ml/restaurant/appeal.html>.")
+        else:
+            return
     else:
         await bot.process_commands(message)
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     bot.load_extension("cogs.bot")
     bot.remove_command("help")
     for x in extensions:
