@@ -93,9 +93,7 @@ async def on_message(message):
     else:
         await bot.process_commands(message)
 
-@bot.check
-async def globally_block_dms(ctx):
-    return ctx.author.id not in db.utility.find_one({"utility":"banlist"})
+
 
 
 if __name__ == '__main__':
