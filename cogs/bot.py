@@ -24,7 +24,7 @@ extensions = ['cogs.utility', 'cogs.help', 'cogs.economy', 'cogs.dev', 'cogs.mus
 class Botdev(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
+
     async def run_cmd(self, cmd: str) -> str:
          process =\
          await asyncio.create_subprocess_shell(cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
@@ -36,7 +36,7 @@ class Botdev(commands.Cog):
     async def shutdown(self, ctx):
         await ctx.send("Shutting down..")
         await self.bot.logout()
-                    
+
     @commands.command(hidden=True)
     async def pull(self, ctx):
         if ctx.author.id == 396153668820402197:
@@ -48,6 +48,18 @@ class Botdev(commands.Cog):
             embed.set_author(name="Pulled from Git", icon_url="https://avatars0.githubusercontent.com/u/9919?s=280&v=4")
             await msg.delete()
             await ctx.send(embed=embed)
+        else:
+            pass
+
+    @commands.command(hidden=True)
+    async def ban(self, ctx, id:int, *, reason):
+        if ctx.author.id == 396153668820402197:
+            user = bot.get_user(id)
+            await ctx.send(f"**{user}** was banned from using Restaurant.")
+            db.market.update_one({"utility": "banlist"}, {"$push":{"banned": user.id})
+            embed = discord.Embed(colour=0xa82021, description=f"You were banned from using **Restaurant**. Reason: `{reason}`\n\nIf you would like to appeal, visit http://paixlukee.ml/restaurant/appeal.html.")
+            embed.set_image(url="http://paixlukee.ml/m/6UK4U.jpg")
+            await user.send(embed=embed)
         else:
             pass
 
@@ -74,7 +86,7 @@ class Botdev(commands.Cog):
         t2 = time.perf_counter()
         await ctx.send("Pong! `" + str(round((t2-t1)*1000)) + "ms`")
 
-    @commands.command()    
+    @commands.command()
     async def invite(self, ctx):
         await ctx.send("Invite me to your server! <https://discordapp.com/api/oauth2/authorize?client_id=648065060559781889&permissions=10240&scope=bot>")
 
@@ -90,7 +102,7 @@ class Botdev(commands.Cog):
                     for extension in extensions:
                         try:
                             self.bot.load_extension(extension)
-                            loaded.append(f'`{extension}`')    
+                            loaded.append(f'`{extension}`')
                         except Exception as error:
                             not_loaded.append(f'`{extension}` - `{error}`')
                             print('\x1b[1;31;40m' + '[COG-LOAD-ERROR]: ' + '\x1b[0m' + '{} was not loaded due to an error: {} '.format(extension, error))
@@ -121,7 +133,7 @@ class Botdev(commands.Cog):
         embed = discord.Embed(title="<:CheckMark:473276943341453312> Cog unloaded:", color=0x5bff69, description="**Cog:** `cogs\{}.py`".format(extension))
         print('\x1b[1;32;40m' + '[COG-RELOADED]: ' + '\x1b[0m' + '{} was unloaded successfully'.format(extension))
         await ctx.send(embed=embed)
-            
+
 
     @commands.command(aliases=['re'], hidden=True)
     async def reload(self, ctx, extension):
@@ -174,6 +186,6 @@ class Botdev(commands.Cog):
             await self.bot.get_channel(658708974836645888).send(embed=embed)
 
 
-            
+
 def setup(bot):
     bot.add_cog(Botdev(bot))
