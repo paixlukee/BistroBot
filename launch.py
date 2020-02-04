@@ -95,8 +95,7 @@ async def on_message(message):
 
 @bot.check
 async def globally_block_dms(ctx):
-    return ctx.guild is not None and ctx.author.id not in db.utility.find_one({"utility":"banlist"})
-
+    return ctx.author.id not in db.utility.find_one({"utility":"banlist"})
 
 
 if __name__ == '__main__':
