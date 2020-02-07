@@ -447,7 +447,14 @@ class User(commands.Cog):
                 tpct = round(tpct)
                 msg = msg.replace("TIP2", "$" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct)
-
+            if r1['name'].endswith('s') or r1['name'].endswith('gna'):
+                nn = r1['name']
+            else:
+                if r1['name'].startswith(("a", "e", "i", "o", "u")):
+                    nn = "an " + r1['name']
+                else:
+                    nn = "a " + r1['name']
+            msg = msg.replace(r1['name'], nn)
             await ctx.send(f"{ctx.author.mention}, {msg}")
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
@@ -470,6 +477,9 @@ class User(commands.Cog):
         bal = data['exp']
         exp = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
+        if exp <= 500:
+            db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Lovely Hearts", "url": "http://paixlukee.ml/m/AEJSB.jpg", 'rarity': 'Legendary'}}}})
+            await bot.get_user(user).send("Congrats! You've hit 500 EXP with your restaurant! As a gift, the **Legendary** Lovely Hearts banner has been added to your inventory.")
 
     async def add_sold(self, user, sold):
         item = sold
