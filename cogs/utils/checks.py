@@ -1,11 +1,8 @@
 from discord.ext import commands
 import discord.utils
 
-def is_owner_check(message):
-    return message.author.id == 396153668820402197
-
-def is_owner():
-    return commands.check(lambda ctx: is_owner_check(ctx.message))
+async def is_owner(ctx):
+    return ctx.author.id == 316026178463072268
 
 def check_permissions(ctx, perms):
     msg = ctx.message
