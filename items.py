@@ -14,7 +14,7 @@ banners = {
     {"name": "Beautiful Wedding", "url": "https://i.ibb.co/qCVHXr2/banner8.jpg"},
     {"name": "Oriental Bliss", "url": "https://i.ibb.co/QC8mxdD/banner10.jpg"},
     {"name": "Condimenti su Condimenti", "url": "https://i.ibb.co/ryVM1pM/banner12.jpg"},
-    {"name": "Burger Stop", "url": "https://i.ibb.co/SJpwVNL/banner.jpg"}
+    {"name": "Burger Stop", "url": "http://paixlukee.ml/m/ZCWM0.jpg"}
     ]
 }
 colours = {
