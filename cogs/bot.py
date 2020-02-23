@@ -169,6 +169,9 @@ class Botdev(commands.Cog):
             else:
                 hours = ""
             await ctx.send(f"<:RedTick:653464977788895252> You are on cooldown! Please wait **{hours} {round(minutes)}m {round(seconds)}s**.")
+        elif isinstance(error, commands.Forbidden):
+            error = getattr(error, 'original', error)
+            await ctx.author.send(f"I need the `manage_messages` permission to speak in **#{ctx.channel.name}**!")
         else:
             print("\x1b[1;31;40m" + f"[{type(error).__name__}]: " + "\x1b[0m" + str(error))
             ig = (asyncio.futures.TimeoutError, commands.CommandNotFound, commands.CommandOnCooldown, discord.Forbidden, commands.NoPrivateMessage, commands.DisabledCommand, commands.CheckFailure, commands.UserInputError)
