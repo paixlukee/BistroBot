@@ -477,9 +477,9 @@ class User(commands.Cog):
         bal = data['exp']
         exp = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
-        if exp <= 500:
-            db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Lovely Hearts", "url": "http://paixlukee.ml/m/AEJSB.jpg", 'rarity': 'Legendary'}}}})
-            await bot.get_user(user).send("Congrats! You've hit 500 EXP with your restaurant! As a gift, the **Legendary** Lovely Hearts banner has been added to your inventory.")
+        #if exp <= 500:
+            #db.market.update_one({"owner": user.id}, {"$push": {"inventory":{"banner": {"name": "Lovely Hearts", "url": "http://paixlukee.ml/m/AEJSB.jpg", 'rarity': 'Legendary'}}}})
+            #await bot.get_user(user).send("Congrats! You've hit 500 EXP with your restaurant! As a gift, the **Legendary** Lovely Hearts banner has been added to your inventory.")
 
     async def add_sold(self, user, sold):
         item = sold
