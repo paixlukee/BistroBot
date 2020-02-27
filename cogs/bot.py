@@ -172,7 +172,7 @@ class Botdev(commands.Cog):
         elif isinstance(error, commands.CommandInvokeError):
             error = getattr(error, 'original', error)
             if str(error).startswith("403"):
-                await ctx.author.send(f"I need the `manage_messages` permission to speak in **#{ctx.channel.name}**!")
+                await ctx.author.send(f"I need the `send_messages` permission to speak in **#{ctx.channel.name}**!")
         else:
             print("\x1b[1;31;40m" + f"[{type(error).__name__}]: " + "\x1b[0m" + str(error))
             ig = (asyncio.futures.TimeoutError, commands.CommandNotFound, commands.CommandOnCooldown, discord.Forbidden, commands.NoPrivateMessage, commands.DisabledCommand, commands.CheckFailure, commands.UserInputError)
