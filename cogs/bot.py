@@ -169,7 +169,7 @@ class Botdev(commands.Cog):
             else:
                 hours = ""
             await ctx.send(f"<:RedTick:653464977788895252> You are on cooldown! Please wait **{hours} {round(minutes)}m {round(seconds)}s**.")
-        elif isinstance(error, commands.CommandInvokeError):
+        if isinstance(error, commands.CommandInvokeError):
             error = getattr(error, 'original', error)
             if str(error).startswith("403"):
                 await ctx.author.send(f"I need the `send_messages` permission to speak in **#{ctx.channel.name}**!")
