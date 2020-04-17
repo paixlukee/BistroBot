@@ -87,6 +87,7 @@ class Shop(commands.Cog):
              f"`{available[2]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
              f"`{available[3]}` **+30% EXP** | **+5% Tips** | **-5% Cooldown Speed**"
         embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one at a time.\n\n{wd}")
+        embed.set_footer(text="You have 60 seconds to reply.")
         await ctx.send(embed=embed)
 
 
