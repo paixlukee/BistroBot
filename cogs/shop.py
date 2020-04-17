@@ -77,11 +77,11 @@ class Shop(commands.Cog):
             return m.author == ctx.message.author
         post = db.market.find_one({"owner": ctx.author.id})
         c = str(post['country'])
-        countries = []
-        for x in workers.list:
-            countries += x
-        await ctx.send(countries)
-        available = countries[c]
+        #countries = []
+        #for x in workers.list:
+            #countries += x
+        #await ctx.send(countries)
+        available = workers.list[c]
         wd = f"`{available[0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
              f"`{available[1]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
              f"`{available[2]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
