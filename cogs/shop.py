@@ -77,12 +77,14 @@ class Shop(commands.Cog):
             return m.author == ctx.message.author
         post = db.market.find_one({"owner": ctx.author.id})
         c = str(post['country'])
-        available = workers.list[c]
+        available = []
+        for x in workers.list:
+            available += x
         wl = [available[0], available[1], available[2], available[3]]
         wd = f"`{available[0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
              f"`{available[1]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
-             f"`{available[0]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
-             f"`{available[0]}` **+30% EXP** | **+5% Tips** | **-5% Cooldown Speed**"
+             f"`{available[2]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
+             f"`{available[3]}` **+30% EXP** | **+5% Tips** | **-5% Cooldown Speed**"
         embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one at a time.\n\n{wd}")
         await ctx.send(embed=embed)
 
