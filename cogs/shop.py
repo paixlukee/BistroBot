@@ -76,7 +76,7 @@ class Shop(commands.Cog):
         def a(m):
             return m.author == ctx.message.author
         post = db.market.find({"owner": ctx.author.id})
-        c = post['country']
+        c = str(post['country'])
         available = workers.list[c]
         wl = [available[0], available[1], available[2], available[3]]
         wd = f"`{available[0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
