@@ -80,7 +80,8 @@ class Shop(commands.Cog):
         countries = []
         for x in workers.list:
             countries += x
-        available = countries[c]    
+        await ctx.send(countries)
+        available = countries[c]
         wd = f"`{available[0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
              f"`{available[1]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
              f"`{available[2]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
