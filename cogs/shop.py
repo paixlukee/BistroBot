@@ -75,7 +75,7 @@ class Shop(commands.Cog):
     async def hire(self, ctx):
         def a(m):
             return m.author == ctx.message.author
-        post = db.market.find({"owner": ctx.author.id})
+        post = db.market.find_one({"owner": ctx.author.id})
         c = str(post['country'])
         available = workers.list[c]
         wl = [available[0], available[1], available[2], available[3]]
