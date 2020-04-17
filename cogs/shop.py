@@ -18,6 +18,7 @@ import string
 import food
 import items
 import extra
+import workers
 
 client = MongoClient(config.mongo_client)
 db = client['siri']
@@ -68,6 +69,23 @@ class Shop(commands.Cog):
                     await ctx.send('Deletion canceled.')
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
+
+    @commands.command(aliases=['Hire'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def hire(self, ctx):
+        def a(m):
+            return m.author == ctx.message.author
+        post = db.market.find({"owner": ctx.author.id})
+        c = post['country']
+        available = workers.list[c]
+        wl = [available[0], available[1], available[2], available[3]]
+        wd = f"`{available[0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
+             f"`{available[1]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
+             f"`{available[0]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
+             f"`{available[0]}` **+30% EXP** | **+5% Tips** | **-5% Cooldown Speed**"
+        embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one at a time.\n\n{wd}")
+        await ctx.send(embed=embed)
+
 
     @commands.command(aliases=['restaurantfuse'])
     async def fuse(self, ctx):
@@ -197,7 +215,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def buy(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost chest**\n`r!buy custom` - **Buy a restaurant customisation chest**\n`r!buy food` - **Buy a menu item and have it added to your inventory**")
+            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy boost` - **Buy a boost chest**\n`r!buy custom` - **Buy a restaurant customisation chest**\n`r!buy food` - **Buy a menu item and have it added to your menu**")
             await ctx.send(embed=embed)
 
     @buy.command(aliases=['Boost'])
@@ -338,7 +356,7 @@ class Shop(commands.Cog):
                 n.append({str(cn):x})
                 sp = x['price']
                 desc += f"[{cn}] {x['name']} | Selling Price: {sp}\n"
-        embed.description = f"All menu items cost $600\n{desc}"
+        embed.description = f"All menu items cost $600\n{desc}. You must go in order."
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
         ch = choice.content.replace("[", "").replace("]", "").replace("r!", "")
