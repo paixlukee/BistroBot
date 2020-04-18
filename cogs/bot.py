@@ -33,7 +33,7 @@ class Botdev(commands.Cog):
         sr = id-1
         guilds = []
         for x in ctx.bot.guilds:
-            if x.shard_id = sr:
+            if x.shard_id == sr:
                 guilds.append(x)
         return len(guilds)
 
