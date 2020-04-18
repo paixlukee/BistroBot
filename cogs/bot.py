@@ -88,7 +88,24 @@ class Botdev(commands.Cog):
         t1 = time.perf_counter()
         await ctx.trigger_typing()
         t2 = time.perf_counter()
-        await ctx.send("Pong! `" + str(round((t2-t1)*1000)) + "ms`")
+        ping = str(round((t2-t1)*1000))
+        ol = round(ctx.bot.latencies[0][1]*1000)
+        sl = round(ctx.bot.latencies[1][1]*1000)
+        if ol >= 200:
+            oe = '<:idle:701016198531383316>'
+        else:
+            oe = '<:online:701012643263283242>'
+        if sl >= 200:
+            se = '<:idle:701016198531383316>'
+        else:
+            se = '<:online:701012643263283242>'
+        shard = ctx.guild.shard_id+1
+        embed = discord.Embed(colour=0xa82021, description=f"The ping for **{ctx.guild.name}** is `{ping}`.")
+        embed.set_author(name="Pong!", icon_url=ctx.me.avatar_url_as(format='png'))
+        embed.add_field(name=f"{oe} Shard #1", value=f"`{ol}ms`")
+        embed.add_field(name=f"{se} Shard #2", value=f"`{sl}ms`")
+        embed.set_footer(text=f"Shard ID: #{shard}")
+        await ctx.send(embed=embed)
 
     @commands.command()
     async def invite(self, ctx):
@@ -169,7 +186,7 @@ class Botdev(commands.Cog):
             else:
                 hours = ""
             await ctx.send(f"<:RedTick:653464977788895252> You are on cooldown! Please wait **{hours} {round(minutes)}m {round(seconds)}s**.")
-    
+
         else:
             print("\x1b[1;31;40m" + f"[{type(error).__name__}]: " + "\x1b[0m" + str(error))
             ig = (asyncio.futures.TimeoutError, commands.CommandNotFound, commands.CommandOnCooldown, discord.Forbidden, commands.NoPrivateMessage, commands.DisabledCommand, commands.CheckFailure, commands.UserInputError)
