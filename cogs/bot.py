@@ -37,8 +37,6 @@ class Botdev(commands.Cog):
                 guilds.append(x)
         return len(guilds)
 
-
-
     async def run_cmd(self, cmd: str) -> str:
          process =\
          await asyncio.create_subprocess_shell(cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
@@ -110,8 +108,8 @@ class Botdev(commands.Cog):
             se = '<:idle:701016198531383316>'
         else:
             se = '<:online:701012643263283242>'
-        oc = await get_shard(1)
-        sc = await get_shard(2)
+        oc = await self.get_shard(1)
+        sc = await self.get_shard(2)
         shard = ctx.guild.shard_id+1
         embed = discord.Embed(colour=0xa82021, description=f"The ping for **{ctx.guild.name}** is `{ping}ms`.")
         embed.set_author(name="Pong!", icon_url=ctx.me.avatar_url_as(format='png'))
