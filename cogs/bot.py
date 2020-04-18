@@ -29,11 +29,22 @@ class Botdev(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    async def get_shard(ctx, id):
+        sr = id-1
+        guilds = []
+        for x in ctx.bot.guilds:
+            if x.shard_id = sr:
+                guilds.append(x)
+        return len(guilds)
+
+
+
     async def run_cmd(self, cmd: str) -> str:
          process =\
          await asyncio.create_subprocess_shell(cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
          results = await process.communicate()
          return "".join(x.decode("utf-8") for x in results)
+
 
     @commands.command(hidden=True)
     @commands.is_owner()
@@ -99,11 +110,13 @@ class Botdev(commands.Cog):
             se = '<:idle:701016198531383316>'
         else:
             se = '<:online:701012643263283242>'
+        oc = await get_shard(1)
+        sc = await get_shard(2)
         shard = ctx.guild.shard_id+1
         embed = discord.Embed(colour=0xa82021, description=f"The ping for **{ctx.guild.name}** is `{ping}ms`.")
         embed.set_author(name="Pong!", icon_url=ctx.me.avatar_url_as(format='png'))
-        embed.add_field(name=f"{oe} Shard #1", value=f"`{ol}ms`")
-        embed.add_field(name=f"{se} Shard #2", value=f"`{sl}ms`")
+        embed.add_field(name=f"{oe} Shard #1", value=f"`{ol}ms`  `{oc} servers`")
+        embed.add_field(name=f"{se} Shard #2", value=f"`{sl}ms`  `{sc} servers`")
         embed.set_footer(text=f"Shard ID: #{shard}")
         await ctx.send(embed=embed)
 
