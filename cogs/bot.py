@@ -100,7 +100,7 @@ class Botdev(commands.Cog):
         else:
             se = '<:online:701012643263283242>'
         shard = ctx.guild.shard_id+1
-        embed = discord.Embed(colour=0xa82021, description=f"The ping for **{ctx.guild.name}** is `{ping}`.")
+        embed = discord.Embed(colour=0xa82021, description=f"The ping for **{ctx.guild.name}** is `{ping}ms`.")
         embed.set_author(name="Pong!", icon_url=ctx.me.avatar_url_as(format='png'))
         embed.add_field(name=f"{oe} Shard #1", value=f"`{ol}ms`")
         embed.add_field(name=f"{se} Shard #2", value=f"`{sl}ms`")
