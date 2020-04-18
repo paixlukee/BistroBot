@@ -24,7 +24,7 @@ import pymongo
 client = MongoClient(config.mongo_client)
 db = client['siri']
 
-bot = commands.AutoShardedBot(shard_count=2, command_prefix=commands.when_mentioned_or("r!"))
+bot = commands.AutoShardedBot(shard_count=1, command_prefix=commands.when_mentioned_or("r!"))
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 async def status_task():
