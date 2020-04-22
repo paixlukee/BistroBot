@@ -87,6 +87,7 @@ class Shop(commands.Cog):
         await ctx.send(embed=embed)
         msg = await self.bot.wait_for('message', check=a, timeout=20)
         chosen = msg.content.capitalize()
+        print(available)
         if not msg.content in available:
             err = discord.Embed(colour=0xa82021, title="Error.", description=f"That's not in the list of workers!\n**Example**: `{[key for key in available[1]][0]}`")
             await ctx.send(embed=err)
