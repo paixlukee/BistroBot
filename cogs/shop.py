@@ -90,7 +90,7 @@ class Shop(commands.Cog):
         wrks = []
         for x in available:
             wrks.append(x)
-        print(wkrs)
+        print(wrks)
         if not msg.content in wrks:
             err = discord.Embed(colour=0xa82021, title="Error.", description=f"That's not in the list of workers!\n**Example**: `{[key for key in available[1]][0]}`")
             await ctx.send(embed=err)
