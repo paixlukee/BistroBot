@@ -70,7 +70,7 @@ class User(commands.Cog):
         elif count < 0:
             await ctx.send(f"You can't donate under **$1**.")
 
-        elif posts['money'] < count:
+        elif not posts['money'] >= count:
             await ctx.send(f"You don't have enough money.")
 
         elif posts_user is None:

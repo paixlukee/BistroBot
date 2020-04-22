@@ -77,10 +77,6 @@ class Shop(commands.Cog):
             return m.author == ctx.message.author
         post = db.market.find_one({"owner": ctx.author.id})
         c = str(post['country'])
-        #countries = []
-        #for x in workers.list:
-            #countries += x
-        #await ctx.send(countries)
         available = workers.list[c]
         wd = f"`{[key for key in available[0]][0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
              f"`{[key for key in available[1]][0]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
@@ -89,6 +85,25 @@ class Shop(commands.Cog):
         embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one at a time.\n\n{wd}")
         embed.set_footer(text="You have 60 seconds to reply.")
         await ctx.send(embed=embed)
+        msg = await self.bot.wait_for('message', check=a, timeout=20)
+        chosen = msg.content.capitalize()
+        if not msg.content in available:
+            err = discord.Embed(colour=0xa82021, title="Error.", description=f"That's not in the list of workers!\n**Example**: `{[key for key in available[1]][0]}`")
+            await ctx.send(embed=err)
+        else:
+            if not post['money'] >= 500:
+                await ctx.send("You don't have enough money.")
+            else:
+                if not 'worker' in post:
+                    db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker": None}})
+                else:
+                    pass
+                db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker": available[chosen]}})
+                me = discord.Embed(colour=0xa82021, description=f'"Hello, {ctx.author.name.capitalize}!\n\nThanks for hiring me! I hope that I can help make your restaurant the best in the world! If you ever want to check on me, do `r!worker`."')
+                me.set_author(name=f"Message from {chosen}:")
+                await ctx.send(embed=me)
+
+
 
 
     @commands.command(aliases=['restaurantfuse'])
@@ -967,7 +982,8 @@ class Shop(commands.Cog):
             "exp":0,
             "inventory":[],
             "colour": None,
-            "banner": None
+            "banner": None,
+            "worker": None
         }
         db.market.insert_one(post)
 
