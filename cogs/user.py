@@ -440,7 +440,7 @@ class User(commands.Cog):
                 tpct *= ml
                 tpct = round(tpct)
                 if 'worker' in user:
-                    if user['worker']
+                    if user['worker']:
                         wn = user['worker_name']      
                         tpc = round(tpc*user['worker'][wn][1]['tips'])
                 msg = msg.replace("TIP2", "$" + str(tpct))
@@ -450,7 +450,7 @@ class User(commands.Cog):
                 tpc *= ml
                 tpc = round(tpc)
                 if 'worker' in user:
-                    if user['worker']
+                    if user['worker']:
                         wn = user['worker_name']      
                         tpc = round(tpc*user['worker'][wn][1]['tips'])
                 msg = msg.replace("TIP", "$" + str(tpc))
