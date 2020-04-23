@@ -104,8 +104,8 @@ class Shop(commands.Cog):
                 else:
                     pass
                 db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker": chw}})
-                me = discord.Embed(colour=0xa82021, description=f'"Hello, {ctx.author.name.capitalize}!\n\nThanks for hiring me! I hope that I can help make your restaurant the best in the world! If you ever want to check on me, do `r!worker`."')
-                me.set_author(name=f"Message from {chosen}:", icon_url="http://paixlukee.ml/m/SKRFY.png")
+                me = discord.Embed(colour=0xa82021, description=f"Hello, {ctx.author.name.capitalize()}!\n\nThanks for hiring me! I hope that I can help make your restaurant the best in the world! If you ever want to check on me, do `r!worker`.")
+                me.set_author(name=f"Message from {chosen}", icon_url="http://paixlukee.ml/m/SKRFY.png")
                 await ctx.send(embed=me)
 
 
