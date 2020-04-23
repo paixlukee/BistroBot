@@ -89,9 +89,9 @@ class Shop(commands.Cog):
                 comment = random.choice(wr).format(post['name'])
                 worker_name = post['worker_name']
                 desc = f"**Co-Worker:** {worker_name}\n\n"\
-                       f"**EXP Bonus:** {round(post['worker'][worker_name][0]['exp']*100)}\n"\
-                       f"**Tips Bonus:** {round(post['worker'][worker_name][1]['tips']*100)}\n"\
-                       f"**Cooldown Bonus:** {round(post['worker'][worker_name][2]['cd']*100)}\n"\
+                       f"**EXP Bonus:** {round(post['worker'][worker_name][0]['exp']*100)}%\n"\
+                       f"**Tips Bonus:** {round(post['worker'][worker_name][1]['tips']*100)}%\n"\
+                       f"**Cooldown Bonus:** {round(post['worker'][worker_name][2]['cd']*100)}%\n"\
                        f"\n**\"**{comment}**\"**"
                 embed = discord.Embed(colour=0xa82021, description=desc)
                 await ctx.send(embed=embed)
