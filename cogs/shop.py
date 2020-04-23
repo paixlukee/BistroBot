@@ -89,7 +89,7 @@ class Shop(commands.Cog):
         chosen = msg.content.capitalize()
         chw = None
         for x in available:
-            if x[chosen]:
+            if chosen in x:
                 chw = x
         if not msg.content in wrks:
             err = discord.Embed(colour=0xa82021, title="Error.", description=f"That's not in the list of workers!\n**Example**: `{[key for key in available[1]][0]}`")
