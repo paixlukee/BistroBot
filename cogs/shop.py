@@ -87,8 +87,9 @@ class Shop(commands.Cog):
                 else:
                     wr = ["I love working at {}! The food is delicious here!", "{} is such a great place to work at, I absolutely love it!", "The working environment here at {} is so positive!", "I love working here!"]
                 comment = random.choice(wr).format(post['name'])
+                worker_name = post['worker_name']
                 desc = f"**\"**{comment}**\"**\n\n"\
-                       f"**Co-Worker:** {post['worker_name']}\n\n"\
+                       f"**Co-Worker:** {worker_name}\n\n"\
                        f"**EXP:** {post['worker'][worker_name][0]['exp']*100}\n"\
                        f"**Tips:** {post['worker'][worker_name][1]['tips']*100}\n"\
                        f"**Cooldown:** {post['worker'][worker_name][2]['cd']*100}\n"
