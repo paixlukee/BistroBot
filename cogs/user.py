@@ -442,7 +442,7 @@ class User(commands.Cog):
                 if 'worker' in user:
                     if user['worker']:
                         wn = user['worker_name']      
-                        tpc = round(tpc*user['worker'][wn][1]['tips'])
+                        tpct = round(tpc*user['worker'][wn][1]['tips'])
                 msg = msg.replace("TIP2", "$" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct)
             elif 'TIP' in rm:
