@@ -442,7 +442,7 @@ class User(commands.Cog):
                 if 'worker' in user:
                     if user['worker']:
                         wn = user['worker_name']      
-                        tpct = round(tpc*user['worker'][wn][1]['tips'])
+                        tpct = tpct + round(tpct*user['worker'][wn][1]['tips'])
                 msg = msg.replace("TIP2", "$" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct)
             elif 'TIP' in rm:
@@ -452,7 +452,7 @@ class User(commands.Cog):
                 if 'worker' in user:
                     if user['worker']:
                         wn = user['worker_name']      
-                        tpc = round(tpc*user['worker'][wn][1]['tips'])
+                        tpc = tpc + round(tpc*user['worker'][wn][1]['tips'])
                 msg = msg.replace("TIP", "$" + str(tpc))
                 await self.add_money(user=ctx.author.id, count=tpc)
             if r1['name'].endswith('s') or r1['name'].endswith('gna'):
