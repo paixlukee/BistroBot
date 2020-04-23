@@ -87,13 +87,12 @@ class Shop(commands.Cog):
                 else:
                     wr = ["I love working at {}! The food is delicious here!", "{} is such a great place to work at, I absolutely love it!", "The working environment here at {} is so positive!", "I love working here!"]
                 comment = random.choice(wr).format(post['name'])
-                print(comment)
                 worker_name = post['worker_name']
-                desc = f"**\"**{comment}**\"**\n\n"\
-                       f"**Co-Worker:** {worker_name}\n\n"\
+                desc = f"**Co-Worker:** {worker_name}\n\n"\
                        f"**EXP Bonus:** {round(post['worker'][worker_name][0]['exp']*100)}\n"\
                        f"**Tips Bonus:** {round(post['worker'][worker_name][1]['tips']*100)}\n"\
-                       f"**Cooldown Bonus:** {round(post['worker'][worker_name][2]['cd']*100)}\n"
+                       f"**Cooldown Bonus:** {round(post['worker'][worker_name][2]['cd']*100)}\n"\
+                       f"\n**\"**{comment}**\"**"
                 embed = discord.Embed(colour=0xa82021, description=desc)
                 await ctx.send(embed=embed)
         else:
