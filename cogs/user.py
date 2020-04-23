@@ -435,18 +435,26 @@ class User(commands.Cog):
                 await self.add_sold(user=ctx.author.id, sold=r2['name'])
                 await self.add_sold(user=ctx.author.id, sold=r3['name'])
                 await self.add_sold(user=ctx.author.id, sold=r4['name'])
-            if 'TIP' in rm:
-                tpc = random.randint(2,4)
-                tpc *= ml
-                tpc = round(tpc)
-                msg = msg.replace("TIP", "$" + str(tpc))
-                await self.add_money(user=ctx.author.id, count=tpc)
-            elif 'TIP2' in rm:
+            if 'TIP2' in rm:
                 tpct = random.randint(8,10)
                 tpct *= ml
                 tpct = round(tpct)
+                if 'worker' in user:
+                    if user['worker']
+                        wn = user['worker_name']      
+                        tpc = round(tpc*user['worker'][wn][1]['tips'])
                 msg = msg.replace("TIP2", "$" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct)
+            elif 'TIP' in rm:
+                tpc = random.randint(2,4)
+                tpc *= ml
+                tpc = round(tpc)
+                if 'worker' in user:
+                    if user['worker']
+                        wn = user['worker_name']      
+                        tpc = round(tpc*user['worker'][wn][1]['tips'])
+                msg = msg.replace("TIP", "$" + str(tpc))
+                await self.add_money(user=ctx.author.id, count=tpc)
             if r1['name'].endswith('s') or r1['name'].endswith('gna'):
                 nn = r1['name']
             else:
