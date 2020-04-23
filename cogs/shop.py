@@ -77,8 +77,8 @@ class Shop(commands.Cog):
             return m.author == ctx.message.author
         post = db.market.find_one({"owner": ctx.author.id})
         c = str(post['country'])
-        wrks = [[key for key in available[0]][0], [key for key in available[1]][0], [key for key in available[2]][0], [key for key in available[3]][0]]
         available = workers.list[c]
+        wrks = [[key for key in available[0]][0], [key for key in available[1]][0], [key for key in available[2]][0], [key for key in available[3]][0]]
         wd = f"`{[key for key in available[0]][0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
              f"`{[key for key in available[1]][0]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
              f"`{[key for key in available[2]][0]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
