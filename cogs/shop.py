@@ -77,6 +77,7 @@ class Shop(commands.Cog):
             return m.author == ctx.message.author
         post = db.market.find_one({"owner": ctx.author.id})
         c = str(post['country'])
+        wrks = [[key for key in available[0]][0], [key for key in available[1]][0], [key for key in available[2]][0], [key for key in available[3]][0]]
         available = workers.list[c]
         wd = f"`{[key for key in available[0]][0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
              f"`{[key for key in available[1]][0]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
@@ -87,14 +88,14 @@ class Shop(commands.Cog):
         await ctx.send(embed=embed)
         msg = await self.bot.wait_for('message', check=a, timeout=20)
         chosen = msg.content.capitalize()
-        chw = None
-        for x in available:
-            if chosen in x:
-                chw = x
         if not msg.content in wrks:
             err = discord.Embed(colour=0xa82021, title="Error.", description=f"That's not in the list of workers!\n**Example**: `{[key for key in available[1]][0]}`")
             await ctx.send(embed=err)
         else:
+            chw = None
+            for x in available:
+                if chosen in x:
+                    chw = x
             if not post['money'] >= 500:
                 await ctx.send("You don't have enough money.")
             else:
