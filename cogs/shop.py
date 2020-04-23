@@ -70,6 +70,33 @@ class Shop(commands.Cog):
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
+    @commands.command(aliases=['Worker'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def worker(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        if 'worker' in post:
+            if not post['worker']:
+                await ctx.send("You didn't hire a co-worker! Do `r!hire` to get one!")
+            else:
+                ratings = []
+                for rating in post['ratings']:
+                    ratings.append(rating['rating'])
+                avr = round(sum(ratings)/len(ratings))
+                if avr <= 2:
+                    wr = ["Working at {} is really hard...", "The food here at {} isn't the greatest...", "I hate working at {}! It's disgusting here!", "I want to work somewhere else..."]
+                else:
+                    wr = ["I love working at {}! The food is delicious here!", "{} is such a great place to work at, I absolutely love it!", "The working environment here at {} is so positive!", "I love working here!"]
+                comment = random.choice(wr).format(post['name'])
+                desc = f"**\"**{comment}**\"**\n\n"\
+                       f"**Co-Worker:** {post['worker_name']}\n\n"\
+                       f"**EXP:** {post['worker']['exp']*100}\n"\
+                       f"**Tips:** {post['worker']['tips']*100}\n"\
+                       f"**Cooldown:** {post['worker']['cd']*100}\n"
+                embed = discord.Embed(colour=0xa82021, description=desc)
+                await ctx.send(embed=embed)
+        else:
+            await ctx.send("You didn't hire a co-worker! Do `r!hire` to get one!")
+
     @commands.command(aliases=['Hire'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def hire(self, ctx):
@@ -83,7 +110,7 @@ class Shop(commands.Cog):
              f"`{[key for key in available[1]][0]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
              f"`{[key for key in available[2]][0]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
              f"`{[key for key in available[3]][0]}` **+30% EXP** | **+5% Tips** | **-5% Cooldown Speed**"
-        embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one at a time.\n\n{wd}")
+        embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one at a time.\n\nEach employee costs $500 upfront and an additional $50 taken away from the daily command.\n\n{wd}")
         embed.set_footer(text="You have 60 seconds to reply.")
         await ctx.send(embed=embed)
         msg = await self.bot.wait_for('message', check=a, timeout=20)
@@ -101,6 +128,7 @@ class Shop(commands.Cog):
             else:
                 if not 'worker' in post:
                     db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker": None}})
+                    db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker_name": None}})
                 else:
                     pass
                 db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker": chw}})
@@ -979,7 +1007,6 @@ class Shop(commands.Cog):
             "name":name,
             "description":desc,
             "customers":0,
-            "boost":None,
             "laststock": "Has not worked yet.",
             "id":id,
             "logo_url":None,
@@ -988,7 +1015,8 @@ class Shop(commands.Cog):
             "inventory":[],
             "colour": None,
             "banner": None,
-            "worker": None
+            "worker": None,
+            "worker_name": None
         }
         db.market.insert_one(post)
 
