@@ -107,10 +107,10 @@ class Shop(commands.Cog):
         c = str(post['country'])
         available = workers.list[c]
         wrks = [[key for key in available[0]][0], [key for key in available[1]][0], [key for key in available[2]][0], [key for key in available[3]][0]]
-        wd = f"`{[key for key in available[0]][0]}` **-5% EXP** | **+30% Tips** | **+5% Cooldown Speed**\n"\
-             f"`{[key for key in available[1]][0]}` **+12% EXP** | **+12% Tips** | **+6% Cooldown Speed**\n"\
-             f"`{[key for key in available[2]][0]}` **+5% EXP** | **-5% Tips** | **+30% Cooldown Speed**\n"\
-             f"`{[key for key in available[3]][0]}` **+30% EXP** | **+5% Tips** | **-5% Cooldown Speed**"
+        wd = f"`{[key for key in available[0]][0]}` **-5% EXP** | **+40% Tips** | **+5% Cooldown Speed**\n"\
+             f"`{[key for key in available[1]][0]}` **+12% EXP** | **+24% Tips** | **+6% Cooldown Speed**\n"\
+             f"`{[key for key in available[2]][0]}` **+5% EXP** | **-20% Tips** | **+30% Cooldown Speed**\n"\
+             f"`{[key for key in available[3]][0]}` **+30% EXP** | **+20% Tips** | **-5% Cooldown Speed**"
         embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one at a time.\n\nEach employee costs $500 upfront and an additional $50 taken away from the daily command.\n\n{wd}")
         embed.set_footer(text="You have 60 seconds to reply.")
         await ctx.send(embed=embed)
