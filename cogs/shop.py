@@ -89,7 +89,7 @@ class Shop(commands.Cog):
         chosen = msg.content.capitalize()
         wrks = []
         for x in available:
-            wrks.append(x)
+            wrks.append(x[0])
         print(wrks)
         if not msg.content in wrks:
             err = discord.Embed(colour=0xa82021, title="Error.", description=f"That's not in the list of workers!\n**Example**: `{[key for key in available[1]][0]}`")
@@ -104,7 +104,7 @@ class Shop(commands.Cog):
                     pass
                 db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker": wrks[chosen]}})
                 me = discord.Embed(colour=0xa82021, description=f'"Hello, {ctx.author.name.capitalize}!\n\nThanks for hiring me! I hope that I can help make your restaurant the best in the world! If you ever want to check on me, do `r!worker`."')
-                me.set_author(name=f"Message from {chosen}:")
+                me.set_author(name=f"Message from {chosen}:", icon_url="http://paixlukee.ml/m/SKRFY.png")
                 await ctx.send(embed=me)
 
 
