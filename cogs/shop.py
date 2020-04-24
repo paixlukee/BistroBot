@@ -992,7 +992,7 @@ class Shop(commands.Cog):
         if 'worker' in data:
             if data['worker']:
                 wn = data['worker_name']
-                count = count + round(count*user['worker'][wn][0]['exp'])
+                count = count + round(count*data['worker'][wn][0]['exp'])
         exp = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
         return count
