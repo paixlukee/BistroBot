@@ -732,8 +732,8 @@ class Shop(commands.Cog):
         to_clean = [{'name': 'sink', 'exp': 4}, {'name': 'oven', 'exp': 8}, {'name': 'counters', 'exp': 12}, {'name': 'floors', 'exp': 16}, {'name': 'bathrooms', 'exp': 20}, {'name': 'kitchen', 'exp': 24}]
         if post:
             rn = rnd(to_clean)
-            await ctx.send(f"{ctx.author.mention}, You cleaned the {rn['name']} and earned {rn['exp']} EXP.")
-            await self.add_exp(user=ctx.author.id, count=rn['exp'])
+            count = await self.add_exp(user=ctx.author.id, count=rn['exp'])
+            await ctx.send(f"{ctx.author.mention}, You cleaned the {rn['name']} and earned {count} EXP.")
         else:
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
@@ -782,46 +782,46 @@ class Shop(commands.Cog):
             tt = a-b
             if tt < 6:
                 if resp.content.lower().lower() == word.lower():
-                    await ctx.send(f"Perfect! You made a delicious {na} in {round(tt)} seconds! You've earned 20 EXP.")
-                    await self.add_exp(user=ctx.author.id, count=20)
+                    c = await self.add_exp(user=ctx.author.id, count=20)
+                    await ctx.send(f"Perfect! You made a delicious {na} in {round(tt)} seconds! You've earned {c} EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 2 EXP for making a bad {na}.")
-                    await self.add_exp(user=ctx.author.id, count=2)
+                    c = await self.add_exp(user=ctx.author.id, count=2)
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned {c} EXP for making a bad {na}.")
             elif tt < 8:
                 if resp.content.lower() == word.lower():
-                    await ctx.send(f"Amazing! You made a tasty {na} in {round(tt)} seconds! You've earned 16 EXP.")
-                    await self.add_exp(user=ctx.author.id, count=16)
+                    c = await self.add_exp(user=ctx.author.id, count=16)
+                    await ctx.send(f"Amazing! You made a tasty {na} in {round(tt)} seconds! You've earned {c} EXP.")
                 else:
-                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 1 EXP for making a terrible {na}.")
-                    await self.add_exp(user=ctx.author.id, count=1)
+                    c =await self.add_exp(user=ctx.author.id, count=1)
+                    await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned {c} EXP for making a terrible {na}.")
             elif tt < 10:
                 if resp.content.lower() == word.lower():
-                    await ctx.send(f"Great! You made a delicious {na} in {round(tt)} seconds! You've earned 12 EXP.")
-                    await self.add_exp(user=ctx.author.id, count=12)
+                    c = await self.add_exp(user=ctx.author.id, count=12)
+                    await ctx.send(f"Great! You made a delicious {na} in {round(tt)} seconds! You've earned {c} EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
             elif tt < 12:
                 if resp.content.lower() == word.lower():
-                    await ctx.send(f"Nice! You made a good {na} in {round(tt)} seconds! You've earned 10 EXP.")
-                    await self.add_exp(user=ctx.author.id, count=10)
+                    c = await self.add_exp(user=ctx.author.id, count=10)
+                    await ctx.send(f"Nice! You made a good {na} in {round(tt)} seconds! You've earned {c} EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
             elif tt < 14:
                 if resp.content.lower() == word.lower():
-                    await ctx.send(f"OK! You made a not-too-bad {na} in {round(tt)} seconds! You've earned 8 EXP.")
-                    await self.add_exp(user=ctx.author.id, count=8)
+                    c = await self.add_exp(user=ctx.author.id, count=8)
+                    await ctx.send(f"OK! You made a not-too-bad {na} in {round(tt)} seconds! You've earned {c} EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
             elif tt < 18:
                 if resp.content.lower() == word.lower():
-                    await ctx.send(f"Eh! You made an okay {na} in {round(tt)} seconds! You've earned 6 EXP.")
-                    await self.add_exp(user=ctx.author.id, count=6)
+                    c = await self.add_exp(user=ctx.author.id, count=6)
+                    await ctx.send(f"Eh! You made an okay {na} in {round(tt)} seconds! You've earned {c} EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
             else:
                 if resp.content.lower() == word.lower():
-                    await ctx.send(f"Uh oh! You made a disgusting {na} in {round(tt)} seconds! You've earned 1 EXP.")
-                    await self.add_exp(user=ctx.author.id, count=1)
+                    c = await self.add_exp(user=ctx.author.id, count=1)
+                    await ctx.send(f"Uh oh! You made a disgusting {na} in {round(tt)} seconds! You've earned {c} EXP.")
                 else:
                     await ctx.send(f"Uh oh! You failed to unscramble the letter. You've earned 0 EXP for making a disgusting {na}.")
         else:
@@ -989,8 +989,13 @@ class Shop(commands.Cog):
     async def add_exp(self, user, count):
         data = db.market.find_one({"owner": user})
         bal = data['exp']
+        if 'worker' in data:
+            if user['worker']:
+                wn = data['worker_name']
+                count = count + round(count*user['worker'][wn][0]['exp'])
         exp = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
+        return count
 
     async def update_data(self, user, country, name, desc):
         set1 = random.randint(0,9)

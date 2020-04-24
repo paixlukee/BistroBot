@@ -190,9 +190,9 @@ class User(commands.Cog):
                 item = newi[0]
                 if post['money'] >= item['price']:
                     rxp = round(1.2*item['price'])
-                    await ctx.send(f"You've ordered a {item['name']} from {res['name']} for ${item['price']}. You've earned {rxp} EXP for dining in.")
                     await self.take_money(ctx.author.id, item['price'])
-                    await self.add_exp(ctx.author.id, rxp)
+                    c = await self.add_exp(ctx.author.id, rxp)
+                    await ctx.send(f"You've ordered a {item['name']} from {res['name']} for ${item['price']}. You've earned {c} EXP for dining in.")
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
                 else:
@@ -441,7 +441,7 @@ class User(commands.Cog):
                 tpct = round(tpct)
                 if 'worker' in user:
                     if user['worker']:
-                        wn = user['worker_name']      
+                        wn = user['worker_name']
                         tpct = tpct + round(tpct*user['worker'][wn][1]['tips'])
                 msg = msg.replace("TIP2", "$" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct)
@@ -451,7 +451,7 @@ class User(commands.Cog):
                 tpc = round(tpc)
                 if 'worker' in user:
                     if user['worker']:
-                        wn = user['worker_name']      
+                        wn = user['worker_name']
                         tpc = tpc + round(tpc*user['worker'][wn][1]['tips'])
                 msg = msg.replace("TIP", "$" + str(tpc))
                 await self.add_money(user=ctx.author.id, count=tpc)
@@ -483,8 +483,13 @@ class User(commands.Cog):
     async def add_exp(self, user, count):
         data = db.market.find_one({"owner": user})
         bal = data['exp']
+        if 'worker' in data:
+            if user['worker']:
+                wn = data['worker_name']
+                count = count + round(count*user['worker'][wn][0]['exp'])
         exp = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
+        return count
         #if exp <= 500:
             #db.market.update_one({"owner": user.id}, {"$push": {"inventory":{"banner": {"name": "Lovely Hearts", "url": "http://paixlukee.ml/m/AEJSB.jpg", 'rarity': 'Legendary'}}}})
             #await bot.get_user(user).send("Congrats! You've hit 500 EXP with your restaurant! As a gift, the **Legendary** Lovely Hearts banner has been added to your inventory.")

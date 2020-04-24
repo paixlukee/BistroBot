@@ -100,11 +100,11 @@ class Botdev(commands.Cog):
         ping = str(round((t2-t1)*1000))
         ol = round(ctx.bot.latencies[0][1]*1000)
         sl = round(ctx.bot.latencies[1][1]*1000)
-        if ol >= 200:
+        if ol >= 50:
             oe = '<:idle:701016198531383316>'
         else:
             oe = '<:online:701012643263283242>'
-        if sl >= 200:
+        if sl >= 50:
             se = '<:idle:701016198531383316>'
         else:
             se = '<:online:701012643263283242>'
