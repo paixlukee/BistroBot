@@ -990,7 +990,7 @@ class Shop(commands.Cog):
         data = db.market.find_one({"owner": user})
         bal = data['exp']
         if 'worker' in data:
-            if user['worker']:
+            if data['worker']:
                 wn = data['worker_name']
                 count = count + round(count*user['worker'][wn][0]['exp'])
         exp = int(bal) + count
