@@ -103,8 +103,8 @@ class User(commands.Cog):
             elif ctx.author.id in patrons['diamond']:
                 rci *= 1.7
                 rci = round(rci)
-            if 'worker' in data:
-                if data['worker']:
+            if 'worker' in posts:
+                if posts['worker']:
                     rci = rci - 50
             else:
                 pass
