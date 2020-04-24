@@ -132,6 +132,7 @@ class Shop(commands.Cog):
                     db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker_name": None}})
                 else:
                     pass
+                await self.add_money(user=ctx.author.id, count=500)
                 db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker": chw}})
                 db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker_name": chosen}})
                 me = discord.Embed(colour=0xa82021, description=f"Hello, {ctx.author.name.capitalize()}!\n\nThanks for hiring me! I hope that I can help make your restaurant the best in the world! If you ever want to check on me, do `r!worker`.")

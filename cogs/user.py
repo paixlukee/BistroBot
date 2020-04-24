@@ -103,14 +103,17 @@ class User(commands.Cog):
             elif ctx.author.id in patrons['diamond']:
                 rci *= 1.7
                 rci = round(rci)
+            if 'worker' in data:
+                if data['worker']:
+                    rci = rci - 50
             else:
                 pass
             chest = [f'{rci} Cash']
-            if ri == 10:
-                chest.append('x1.1 EXP boost for 24 hours (No use yet.)')
-                db.market.update_one({"owner": ctx.author}, {"$push":{"inventory": {"boost": {"type":"experience", "multiply":1.1, "time":24}}}})
-            else:
-                pass
+            #if ri == 10:
+                #chest.append('x1.1 EXP boost for 24 hours (No use yet.)')
+                #db.market.update_one({"owner": ctx.author}, {"$push":{"inventory": {"boost": {"type":"experience", "multiply":1.1, "time":24}}}})
+            #else:
+                #pass
             await self.add_money(user=ctx.author.id, count=rci)
             embed = discord.Embed(colour=0xa82021, description="\n".join(chest) + "\n\nWant even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `r!votereward` to receive another chest.")
             embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
