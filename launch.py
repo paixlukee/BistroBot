@@ -45,7 +45,7 @@ async def status_task():
         await asyncio.sleep(30)
 
 async def job_task():
-    schedule.every().day.at("14:40").do(job)
+    schedule.every().day.at("14:45").do(job)
     while True:
         schedule.run_pending()
         await asyncio.sleep(1)
