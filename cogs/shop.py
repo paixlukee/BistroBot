@@ -19,6 +19,7 @@ import food
 import items
 import extra
 import workers
+import schedule
 
 client = MongoClient(config.mongo_client)
 db = client['siri']
@@ -34,11 +35,27 @@ class Shop(commands.Cog):
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
 
+
+    def job():
+        all = db.market.find()
+        for x in all:
+            if 'worker' in x:
+                if x['worker']:
+                    wn = x['worker_name']
+                    cash = x['worker'][wn][1]['pay']
+                    await self.add_money(user=x.id, count=cash)
+                    print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'All Restaurants have been paid.')
+
+    schedule.every().day.at("14:34").do(job)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
     @commands.command(aliases=['Leaderboard', 'lb'])
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def leaderboard(self, ctx):
+    async def leaderboard(self, ctx, page=1):
         await ctx.trigger_typing()
-        page = 1
         start = (page - 1) * 8
         end = start + 8
         embed = discord.Embed(colour=0xa82021, description="Global Restaurant Leaderboard")
@@ -91,7 +108,7 @@ class Shop(commands.Cog):
                 desc = f"**Co-Worker:** {worker_name}\n\n"\
                        f"**EXP Bonus:** {round(post['worker'][worker_name][0]['exp']*100)}%\n"\
                        f"**Tips Bonus:** {round(post['worker'][worker_name][1]['tips']*100)}%\n"\
-                       f"**Cooldown Bonus:** {round(post['worker'][worker_name][2]['cd']*100)}%\n"\
+                       f"**Earns You:** ${round(post['worker'][worker_name][2]['pay'])}/day\n"\
                        f"\n**\"**{comment}**\"**"
                 embed = discord.Embed(colour=0xa82021, description=desc)
                 await ctx.send(embed=embed)
@@ -107,10 +124,10 @@ class Shop(commands.Cog):
         c = str(post['country'])
         available = workers.list[c]
         wrks = [[key for key in available[0]][0], [key for key in available[1]][0], [key for key in available[2]][0], [key for key in available[3]][0]]
-        wd = f"`{[key for key in available[0]][0]}` **-5% EXP** | **+40% Tips** | **+5% Cooldown Speed**\n"\
-             f"`{[key for key in available[1]][0]}` **+12% EXP** | **+24% Tips** | **+6% Cooldown Speed**\n"\
-             f"`{[key for key in available[2]][0]}` **+5% EXP** | **-20% Tips** | **+30% Cooldown Speed**\n"\
-             f"`{[key for key in available[3]][0]}` **+30% EXP** | **+20% Tips** | **-5% Cooldown Speed**"
+        wd = f"`{[key for key in available[0]][0]}` **-5% EXP** | **+40% Tips** | **Earns $5/day**\n"\
+             f"`{[key for key in available[1]][0]}` **+12% EXP** | **+24% Tips** | **Earns $6/day**\n"\
+             f"`{[key for key in available[2]][0]}` **+5% EXP** | **-20% Tips** | **Earns $12/day**\n"\
+             f"`{[key for key in available[3]][0]}` **+30% EXP** | **+20% Tips** | **Earns $2/day**"
         embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one at a time.\n\nEach employee costs $500 upfront and an additional $50 taken away from the daily command.\n\n{wd}")
         embed.set_footer(text="You have 60 seconds to reply.")
         await ctx.send(embed=embed)
