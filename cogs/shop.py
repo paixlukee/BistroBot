@@ -36,21 +36,6 @@ class Shop(commands.Cog):
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
 
 
-    def job():
-        all = db.market.find()
-        for x in all:
-            if 'worker' in x:
-                if x['worker']:
-                    wn = x['worker_name']
-                    cash = x['worker'][wn][1]['pay']
-                    await self.add_money(user=x.id, count=cash)
-                    print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'All Restaurants have been paid.')
-
-    schedule.every().day.at("14:36").do(job)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
 
     @commands.command(aliases=['Leaderboard', 'lb'])
     @commands.cooldown(1, 5, commands.BucketType.user)

@@ -20,6 +20,7 @@ import json
 import config
 from pymongo import MongoClient
 import pymongo
+import schedule
 
 client = MongoClient(config.mongo_client)
 db = client['siri']
@@ -27,11 +28,27 @@ db = client['siri']
 bot = commands.AutoShardedBot(heartbeat_timeout=5, shard_count=2, command_prefix=commands.when_mentioned_or("r!"))
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
+def job():
+    all = db.market.find()
+    for x in all:
+        if 'worker' in x:
+            if x['worker']:
+                wn = x['worker_name']
+                cash = x['worker'][wn][1]['pay']
+                await self.add_money(user=x.id, count=cash)
+                print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'All Restaurants have been paid.')
+
 async def status_task():
     users = len(set(bot.get_all_members()))
     while True:
         await bot.change_presence(activity=discord.Game(name=f'r!help | {str(len(bot.guilds))} guilds', type=2))
         await asyncio.sleep(30)
+
+async def job_task():
+    schedule.every().day.at("14:40").do(job)
+    while True:
+        schedule.run_pending()
+        await asyncio.sleep(1)
 
 @bot.event
 async def on_ready():
@@ -39,6 +56,7 @@ async def on_ready():
     print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'Logged in as: {bot.user.name} ({str(bot.user.id)})')
     print("\x1b[1;33;40m" + "[AWAITING]: " + "\x1b[0m" + "Run 'r!load all'")
     bot.loop.create_task(status_task())
+    bot.loop.create_task(job_task())
 
 @bot.event
 async def on_guild_join(guild):
