@@ -46,7 +46,7 @@ class Shop(commands.Cog):
                     await self.add_money(user=x.id, count=cash)
                     print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'All Restaurants have been paid.')
 
-    schedule.every().day.at("14:34").do(job)
+    schedule.every().day.at("14:36").do(job)
 
     while True:
         schedule.run_pending()
