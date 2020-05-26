@@ -37,7 +37,7 @@ class Tasks(commands.Cog):
                     print('test')
                     wn = x['worker_name']
                     cash = 1#x['worker'][wn][1]['pay']
-                    await self.add_money(user=x.id, count=cash)
+                    await self.add_money(user=x['owner'], count=cash)
                     print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'All Restaurants have been paid.')
 
     @pay.before_loop
