@@ -475,7 +475,7 @@ class User(commands.Cog):
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def discoin(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Discoin' Command Group", description="Convert bot currencies from one to another bot, invest your earnings and get high returns!\n`r!discoin exchange <currency> <money-count>` - **Exchange Restaurant credits for other bot currencies.**\n")
+            embed = discord.Embed(colour=0xa82021, title="'Discoin' Command Group", description="Convert bot currencies from one to another bot, invest your earnings and get high returns!\n`r!discoin exchange <currency> <money-count>` - **Exchange Restaurant credits**\n`r!discoin bots` - **View all available bot currencies**")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/30993376?s=200&v=4")
             await ctx.send(embed=embed)
@@ -491,6 +491,18 @@ class User(commands.Cog):
         except Exception as e:
             await ctx.send(f"Error: {e}")
 
+    @discoin.command(aliases['Bots'])
+    async def bots(self, ctx):
+        r = requests.get("https://discoin.zws.im/bots").json()
+        desc = ""
+        for x in r:
+            if not r['currency']['id'] == "RBC":
+                name = r['currency']['name']
+                id = r['currency']['id']
+                uid = r['id']
+                desc += f"[name]{https://top.gg/{uid}} **ID: {id}**\n"
+        embed = discord.Embed(colour=0xa82021, title="Available Bots & Currencies", description=desc)
+        await ctx.send(embed=embed)
 
 
     async def add_money(self, user:int, count):
