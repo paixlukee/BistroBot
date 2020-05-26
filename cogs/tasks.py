@@ -27,18 +27,16 @@ class Tasks(commands.Cog):
     def cog_unload(self):
         self.pay.cancel()
 
-    @tasks.loop(seconds=15.0)
+    @tasks.loop(minutes=1440)
     async def pay(self):
-        print('Paying all restaurants...')
         all = db.market.find()
         for x in all:
             if 'worker' in x:
                 if x['worker']:
-                    print('test')
                     wn = x['worker_name']
-                    cash = 1#x['worker'][wn][1]['pay']
+                    cash = x['worker'][wn][1]['pay']
                     await self.add_money(user=x['owner'], count=cash)
-                    print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'All Restaurants have been paid.')
+        print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'All Restaurants have been paid.')
 
     @pay.before_loop
     async def before_pay(self):
