@@ -491,7 +491,7 @@ class User(commands.Cog):
         except Exception as e:
             await ctx.send(f"Error: {e}")
 
-    @discoin.command(aliases['Bots'])
+    @discoin.command(aliases=['Bots'])
     async def bots(self, ctx):
         r = requests.get("https://discoin.zws.im/bots").json()
         desc = ""
