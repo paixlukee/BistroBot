@@ -487,10 +487,9 @@ class User(commands.Cog):
             auth = {"Authorization": f"Bearer {config.discoin_token}"}
             body = {"amount": count, "toId": toId, "user": str(ctx.author.id)}
             r = requests.post("https://discoin.zws.im/transactions", headers=auth, data=body)
-            await ctx.send(f"```json\n{e}```")
+            await ctx.send(f"```json\n{r}```")
         except Exception as e:
             await ctx.send(f"Error: {e}")
-
 
 
 
