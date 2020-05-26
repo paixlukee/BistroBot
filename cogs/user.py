@@ -481,7 +481,7 @@ class User(commands.Cog):
             await ctx.send(embed=embed)
             self.bot.get_command("discoin").reset_cooldown(ctx)
 
-    @commands.command(aliases=['Exchange'])
+    @discoin.command(aliases=['Exchange'])
     async def exchange(self, ctx, toId, count : int):
         try:
             auth = {"Authorization": f"Bearer {config.discoin_token}"}
@@ -490,7 +490,7 @@ class User(commands.Cog):
             await ctx.send(f"```json\n{e}```")
         except Exception as e:
             await ctx.send(f"Error: {e}")
-            
+
 
 
 
