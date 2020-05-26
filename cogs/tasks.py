@@ -31,11 +31,14 @@ class Tasks(commands.Cog):
     async def pay(self):
         all = db.market.find()
         for x in all:
-            if 'worker' in x:
-                if x['worker']:
-                    wn = x['worker_name']
-                    cash = x['worker'][wn][1]['pay']
-                    await self.add_money(user=x['owner'], count=cash)
+            try:
+                if 'worker' in x:
+                    if x['worker']:
+                        wn = x['worker_name']
+                        cash = x['worker'][wn][1]['pay']
+                        await self.add_money(user=x['owner'], count=cash)
+            except:
+                pass
         print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'All Restaurants have been paid.')
 
     @pay.before_loop
