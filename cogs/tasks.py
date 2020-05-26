@@ -34,6 +34,7 @@ class Tasks(commands.Cog):
         for x in all:
             if 'worker' in x:
                 if x['worker']:
+                    print('test')
                     wn = x['worker_name']
                     cash = 1#x['worker'][wn][1]['pay']
                     await self.add_money(user=x.id, count=cash)
