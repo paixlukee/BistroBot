@@ -471,6 +471,29 @@ class User(commands.Cog):
             await ctx.send("You don't have a restaurant. Create one with `r!start`.")
 
 
+    @commands.group(aliases=['dsc', 'Discoin'])
+    @commands.cooldown(1, 4, commands.BucketType.user)
+    async def discoin(self, ctx):
+        if ctx.invoked_subcommand is None:
+            embed = discord.Embed(colour=0xa82021, title="'Discoin' Command Group", description="Convert bot currencies from one to another bot, invest your earnings and get high returns!\n`r!discoin exchange <currency> <money-count>` - **Exchange Restaurant credits for other bot currencies.**\n")
+            embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
+            embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/30993376?s=200&v=4")
+            await ctx.send(embed=embed)
+            self.bot.get_command("discoin").reset_cooldown(ctx)
+
+    @commands.command(aliases=['Exchange'])
+    async def exchange(self, ctx, toId, count : int):
+        try:
+            auth = {"Authorization": f"Bearer {config.discoin_token}"}
+            body = {"amount": count, "toId": toId, "user": str(ctx.author.id)}
+            r = requests.post("https://discoin.zws.im/transactions", headers=auth, data=body)
+            await ctx.send(f"```json\n{e}```")
+        except Exception as e:
+            await ctx.send(f"Error: {e}")
+            
+
+
+
     async def add_money(self, user:int, count):
         data = db.market.find_one({"owner": user})
         bal = data['money']
