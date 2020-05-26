@@ -496,10 +496,10 @@ class User(commands.Cog):
         r = requests.get("https://discoin.zws.im/bots").json()
         desc = ""
         for x in r:
-            if not r['currency']['id'] == "RBC":
-                name = r['currency']['name']
-                id = r['currency']['id']
-                uid = r['id']
+            if not x['currency']['id'] == "RBC":
+                name = x['currency']['name']
+                id = x['currency']['id']
+                uid = x['id']
                 desc += f"[name]{https://top.gg/{uid}} **ID: {id}**\n"
         embed = discord.Embed(colour=0xa82021, title="Available Bots & Currencies", description=desc)
         await ctx.send(embed=embed)
