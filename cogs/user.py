@@ -499,8 +499,8 @@ class User(commands.Cog):
             if not x['currency']['id'] == "RBC":
                 name = x['currency']['name']
                 id = x['currency']['id']
-                uid = x['id']
-                desc += f"[{name}](https://top.gg/bot/{uid.split("_")[0]}) **ID: {id}**\n"
+                uid = x['id'].split("_")[0]
+                desc += f"[{name}](https://top.gg/bot/{uid}) **ID: {id}**\n"
         embed = discord.Embed(colour=0xa82021, title="Available Bots & Currencies", description=desc)
         await ctx.send(embed=embed)
 
