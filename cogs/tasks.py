@@ -44,5 +44,11 @@ class Tasks(commands.Cog):
     async def before_pay(self):
         await self.bot.wait_until_ready()
 
+    async def add_money(self, user:int, count):
+        data = db.market.find_one({"owner": user})
+        bal = data['money']
+        money = int(bal) + count
+        db.market.update_one({"owner": user}, {"$set":{"money": money}})
+
 def setup(bot):
     bot.add_cog(Tasks(bot))
