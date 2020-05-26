@@ -483,13 +483,16 @@ class User(commands.Cog):
 
     @discoin.command(aliases=['Exchange'])
     async def exchange(self, ctx, toId, count : int):
-        try:
+        post = db.market.find_one({"owner": ctx.author.id})
+        if not post:
+            await ctx.send("You don't have a restaurant yet! Create one with `r!create`")
+        elif not post['money'] >= count:
+            await ctx.send("You don't have enough to make that transaction!")
+        else:
             auth = {"Authorization": f"Bearer {config.discoin_token}"}
-            body = {"amount": count, "toId": toId, "user": str(ctx.author.id)}
+            body = {"amount": 5, "toId": toId, "user": str(ctx.author.id)}
             r = requests.post("https://discoin.zws.im/transactions", headers=auth, data=body).json()
             await ctx.send(f"```json\n{r}```")
-        except Exception as e:
-            await ctx.send(f"Error: {e}")
 
     @discoin.command(aliases=['Bots'])
     async def bots(self, ctx):
