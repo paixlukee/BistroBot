@@ -27,8 +27,9 @@ class Tasks(commands.Cog):
     def cog_unload(self):
         self.pay.cancel()
 
-    @tasks.loop(seconds=15)
+    @tasks.loop(seconds=15.0)
     async def pay(self):
+        print('Paying all restaurants...')
         all = db.market.find()
         for x in all:
             if 'worker' in x:
