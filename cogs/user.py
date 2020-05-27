@@ -534,7 +534,7 @@ class User(commands.Cog):
                 name = x['currency']['name']
                 id = x['currency']['id']
                 uid = x['id'].split("_")[0]
-                rate = rbc_rate / x['currency']['value']
+                rate = round(rbc_rate / x['currency']['value'], 4)
                 desc += f"[{name}](https://top.gg/bot/{uid}) **ID:** `{id}` **Rate:** `$1 RBC = {rate} {id}`\n"
         embed = discord.Embed(colour=0xa82021, title="Available Bots & Currencies", description=desc)
         await ctx.send(embed=embed)
