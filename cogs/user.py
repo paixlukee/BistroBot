@@ -48,7 +48,9 @@ class User(commands.Cog):
             await self.add_money(user=transaction.user_id, count=round(transaction.payout)
             if user:
                 po = round(transaction.payout)
-                embed = discord.Embed(colour=0xa82021, title="Transaction successful", description=f"Your transfer from **{transaction.currency_from.id}** to **RBC** has been processed! You have received ${po}.\n\n[Transaction Receipt](https://dash.discoin.zws.im/#/transactions/{transaction.id}/show)")
+                cid = transaction.currency_from.id
+                tid = transaction.id
+                embed = discord.Embed(colour=0xa82021, title="Transaction successful", description=f"Your transfer from **{cid}** to **RBC** has been processed! You have received ${po}.\n\n[Transaction Receipt](https://dash.discoin.zws.im/#/transactions/{tid}/show)")
                 await user.send(embed=embed)
 
     @commands.command(aliases=['User', 'Profile', 'profile'])
