@@ -519,6 +519,7 @@ class User(commands.Cog):
             body = {"amount": count, "toId": toId, "user": str(ctx.author.id)}
             r = requests.post("https://discoin.zws.im/transactions", headers=auth, data=body).json()
             await ctx.send(f"```json\n{r}```")
+            await self.take_money(user=ctx.author.id, count=count)
 
     @discoin.command(aliases=['Bots'])
     async def bots(self, ctx):
