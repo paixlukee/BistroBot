@@ -515,23 +515,27 @@ class User(commands.Cog):
         elif not post['money'] >= count:
             await ctx.send("You don't have enough to make that transaction!")
         else:
-            #auth = {"Authorization": f"Bearer {config.discoin_token}"}
-            #body = {"amount": count, "toId": toId, "user": str(ctx.author.id)}
-            #r = requests.post("https://discoin.zws.im/transactions", headers=auth, data=body).json()
             r = await self.discoin_client.create_transaction(toId, count, str(ctx.author.id))
-            await ctx.send(f"```json\n{r}```")
+
+            embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{tid}/show)")
+            await user.send(embed=embed)
             await self.take_money(user=ctx.author.id, count=count)
 
     @discoin.command(aliases=['Bots'])
     async def bots(self, ctx):
         r = requests.get("https://discoin.zws.im/bots").json()
         desc = ""
+        rbc_rate = 0
+        for x in r:
+            if x['currency']['id'] == "RBC":
+                rbc_rate = x['currency']['value']
         for x in r:
             if not x['currency']['id'] == "RBC":
                 name = x['currency']['name']
                 id = x['currency']['id']
                 uid = x['id'].split("_")[0]
-                desc += f"[{name}](https://top.gg/bot/{uid}) **ID: {id}**\n"
+                rate = rbc_rate / x['currency']['value']
+                desc += f"[{name}](https://top.gg/bot/{uid}) **ID:** `{id}` **Rate:** `$1 RBC = {rate} {id}`\n"
         embed = discord.Embed(colour=0xa82021, title="Available Bots & Currencies", description=desc)
         await ctx.send(embed=embed)
 
