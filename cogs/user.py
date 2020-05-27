@@ -518,7 +518,7 @@ class User(commands.Cog):
             r = await self.discoin_client.create_transaction(toId, count, str(ctx.author.id))
 
             embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{r.id}/show)")
-            await user.send(embed=embed)
+            await ctx.send(embed=embed)
             await self.take_money(user=ctx.author.id, count=count)
 
     @discoin.command(aliases=['Bots'])
