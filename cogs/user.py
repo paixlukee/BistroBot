@@ -515,10 +515,11 @@ class User(commands.Cog):
         elif not post['money'] >= count:
             await ctx.send("You don't have enough to make that transaction!")
         else:
-            auth = {"Authorization": f"Bearer {config.discoin_token}"}
-            body = {"amount": count, "toId": toId, "user": str(ctx.author.id)}
-            r = requests.post("https://discoin.zws.im/transactions", headers=auth, data=body).json()
-            await ctx.send(f"```json\n{r}```")
+            #auth = {"Authorization": f"Bearer {config.discoin_token}"}
+            #body = {"amount": count, "toId": toId, "user": str(ctx.author.id)}
+            #r = requests.post("https://discoin.zws.im/transactions", headers=auth, data=body).json()
+            r = await self.discoin_client.create_transaction(toId, count, str(ctx.author.id))
+            await ctx.send(f"```json\n{r}```"
             await self.take_money(user=ctx.author.id, count=count)
 
     @discoin.command(aliases=['Bots'])
