@@ -33,9 +33,10 @@ class Help(commands.Cog):
             embed.add_field(name="Page #2 | User", value="Commands that interact with regular users.")
             embed.add_field(name="Page #3 | Inventory", value="Buy, use, and view items in your inventory.")
             embed.add_field(name="Page #4 | Bot", value="Commands that have to do with the main bot.")
+            embed.add_field(name="Links", value="[DBL](https://top.gg/bot/648065060559781889)\n[Donate](https://www.patreon.com/paixlukee)\n[Support Server](http://discord.gg/BCRtw7c)")
             #embed.add_field(name="Page #4 | Configuration", value="Configurate guild-only settings,")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual")
-            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
             embed.set_footer(text="To view a page, put the page number right after the command. Example: r!help 1")
             await ctx.send(embed=embed)
         elif page == 1:
@@ -53,8 +54,10 @@ class Help(commands.Cog):
             embed.add_field(name=f"{self.pr}slots <bet>", value="Use your money on a slot machine.")
             embed.add_field(name=f"{self.pr}trivia", value="Play trivia and earn money.")
             embed.add_field(name=f"{self.pr}leaderboard", value="View the global restaurant leaderboard")
+            embed.add_field(name=f"{self.pr}hire", value="Hire an employee to help you work")
+            embed.add_field(name=f"{self.pr}worker", value="View how your employee is doing")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 1")
-            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
         elif page == 2:
@@ -64,8 +67,9 @@ class Help(commands.Cog):
             embed.add_field(name=f"{self.pr}donate <@user> <amount>", value="Donate money to someone else")
             embed.add_field(name=f"{self.pr}dine <restaurant>", value="Dine at a restaurant and gain EXP")
             embed.add_field(name=f"{self.pr}donation", value="Donate to the bot")
+            embed.add_field(name=f"{self.pr}discoin", value="Manage discoin transactions")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 2")
-            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
         elif page == 3:
@@ -74,7 +78,7 @@ class Help(commands.Cog):
             embed.add_field(name=f"{self.pr}use <item>", value="View your balance")
             embed.add_field(name=f"{self.pr}buy", value="View shop and buy items")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 3")
-            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
         elif page == 4:
@@ -84,7 +88,7 @@ class Help(commands.Cog):
             embed.add_field(name=f"{self.pr}invite", value="Get the invite URL")
             embed.add_field(name=f"{self.pr}patrons", value="View all of the current patrons")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 4")
-            embed.set_image(url="https://i.ibb.co/chxrYtn/restaurantbanner.png")
+            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
             #embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
         else:

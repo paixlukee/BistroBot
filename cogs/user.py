@@ -67,7 +67,7 @@ class User(commands.Cog):
             embed.add_field(name="Money", value="$" + str(post['money']))
             await ctx.send(embed=embed)
         else:
-            await ctx.send("This user doesn't have a restaurant")
+            await ctx.send("<:RedTick:653464977788895252> This user doesn't have a restaurant")
 
     @commands.command(aliases=['Balance', 'bal'])
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -79,7 +79,7 @@ class User(commands.Cog):
             bal = format(post['money'], ",d")
             await ctx.send(f"**{user.name}**'s balance is **${bal}**.")
         else:
-            await ctx.send("This user doesn't have a restaurant")
+            await ctx.send("<:RedTick:653464977788895252> This user doesn't have a restaurant")
 
     @commands.command(pass_context=True)
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -88,26 +88,26 @@ class User(commands.Cog):
         posts = db.market.find_one({"owner": ctx.author.id})
 
         if ctx.author == user:
-            await ctx.send("You cannot donate money to yourself!")
+            await ctx.send("<:RedTick:653464977788895252> You cannot donate money to yourself!")
 
         elif not count or not user:
-            await ctx.send("You must include both the user and the amount of money. Example: `r!donate @lukee#0420 25`")
+            await ctx.send("<:RedTick:653464977788895252> You must include both the user and the amount of money. Example: `r!donate @lukee#0420 25`")
 
         elif count < 0:
-            await ctx.send(f"You can't donate under **$1**.")
+            await ctx.send(f"<:RedTick:653464977788895252> You can't donate under **$1**.")
 
         elif not posts['money'] >= count:
-            await ctx.send(f"You don't have enough money.")
+            await ctx.send(f"<:RedTick:653464977788895252> You don't have enough money.")
 
         elif posts_user is None:
-            await ctx.send(f"**{user.name}** doesn't have a restaurant.")
+            await ctx.send(f"<:RedTick:653464977788895252> **{user.name}** doesn't have a restaurant.")
 
         elif not posts is None:
             await self.add_money(user=user.id, count=count)
             await self.take_money(user=ctx.author.id, count=count)
             await ctx.send(f"{user.mention}, **{ctx.message.author}** has donated **${count}** to you.")
         else:
-            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one by doing `r!start`.")
 
     @commands.command(pass_context=True, aliases=['Daily'])
     @commands.cooldown(1,86400, commands.BucketType.user)
@@ -140,11 +140,18 @@ class User(commands.Cog):
                 #db.market.update_one({"owner": ctx.author}, {"$push":{"inventory": {"boost": {"type":"experience", "multiply":1.1, "time":24}}}})
             #else:
                 #pass
-            await self.add_money(user=ctx.author.id, count=rci)
-            embed = discord.Embed(colour=0xa82021, description="\n".join(chest) + "\n\nWant even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `r!votereward` to receive another chest.")
-            embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
-            embed.set_footer(text="Come back in 24 hours!")
-            await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your daily chest and received...")
+            try:
+                await self.add_money(user=ctx.author.id, count=rci)
+                embed = discord.Embed(colour=0xa82021, description="\n".join(chest) + "\n\nWant even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `r!votereward` to receive another chest.")
+                embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
+                embed.set_footer(text="Come back in 24 hours!")
+                await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your daily chest and received...")
+            except Exception as e:
+                await ctx.send("<:RedTick:653464977788895252> An error has occurred! The cooldown has been lifted. `{e}`")
+                self.bot.get_command("daily").reset_cooldown(ctx)
+            except:
+                await ctx.send("<:RedTick:653464977788895252> An unknown error has occurred! The cooldown has been lifted.")
+                self.bot.get_command("daily").reset_cooldown(ctx)
         else:
             await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
 
@@ -193,10 +200,10 @@ class User(commands.Cog):
             res = None
         if not restaurant:
             self.bot.get_command("dine").reset_cooldown(ctx)
-            await ctx.send("You didn't include a restaurant! Example: `r!dine @lukee#0420` or `r!dine McDonalds`.")
+            await ctx.send("<:RedTick:653464977788895252> You didn't include a restaurant! Example: `r!dine @lukee#0420` or `r!dine McDonalds`.")
         elif res['owner'] == ctx.author.id:
             self.bot.get_command("dine").reset_cooldown(ctx)
-            await ctx.send("You can't dine in at your own restaurant.")
+            await ctx.send("<:RedTick:653464977788895252> You can't dine in at your own restaurant.")
         elif res:
             items = []
             for x in res['items']:
@@ -226,13 +233,13 @@ class User(commands.Cog):
                     await self.add_sold(res['owner'], item['name'])
                 else:
                     self.bot.get_command("dine").reset_cooldown(ctx)
-                    await ctx.send("You don't have enough money for this.")
+                    await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
             else:
                 self.bot.get_command("dine").reset_cooldown(ctx)
-                await ctx.send("That item is not on the menu.")
+                await ctx.send("<:RedTick:653464977788895252> That item is not on the menu.")
         else:
             self.bot.get_command("dine").reset_cooldown(ctx)
-            await ctx.send("I couldn't find that restaurant. Try tagging the owner instead.")
+            await ctx.send("<:RedTick:653464977788895252> I couldn't find that restaurant. Try tagging the owner instead.")
 
     @commands.command(aliases=['Use'])
     @commands.cooldown(1,10, commands.BucketType.user)
@@ -264,11 +271,11 @@ class User(commands.Cog):
                 else:#if 'boost' in x:
                     pass#names.append()
             if not w:
-                await ctx.send("I could not find that in your inventory. Please only include the item name.")
+                await ctx.send("<:RedTick:653464977788895252> I could not find that in your inventory. Please only include the item name.")
             else:
                 await ctx.send("Item used successfully.")
         else:
-            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `r!start`.")
 
     @commands.command(aliases=['Se2ll'])
     async def se2ll(self, ctx, *, item):
@@ -288,11 +295,11 @@ class User(commands.Cog):
                 else:#if 'boost' in x:
                     w = False#names.append()
             if not w:
-                await ctx.send("I could not find that in your inventory. Please only include the item name.")
+                await ctx.send("<:RedTick:653464977788895252> I could not find that in your inventory. Please only include the item name.")
             else:
                 await ctx.send("Item sold successfully for")
         else:
-            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `r!start`.")
 
     @commands.command(pass_context=True, aliases=['Votereward'])
     @commands.cooldown(1, 43200, commands.BucketType.user)
@@ -311,14 +318,14 @@ class User(commands.Cog):
                 await ctx.send("You haven't upvoted! Upvote here: <https://top.gg/bot/648065060559781889/vote>")
                 self.bot.get_command("votereward").reset_cooldown(ctx)
         else:
-            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one by doing `r!start`.")
 
     @commands.command(aliases=['Trivia'])
     @commands.cooldown(1, 30, commands.BucketType.user)
     async def trivia(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
         if not post:
-            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `r!start`.")
         else:
             embed = discord.Embed(colour=0xa82021)
             question = rnd(trivia.questions)
@@ -370,12 +377,12 @@ class User(commands.Cog):
 
 
     @commands.command(aliases=['Beg'])
-    @commands.cooldown(1, 60, commands.BucketType.user)
+    @commands.cooldown(1, 90, commands.BucketType.user)
     async def beg(self, ctx):
         numb = random.randint(1,5)
         post = db.market.find_one({"owner": ctx.author.id})
         if not post:
-            await ctx.send("You don't have a restaurant! Create one with `r!start`.")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `r!start`.")
         elif numb == 1 or numb == 2:
             await ctx.send("The Bank of Restaria denied your request.")
         else:
@@ -404,10 +411,10 @@ class User(commands.Cog):
                 embed.set_footer(text="Come back in 1 week!")
                 await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your patron weekly chest and received...")
             else:
-                await ctx.send("You must be a silver+ patron to use this command! For more information on restaurant patronage, do `r!donate`.")
+                await ctx.send("<:RedTick:653464977788895252> You must be a silver+ patron to use this command! For more information on restaurant patronage, do `r!donate`.")
                 self.bot.get_command("weekly").reset_cooldown(ctx)
         else:
-            await ctx.send("You don't have a restaurant. Create one by doing `r!start`.")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one by doing `r!start`.")
             self.bot.get_command("weekly").reset_cooldown(ctx)
 
     @commands.command(aliases=['Work'])
@@ -417,6 +424,7 @@ class User(commands.Cog):
         patrons = db.utility.find_one({"utility": "patrons"})
         user = db.market.find_one({"owner": ctx.author.id})
         now = datetime.datetime.now()
+        celebrities = ["Taylor Swift", "Lady Gaga", "Zac Efron", "6ix9ine", "Brendon Urie", "Chris Pratt", "Katy Perry", "Ellen Degeneres", "David Dobrik", "Benedict Cumberpatch", "John Cena", "Miley Cyrus", "Kylie Jenner", "Victoria Justice", "Ariana Grande", "Ryan Gosling", "Selena Gomez", "Shawn Mendes", "Keanu Reeves", "Beyoncé", "Rihanna", "Eminem"]
         db.market.update_one({"owner": ctx.author.id}, {"$set":{"laststock": now.strftime("%d/%m/%Y %H:%M")}})
         if user:
             if ctx.author.id in patrons['bronze']:
@@ -436,6 +444,7 @@ class User(commands.Cog):
             r2 = rnd(food.food[country])
             r3 = rnd(food.food[country])
             r4 = rnd(food.food[country])
+            rm = rm.replace("CELEB", rnd(celebrities))
             if 'happy' in rm or 'refused' in rm:
                 msg = str(rm).replace("ITEM", r1['name'])
             elif 'ITEM' in rm and not 'ITEM2' in rm:
@@ -494,7 +503,7 @@ class User(commands.Cog):
             msg = msg.replace(r1['name'], nn)
             await ctx.send(f"{ctx.author.mention}, {msg}")
         else:
-            await ctx.send("You don't have a restaurant. Create one with `r!start`.")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
 
     @commands.group(aliases=['dsc', 'Discoin'])
@@ -511,12 +520,11 @@ class User(commands.Cog):
     async def exchange(self, ctx, toId, count : int):
         post = db.market.find_one({"owner": ctx.author.id})
         if not post:
-            await ctx.send("You don't have a restaurant yet! Create one with `r!create`")
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant yet! Create one with `r!create`")
         elif not post['money'] >= count:
-            await ctx.send("You don't have enough to make that transaction!")
+            await ctx.send("<:RedTick:653464977788895252> You don't have enough to make that transaction!")
         else:
             r = await self.discoin_client.create_transaction(toId, count, str(ctx.author.id))
-
             embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{r.id}/show)")
             await ctx.send(embed=embed)
             await self.take_money(user=ctx.author.id, count=count)
@@ -536,7 +544,7 @@ class User(commands.Cog):
                 uid = x['id'].split("_")[0]
                 rate = round(rbc_rate / x['currency']['value'], 4)
                 desc += f"[{name}](https://top.gg/bot/{uid}) **ID:** `{id}` **Rate:** `$1 RBC = {rate} {id}`\n"
-        embed = discord.Embed(colour=0xa82021, title="Available Bots & Currencies", description=desc)
+        embed = discord.Embed(colour=0xa82021, title="Available Bots Currencies", description=desc)
         await ctx.send(embed=embed)
 
 

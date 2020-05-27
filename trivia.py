@@ -17,5 +17,12 @@ questions = [
 {"question": "What is cinnamon made out of?", "answers": ["Bark off a tree", "Leaves", "Cinnmaum Plant", "Salt and Ginger"], "correct":"Bark off a tree"},
 {"question": "Where did Iced Tea Originate?", "answers": ["United Kingdom", "China", "Japan", "United States"], "correct":"United States"},
 {"question": "In ancient China, which meat was reserved only for the Emperor?", "answers": ["Chicken", "Pork", "Beef", "Mutton"], "correct":"Pork"},
-{"question": "In which country did sushi originate?", "answers": ["China", "Japan", "France", "United States"], "correct":"Japan"}
+{"question": "In which country did sushi originate?", "answers": ["China", "Japan", "France", "United States"], "correct":"Japan"},
+{"question": "Immersing food in vinegar to prolong its lifespan is known as what?", "answers": ["Vinaigrette", "Pickling", "Salting", "Savouring"], "correct":"Pickling"},
+{"question": "What is the national dish of America?", "answers": ["Hamburger", "Steak", "Pizza", "Hot Dog"], "correct":"Hamburger"},
+{"question": "What country exports the most food?", "answers": ["China", "Mexico", "Britain", "United States"], "correct":"United States"},
+{"question": "Where was beer invented?", "answers": ["Greece", "Mesopotamia", "Italy", "Ireland"], "correct":"Mesopotamia"},
+{"question": "When was McDonalds invented?", "answers": ["1955", "1925", "1895", "1965"], "correct":"1955"},
+{"question": "What is the proper title for a person who makes pizzas in a pizzeria?", "answers": ["Pizzarian", "Pizza Chef", "Pizzaiolo", "Pizal"], "correct":"Pizzaiolo"},
+{"question": "What is name of the scale used to measure the spicy heat of peppers?", "answers": ["Fahrenheit", "Heat Units", "Covin Units", "Scoville Units"], "correct":"Scoville Units"}
 ]

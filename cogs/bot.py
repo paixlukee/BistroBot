@@ -184,11 +184,11 @@ class Botdev(commands.Cog):
             pass
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
+    async def on_command_error(self, ctx, error): # <:RedTick:653464977788895252>
         if isinstance(error, commands.NotOwner):
             await ctx.send("<:RedTick:653464977788895252> You are not authorised to use this command!")
         elif isinstance(error, commands.BadArgument):
-            await ctx.send(f"<:RedTick:653464977788895252> Error! {error}")
+            await ctx.send(f"<:RedTick:653464977788895252> Error! `{error}`")
         elif isinstance(error, commands.CommandOnCooldown):
             minutes, seconds = divmod(error.retry_after, 60)
             hours, minutes = divmod(minutes, 60)
