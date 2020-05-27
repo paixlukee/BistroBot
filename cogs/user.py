@@ -17,15 +17,38 @@ import string
 import food
 import requests
 import trivia
+from discoin import Discoin
 
+#mongo
 client = MongoClient(config.mongo_client)
 db = client['siri']
+#discoin
+#loop = asyncio.get_event_loop()
+#client = Discoin(config.discoin_token, "RBC", loop=loop)
 
 class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
+        self.discoin_client = Discoin(token=config.discoin_token, me="RBC", loop=bot.loop) # Initializes Discoin
+        self.discoin_update.start()
 
+    def cog_unload(self):
+        self.discoin_update.cancel()
+
+    @tasks.loop(minutes=4.0)
+    async def discoin_update(self):
+        await self.bot.wait_until_ready()
+        await asyncio.sleep(1)
+
+        unhandled_transactions = await self.discoin_client.fetch_transactions()
+        for transaction in unhandled_transactions:
+            await self.discoin_client.handle_transaction(transaction.id)
+            user = self.bot.get_user(transaction.user_id)
+            await self.add_money(user=transaction.user_id, count=transaction.payout)
+            if user:
+                embed = discord.Embed(colour=0xa82021, title="Transaction successful", description="Your transfer from **{transaction.currency_from.id}** to **RBC** has been processed! You have received ${transaction.payout}.\n\n[Transaction Receipt](https://dash.discoin.zws.im/#/transactions/{transaction.id}/show)")
+                await user.send(embed=embed)
 
     @commands.command(aliases=['User', 'Profile', 'profile'])
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -490,7 +513,7 @@ class User(commands.Cog):
             await ctx.send("You don't have enough to make that transaction!")
         else:
             auth = {"Authorization": f"Bearer {config.discoin_token}"}
-            body = {"amount": 5, "toId": toId, "user": str(ctx.author.id)}
+            body = {"amount": count, "toId": toId, "user": str(ctx.author.id)}
             r = requests.post("https://discoin.zws.im/transactions", headers=auth, data=body).json()
             await ctx.send(f"```json\n{r}```")
 
