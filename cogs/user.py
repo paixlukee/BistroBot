@@ -45,7 +45,7 @@ class User(commands.Cog):
         for transaction in unhandled_transactions:
             await self.discoin_client.handle_transaction(transaction.id)
             user = self.bot.get_user(transaction.user_id)
-            await self.add_money(user=transaction.user_id, count=round(transaction.payout)
+            await self.add_money(user=transaction.user_id, count=round(transaction.payout))
             if user:
                 po = round(transaction.payout)
                 cid = transaction.currency_from.id
