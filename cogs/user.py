@@ -116,7 +116,7 @@ class User(commands.Cog):
         patrons = db.utility.find_one({"utility": "patrons"})
         if posts:
             ri = random.randint(1,11)
-            rci = random.randint(150, 250)
+            rci = random.randint(140, 200)
             if ctx.author.id in patrons['bronze']:
                 rci *= 1.2
                 rci = round(rci)
