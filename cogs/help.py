@@ -38,7 +38,7 @@ class Help(commands.Cog):
                       "- Emoji \":RedTick:\" has been added to all error messages\n\n"\
                       "__**Bug Fixes**__\n"\
                       "- Fixed an error that would stop cooldowns from resetting on some errors\n"\
-                      "- Fixed an error where sometimes the `r!daily` command wouldn't give you any money.\n"\
+                      "- Fixed an error where sometimes the `r!daily` command wouldn't give you any money.\n"
         embed = discord.Embed(description=description)
         embed.set_author(name="from lukee#0420", icon_url="https://images-ext-2.discordapp.net/external/_ULuCbUCIqYZnsc6J04zIVeuKvDhm6HlCxF6ZU0v338/%3Fsize%3D256%26f%3D.gif/https/cdn.discordapp.com/avatars/396153668820402197/a_802dfb76b03607e983c0dd7b171aa3d8.gif")
         await ctx.send(embed=embed)
