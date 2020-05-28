@@ -19,7 +19,6 @@ class Help(commands.Cog):
         self.bot = bot
         self.pr = 'r!'
 
-    @bot.event
     async def on_guild_remove(guild):
         server = guild
         targets = [
