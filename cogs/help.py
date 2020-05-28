@@ -19,29 +19,6 @@ class Help(commands.Cog):
         self.bot = bot
         self.pr = 'r!'
 
-    async def on_guild_remove(guild):
-        server = guild
-        targets = [
-                    discord.utils.get(server.channels, name="bot"),
-                    discord.utils.get(server.channels, name="bots"),
-                    discord.utils.get(server.channels, name="bot-commands"),
-                    discord.utils.get(server.channels, name="bot-spam"),
-                    discord.utils.get(server.channels, name="bot-channel"),
-                    discord.utils.get(server.channels, name="testing"),
-                    discord.utils.get(server.channels, name="testing-1"),
-                    discord.utils.get(server.channels, name="general"),
-                    discord.utils.get(server.channels, name="shitposts"),
-                    discord.utils.get(server.channels, name="off-topic"),
-                    discord.utils.get(server.channels, name="media"),
-                    guild.get_member(guild.owner.id)
-                    ]
-        embed = discord.Embed(title="Goodbye!", description="Wait a second! Please take the time to fill out a form here: https://forms.gle/m2ZVL4F7DbCWJHzo6. Thanks!")
-        for x in targets:
-            try:
-                await x.send(embed=embed)
-            except:
-                continue
-            break
 
     @commands.command(aliases=['V2'])
     async def v2(self, ctx):
