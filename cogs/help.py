@@ -22,33 +22,26 @@ class Help(commands.Cog):
     @commands.command(aliases=['V2'])
     async def v2(self, ctx):
         description = "Introducing... **Res V2**\n\n"\
-
-                    "I am so glad we made it so far... 1.2k servers! I hope you enjoy this update and updates yet to come. Now here are the changes...!\n\n"\
-
-                    "__**New Commands:**__\n"\
-                    "`r!hire` - Hire an employee to help you work!\n"\
-                    "`r!worker` - Manage your employee\n"\
-
-                    "`r!discoin` - Manage discoin transactions\n\n"\
-
-                    "*Wait... what's discoin?* To put it into simple terms... Its a way to convert restaurant currency to currency on others bots! To view available currencies, do `r!discoin bots`.\n\n"\
-
-                    "__**Command Changes**__\n"\
-                    "- Beg command cooldown is now 90 seconds instead of 60 seconds\n"\
-                    "- Work command is now 7 minutes instead of 8 minutes\n"\
-                    "- There are 8 new colours, 6 new banners, 7 new trivia questions, and 3 new work responses\n\n"\
-
-                    "__**Style Changes**__\n"\
-                    "- New banner for help command\n"\
-                    "- Links have been put onto the help command\n"\
-                    "- Emoji \":RedTick:\" has been added to all error messages\n\n"\
-
-                    "__**Bug Fixes**__\n"\
-                    "- Fixed an error that would stop cooldowns from resetting on some errors\n"\
-                    "- Fixed an error where sometimes the `r!daily` command wouldn't give you any money.\n"\
-                    embed = discord.Embed(description=description)
-                    embed.set_author(name="from lukee#0420", icon_url="https://images-ext-2.discordapp.net/external/_ULuCbUCIqYZnsc6J04zIVeuKvDhm6HlCxF6ZU0v338/%3Fsize%3D256%26f%3D.gif/https/cdn.discordapp.com/avatars/396153668820402197/a_802dfb76b03607e983c0dd7b171aa3d8.gif")
-                    await ctx.send(embed=embed)
+                      "I am so glad we made it so far... 1.2k servers! I hope you enjoy this update and updates yet to come. Now here are the changes...!\n\n"\
+                      "__**New Commands:**__\n"\
+                      "`r!hire` - Hire an employee to help you work!\n"\
+                      "`r!worker` - Manage your employee\n"\
+                      "`r!discoin` - Manage discoin transactions\n\n"\
+                      "*Wait... what's discoin?* To put it into simple terms... Its a way to convert restaurant currency to currency on others bots! To view available currencies, do `r!discoin bots`.\n\n"\
+                      "__**Command Changes**__\n"\
+                      "- Beg command cooldown is now 90 seconds instead of 60 seconds\n"\
+                      "- Work command is now 7 minutes instead of 8 minutes\n"\
+                      "- There are 8 new colours, 6 new banners, 7 new trivia questions, and 3 new work responses\n\n"\
+                      "__**Style Changes**__\n"\
+                      "- New banner for help command\n"\
+                      "- Links have been put onto the help command\n"\
+                      "- Emoji \":RedTick:\" has been added to all error messages\n\n"\
+                      "__**Bug Fixes**__\n"\
+                      "- Fixed an error that would stop cooldowns from resetting on some errors\n"\
+                      "- Fixed an error where sometimes the `r!daily` command wouldn't give you any money.\n"\
+        embed = discord.Embed(description=description)
+        embed.set_author(name="from lukee#0420", icon_url="https://images-ext-2.discordapp.net/external/_ULuCbUCIqYZnsc6J04zIVeuKvDhm6HlCxF6ZU0v338/%3Fsize%3D256%26f%3D.gif/https/cdn.discordapp.com/avatars/396153668820402197/a_802dfb76b03607e983c0dd7b171aa3d8.gif")
+        await ctx.send(embed=embed)
 
     @commands.group(aliases=['cmds', 'commands', 'Help'])
     async def help(self, ctx, page=None):
