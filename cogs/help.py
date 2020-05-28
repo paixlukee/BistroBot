@@ -35,12 +35,12 @@ class Help(commands.Cog):
                       "__**Style Changes**__\n"\
                       "- New banner for help command\n"\
                       "- Links have been put onto the help command\n"\
-                      "- Emoji \":RedTick:\" has been added to all error messages\n\n"\
+                      "- Emoji \"<:RedTick:653464977788895252>\" has been added to all error messages\n\n"\
                       "__**Bug Fixes**__\n"\
                       "- Fixed an error that would stop cooldowns from resetting on some errors\n"\
                       "- Fixed an error where sometimes the `r!daily` command wouldn't give you any money.\n"
         embed = discord.Embed(description=description)
-        embed.set_author(name="from lukee#0420", icon_url="https://images-ext-2.discordapp.net/external/_ULuCbUCIqYZnsc6J04zIVeuKvDhm6HlCxF6ZU0v338/%3Fsize%3D256%26f%3D.gif/https/cdn.discordapp.com/avatars/396153668820402197/a_802dfb76b03607e983c0dd7b171aa3d8.gif")
+        embed.set_footer(text="from lukee#0420", icon_url="https://images-ext-2.discordapp.net/external/_ULuCbUCIqYZnsc6J04zIVeuKvDhm6HlCxF6ZU0v338/%3Fsize%3D256%26f%3D.gif/https/cdn.discordapp.com/avatars/396153668820402197/a_802dfb76b03607e983c0dd7b171aa3d8.gif")
         await ctx.send(embed=embed)
 
     @commands.group(aliases=['cmds', 'commands', 'Help'])
