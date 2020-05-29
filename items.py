@@ -22,7 +22,15 @@ banners = {
     {"name": "Teal Waves", "url": "http://paixlukee.ml/m/IQES8.jpg"},
     {"name": "Painted Forest", "url": "http://paixlukee.ml/m/1ZGNH.jpg"}
     ]
-}
+},
+"rare": [
+    {"name": "I Heart Restaurant", "url": "http://paixlukee.ml/m/1MGK0.jpg"},
+    {"name": "Blackheart", "url": "http://paixlukee.ml/m/9AHZ0.jpg"},
+    {"name": "Pot of Gold", "url": "http://paixlukee.ml/m/LVBZ7.jpg"},
+    {"name": "Quick Disguise", "url": "http://paixlukee.ml/m/PI86H.jpg"},
+    {"name": "Middle of the City", "url": "http://paixlukee.ml/m/LSXED.jpg"}
+]
+
 colours = {
 "common": [
     {"colour": "Red", "hex": 0xff0000},

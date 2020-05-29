@@ -13,6 +13,11 @@ import asyncio
 import json
 import os
 import config
+from pymongo import MongoClient
+import pymongo
+
+client = MongoClient(config.mongo_client)
+db = client['siri']
 
 class Help(commands.Cog):
     def __init__(self, bot):
@@ -47,13 +52,18 @@ class Help(commands.Cog):
     @commands.group(aliases=['cmds', 'commands', 'Help'])
     async def help(self, ctx, page=None):
         #keeping this hardcoded, because it will only make me do more work :)
+        post = db.market.find_one({"owner": ctx.author.id})
         try:
             page = int(page.lower().replace("#", "").replace("page", ""))
         except:
             pass
         pages = [1,2,3,4]
         if not page or not page in pages:
-            embed = discord.Embed(colour=0xa82021, description="Welcome! Here is a list of commands that you are able to use.")
+            if not post:
+                an = "It seems that you don't have a restaurant, do `r!start` to make one."
+            else:
+                an = ""
+            embed = discord.Embed(colour=0xa82021, description=f"Welcome! Here is a list of commands that you are able to use. {an}")
             embed.add_field(name="Page #1 | Restaurant", value="The main restaurant commands.")
             embed.add_field(name="Page #2 | User", value="Commands that interact with regular users.")
             embed.add_field(name="Page #3 | Inventory", value="Buy, use, and view items in your inventory.")
