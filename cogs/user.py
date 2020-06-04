@@ -171,8 +171,10 @@ class User(commands.Cog):
                     names.append(f"<:ColourIcon:659418340703469584> {x['colour']['colour']} ({x['colour']['rarity']})")
                 elif 'banner' in x:
                     names.append(f"<:BannerIcon:657457820295495699> {x['banner']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")
-                else:#if 'boost' in x:
-                    pass#names.append(f"<:EarningsBoost:651474110022418433> {x['boost']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")
+                elif 'potion' in x:
+                    names.append(f"<:CooldownPotion:715822985780658238> Cooldown Remover Potion (Uncommon)")
+                else:
+                    pass
             if names:
                 embed.description = "\n".join(names)
             else:
