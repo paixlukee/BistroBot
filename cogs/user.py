@@ -115,7 +115,7 @@ class User(commands.Cog):
         posts = db.market.find_one({"owner": ctx.author.id})
         patrons = db.utility.find_one({"utility": "patrons"})
         if posts:
-            ri = random.randint(1,11)
+            ri = random.randint(1,9)
             rci = random.randint(140, 200)
             if ctx.author.id in patrons['bronze']:
                 rci *= 1.2
@@ -135,11 +135,11 @@ class User(commands.Cog):
             else:
                 pass
             chest = [f'{rci} Cash']
-            #if ri == 10:
-                #chest.append('x1.1 EXP boost for 24 hours (No use yet.)')
-                #db.market.update_one({"owner": ctx.author}, {"$push":{"inventory": {"boost": {"type":"experience", "multiply":1.1, "time":24}}}})
-            #else:
-                #pass
+            if ri == 1:
+                chest.append('Cooldown Remover Potion (1x)')
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"potion": "cooldown"}}})
+            else:
+                pass
             try:
                 await self.add_money(user=ctx.author.id, count=rci)
                 embed = discord.Embed(colour=0xa82021, description="\n".join(chest) + "\n\nWant even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `r!votereward` to receive another chest.")
@@ -268,8 +268,26 @@ class User(commands.Cog):
                         w.append(1)
                     else:
                         pass
-                else:#if 'boost' in x:
-                    pass#names.append()
+                if 'potion' in x:
+                    if x['potion'] == 'cooldown':
+                        def nc(m):
+                            return m.author == ctx.message.author
+                        embed = discord.Embed(colour=0xa82021, description=f"What command would you like to use this potion on? `Ex. daily`")
+                        embed.set_footer(text="You have 90 seconds to reply")
+                        msg = await ctx.send(embed=embed)
+                        resp = await self.bot.wait_for('message', check=nc, timeout=90)
+                        try:
+                            await resp.delete()
+                            await msg.delete()
+                        except:
+                            pass
+                        if not bot.get_command(resp.content.lower()):
+                            await ctx.send("Error using potion, did you type it right? `Example: daily`")
+                        else:
+                            bot.get_command(resp.content.lower()).reset_cooldown(ctx)
+                            await ctx.send("Item used successfully.")
+                else:
+                    pass
             if not w:
                 await ctx.send("<:RedTick:653464977788895252> I could not find that in your inventory. Please only include the item name.")
             else:
