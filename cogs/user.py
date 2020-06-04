@@ -271,7 +271,9 @@ class User(commands.Cog):
                     else:
                         pass
                 elif 'potion' in x:
-                    if x['potion'] == 'cooldown':
+                    if w:
+                        pass
+                    elif x['potion'] == 'cooldown':
                         def nc(m):
                             return m.author == ctx.message.author
                         embed = discord.Embed(colour=0xa82021, description=f"What command would you like to use this potion on? `Ex. daily`")
@@ -289,6 +291,7 @@ class User(commands.Cog):
                         else:
                             self.bot.get_command(resp.content.lower()).reset_cooldown(ctx)
                             await ctx.send("Item used successfully.")
+                            db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory":{"potion": "cooldown"}}})
                 else:
                     pass
             if not w:
