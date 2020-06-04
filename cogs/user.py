@@ -283,10 +283,10 @@ class User(commands.Cog):
                             await msg.delete()
                         except:
                             pass
-                        if not bot.get_command(resp.content.lower()):
+                        if not self.bot.get_command(resp.content.lower()):
                             await ctx.send("Error using potion, did you type it right? `Example: daily`")
                         else:
-                            bot.get_command(resp.content.lower()).reset_cooldown(ctx)
+                            self.bot.get_command(resp.content.lower()).reset_cooldown(ctx)
                             await ctx.send("Item used successfully.")
                 else:
                     pass
