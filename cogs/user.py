@@ -115,7 +115,7 @@ class User(commands.Cog):
         posts = db.market.find_one({"owner": ctx.author.id})
         patrons = db.utility.find_one({"utility": "patrons"})
         if posts:
-            ri = random.randint(1,9)
+            ri = random.randint(1,6)
             rci = random.randint(140, 200)
             if ctx.author.id in patrons['bronze']:
                 rci *= 1.2
@@ -270,12 +270,13 @@ class User(commands.Cog):
                         w.append(1)
                     else:
                         pass
-                if 'potion' in x:
+                elif 'potion' in x:
                     if x['potion'] == 'cooldown':
                         def nc(m):
                             return m.author == ctx.message.author
                         embed = discord.Embed(colour=0xa82021, description=f"What command would you like to use this potion on? `Ex. daily`")
                         embed.set_footer(text="You have 90 seconds to reply")
+                        embed.set_author(name="Cooldown Remover Potion", icon_url="https://cdn.discordapp.com/emojis/715822985780658238.png?v=1")
                         msg = await ctx.send(embed=embed)
                         resp = await self.bot.wait_for('message', check=nc, timeout=90)
                         try:
