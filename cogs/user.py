@@ -134,11 +134,11 @@ class User(commands.Cog):
                     rci = rci - 50
             else:
                 pass
-            chest = [f'{rci} Cash']
+            chest = [f'- {rci} Cash']
             if ri == 1:
                 pass
-                #chest.append('Cooldown Remover Potion (1x)')
-                #db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"potion": "cooldown"}}})
+                chest.append('- Cooldown Remover Potion (1x)')
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"potion": "cooldown"}}})
             else:
                 pass
             try:
@@ -289,10 +289,14 @@ class User(commands.Cog):
                             pass
                         if not self.bot.get_command(resp.content.lower()):
                             await ctx.send("Error using potion, did you type it right? `Example: daily`")
+                            w.append(1)
                         else:
                             self.bot.get_command(resp.content.lower()).reset_cooldown(ctx)
                             await ctx.send("Item used successfully.")
                             db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory":{"potion": "cooldown"}}})
+                            w.append(1)
+                    else:
+                        pass
                 else:
                     pass
             if not w:
