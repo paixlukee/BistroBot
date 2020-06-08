@@ -272,7 +272,7 @@ class User(commands.Cog):
                     else:
                         pass
                 elif 'potion' in x:
-                    if not w[0] = 1:
+                    if not w[0] == 1:
                         if x['potion'] == 'cooldown':
                             def nc(m):
                                 return m.author == ctx.message.author
