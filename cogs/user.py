@@ -272,29 +272,28 @@ class User(commands.Cog):
                     else:
                         pass
                 elif 'potion' in x:
-                    if w:
-                        pass
-                    elif x['potion'] == 'cooldown':
-                        def nc(m):
-                            return m.author == ctx.message.author
-                        embed = discord.Embed(colour=0xa82021, description=f"What command would you like to use this potion on? `Ex. daily`")
-                        embed.set_footer(text="You have 90 seconds to reply")
-                        embed.set_author(name="Cooldown Remover Potion", icon_url="https://cdn.discordapp.com/emojis/715822985780658238.png?v=1")
-                        msg = await ctx.send(embed=embed)
-                        resp = await self.bot.wait_for('message', check=nc, timeout=90)
-                        try:
-                            await resp.delete()
-                            await msg.delete()
-                        except:
-                            pass
-                        if not self.bot.get_command(resp.content.lower()):
-                            await ctx.send("Error using potion, did you type it right? `Example: daily`")
-                            w.append(1)
-                        else:
-                            self.bot.get_command(resp.content.lower()).reset_cooldown(ctx)
-                            await ctx.send("Item used successfully.")
-                            db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory":{"potion": "cooldown"}}})
-                            w.append(1)
+                    if not w:
+                        if x['potion'] == 'cooldown':
+                            def nc(m):
+                                return m.author == ctx.message.author
+                            embed = discord.Embed(colour=0xa82021, description=f"What command would you like to use this potion on? `Ex. daily`")
+                            embed.set_footer(text="You have 90 seconds to reply")
+                            embed.set_author(name="Cooldown Remover Potion", icon_url="https://cdn.discordapp.com/emojis/715822985780658238.png?v=1")
+                            msg = await ctx.send(embed=embed)
+                            resp = await self.bot.wait_for('message', check=nc, timeout=90)
+                            try:
+                                await resp.delete()
+                                await msg.delete()
+                            except:
+                                pass
+                            if not self.bot.get_command(resp.content.lower()):
+                                await ctx.send("Error using potion, did you type it right? `Example: daily`")
+                                w.append(1)
+                            else:
+                                self.bot.get_command(resp.content.lower()).reset_cooldown(ctx)
+                                await ctx.send("Item used successfully.")
+                                db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory":{"potion": "cooldown"}}})
+                                w.append(1)
                     else:
                         pass
                 else:
