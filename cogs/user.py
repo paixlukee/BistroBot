@@ -249,7 +249,7 @@ class User(commands.Cog):
     async def use(self, ctx, *, item):
         post = db.market.find_one({"owner": ctx.author.id})
         item = item.lower().replace("(uncommon", "").replace("(common)", "").replace("uncommon", "").replace("common", "")
-        w = True
+        #w = True
         if post:
             w = []
             for x in post['inventory']:
@@ -259,7 +259,7 @@ class User(commands.Cog):
                     elif x['colour']['colour'].lower() == item.lower():
                         await asyncio.sleep(1)
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"colour": x['colour']['hex']}})
-                        w.append(1)
+                        #w.append(1)
                     else:
                         pass
                 elif 'banner' in x:
@@ -268,11 +268,11 @@ class User(commands.Cog):
                     elif x['banner']['name'].lower() == item.lower():
                         await asyncio.sleep(1)
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": x['banner']['url']}})
-                        w.append(1)
+                        #w.append(1)
                     else:
                         pass
                 elif 'potion' in x:
-                    if not w[0] == 1:
+                    if not w:
                         if x['potion'] == 'cooldown':
                             def nc(m):
                                 return m.author == ctx.message.author
