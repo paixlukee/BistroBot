@@ -134,11 +134,11 @@ class User(commands.Cog):
                     rci = rci - 50
             else:
                 pass
-            chest = [f'- {rci} Cash']
+            chest = [f'• {rci} Cash']
             if ri == 1:
                 pass
-                chest.append('- Cooldown Remover Potion (1x)')
-                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"potion": "cooldown"}}})
+                #chest.append('• Cooldown Remover Potion (1x)')
+                #db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"potion": "cooldown"}}})
             else:
                 pass
             try:
