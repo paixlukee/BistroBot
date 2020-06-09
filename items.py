@@ -29,7 +29,7 @@ banners = {
     {"name": "Pot of Gold", "url": "http://paixlukee.ml/m/LVBZ7.jpg"},
     {"name": "Quick Disguise", "url": "http://paixlukee.ml/m/PI86H.jpg"},
     {"name": "Middle of the City", "url": "http://paixlukee.ml/m/LSXED.jpg"}
-]
+]}
 
 colours = {
 "common": [
