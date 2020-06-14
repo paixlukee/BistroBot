@@ -439,7 +439,7 @@ class User(commands.Cog):
                 embed.set_footer(text="Come back in 1 week!")
                 await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your patron weekly chest and received...")
             else:
-                await ctx.send("<:RedTick:653464977788895252> You must be a silver+ patron to use this command! For more information on restaurant patronage, do `r!donate`.")
+                await ctx.send("<:RedTick:653464977788895252> You must be a silver+ patron to use this command! For more information on restaurant patronage, click \"Donate\" on the help command.")
                 self.bot.get_command("weekly").reset_cooldown(ctx)
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one by doing `r!start`.")
