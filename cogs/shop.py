@@ -472,6 +472,22 @@ class Shop(commands.Cog):
             await ctx.send(embed=embed)
             self.bot.get_command("set").reset_cooldown(ctx)
 
+    @set.command(aliases=['notifications', 'notifs'])
+    async def notifications(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        if not 'notifications' in post:
+            db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": True}})
+            await ctx.send("Notifications turned off.")
+        elif 'notifications' == False:
+            db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": True}})
+            await ctx.send("Notifications turned off.")
+        elif 'notifications' == True:
+            db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": False}})
+            await ctx.send("Notifications turned on.")
+        else:
+            pass
+
+
     @set.command(aliases=['Logo', 'image', 'icon'])
     async def logo(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})

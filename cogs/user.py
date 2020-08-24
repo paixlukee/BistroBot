@@ -232,8 +232,19 @@ class User(commands.Cog):
                     await self.take_money(ctx.author.id, item['price'])
                     c = await self.add_exp(ctx.author.id, rxp)
                     await ctx.send(f"You've ordered a {item['name']} from {res['name']} for ${item['price']}. You've earned {c} EXP for dining in.")
+                    price_paid = round(item['price']/1.8)
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
+                    if res['notifications'] == True:
+                        if item['name'].startswith(("a", "e", "i", "o", "u")):
+                            nn = "an " + item['name']
+                        else:
+                            nn = "a " + item['name']
+                        nemb = discord.Embed(title="Dine-in Notification", description=f"Someone came to your restaurant and ordered {nn}. You have been paid ${price_paid}.")
+                        nemb.set_footer(text="To turn these notifications off, do `r!set notifications`")
+                        await bot.get_user(res['owner']).send(embed=nemb)
+                    else:
+                        pass
                 else:
                     self.bot.get_command("dine").reset_cooldown(ctx)
                     await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
