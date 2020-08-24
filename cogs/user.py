@@ -242,7 +242,7 @@ class User(commands.Cog):
                             else:
                                 nn = "a " + item['name']
                             nemb = discord.Embed(title="Dine-in Notification", description=f"Someone came to your restaurant and ordered {nn}. You have been paid ${price_paid}.")
-                            nemb.set_footer(text="To turn these notifications off, do `r!set notifications`")
+                            nemb.set_footer(text="To turn these notifications off, do 'r!set notifications'")
                             await self.bot.get_user(res['owner']).send(embed=nemb)
                         else:
                             pass
