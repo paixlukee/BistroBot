@@ -258,9 +258,8 @@ class User(commands.Cog):
                         pass
                     elif x['colour']['colour'].lower() == item.lower():
                         await asyncio.sleep(1)
-                        await ctx.send("Item used successfully.")
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"colour": x['colour']['hex']}})
-                        #w.append(1)
+                        w.append(1)
                     else:
                         pass
                 elif 'banner' in x:
@@ -268,9 +267,8 @@ class User(commands.Cog):
                         pass
                     elif x['banner']['name'].lower() == item.lower():
                         await asyncio.sleep(1)
-                        await ctx.send("Item used successfully.")
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": x['banner']['url']}})
-                        #w.append(1)
+                        w.append(1)
                     else:
                         pass
                 elif 'potion' in x:
@@ -302,6 +300,8 @@ class User(commands.Cog):
                     pass
             if not w:
                 await ctx.send(f"<:RedTick:653464977788895252> I could not find that in your inventory. Please only include the item name. {w}")
+            else:
+                await ctx.send("Item used successfully.")
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `r!start`.")
 
