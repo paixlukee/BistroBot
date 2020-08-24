@@ -477,15 +477,16 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         if not 'notifications' in post:
             db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": True}})
-            await ctx.send("Notifications turned off.")
-        elif 'notifications' == False:
-            db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": True}})
-            await ctx.send("Notifications turned off.")
-        elif 'notifications' == True:
-            db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": False}})
             await ctx.send("Notifications turned on.")
         else:
-            pass
+            if post['notifications'] == False:
+                db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": True}})
+                await ctx.send("Notifications turned on.")
+            elif post['notifications'] == True:
+                db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": False}})
+                await ctx.send("Notifications turned off.")
+            else:
+                pass
 
 
     @set.command(aliases=['Logo', 'image', 'icon'])
