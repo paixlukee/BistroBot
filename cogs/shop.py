@@ -381,7 +381,7 @@ class Shop(commands.Cog):
                     if cr == 'common':
                         chosen = rnd(items.banners['common'])
                         chosen['rarity'] = "Common"
-                        if not chosen['name'] in banners_had:
+                        if chosen['name'] in banners_had:
                             embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
                             embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
                             await self.add_money(user=ctx.author.id, count=200)
@@ -395,7 +395,7 @@ class Shop(commands.Cog):
                     elif cr == 'uncommon':
                         chosen = rnd(items.banners['uncommon'])
                         chosen['rarity'] = "Common"
-                        if not chosen['name'] in banners_had:
+                        if chosen['name'] in banners_had:
                             embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
                             embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
                             await self.add_money(user=ctx.author.id, count=200)
@@ -409,7 +409,7 @@ class Shop(commands.Cog):
                     elif cr == 'rare':
                         chosen = rnd(items.banners['rare'])
                         chosen['rarity'] = "Rare"
-                        if not chosen['name'] in banners_had:
+                        if chosen['name'] in banners_had:
                             embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
                             embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
                             await self.add_money(user=ctx.author.id, count=200)
