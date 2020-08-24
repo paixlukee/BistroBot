@@ -189,6 +189,7 @@ class User(commands.Cog):
     @commands.command(aliases=['Dine', 'Eat', 'eat'])
     @commands.cooldown(1,30, commands.BucketType.user)
     async def dine(self, ctx, *, restaurant=None):
+        print('test')
         post = db.market.find_one({"owner":ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
@@ -235,11 +236,8 @@ class User(commands.Cog):
                     price_paid = round(item['price']/1.8)
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
-                    print('hi 1')
                     if 'notifications' in res:
-                        print('hi 2')
                         if res['notifications']:
-                            print('hi 3a')
                             if item['name'].startswith(("a", "e", "i", "o", "u")):
                                 nn = "an " + item['name']
                             else:
