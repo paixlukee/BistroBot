@@ -472,7 +472,7 @@ class Shop(commands.Cog):
             await ctx.send(embed=embed)
             self.bot.get_command("set").reset_cooldown(ctx)
 
-    @set.command(aliases=['notifications', 'notifs'])
+    @set.command(aliases=['Notifications', 'notifs'])
     async def notifications(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
         if not 'notifications' in post:
