@@ -25,15 +25,14 @@ import schedule
 client = MongoClient(config.mongo_client)
 db = client['siri']
 
-bot = commands.AutoShardedBot(heartbeat_timeout=6, shard_count=2, command_prefix=commands.when_mentioned_or("r!"))
+bot = commands.AutoShardedBot(heartbeat_timeout=5, shard_count=2, command_prefix=commands.when_mentioned_or("r!"))
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 
 async def status_task():
     users = len(set(bot.get_all_members()))
-    while True:
-        await bot.change_presence(activity=discord.Game(name=f'r!help | {str(len(bot.guilds))} guilds', type=2))
-        await asyncio.sleep(30)
+    await bot.change_presence(activity=discord.Game(name=f'r!help | {str(len(bot.guilds))} guilds', type=2))
+        
 
 @bot.event
 async def on_ready():
