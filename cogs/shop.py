@@ -370,23 +370,59 @@ class Shop(commands.Cog):
                     await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
                 else:
                     await self.take_money(ctx.author.id, 400)
-                    rn = random.randint(1,3)
-                    if not rn == 1:
+                    banners_had = []
+                    for x in post['inventory']:
+                        if 'banner' in x:
+                            banners_had.append(x['banner']['name'])
+                        else:
+                            pass
+                    rn = ['common', 'common', 'common', 'common', 'common', 'common', 'uncommon', 'uncommon', 'uncommon', 'rare']
+                    cr = rnd(rn)
+                    if cr == 'common':
                         chosen = rnd(items.banners['common'])
                         chosen['rarity'] = "Common"
-                        db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
-                        embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Common) [View banner]({chosen['url']})")
-                        embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
-                        embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
-                        await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
-                    else:
+                        if chosen['name'] in banners_had:
+                            embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
+                            embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                            await self.add_money(user=ctx.author.id, count=200)
+                            await _ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                        else:
+                            db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                            embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Common) [View banner]({chosen['url']})")
+                            embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                            embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                            await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                    elif cr == 'uncommon':
                         chosen = rnd(items.banners['uncommon'])
                         chosen['rarity'] = "Common"
-                        db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
-                        embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner]({chosen['url']})")
-                        embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
-                        embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
-                        await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                        if chosen['name'] in banners_had:
+                            embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
+                            embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                            await self.add_money(user=ctx.author.id, count=200)
+                            await _ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                        else:
+                            db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                            embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner]({chosen['url']})")
+                            embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                            embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                            await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                    elif cr == 'rare':
+                        chosen = rnd(items.banners['rare'])
+                        chosen['rarity'] = "Rare"
+                        if chosen['name'] in banners_had:
+                            embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
+                            embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                            await self.add_money(user=ctx.author.id, count=200)
+                            await _ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                        else:
+                            db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
+                            embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Rare) [View banner]({chosen['url']})")
+                            embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
+                            embed.set_footer(text=f"Do r!inventory to check your inventory, or r!use {chosen['name']} to use it.")
+                            await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                    else:
+                        pass
+
         else:
             await ctx.send("<:RedTick:653464977788895252> That is not an option.")
 

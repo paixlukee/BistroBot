@@ -27,7 +27,8 @@ banners = {
     {"name": "Blackheart", "url": "http://paixlukee.ml/m/9AHZ0.jpg"},
     {"name": "Pot of Gold", "url": "http://paixlukee.ml/m/LVBZ7.jpg"},
     {"name": "Quick Disguise", "url": "http://paixlukee.ml/m/PI86H.jpg"},
-    {"name": "Middle of the City", "url": "http://paixlukee.ml/m/LSXED.jpg"}
+    {"name": "City Living", "url": "http://paixlukee.ml/m/LSXED.jpg"},
+    {"name": "Kingdom of Restaria", "url": "http://paixlukee.ml/m/VXY6S.jpg"}
 ]}
 
 colours = {
