@@ -235,17 +235,17 @@ class User(commands.Cog):
                     price_paid = round(item['price']/1.8)
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
-                    if res['notifications'] == True:
-                        print('hi 1')
-                        if item['name'].startswith(("a", "e", "i", "o", "u")):
-                            nn = "an " + item['name']
+                    if 'notifications' in res:
+                        if res['notifications']:
+                            if item['name'].startswith(("a", "e", "i", "o", "u")):
+                                nn = "an " + item['name']
+                            else:
+                                nn = "a " + item['name']
+                            nemb = discord.Embed(title="Dine-in Notification", description=f"Someone came to your restaurant and ordered {nn}. You have been paid ${price_paid}.")
+                            nemb.set_footer(text="To turn these notifications off, do `r!set notifications`")
+                            await bot.get_user(res['owner']).send(embed=nemb)
                         else:
-                            nn = "a " + item['name']
-                        nemb = discord.Embed(title="Dine-in Notification", description=f"Someone came to your restaurant and ordered {nn}. You have been paid ${price_paid}.")
-                        nemb.set_footer(text="To turn these notifications off, do `r!set notifications`")
-                        print('hi 2')
-                        await bot.get_user(res['owner']).send(embed=nemb)
-                        print('hi 3')
+                            print('no work: test')
                     else:
                         pass
                 else:
