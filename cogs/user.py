@@ -298,7 +298,7 @@ class User(commands.Cog):
                         pass
                 else:
                     pass
-            if not w:
+            if w:
                 await ctx.send("<:RedTick:653464977788895252> I could not find that in your inventory. Please only include the item name.")
             else:
                 await ctx.send("Item used successfully.")
