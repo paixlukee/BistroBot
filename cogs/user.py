@@ -189,7 +189,6 @@ class User(commands.Cog):
     @commands.command(aliases=['Dine', 'Eat', 'eat'])
     @commands.cooldown(1,30, commands.BucketType.user)
     async def dine(self, ctx, *, restaurant=None):
-        print('test')
         post = db.market.find_one({"owner":ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
@@ -244,7 +243,7 @@ class User(commands.Cog):
                                 nn = "a " + item['name']
                             nemb = discord.Embed(title="Dine-in Notification", description=f"Someone came to your restaurant and ordered {nn}. You have been paid ${price_paid}.")
                             nemb.set_footer(text="To turn these notifications off, do `r!set notifications`")
-                            await bot.get_user(res['owner']).send(embed=nemb)
+                            await self.bot.get_user(res['owner']).send(embed=nemb)
                         else:
                             pass
                     else:
