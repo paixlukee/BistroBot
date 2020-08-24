@@ -385,7 +385,7 @@ class Shop(commands.Cog):
                             embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
                             embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
                             await self.add_money(user=ctx.author.id, count=200)
-                            await _ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                            await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
                         else:
                             db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
                             embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Common) [View banner]({chosen['url']})")
@@ -399,7 +399,7 @@ class Shop(commands.Cog):
                             embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
                             embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
                             await self.add_money(user=ctx.author.id, count=200)
-                            await _ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                            await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
                         else:
                             db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
                             embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Uncommon) [View banner]({chosen['url']})")
@@ -413,7 +413,7 @@ class Shop(commands.Cog):
                             embed = discord.Embed(colour=0xa82021, description=f"~~{chosen['name']} ({chosen['rarity']})~~\n\n**Duplicate!** You got $200 because this banner is already in your inventory.")
                             embed.set_thumbnail(url="http://pixelartmaker.com/art/34fc7859370d585.png")
                             await self.add_money(user=ctx.author.id, count=200)
-                            await _ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
+                            await ctx.send(embed=embed, content=f'{ctx.author.mention}, you opened a Profile Banner Chest and received...')
                         else:
                             db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": chosen}}})
                             embed = discord.Embed(colour=0xa82021, description=f"{chosen['name']} (Rare) [View banner]({chosen['url']})")
