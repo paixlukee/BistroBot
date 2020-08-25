@@ -298,6 +298,7 @@ class User(commands.Cog):
                     elif item == 'experience potion':
                         w.append('+50 EXP has been added to your Restaurant.')
                         await self.add_exp(user=ctx.author.id, count=50)
+                        db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory":{"item": "ep"}}})
                     else:
                         pass
 
