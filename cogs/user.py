@@ -175,7 +175,7 @@ class User(commands.Cog):
                 elif 'potion' in x:
                     names.append(f"<:CooldownPotion:715822985780658238> Cooldown Remover Potion (Uncommon)")
                 elif 'item' in x:
-                    if x['item'] == 'rod':
+                    if x['item'] == 'fish':
                         names.append(f":fishing_pole_and_fish: Fishing Rod (Common)")
                     elif x['item'] == 'ep':
                         names.append(f"<:ExperiencePotion:715822985780658238> Experience Potion (Common)")

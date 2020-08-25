@@ -334,15 +334,16 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
-        embed = discord.Embed(colour=0xa82021, title="Which item would you like to buy?", description="[1] Fishing Rod - $20 :fishing_pole_and_fish:\n[2] Experience Potion (+50 EXP) - $80 <:EarningsBoost2:651474232219271210>")
+        embed = discord.Embed(colour=0xa82021, title="Which item would you like to buy?", description="[1] Fishing Rod - $60 :fishing_pole_and_fish:\n[2] Experience Potion (+50 EXP) - $80 <:ExperiencePotion:715822985780658238>")
         embed.set_footer(text="You have 90 seconds to reply with the number, or say 'cancel' to cancel.")
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
         if choice.content == '1':
-            if post['money'] < 20:
+            if post['money'] < 60:
                 await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
             else:
                 await ctx.send(f"{ctx.author.mention}, You bought 1 Fishing Rod. Do `r!fish` to use it.")
+                await self.take_money(user=ctx.author.id, count=60)
         elif choice.content == '2':
             if post['money'] < 80:
                 await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
@@ -818,6 +819,28 @@ class Shop(commands.Cog):
             rn = rnd(to_clean)
             count = await self.add_exp(user=ctx.author.id, count=rn['exp'])
             await ctx.send(f"{ctx.author.mention}, You cleaned the {rn['name']} and earned {count} EXP.")
+        else:
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
+
+    @commands.command(aliases=['Fish'])
+    @commands.cooldown(1, 300, commands.BucketType.user)
+    async def fish(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 5}, {'name': 'some eggs', 'money': 3, 'exp': 3}, {'name': 'some rice', 'money': 3, 'exp': 20}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 10}, {'name': 'a few apples', 'money': 7, 'exp': 11}, {'name': 'two bags of carrots', 'money': 8, 'exp': 12}, {'name': 'a bag of flour', 'money': 4, 'exp': 16}, {'name': 'a can of salt', 'money': 7, 'exp': 16}]
+        if post:
+            for x in post['inventory']:
+                if 'item' in x:
+                    if item == 'fish':
+                        fish = True
+                    else:
+                        fish = False
+            if not fish:
+                await ctx.send("You don't have a fishing rod. Buy one by saying `r!buy item` and then saying `1`.")
+            else:
+                rn = rnd(to_fish)
+                await self.add_exp(user=ctx.author.id, count=rn['exp'])
+                await self.add_money(user=ctx.author.id, count=rn['money'])
+                await ctx.send(f"{ctx.author.mention}, You threw out your fishing rod and got {rn['name']} which earned you ${rn['money']} & {rn['exp']} EXP.")
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
