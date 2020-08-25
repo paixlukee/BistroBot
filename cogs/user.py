@@ -295,7 +295,7 @@ class User(commands.Cog):
                         pass
                     elif item == 'fish':
                         await ctx.send("Incorrect Usage...")
-                    elif item == 'Experience Potion':
+                    elif item == 'experience potion':
                         w.append('+50 EXP has been added to your Restaurant.')
                         await self.add_exp(user=ctx.author.id, count=50)
                     else:
