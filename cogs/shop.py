@@ -830,7 +830,7 @@ class Shop(commands.Cog):
         if post:
             for x in post['inventory']:
                 if 'item' in x:
-                    if item == 'fish':
+                    if x['item'] == 'fish':
                         fish = True
                     else:
                         fish = False
