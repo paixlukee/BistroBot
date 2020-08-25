@@ -174,6 +174,11 @@ class User(commands.Cog):
                     names.append(f"<:BannerIcon:657457820295495699> {x['banner']['name']} ({x['banner']['rarity']}) [[View]]({x['banner']['url']})")
                 elif 'potion' in x:
                     names.append(f"<:CooldownPotion:715822985780658238> Cooldown Remover Potion (Uncommon)")
+                elif 'item' in x:
+                    if item == 'rod':
+                        names.append(f":fishing_pole_and_fish: Fishing Rod (Common)")
+                    elif item == 'ep':
+                        names.append(f"<:ExperiencePotion:715822985780658238> Experience Potion (Common)")
                 else:
                     pass
             if names:
@@ -290,7 +295,7 @@ class User(commands.Cog):
                         pass
                     elif item == 'fish':
                         await ctx.send("Incorrect Usage...")
-                    elif item == 'ep':
+                    elif item == 'Experience Potion':
                         w.append('+50 EXP has been added to your Restaurant.')
                         await self.add_exp(user=ctx.author.id, count=50)
                     else:
@@ -326,9 +331,9 @@ class User(commands.Cog):
                 else:
                     pass
             if not w:
-                await ctx.send(f"<:RedTick:653464977788895252> I could not find that in your inventory. Please only include the item name. {w}")
+                await ctx.send(f"<:RedTick:653464977788895252> I could not find that in your inventory. Please only include the item name.")
             else:
-                await ctx.send("Item used successfully.")
+                await ctx.send(f"Item used successfully. {w[0]}")
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `r!start`.")
 
