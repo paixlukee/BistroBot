@@ -273,7 +273,7 @@ class User(commands.Cog):
                     elif x['colour']['colour'].lower() == item.lower():
                         await asyncio.sleep(1)
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"colour": x['colour']['hex']}})
-                        w.append(1)
+                        w.append(' ')
                     else:
                         pass
                 elif 'banner' in x:
@@ -282,9 +282,22 @@ class User(commands.Cog):
                     elif x['banner']['name'].lower() == item.lower():
                         await asyncio.sleep(1)
                         db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": x['banner']['url']}})
-                        w.append(1)
+                        w.append(' ')
                     else:
                         pass
+                elif 'item' in x:
+                    if w:
+                        pass
+                    elif item == 'fish':
+                        await ctx.send("Incorrect Usage...")
+                    elif item == 'ep':
+                        w.append('+50 EXP has been added to your Restaurant.')
+                        await self.add_exp(user=ctx.author.id, count=50)
+                    else:
+                        pass
+
+
+
                 elif 'potion' in x:
                     if not w:
                         if x['potion'] == 'cooldown':

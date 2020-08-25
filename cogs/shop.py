@@ -271,7 +271,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def buy(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy custom` - **Buy a restaurant customisation chest**\n`r!buy food` - **Buy a menu item and have it added to your menu**")
+            embed = discord.Embed(colour=0xa82021, title="'Buy' Command Group", description="`r!buy custom` - **Buy a restaurant customisation chest**\n`r!buy food` - **Buy a menu item and have it added to your menu**\n`r!buy item` - **Buy an item from the store**")
             await ctx.send(embed=embed)
 
     @buy.command(aliases=['Boost'])
@@ -328,6 +328,30 @@ class Shop(commands.Cog):
 
         else:
             await ctx.send("Boosts are still in the works! Suggest what you want to see here: <https://discord.gg/BCRtw7c>")
+
+    @buy.command(aliases=['Item'])
+    async def item(self, ctx):
+        def nc(m):
+            return m.author == ctx.message.author
+        embed = discord.Embed(colour=0xa82021, title="Which item would you like to buy?", description="[1] Fishing Rod - $20 :fishing_pole_and_fish:\n[2] Experience Potion (+50 EXP) - $80 <:EarningsBoost2:651474232219271210>")
+        embed.set_footer(text="You have 90 seconds to reply with the number, or say 'cancel' to cancel.")
+        await ctx.send(embed=embed)
+        choice = await self.bot.wait_for('message', check=nc, timeout=90)
+        if choice.content == '1':
+            if post['money'] < 20:
+                await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
+            else:
+                await ctx.send("{ctx.author.mention}, You bought 1 Fishing Rod. Do `r!fish` to use it.")
+        elif choice.content == '2':
+            if post['money'] < 80:
+                await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
+            else:
+                await ctx.send("{ctx.author.mention}, You bought 1 Experience Potion. Do `r!use Experience Potion` to use it.")
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"item": "ep"}}})
+        elif choice.content.lower() == 'cancel':
+            await ctx.send("Cancelled.")
+        else:
+            pass
 
     @buy.command(aliases=['Custom'])
     async def custom(self, ctx):
@@ -736,49 +760,53 @@ class Shop(commands.Cog):
     @commands.command(aliases=['Slots', 'slot'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def slots(self, ctx, bet:int = None):
-        posts = db.market.find_one({"owner": ctx.author.id})
-        if bet == None:
-            await ctx.send('<:RedTick:653464977788895252> Please provide your bet with the command. Example: `r!slots 50`')
-        elif not int(posts['money']) >= int(bet) or int(posts['money']) == int(bet):
-            await ctx.send('<:RedTick:653464977788895252> You don\'t have enough money.')
-        elif int(bet) < 25:
-            await ctx.send('<:RedTick:653464977788895252> Your bet must be above $25.')
-        else:
-            emojis = [':ramen:', ':cherries:', ':grapes:', ':banana:', ':poultry_leg:', ':pizza:', ':taco:', ':hamburger:', ':hotdog:']
-            fruits = [':cherries:', ':grapes:', ':banana:']
-            a = random.choice(emojis)
-            b = random.choice(emojis)
-            c = random.choice(emojis)
-            d = random.choice(emojis)
-            e = random.choice(emojis)
-            f = random.choice(emojis)
-            g = random.choice(emojis)
-            h = random.choice(emojis)
-            i = random.choice(emojis)
-            if a == b == c:
-                if a == ':ramen:':
-                    won = bet*6
-                    slot1 = discord.Embed(colour=0xa82021, description=f"JACKPOT! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
-                else:
-                    won = bet*3
-                    slot1 = discord.Embed(colour=0xa82021, description=f"Amazing! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
-                await ctx.send(embed=slot1, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
-                await self.add_money(user=ctx.author.id, count=won)
-            elif a == b or a == c or b == c:
-                won = bet*2
-                slot2 = discord.Embed(colour=0xa82021, description=f"Nice! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
-                await ctx.send(embed=slot2, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
-                await self.add_money(user=ctx.author.id, count=won)
+        on = False
+        if on:
+            posts = db.market.find_one({"owner": ctx.author.id})
+            if bet == None:
+                await ctx.send('<:RedTick:653464977788895252> Please provide your bet with the command. Example: `r!slots 50`')
+            elif not int(posts['money']) >= int(bet) or int(posts['money']) == int(bet):
+                await ctx.send('<:RedTick:653464977788895252> You don\'t have enough money.')
+            elif int(bet) < 25:
+                await ctx.send('<:RedTick:653464977788895252> Your bet must be above $25.')
             else:
-                if a in fruits and b in fruits and c in fruits:
-                    won = bet*3
-                    slot2 = discord.Embed(colour=0xa82021, description=f"Fruit Bonanza! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
+                emojis = [':ramen:', ':cherries:', ':grapes:', ':banana:', ':poultry_leg:', ':pizza:', ':taco:', ':hamburger:', ':hotdog:']
+                fruits = [':cherries:', ':grapes:', ':banana:']
+                a = random.choice(emojis)
+                b = random.choice(emojis)
+                c = random.choice(emojis)
+                d = random.choice(emojis)
+                e = random.choice(emojis)
+                f = random.choice(emojis)
+                g = random.choice(emojis)
+                h = random.choice(emojis)
+                i = random.choice(emojis)
+                if a == b == c:
+                    if a == ':ramen:':
+                        won = bet*6
+                        slot1 = discord.Embed(colour=0xa82021, description=f"JACKPOT! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
+                    else:
+                        won = bet*3
+                        slot1 = discord.Embed(colour=0xa82021, description=f"Amazing! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
+                    await ctx.send(embed=slot1, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
+                    await self.add_money(user=ctx.author.id, count=won)
+                elif a == b or a == c or b == c:
+                    won = bet*2
+                    slot2 = discord.Embed(colour=0xa82021, description=f"Nice! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
                     await ctx.send(embed=slot2, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
                     await self.add_money(user=ctx.author.id, count=won)
                 else:
-                    slot3 = discord.Embed(colour=0xa82021, description=f"Aw! You didn't win anything.\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
-                    await ctx.send(embed=slot3, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
-                    await self.take_money(user=ctx.author.id, count=bet)
+                    if a in fruits and b in fruits and c in fruits:
+                        won = bet*3
+                        slot2 = discord.Embed(colour=0xa82021, description=f"Fruit Bonanza! You've won ${won}!\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
+                        await ctx.send(embed=slot2, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
+                        await self.add_money(user=ctx.author.id, count=won)
+                    else:
+                        slot3 = discord.Embed(colour=0xa82021, description=f"Aw! You didn't win anything.\n\n{d}   {e}   {f} ` `\n{a}   {b}   {c} `<`\n{g}   {h}   {i} ` `")
+                        await ctx.send(embed=slot3, content=f"{ctx.author.mention}, you've used some of your Restaurant income on a slot machine...")
+                        await self.take_money(user=ctx.author.id, count=bet)
+        else:
+            await ctx.send("This command is currently disabled for all users.")
 
     @commands.command(aliases=['Clean'])
     @commands.cooldown(1, 300, commands.BucketType.user)
