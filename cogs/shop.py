@@ -344,12 +344,14 @@ class Shop(commands.Cog):
             else:
                 await ctx.send(f"{ctx.author.mention}, You bought 1 Fishing Rod. Do `r!fish` to use it.")
                 await self.take_money(user=ctx.author.id, count=60)
+                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"item": "fish"}}})
         elif choice.content == '2':
             if post['money'] < 80:
                 await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
             else:
                 await ctx.send(f"{ctx.author.mention}, You bought 1 Experience Potion. Do `r!use Experience Potion` to use it.")
                 db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"item": "ep"}}})
+                await self.take_money(user=ctx.author.id, count=80)
         elif choice.content.lower() == 'cancel':
             await ctx.send("Cancelled.")
         else:
