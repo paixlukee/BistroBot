@@ -825,7 +825,7 @@ class Shop(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
     @commands.command(aliases=['Fish'])
-    @commands.cooldown(1, 2, commands.BucketType.user)
+    @commands.cooldown(1, 180, commands.BucketType.user)
     async def fish(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
         to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 5}, {'name': 'some eggs', 'money': 3, 'exp': 3}, {'name': 'some rice', 'money': 3, 'exp': 20}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 10}, {'name': 'a few apples', 'money': 7, 'exp': 11}, {'name': 'two bags of carrots', 'money': 8, 'exp': 12}, {'name': 'a bag of flour', 'money': 4, 'exp': 16}, {'name': 'a can of salt', 'money': 7, 'exp': 16}]
@@ -838,6 +838,7 @@ class Shop(commands.Cog):
                         fish = False
             if not fish:
                 await ctx.send("You don't have a fishing rod. Buy one by saying `r!buy item` and then saying `1`.")
+                self.bot.get_command("fish").reset_cooldown(ctx)
             else:
                 rn = rnd(to_fish)
                 await self.add_exp(user=ctx.author.id, count=rn['exp'])
