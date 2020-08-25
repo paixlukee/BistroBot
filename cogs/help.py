@@ -86,7 +86,7 @@ class Help(commands.Cog):
             embed.add_field(name=f"{self.pr}beg", value="Beg the bank to give you a grant")
             embed.add_field(name=f"{self.pr}clean", value="Clean your restaurant and receive EXP")
             embed.add_field(name=f"{self.pr}cook", value="Cook an item and receive EXP")
-            #embed.add_field(name=f"{self.pr}slots <bet>", value="Use your money on a slot machine.")
+            embed.add_field(name=f"{self.pr}fish", value="Go fishing and get money & EXP.")
             embed.add_field(name=f"{self.pr}trivia", value="Play trivia and earn money.")
             embed.add_field(name=f"{self.pr}leaderboard", value="View the global restaurant leaderboard")
             embed.add_field(name=f"{self.pr}hire", value="Hire an employee to help you work")
