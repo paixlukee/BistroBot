@@ -331,6 +331,7 @@ class Shop(commands.Cog):
 
     @buy.command(aliases=['Item'])
     async def item(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
         embed = discord.Embed(colour=0xa82021, title="Which item would you like to buy?", description="[1] Fishing Rod - $20 :fishing_pole_and_fish:\n[2] Experience Potion (+50 EXP) - $80 <:EarningsBoost2:651474232219271210>")
