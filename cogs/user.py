@@ -600,7 +600,7 @@ class User(commands.Cog):
                 rbc_rate = x['currencies'][0]['value']
         for x in r:
             if not x['currencies'][0]['id'] == "RBC":
-                name = ['name']
+                name = x['name']
                 id = x['currencies'][0]['id']
                 uid = x['discord_id']
                 rate = round(rbc_rate / x['currencies'][0]['value'], 4)
