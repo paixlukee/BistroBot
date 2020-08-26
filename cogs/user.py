@@ -596,14 +596,15 @@ class User(commands.Cog):
         desc = ""
         rbc_rate = 0
         for x in r:
-            if x['currency']['id'] == "RBC":
-                rbc_rate = x['currency']['value']
+            if x['currencies'][0]['id'] == "RBC":
+                rbc_rate = x['currencies'][0]['value']
         for x in r:
             if not x['currency']['id'] == "RBC":
-                name = x['currency']['name']
-                id = x['currency']['id']
-                uid = x['id'].split("_")[0]
-                rate = round(rbc_rate / x['currency']['value'], 4)
+                name = ['name']
+                if 'id' in x:
+                    id = x['currencies'][0]['id']
+                uid = x['discord_id']
+                rate = round(rbc_rate / x['currencies'][0]['value'], 4)
                 desc += f"[{name}](https://top.gg/bot/{uid}) **ID:** `{id}` **Rate:** `$1 RBC = {rate} {id}`\n"
         embed = discord.Embed(colour=0xa82021, title="Available Bots Currencies", description=desc)
         await ctx.send(embed=embed)
