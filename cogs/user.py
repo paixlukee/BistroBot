@@ -601,8 +601,7 @@ class User(commands.Cog):
         for x in r:
             if not x['currencies'][0]['id'] == "RBC":
                 name = ['name']
-                if 'id' in x:
-                    id = x['currencies'][0]['id']
+                id = x['currencies'][0]['id']
                 uid = x['discord_id']
                 rate = round(rbc_rate / x['currencies'][0]['value'], 4)
                 desc += f"[{name}](https://top.gg/bot/{uid}) **ID:** `{id}` **Rate:** `$1 RBC = {rate} {id}`\n"
