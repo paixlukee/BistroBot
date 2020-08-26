@@ -599,7 +599,7 @@ class User(commands.Cog):
             if x['currencies'][0]['id'] == "RBC":
                 rbc_rate = x['currencies'][0]['value']
         for x in r:
-            if not x['currency']['id'] == "RBC":
+            if not x['currencies'][0]['id'] == "RBC":
                 name = ['name']
                 if 'id' in x:
                     id = x['currencies'][0]['id']
