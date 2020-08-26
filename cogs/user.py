@@ -589,6 +589,8 @@ class User(commands.Cog):
             embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{r.id}/show)")
             await ctx.send(embed=embed)
             await self.take_money(user=ctx.author.id, count=count)
+                           
+                           
 
     @discoin.command(aliases=['Bots'])
     async def bots(self, ctx):
@@ -607,6 +609,39 @@ class User(commands.Cog):
                 desc += f"[{name}](https://top.gg/bot/{uid}) **ID:** `{id}` **Rate:** `$1 RBC = {rate} {id}`\n"
         embed = discord.Embed(colour=0xa82021, title="Available Bots Currencies", description=desc)
         await ctx.send(embed=embed)
+                           
+    @commands.command(aliases=['bugreport'])
+    async def reportbug(self, ctx, *, topic, option=None, description=None):
+        """Bug Report Command (Siri Support Server Only)"""
+        if ctx.channel.id == 748162782586994728:
+            await ctx.message.delete()           
+            args = topic.split('|')
+            topic = args[0]
+            option = args[1]
+            description = args[2]  
+            if not description:
+                await ctx.send(f"<:redtick:492800273211850767> {ctx.author.mention}, Incorrect Arguments. **Usage:** `siri bugreport <topic> <option> <description>` *Do not include < or > in your report.*", delete_after=10)
+            if str(option).lower() not in ['major', 'minor', ' minor ', ' major ', 'minor ', 'major ', ' minor', ' major']:
+                await ctx.send(f"<:redtick:492800273211850767> {ctx.author.mention}, Incorrect Arguments. Option must be either `Major` or `Minor`. Ex. `siri reportbug Help | Minor | description here`", delete_after=10)
+            else:
+                data = {
+                        "name": description, 
+                        "desc": f'This is a user-submitted card.\n\n**Command/Topic:** {str(topic).capitalize()}\n\n**Description:** {description}\n\n**Submitted by:** {ctx.author} ({ctx.author.id})\n\n\nThis bug is **{str(option).upper()}**.',
+                        "idList": '5bde5b1cb1304b380ff9d72e',
+                        "pos": 'top'
+                }
+                r = requests.post(f"https://api.trello.com/1/cards?key={config.trello_key}&token={config.trello_token}", data=data).json()
+                trello_link = r['url']
+
+                msg = await ctx.send(f"<:greentick:492800272834494474> {ctx.author.mention}, your report has been sent! Check it out in <#508462645163065362> or on {trello_link}. I have also sent a transcipt to your DMs.", delete_after=10)
+
+                embed = discord.Embed(colour=0x00f0ff, description="Bug Report Transcript")
+                embed.add_field(name="Topic/Command:", value=str(topic).capitalize())
+                embed.add_field(name="Option:", value=str(option).capitalize())
+                embed.add_field(name="Description:", value=description)
+                embed.add_field(name="Link:", value=trello_link)
+                embed.set_footer(text="Thank you for submitting a bug!")
+                await ctx.author.send(embed=embed)
 
 
     async def add_money(self, user:int, count):
