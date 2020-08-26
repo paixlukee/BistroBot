@@ -828,14 +828,20 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 180, commands.BucketType.user)
     async def fish(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
-        to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 5}, {'name': 'some eggs', 'money': 3, 'exp': 3}, {'name': 'some rice', 'money': 3, 'exp': 20}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 10}, {'name': 'a few apples', 'money': 7, 'exp': 11}, {'name': 'two bags of carrots', 'money': 8, 'exp': 12}, {'name': 'a bag of flour', 'money': 4, 'exp': 16}, {'name': 'a can of salt', 'money': 7, 'exp': 16}]
+        to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 5}, {'name': 'some eggs', 'money': 3, 'exp': 3}, {'name': 'a fish', 'money': 11, 'exp': 17}, {'name': 'some rice', 'money': 3, 'exp': 19}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 10}, {'name': 'a few apples', 'money': 7, 'exp': 11}, {'name': 'two bags of carrots', 'money': 8, 'exp': 12}, {'name': 'a bag of flour', 'money': 4, 'exp': 16}, {'name': 'a can of salt', 'money': 7, 'exp': 16}]
         if post:
+            x = False
             for x in post['inventory']:
                 if 'item' in x:
                     if x['item'] == 'fish':
                         fish = True
+                        x = True
                     else:
                         fish = False
+                else:
+                    pass
+            if not x:
+                fish = False
             if not fish:
                 await ctx.send("You don't have a fishing rod. Buy one by saying `r!buy item` and then saying `1`.")
                 self.bot.get_command("fish").reset_cooldown(ctx)
