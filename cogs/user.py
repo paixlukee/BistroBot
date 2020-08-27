@@ -52,6 +52,12 @@ class User(commands.Cog):
                 tid = transaction.id
                 embed = discord.Embed(colour=0xa82021, title="Transaction successful", description=f"Your transfer from **{cid}** to **RBC** has been processed! You have received ${po}.\n\n[Transaction Receipt](https://dash.discoin.zws.im/#/transactions/{tid}/show)")
                 await user.send(embed=embed)
+                
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.channel.id == 748162782586994728 and not message.author.id == 648065060559781889:
+            await asyncio.sleep(0.5)
+            await message.delete()
 
     @commands.command(aliases=['User', 'Profile', 'profile'])
     @commands.cooldown(1, 3, commands.BucketType.user)
