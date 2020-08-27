@@ -25,7 +25,7 @@ import schedule
 client = MongoClient(config.mongo_client)
 db = client['siri']
 
-bot = commands.AutoShardedBot(heartbeat_timeout=4, shard_count=3, command_prefix=commands.when_mentioned_or("r!"))
+bot = commands.AutoShardedBot(heartbeat_timeout=7, shard_count=3, command_prefix=commands.when_mentioned_or("r!"))
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 
