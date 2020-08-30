@@ -100,6 +100,7 @@ class Botdev(commands.Cog):
         ping = str(round((t2-t1)*1000))
         ol = round(ctx.bot.latencies[0][1]*1000)
         sl = round(ctx.bot.latencies[1][1]*1000)
+        tl = round(ctx.bot.latencies[2][1]*1000)
         if ol >= 50:
             oe = '<:idle:701016198531383316>'
         else:
@@ -108,13 +109,19 @@ class Botdev(commands.Cog):
             se = '<:idle:701016198531383316>'
         else:
             se = '<:online:701012643263283242>'
+        if tl >= 50:
+            te = '<:idle:701016198531383316>'
+        else:
+            te = '<:online:701012643263283242>'
         oc = await self.get_shard(1)
         sc = await self.get_shard(2)
+        tc = await self.get_shard(3)
         shard = ctx.guild.shard_id+1
         embed = discord.Embed(colour=0xa82021, description=f"The ping for **{ctx.guild.name}** is `{ping}ms`.")
         embed.set_author(name="Pong!", icon_url=ctx.me.avatar_url_as(format='png'))
         embed.add_field(name=f"{oe} Shard #1", value=f"`{ol}ms`  `{oc} servers`")
         embed.add_field(name=f"{se} Shard #2", value=f"`{sl}ms`  `{sc} servers`")
+        embed.add_field(name=f"{te} Shard #3", value=f"`{tl}ms`  `{tc} servers`")
         embed.set_footer(text=f"Shard ID: #{shard}")
         await ctx.send(embed=embed)
 
