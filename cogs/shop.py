@@ -853,6 +853,7 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
+
     @commands.command(aliases=['Cookt', 'Baket', 'baket'])
     @commands.cooldown(1, 1, commands.BucketType.user)#cd 150
     async def cookt(self, ctx):
@@ -872,6 +873,7 @@ class Shop(commands.Cog):
             embed = discord.Embed(colour=0xa82021, description=desc)
             embed.set_footer(text=f"You're cooking {cfooda}.")
             msg = await ctx.send(embed=embed)
+            time.sleep(1)
             while bar_int <= 6:
                 if done:
                     pass
@@ -882,13 +884,14 @@ class Shop(commands.Cog):
                     if bar_int == 7:
                         embed.set_footer(text=f"You burnt the {cfood}!")
                         done = True
-                    elif bar_int <= 6:
+                    elif bar_int > 6:
                         embed.set_footer(text=f"You're burning the {cfood}!")
                     else:
                         embed.set_footer(text=f"You're cooking {cfooda}.")
                     await msg.edit(embed=embed)
                     time.sleep(1)
-            #resp = await self.bot.wait_for('message', check=nc, timeout=240)
+            resp = await self.bot.wait_for('message', check=nc, timeout=240)
+            done = True
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
