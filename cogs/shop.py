@@ -889,10 +889,10 @@ class Shop(commands.Cog):
                             embed.set_footer(text=f"You're burning the {cfood}!")
                         else:
                             embed.set_footer(text=f"You're cooking {cfooda}.")
-                        return await msg.edit(embed=embed)
+                        await msg.edit(embed=embed)
                         time.sleep(1)
             async def text():
-                resp = return await self.bot.wait_for('message', check=nc, timeout=240)
+                resp = await self.bot.wait_for('message', check=nc, timeout=240)
                 done = True
             if __name__ == '__main__':
                 Thread(target=increase).start()
