@@ -891,14 +891,14 @@ class Shop(commands.Cog):
                             embed.set_footer(text=f"You're cooking {cfooda}.")
                         await msg.edit(embed=embed)
                         time.sleep(1)
-            async def text():
-                loop = asyncio.get_event_loop()
-                inc = loop.create_task(increase())
-                wfm = loop.create_task(self.bot.wait_for('message', check=nc, timeout=240))
-                await inc
-                await wfm
+            #async def text():
             loop = asyncio.get_event_loop()
-            loop.run_until_complete(text())
+            inc = loop.create_task(increase())
+            wfm = loop.create_task(self.bot.wait_for('message', check=nc, timeout=240))
+            await inc
+            await wfm
+            #loop = asyncio.get_event_loop()
+            #loop.run_until_complete(text())
             #resp = loop.run_until_complete(self.bot.wait_for('message', check=nc, timeout=240))
             done = True
         else:
