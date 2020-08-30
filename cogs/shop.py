@@ -875,6 +875,7 @@ class Shop(commands.Cog):
             msg = await ctx.send(embed=embed)
             time.sleep(1)
             async def increase():
+                bar_int = 1
                 while bar_int <= 6:
                     if done:
                         pass
