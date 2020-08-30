@@ -861,7 +861,8 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         if post:
             bar_int = 1
-            cfood = rnd(food.food[post['country']])
+            country = post['country']
+            cfood = rnd(food.food[country])
             if cfood.startswith(("a", "e", "i", "o", "u")):
                 cfooda = "an " + cfood
             else:
