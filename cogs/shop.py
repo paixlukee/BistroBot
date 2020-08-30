@@ -17,6 +17,7 @@ import pymongo
 import string
 import food
 import items
+from threading import Thread
 import extra
 import workers
 import schedule
@@ -853,12 +854,14 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
 
     @commands.command(aliases=['Cookt', 'Baket', 'baket'])
     @commands.cooldown(1, 1, commands.BucketType.user)#cd 150
     async def cookt(self, ctx):
         def nc(m):
-            return m.author == ctx.author and m.channel == ctx.channel and not m.content.startswith("r!menu")
+            return m.author == ctx.author and m.channel == ctx.channel and m.content.lower().replace('r!', '') == 'stop'
         post = db.market.find_one({"owner": ctx.author.id})
         if post:
             bar_int = 1
@@ -874,25 +877,29 @@ class Shop(commands.Cog):
             embed.set_footer(text=f"You're cooking {cfooda}.")
             msg = await ctx.send(embed=embed)
             time.sleep(1)
-            while bar_int <= 6:
-                if done:
-                    pass
-                else:
-                    bar_int += 1
-                    bar = str(bar_int).replace("7", "`🟨🟨🟧🟥🟥⬛`").replace("6", "`🟨🟨🟧🟥🟥⬛`").replace("5", "`🟨🟨🟧🟥🟥`").replace("4", "`🟨🟨🟧🟥`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`")
-                    embed = discord.Embed(colour=0xa82021, description=f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n{bar}")
-                    if bar_int == 7:
-                        embed.set_footer(text=f"You burnt the {cfood}!")
-                        done = True
-                    elif bar_int > 6:
-                        embed.set_footer(text=f"You're burning the {cfood}!")
+            def increase():
+                while bar_int <= 6:
+                    if done:
+                        pass
                     else:
-                        embed.set_footer(text=f"You're cooking {cfooda}.")
-                    await msg.edit(embed=embed)
-                    time.sleep(1)
-            await ctx.send('test')
-            resp = await self.bot.wait_for('message', check=nc, timeout=240)
-            done = True
+                        bar_int += 1
+                        bar = str(bar_int).replace("7", "`🟨🟨🟧🟥🟥⬛`").replace("6", "`🟨🟨🟧🟥🟥⬛`").replace("5", "`🟨🟨🟧🟥🟥`").replace("4", "`🟨🟨🟧🟥`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`")
+                        embed = discord.Embed(colour=0xa82021, description=f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n{bar}")
+                        if bar_int == 7:
+                            embed.set_footer(text=f"You burnt the {cfood}!")
+                            done = True
+                        elif bar_int > 6:
+                            embed.set_footer(text=f"You're burning the {cfood}!")
+                        else:
+                            embed.set_footer(text=f"You're cooking {cfooda}.")
+                        await msg.edit(embed=embed)
+                        time.sleep(1)
+            def text():
+                resp = await self.bot.wait_for('message', check=nc, timeout=240)
+                done = True
+            if __name__ == '__main__':
+                Thread(target = increase).start()
+                Thread(target = text).start()
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
