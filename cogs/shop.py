@@ -854,7 +854,7 @@ class Shop(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
     @commands.command(aliases=['Cookt', 'Baket', 'baket'])
-    @commands.cooldown(1, 150, commands.BucketType.user)
+    @commands.cooldown(1, 1, commands.BucketType.user)#cd 150
     async def cookt(self, ctx):
         def nc(m):
             return m.author == ctx.author and m.channel == ctx.channel and not m.content.startswith("r!menu")
@@ -862,7 +862,7 @@ class Shop(commands.Cog):
         if post:
             bar_int = 1
             country = post['country']
-            cfood = str(rnd(food.food[country]))
+            cfood = rnd(food.food[country])['name']
             if cfood.startswith(("a", "e", "i", "o", "u")):
                 cfooda = "an " + cfood
             else:
@@ -877,7 +877,7 @@ class Shop(commands.Cog):
                     pass
                 else:
                     bar_int += 1
-                    bar = str(bar_int).replace("6", "`🟨🟨🟧🟥🟥⬛`").replace("5", "`🟨🟨🟧🟥🟥`").replace("4", "`🟨🟨🟧🟥`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`")
+                    bar = str(bar_int).replace("7", "`🟨🟨🟧🟥🟥⬛`").replace("6", "`🟨🟨🟧🟥🟥⬛`").replace("5", "`🟨🟨🟧🟥🟥`").replace("4", "`🟨🟨🟧🟥`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`")
                     embed = discord.Embed(colour=0xa82021, description=f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n{bar}")
                     if bar_int == 7:
                         embed.set_footer(text=f"You burnt the {cfood}!")
