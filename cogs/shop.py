@@ -891,12 +891,10 @@ class Shop(commands.Cog):
                             embed.set_footer(text=f"You're cooking {cfooda}.")
                         await msg.edit(embed=embed)
                         time.sleep(1)
-            async def text():
-                resp = await self.bot.wait_for('message', check=nc, timeout=240)
-                done = True
-            if __name__ == '__main__':
-                Thread(target=increase).start()
-                Thread(target=text).start()
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(increase)
+            resp = loop.run_until_complete(self.bot.wait_for('message', check=nc, timeout=240))
+            done = True
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
