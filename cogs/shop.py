@@ -892,7 +892,7 @@ class Shop(commands.Cog):
                         await msg.edit(embed=embed)
                         time.sleep(1)
             loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(increase())
+            asyncio.get_event_loop(increase)
             resp = loop.run_until_complete(self.bot.wait_for('message', check=nc, timeout=240))
             done = True
         else:
