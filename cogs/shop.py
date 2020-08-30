@@ -893,6 +893,7 @@ class Shop(commands.Cog):
                         time.sleep(1)
             loop = asyncio.new_event_loop()
             asyncio.get_event_loop()
+            task = asyncio.create_task(increase())
             resp = loop.run_until_complete(self.bot.wait_for('message', check=nc, timeout=240))
             done = True
         else:
