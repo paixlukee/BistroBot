@@ -896,13 +896,13 @@ class Shop(commands.Cog):
             #async def text():
             loop = asyncio.get_event_loop()
             wfm = loop.create_task(self.bot.wait_for('message', check=nc, timeout=240))
+            done = True
             inc = loop.create_task(increase())
             await inc
             await wfm
             #loop = asyncio.get_event_loop()
             #loop.run_until_complete(text())
             #resp = loop.run_until_complete(self.bot.wait_for('message', check=nc, timeout=240))
-            done = True
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
