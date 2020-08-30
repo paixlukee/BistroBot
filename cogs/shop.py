@@ -861,20 +861,32 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         if post:
             bar_int = 1
-            #bar = "`||`" #🟨🟨🟧🟥🟥⬛
+            food = rnd(food.food[country])
+            if food.startswith(("a", "e", "i", "o", "u")):
+                fooda = "an " + food
+            else:
+                fooda = "a " + food
             done = False
             desc = f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n`🟨`"
             embed = discord.Embed(colour=0xa82021, description=desc)
+            embed.set_footer(text=f"You're cooking {fooda}.")
             msg = await ctx.send(embed=embed)
-            while bar_int <= 5:
+            while bar_int <= 6:
                 if done:
                     pass
                 else:
                     bar_int += 1
                     bar = str(bar_int).replace("6", "`🟨🟨🟧🟥🟥⬛`").replace("5", "`🟨🟨🟧🟥🟥`").replace("4", "`🟨🟨🟧🟥`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`")
-                    time.sleep(1)
                     embed = discord.Embed(colour=0xa82021, description=f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n{bar}")
+                    if bar_int == 7:
+                        embed.set_footer(text=f"You burnt the {food}!")
+                        done = True
+                    elif bar_int <= 6:
+                        embed.set_footer(text=f"You're burning the {food}!")
+                    else:
+                        embed.set_footer(text=f"You're cooking {fooda}.")
                     await msg.edit(embed=embed)
+                    time.sleep(1)
             #resp = await self.bot.wait_for('message', check=nc, timeout=240)
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
