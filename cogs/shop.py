@@ -890,6 +890,7 @@ class Shop(commands.Cog):
                         embed.set_footer(text=f"You're cooking {cfooda}.")
                     await msg.edit(embed=embed)
                     time.sleep(1)
+            await ctx.send('test')
             resp = await self.bot.wait_for('message', check=nc, timeout=240)
             done = True
         else:
