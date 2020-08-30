@@ -896,11 +896,12 @@ class Shop(commands.Cog):
             #async def text():
             loop = asyncio.get_event_loop()
             wfm = loop.create_task(self.bot.wait_for('message', check=nc, timeout=240))
-            done = True
             await ctx.send("hi")
             inc = loop.create_task(increase())
-            await inc
-            await wfm
+            loop.run_until_complete(wfm)
+            done = True
+            await ctx.send("w")
+            loop.run_until_complete(inc)
             await ctx.send("hi")
             #loop = asyncio.get_event_loop()
             #loop.run_until_complete(text())
