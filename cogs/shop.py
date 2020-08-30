@@ -862,7 +862,7 @@ class Shop(commands.Cog):
         if post:
             bar_int = 1
             country = post['country']
-            cfood = rnd(food.food[country])
+            cfood = str(rnd(food.food[country]))
             if cfood.startswith(("a", "e", "i", "o", "u")):
                 cfooda = "an " + cfood
             else:
