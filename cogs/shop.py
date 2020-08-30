@@ -874,7 +874,7 @@ class Shop(commands.Cog):
             embed.set_footer(text=f"You're cooking {cfooda}.")
             msg = await ctx.send(embed=embed)
             time.sleep(1)
-            def increase():
+            async def increase():
                 while bar_int <= 6:
                     if done:
                         pass
@@ -891,8 +891,8 @@ class Shop(commands.Cog):
                             embed.set_footer(text=f"You're cooking {cfooda}.")
                         return await msg.edit(embed=embed)
                         time.sleep(1)
-            def text():
-                resp = await self.bot.wait_for('message', check=nc, timeout=240)
+            async def text():
+                resp = return await self.bot.wait_for('message', check=nc, timeout=240)
                 done = True
             if __name__ == '__main__':
                 Thread(target=increase).start()
