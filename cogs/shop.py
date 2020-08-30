@@ -854,9 +854,6 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-
     @commands.command(aliases=['Cookt', 'Baket', 'baket'])
     @commands.cooldown(1, 1, commands.BucketType.user)#cd 150
     async def cookt(self, ctx):
