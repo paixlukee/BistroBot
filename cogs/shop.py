@@ -10,7 +10,6 @@ from random import randint, choice as rnd
 import aiohttp
 import asyncio
 import json
-import nest_asyncio
 import os
 import config
 from pymongo import MongoClient
@@ -28,7 +27,6 @@ db = client['siri']
 
 class Shop(commands.Cog):
     def __init__(self, bot):
-        nest_asyncio.apply()
         self.bot = bot
         self.prefix = 'r!'
         self.countries = ['CHINA', 'FRANCE','GREECE', 'INDIA', 'ITALY', 'JAPAN', 'MEXICO', 'TURKEY','UNITED KINGDOM', 'UNITED STATES']
