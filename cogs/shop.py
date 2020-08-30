@@ -861,9 +861,9 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         if post:
             bar_int = 1
-            bar = "`||`" #🟨🟨🟧🟥🟥⬛
+            #bar = "`||`" #🟨🟨🟧🟥🟥⬛
             done = False
-            desc = f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n🟨"
+            desc = f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n`🟨`"
             embed = discord.Embed(colour=0xa82021, description=desc)
             msg = await ctx.send(embed=embed)
             while bar_int <= 5:
@@ -871,7 +871,7 @@ class Shop(commands.Cog):
                     pass
                 else:
                     bar_int += 1
-                    str(bar_int).replace("6", "🟨🟨🟧🟥🟥⬛").replace("5", "🟨🟨🟧🟥🟥").replace("4", "🟨🟨🟧🟥").replace("3", "🟨🟨🟧").replace("2", "🟨🟨")
+                    bar = str(bar_int).replace("6", "`🟨🟨🟧🟥🟥⬛`").replace("5", "`🟨🟨🟧🟥🟥`").replace("4", "`🟨🟨🟧🟥`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`")
                     time.sleep(1)
                     embed = discord.Embed(colour=0xa82021, description=f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n{bar}")
                     await msg.edit(embed=embed)
