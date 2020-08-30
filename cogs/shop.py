@@ -870,7 +870,7 @@ class Shop(commands.Cog):
                 if done:
                     pass
                 else:
-                    bar_int -= 1
+                    bar_int += 1
                     time.sleep(1)
                     embed = discord.Embed(colour=0xa82021, description=f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n{bar_int}")
                     await msg.edit(embed=embed)
