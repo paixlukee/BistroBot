@@ -49,8 +49,8 @@ class Botdev(commands.Cog):
             embed = discord.Embed(colour=0xa82021, description="Please take the time to fill out [this exit form](https://forms.gle/wkMNiSanpnpeLTt88). Thanks for using Restaurant Bot.")
             embed.set_author(name="Goodbye!", icon_url=ctx.me.avatar_url_as(format='png'))
             await self.bot.get_user(guild.owner.id).send(embed=embed)
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
 
 
