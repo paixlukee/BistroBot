@@ -1124,7 +1124,7 @@ class Shop(commands.Cog):
                     else:
                         new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace('fag', 'f*g').replace('FAG', 'f*g')
                         await self.update_data(ctx.author, country.content.lower(), new_name, desc.content)
-                        embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant`, and view all Restaurant commands with `r!help`.')
+                        embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant` and view all Restaurant commands with `r!help`.')
                         embed.add_field(name="Quick Tips", value=":one: [Earn some money](http://paixlukee.ml/m/PL0LD.mp4)\n:two: [Set a custom logo](http://paixlukee.ml/m/CBXXZ.mp4)\n:three: [Hire a worker](https://paixlukee.ml/m/1GZCD.mp4)\n:four: [Buy a custom item and use it](http://paixlukee.ml/m/DEMD4.mp4)")
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
