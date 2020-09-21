@@ -591,7 +591,10 @@ class User(commands.Cog):
         elif not post['money'] >= count:
             await ctx.send("<:RedTick:653464977788895252> You don't have enough to make that transaction!")
         else:
-            r = await self.discoin_client.create_transaction(toId, count, str(ctx.author.id))
+            try:
+                r = await self.discoin_client.create_transaction(toId, count, str(ctx.author.id))
+            except:
+                await ctx.send(r)
             embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{r.id}/show)")
             await ctx.send(embed=embed)
             await self.take_money(user=ctx.author.id, count=count)
