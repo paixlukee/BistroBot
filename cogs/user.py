@@ -17,7 +17,7 @@ import string
 import food
 import requests
 import trivia
-from discoin import Client
+from discoin import Discoin
 
 #mongo
 client = MongoClient(config.mongo_client)
