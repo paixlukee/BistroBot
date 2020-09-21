@@ -17,7 +17,7 @@ import string
 import food
 import requests
 import trivia
-from discoin import Discoin
+from discoin import Client
 
 #mongo
 client = MongoClient(config.mongo_client)
@@ -30,7 +30,7 @@ class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
-        self.discoin_client = Discoin(token=config.discoin_token, me="RBC", loop=bot.loop) # Initializes Discoin
+        self.discoin_client = Discoin(token=config.discoin_token, me="RBC", loop=bot.loop)
         self.discoin_update.start()
 
     def cog_unload(self):
