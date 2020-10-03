@@ -17,14 +17,14 @@ import string
 import food
 import requests
 import trivia
-from discoin import Discoin
+from discoin import Client
 
 #mongo
 client = MongoClient(config.mongo_client)
 db = client['siri']
 #discoin
 #loop = asyncio.get_event_loop()
-#client = Discoin(config.discoin_token, "RBC", loop=loop)
+#client = Client(config.discoin_token, "RBC", loop=loop)
 
 class User(commands.Cog):
     def __init__(self, bot):
