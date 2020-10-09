@@ -52,7 +52,7 @@ class User(commands.Cog):
                 tid = transaction.id
                 embed = discord.Embed(colour=0xa82021, title="Transaction successful", description=f"Your transfer from **{cid}** to **RBC** has been processed! You have received ${po}.\n\n[Transaction Receipt](https://dash.discoin.zws.im/#/transactions/{tid}/show)")
                 await user.send(embed=embed)
-                
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.channel.id == 748162782586994728 and not message.author.id == 648065060559781889:
@@ -572,6 +572,51 @@ class User(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
+    @commands.command(aliases=['Halloween', 'hlw'])
+    @commands.cooldown(1, 21600, commands.BucketType.user)
+    async def halloween(self, ctx):
+        def check(m):
+            return m.author == ctx.message.author
+        await ctx.send(f"{ctx.author.mention}, You crossed a beautiful witch on your way to work. This could be bad! Do you wanna talk to her? (yes/no)")
+        ans = await self.bot.wait_for('message', check=check, timeout=90)
+        if ans.content.lower() == 'yes':
+            rn = random.randint(1,3)
+            if rn == 1:
+                #BAD
+                rnc = random.randint(1,2)
+                if rnc == 1:
+                    await ctx.send(f"Oh no! The witch put a late spell on you! You were 15 minutes late to work and lost 20 XP.")
+                    await self.take_exp(user=ctx.author.id, count=20)
+                elif rnc == 2:
+                    await ctx.send(f"Oh no! The witch zapped your wallet out of your hand! You lost $15!")
+                    await self.take_money(user=ctx.author.id, count=15)
+            else:
+                #GOOD
+                rn2 = random.randint(1,6)
+                if rn2 == 1:
+                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Take your heart", "url": "https://i.ibb.co/T0qtJbt/subsource-done-button-uid-9265-BBC3-1-BC1-4-FC9-9440-85008-F9-BEF32-1602184929808-source-other-origi.jpg",'rarity': 'Legendary'}}}})
+                    desc = "Take your heart (Legendary) [View Banner](https://i.ibb.co/T0qtJbt/subsource-done-button-uid-9265-BBC3-1-BC1-4-FC9-9440-85008-F9-BEF32-1602184929808-source-other-origi.jpg)"
+                elif rn2 == 2:
+                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Trick or Treat", "url": "https://i.ibb.co/Jv6Sjwg/subsource-done-button-uid-9265-BBC3-1-BC1-4-FC9-9440-85008-F9-BEF32-1602179605747-source-other-origi.jpg",'rarity': 'Rare'}}}})
+                    desc = "Trick or Treat (Rare) [View Banner](https://i.ibb.co/Jv6Sjwg/subsource-done-button-uid-9265-BBC3-1-BC1-4-FC9-9440-85008-F9-BEF32-1602179605747-source-other-origi.jpg)"
+                elif rn2 == 3:
+                    db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Haunted", "url": "https://i.ibb.co/SVvXT90/source-sid-9265-BBC3-1-BC1-4-FC9-9440-85008-F9-BEF32-1602005240890-subsource-done-button-uid-9265-BB.jpg",'rarity': 'Rare'}}}})
+                    desc = "Haunted (Rare) [View Banner](https://i.ibb.co/SVvXT90/source-sid-9265-BBC3-1-BC1-4-FC9-9440-85008-F9-BEF32-1602005240890-subsource-done-button-uid-9265-BB.jpg)"
+                elif rn2 == 4 or rn2 == 5 or rn2 == 6:
+                    rnm = random.randint(15,70)
+                    await self.add_money(user=ctx.author.id, count=rnm)
+                    desc = f"{rnm} Cash"
+                embed = discord.Embed(colour=0x44165e)
+                embed.set_footer(text="Come back in 6 hours!")
+                await ctx.send(embed=embed, content="The witch thought you were a kind soul and gave you an enchanted chest!")
+
+        elif ans.content.lower() == 'no':
+            await ctx.send("She sighed and walked away.")
+            self.bot.get_command("spooky").reset_cooldown(ctx)
+        else:
+            await ctx.send("That's not an option! Example: `yes`")
+            self.bot.get_command("spooky").reset_cooldown(ctx)
+
 
     @commands.group(aliases=['dsc', 'Discoin'])
     @commands.cooldown(1, 4, commands.BucketType.user)
@@ -595,8 +640,7 @@ class User(commands.Cog):
             embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{r.id}/show)")
             await ctx.send(embed=embed)
             await self.take_money(user=ctx.author.id, count=count)
-                           
-                           
+
 
     @discoin.command(aliases=['Bots'])
     async def bots(self, ctx):
@@ -615,22 +659,22 @@ class User(commands.Cog):
                 desc += f"[{name}](https://top.gg/bot/{uid}) **ID:** `{id}` **Rate:** `$1 RBC = {rate} {id}`\n"
         embed = discord.Embed(colour=0xa82021, title="Available Bots Currencies", description=desc)
         await ctx.send(embed=embed)
-                           
+
     @commands.command(aliases=['bugreport'])
     async def reportbug(self, ctx, *, topic, option=None, description=None):
         if ctx.channel.id == 748162782586994728:
-            await ctx.message.delete()           
+            await ctx.message.delete()
             args = topic.split('|')
             topic = args[0]
             option = args[1]
-            description = args[2]  
+            description = args[2]
             if not description:
                 await ctx.send(f"<:redtick:492800273211850767> {ctx.author.mention}, Incorrect Arguments. **Usage:** `r!reportbug <topic> <option> <description>` *Do not include < or > in your report.*", delete_after=10)
             if str(option).lower() not in ['major', 'minor', ' minor ', ' major ', 'minor ', 'major ', ' minor', ' major']:
                 await ctx.send(f"<:redtick:492800273211850767> {ctx.author.mention}, Incorrect Arguments. Option must be either `Major` or `Minor`. Ex. `r!reportbug Help | Minor | description here`", delete_after=10)
             else:
                 data = {
-                        "name": description, 
+                        "name": description,
                         "desc": f'This is a user-submitted card.\n\n**Command/Topic:** {str(topic).capitalize()}\n\n**Description:** {description}\n\n**Submitted by:** {ctx.author} ({ctx.author.id})\n\n\nThis bug is **{str(option).upper()}**.',
                         "idList": '5f465a723958f77bdb8ca189',
                         "pos": 'top'
@@ -660,6 +704,13 @@ class User(commands.Cog):
         bal = data['money']
         money = int(bal) - count
         db.market.update_one({"owner": user}, {"$set":{"money": money}})
+
+    async def take_exp(self, user, count):
+        data = db.market.find_one({"owner": user})
+        bal = data['exp']
+        exp = int(bal) - count
+        db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
+        return count
 
     async def add_exp(self, user, count):
         data = db.market.find_one({"owner": user})
