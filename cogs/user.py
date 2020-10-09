@@ -608,6 +608,7 @@ class User(commands.Cog):
                     desc = f"{rnm} Cash"
                 embed = discord.Embed(colour=0x44165e, description=desc)
                 embed.set_footer(text="Come back in 6 hours!")
+                embed.set_thumbnail(url="http://pixelartmaker.com/art/f1394e829abdfcf.png")
                 await ctx.send(embed=embed, content="The witch thought you were a kind soul and gave you an enchanted chest!")
 
         elif ans.content.lower() == 'no':
