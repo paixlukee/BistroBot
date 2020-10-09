@@ -70,7 +70,7 @@ class Help(commands.Cog):
             embed.add_field(name="Page #4 | Bot", value="Commands that have to do with the main bot.")
             embed.add_field(name="Links", value="[DBL](https://top.gg/bot/648065060559781889)\n[Donate](https://www.patreon.com/paixlukee)\n[Support Server](http://discord.gg/BCRtw7c)")
             #embed.add_field(name="Page #4 | Configuration", value="Configurate guild-only settings,")
-            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual")
+            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Boo!")
             embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
             embed.set_footer(text="To view a page, put the page number right after the command. Example: r!help 1")
             await ctx.send(embed=embed)

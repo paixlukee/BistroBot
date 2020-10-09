@@ -17,20 +17,20 @@ import string
 import food
 import requests
 import trivia
-from discoin import Discoin
+from discoin import Client
 
 #mongo
 client = MongoClient(config.mongo_client)
 db = client['siri']
 #discoin
 #loop = asyncio.get_event_loop()
-#client = Discoin(config.discoin_token, "RBC", loop=loop)
+#client = Client(config.discoin_token, "RBC", loop=loop)
 
 class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
-        self.discoin_client = Discoin(token=config.discoin_token, me="RBC", loop=bot.loop) # Initializes Discoin
+        self.discoin_client = Client(token=config.discoin_token, me="RBC", loop=bot.loop)
         self.discoin_update.start()
 
     def cog_unload(self):
@@ -636,7 +636,7 @@ class User(commands.Cog):
         elif not post['money'] >= count:
             await ctx.send("<:RedTick:653464977788895252> You don't have enough to make that transaction!")
         else:
-            r = await self.discoin_client.create_transaction(toId, count, str(ctx.author.id))
+            r = await self.discoin_client.create_transaction(toId, count, ctx.author.id)
             embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{r.id}/show)")
             await ctx.send(embed=embed)
             await self.take_money(user=ctx.author.id, count=count)
