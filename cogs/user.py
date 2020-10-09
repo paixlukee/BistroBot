@@ -606,7 +606,7 @@ class User(commands.Cog):
                     rnm = random.randint(15,70)
                     await self.add_money(user=ctx.author.id, count=rnm)
                     desc = f"{rnm} Cash"
-                embed = discord.Embed(colour=0x44165e)
+                embed = discord.Embed(colour=0x44165e, description=desc)
                 embed.set_footer(text="Come back in 6 hours!")
                 await ctx.send(embed=embed, content="The witch thought you were a kind soul and gave you an enchanted chest!")
 
