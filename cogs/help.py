@@ -49,7 +49,7 @@ class Help(commands.Cog):
         embed.set_footer(text="from lukee#0420", icon_url="https://images-ext-2.discordapp.net/external/_ULuCbUCIqYZnsc6J04zIVeuKvDhm6HlCxF6ZU0v338/%3Fsize%3D256%26f%3D.gif/https/cdn.discordapp.com/avatars/396153668820402197/a_802dfb76b03607e983c0dd7b171aa3d8.gif")
         await ctx.send(embed=embed)
 
-    @commands.group(aliases=['cmds', 'commands', 'Help'])
+    @commands.group(aliases=['cmds', 'commands', 'Help', 'h', '?'])
     async def help(self, ctx, page=None):
         #keeping this hardcoded, because it will only make me do more work :)
         post = db.market.find_one({"owner": ctx.author.id})
@@ -68,10 +68,11 @@ class Help(commands.Cog):
             embed.add_field(name="Page #2 | User", value="Commands that interact with regular users.")
             embed.add_field(name="Page #3 | Inventory", value="Buy, use, and view items in your inventory.")
             embed.add_field(name="Page #4 | Bot", value="Commands that have to do with the main bot.")
+            embed.add_field(name="EVENT! | Halloween", value="`r!eventinfo`\n`r!halloween`")
             embed.add_field(name="Links", value="[DBL](https://top.gg/bot/648065060559781889)\n[Donate](https://www.patreon.com/paixlukee)\n[Support Server](http://discord.gg/BCRtw7c)")
             #embed.add_field(name="Page #4 | Configuration", value="Configurate guild-only settings,")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Boo!")
-            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
+            embed.set_image(url="http://paixlukee.ml/m/SUG3O.png")#reg: http://paixlukee.ml/m/FGGUC.png")
             embed.set_footer(text="To view a page, put the page number right after the command. Example: r!help 1")
             await ctx.send(embed=embed)
         elif page == 1:
