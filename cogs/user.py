@@ -578,7 +578,7 @@ class User(commands.Cog):
                             "Happy Halloween! Until November 1st, it'll be spooky season in Restaria!\n\n"\
                             "During this event, you can earn banners and money through the `r!halloween` command!\n\n"\
                             "You can earn 3 different banners... including a legendary TAKE YOUR HEART banner based off of the game series Persona 5!\n\n"\
-                            "You can use this command every 6 commands, that's 6 times a day! Be careful though, the prizes aren't always good!")
+                            "You can use this command every 6 hours, that's 4 times a day! Be careful though, the prizes aren't always good!")
         await ctx.send(embed=embed)
 
     @commands.command(aliases=['Halloween', 'hlw'])
