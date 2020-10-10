@@ -622,10 +622,10 @@ class User(commands.Cog):
 
         elif ans.content.lower() == 'no':
             await ctx.send("She sighed and walked away.")
-            self.bot.get_command("spooky").reset_cooldown(ctx)
+            self.bot.get_command("halloween").reset_cooldown(ctx)
         else:
             await ctx.send("That's not an option! Example: `yes`")
-            self.bot.get_command("spooky").reset_cooldown(ctx)
+            self.bot.get_command("halloween").reset_cooldown(ctx)
 
 
     @commands.group(aliases=['dsc', 'Discoin'])
