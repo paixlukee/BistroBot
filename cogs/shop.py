@@ -874,29 +874,29 @@ class Shop(commands.Cog):
             embed.set_footer(text=f"You're cooking {cfooda}.")
             msg = await ctx.send(embed=embed)
             time.sleep(1)
-            async def increase():
-                bar_int = 1
-                done = False
+            bar_int = 1
+            done = False
 
-                while bar_int <= 6:
-                    if done:
-                        pass
+            while bar_int <= 6:
+                if done:
+                    pass
+                else:
+                    bar_int += 1
+                    bar = str(bar_int).replace("7", "`🟨🟨🟧🟥🟥⬛`").replace("6", "`🟨🟨🟧🟥🟥⬛`").replace("5", "`🟨🟨🟧🟥🟥`").replace("4", "`🟨🟨🟧🟥`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`")
+                    embed = discord.Embed(colour=0xa82021, description=f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n{bar}")
+                    if bar_int == 7:
+                        embed.set_footer(text=f"You burnt the {cfood}!")
+                        done = True
+                    elif bar_int > 6:
+                        embed.set_footer(text=f"You're burning the {cfood}!")
                     else:
-                        bar_int += 1
-                        bar = str(bar_int).replace("7", "`🟨🟨🟧🟥🟥⬛`").replace("6", "`🟨🟨🟧🟥🟥⬛`").replace("5", "`🟨🟨🟧🟥🟥`").replace("4", "`🟨🟨🟧🟥`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`")
-                        embed = discord.Embed(colour=0xa82021, description=f"Say `stop` when the bar gets to red. Don't let it get burnt!\n\n{bar}")
-                        if bar_int == 7:
-                            embed.set_footer(text=f"You burnt the {cfood}!")
-                            done = True
-                        elif bar_int > 6:
-                            embed.set_footer(text=f"You're burning the {cfood}!")
-                        else:
-                            embed.set_footer(text=f"You're cooking {cfooda}.")
-                        await msg.edit(embed=embed)
-                        await asyncio.sleep(1)
-                        #resp = self.bot.wait_for('message', check=nc, timeout=30)
-                        #if resp.content == 'stop':
-                            #await ctx.send('worked')
+                        embed.set_footer(text=f"You're cooking {cfooda}.")
+                    await msg.edit(embed=embed)
+                    await asyncio.sleep(1)
+                    resp = self.bot.wait_for('message', check=nc, timeout=30)
+                    if resp.content == 'stop':
+                        done = True
+                        await ctx.send('worked')
 
             #async def text():
             #loop = asyncio.get_event_loop()
