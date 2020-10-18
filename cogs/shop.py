@@ -873,7 +873,7 @@ class Shop(commands.Cog):
             embed = discord.Embed(colour=0xa82021, description=desc)
             embed.set_footer(text=f"You're cooking {cfooda}.")
             msg = await ctx.send(embed=embed)
-            time.sleep(1)
+            time.sleep(0.8)
             bar_int = 1
             done = False
             resp = self.bot.wait_for('message', check=nc, timeout=30)
@@ -892,10 +892,10 @@ class Shop(commands.Cog):
                     else:
                         embed.set_footer(text=f"You're cooking {cfooda}.")
                     await msg.edit(embed=embed)
-                    await asyncio.sleep(1)
-                    if resp:
-                        done = True
-                        await ctx.send('worked')
+                    await asyncio.sleep(0.8)
+            if resp.content:
+                done = True
+                await ctx.send('worked')
 
             #async def text():
             #loop = asyncio.get_event_loop()
