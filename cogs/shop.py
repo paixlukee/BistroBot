@@ -877,6 +877,7 @@ class Shop(commands.Cog):
             async def increase():
                 bar_int = 1
                 done = False
+                resp = self.bot.wait_for('message', check=nc, timeout=30)
                 while bar_int <= 6:
                     if done:
                         pass
@@ -892,18 +893,21 @@ class Shop(commands.Cog):
                         else:
                             embed.set_footer(text=f"You're cooking {cfooda}.")
                         await msg.edit(embed=embed)
-                        time.sleep(1)
+                        await asyncio.sleep(1)
+                        if resp.content == 'stop':
+                            await ctx.send('worked')
+
             #async def text():
-            loop = asyncio.get_event_loop()
-            wfm = loop.create_task(self.bot.wait_for('message', check=nc, timeout=90))
-            inc = loop.create_task(increase())
+            #loop = asyncio.get_event_loop()
+            #wfm = loop.create_task(self.bot.wait_for('message', check=nc, timeout=90))
+            #inc = loop.create_task(increase())
             #loop.run_until_complete(wfm)
-            wfm = asyncio.run_coroutine_threadsafe(wfm)
-            inc = asyncio.run_coroutine_threadsafe(inc)
-            wfm.result()
-            done = True
-            await ctx.send(wfm)
-            inc.result()
+            #wfm = asyncio.run_coroutine_threadsafe(wfm)
+            #inc = asyncio.run_coroutine_threadsafe(inc)
+            #wfm.result()
+            #done = True
+            #await ctx.send(wfm)
+            #inc.result()
             #loop.run_until_complete(inc)
             #loop = asyncio.get_event_loop()
             #loop.run_until_complete(text())
