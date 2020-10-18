@@ -876,7 +876,7 @@ class Shop(commands.Cog):
             time.sleep(0.8)
             bar_int = 1
             done = False
-            resp = self.bot.wait_for('message', check=nc, timeout=30)
+            resp = await self.bot.wait_for('message', check=nc, timeout=30)
             while bar_int <= 6:
                 if done:
                     pass
@@ -893,7 +893,7 @@ class Shop(commands.Cog):
                         embed.set_footer(text=f"You're cooking {cfooda}.")
                     await msg.edit(embed=embed)
                     await asyncio.sleep(0.8)
-                    if resp.content:
+                    if resp.content == 'stop':
                         done = True
                         await ctx.send('worked')
 
