@@ -893,7 +893,7 @@ class Shop(commands.Cog):
                         embed.set_footer(text=f"You're cooking {cfooda}.")
                     await msg.edit(embed=embed)
                     await asyncio.sleep(1)
-                    if resp.content == 'stop':
+                    if resp:
                         done = True
                         await ctx.send('worked')
 
