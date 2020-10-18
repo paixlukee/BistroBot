@@ -894,9 +894,9 @@ class Shop(commands.Cog):
                             embed.set_footer(text=f"You're cooking {cfooda}.")
                         await msg.edit(embed=embed)
                         await asyncio.sleep(1)
-                        resp = self.bot.wait_for('message', check=nc, timeout=30)
-                        if resp.content == 'stop':
-                            await ctx.send('worked')
+                        #resp = self.bot.wait_for('message', check=nc, timeout=30)
+                        #if resp.content == 'stop':
+                            #await ctx.send('worked')
 
             #async def text():
             #loop = asyncio.get_event_loop()
