@@ -372,7 +372,7 @@ class User(commands.Cog):
     @commands.cooldown(1, 43200, commands.BucketType.user)
     async def votereward(self, ctx): #http://pixelartmaker.com/art/f697739d6ed8a4b.png
         posts = db.market.find_one({"owner": ctx.author.id})
-        rci = random.randint(50,100)
+        rci = random.randint(100,150)
         r = requests.get(f"https://discordbots.org/api/bots/648065060559781889/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()
         if posts:
             if r['voted'] == 1:
