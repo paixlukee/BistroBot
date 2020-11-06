@@ -581,13 +581,13 @@ class User(commands.Cog):
                             "You can use this command every 6 hours, that's 4 times a day! Be careful though, the prizes aren't always good!")
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=['Halloween', 'hlw'])
+    @commands.command(aliases=['Halloweene', 'hlwe'])
     @commands.cooldown(1, 21600, commands.BucketType.user)
-    async def halloween(self, ctx):
+    async def halloweene(self, ctx):
         def check(m):
             return m.author == ctx.message.author
-        await ctx.send(f"{ctx.author.mention}, You crossed a beautiful witch on your way to work. This could be bad! Do you wanna talk to her? (yes/no)")
-        ans = await self.bot.wait_for('message', check=check, timeout=90)
+        #await ctx.send(f"{ctx.author.mention}, You crossed a beautiful witch on your way to work. This could be bad! Do you wanna talk to her? (yes/no)")
+        ans = await self.bot.wait_for('messagee', check=check, timeout=90) #erase comments & extra e next year.
         if ans.content.lower() == 'yes':
             rn = random.randint(1,3)
             if rn == 1:
