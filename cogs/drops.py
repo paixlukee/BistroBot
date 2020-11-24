@@ -19,7 +19,7 @@ import pymongo
 client = MongoClient(config.mongo_client)
 db = client['siri']
 
-class Tasks(commands.Cog):
+class Drops(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.loot.start()
@@ -29,7 +29,6 @@ class Tasks(commands.Cog):
 
     @tasks.loop(minutes=1)
     async def loot(self):
-        print('test')
         lb = db.utility.find_one({"utility": "lootboxes"})
         servers = lb['guilds']
         ntp = []
@@ -59,4 +58,4 @@ class Tasks(commands.Cog):
         db.market.update_one({"owner": user}, {"$set":{"money": money}})
 
 def setup(bot):
-    bot.add_cog(Tasks(bot))
+    bot.add_cog(Drops(bot))
