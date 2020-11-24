@@ -29,7 +29,8 @@ class Tasks(commands.Cog):
 
     @tasks.loop(minutes=1)
     async def loot(self):
-        servers = db.utility.find_one("utility": "lootboxes")['guilds']
+        lb = db.utility.find_one("utility": "lootboxes")
+        servers = lb['guilds']
         ntp = []
         ntp_g = []
         # {"gid": 0, "cid": 0, "opened_last": bool}
