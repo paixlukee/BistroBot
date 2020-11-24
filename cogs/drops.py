@@ -35,11 +35,11 @@ class Tasks(commands.Cog):
         ntp_g = []
         # {"gid": 0, "cid": 0, "opened_last": bool}
         for x in servers:
-          if opened_last is True:
-              ntp.append(x['cid'])
-              ntp_g.append(x['gid'])
-          else:
-              pass
+            if opened_last is True:
+                ntp.append(x['cid'])
+                ntp_g.append(x['gid'])
+            else:
+                pass
             
         for x in ntp:
             await bot.get_channel(int(ntp)).send("TEST")
