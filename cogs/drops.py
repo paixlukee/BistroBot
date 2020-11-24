@@ -29,6 +29,7 @@ class Tasks(commands.Cog):
 
     @tasks.loop(minutes=1)
     async def loot(self):
+        print('test')
         lb = db.utility.find_one({"utility": "lootboxes"})
         servers = lb['guilds']
         ntp = []
@@ -40,8 +41,10 @@ class Tasks(commands.Cog):
                 ntp_g.append(x['gid'])
             else:
                 pass
+        print(ntp)
             
         for x in ntp:
+            print('test2')
             await bot.get_channel(int(ntp)).send("TEST")
             db.utility.update_one({"utility": "lootboxes", "opened_last": False})
 
