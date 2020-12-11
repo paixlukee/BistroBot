@@ -31,8 +31,8 @@ extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 async def status_task():
     users = len(set(bot.get_all_members()))
-    await bot.change_presence(activity=discord.Game(name=f'r!help | {str(len(bot.guilds))} guilds', type=2))
-        
+    #await bot.change_presence(activity=discord.Game(name=f'r!help | {str(len(bot.guilds))} guilds', type=2))
+    bot.change_presence(activity=discord.Game(name=f'Under Maintenance | https://discord.gg/BCRtw7c', type=2))
 
 @bot.event
 async def on_ready():
