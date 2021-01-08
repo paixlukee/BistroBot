@@ -35,6 +35,8 @@ class Shop(commands.Cog):
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "turkey": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Turkey.png","united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
+        self.exp_needed = {2: 250, 3: 500, 4: 1000, 5: 1500, 6: 2500}
+        self.unlocks = {2: ['Experience Potion', '+10% Goodluck'], 3: ['+1 Worker', 'Add 1 custom item to the menu'], 4: ['Luck Potion', '+10% Goodluck'], 5: ['+1 Worker', '+20% Goodluck'], 6: ["Add 2 custom items to the menu", "+30% Goodluck"]}
 
 
 
@@ -1065,6 +1067,24 @@ class Shop(commands.Cog):
                 embed.set_thumbnail(url=post['logo_url'])
             embed.set_footer(text=f"Last Work: {post['laststock']}")
             msg = await ctx.send(embed=embed)
+                             
+    @commands.command(aliases=["Levelup", "LevelUp"])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def levelup(self, ctx):
+        user = db.market.find_one({"owner": ctx.author.id})
+        nextLevel = user['level']+1
+        if not user:
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `r!restaurant`.")
+        elif user['level'] < 6:
+            await ctx.send("<:RedTick:653464977788895252> You are currently level 6 (max level) and cannot level further!")
+        elif user['exp'] < self.exp_needed[nextLevel]:
+            await ctx.send("<:RedTick:653464977788895252> You do not have enough EXP to perform this action!")
+        else:
+            await self.take_exp(ctx.author.id, nextLevel)
+            db.market_update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
+            unlocks = "- " + "\n- ".join(self.unlocks[user['level'])
+            embed = discord.Embed(description=f"Level up! You've unlocked...\n")
+            
 
     @commands.command(aliases=['Start', 'create'])
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -1157,6 +1177,13 @@ class Shop(commands.Cog):
         exp = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
         return count
+                             
+    async def take_exp(self, user, count):
+        data = db.market.find_one({"owner": user})
+        bal = data['exp']
+        exp = int(bal) - count
+        db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
+        return count
 
     async def update_data(self, user, country, name, desc):
         set1 = random.randint(0,9)
@@ -1180,7 +1207,7 @@ class Shop(commands.Cog):
             "logo_url":None,
             "ratings":[{"rating":5, "user":0}],
             "exp":0,
-            "level": 0,
+            "level": 1,
             "inventory":[],
             "colour": None,
             "banner": None,
