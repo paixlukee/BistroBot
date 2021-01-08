@@ -1086,7 +1086,7 @@ class Shop(commands.Cog):
             ':flag_us: United States\n'
             )
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
-            embed.set_footer(text="You have 90 seconds to reply")
+            embed.set_footer(text="You have 90 seconds to reply | You cannot change your theme later on!")
             msg1 = await ctx.send(embed=embed)
             country = await self.bot.wait_for('message', check=check, timeout=90)
             try:
@@ -1098,7 +1098,7 @@ class Shop(commands.Cog):
                 failed.set_author(name="Creation Failed.")
                 await msg1.edit(embed=failed)
             else:
-                embed = discord.Embed(colour=0xa82021, description='Great! What would you like to name your restaurant? It must be 36 characters or less.')
+                embed = discord.Embed(colour=0xa82021, description='Great! What would you like to name your restaurant? It must be 36 characters or less. You can change this later on!')
                 embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                 embed.set_footer(text="You have 90 seconds to reply")
                 await msg1.edit(embed=embed)
@@ -1112,7 +1112,7 @@ class Shop(commands.Cog):
                     failed.set_author(name="Creation Failed.")
                     msg1.edit(embed=failed)
                 else:
-                    embed = discord.Embed(colour=0xa82021, description='Almost done! What would you like as your description? It must be 130 characters or less.')
+                    embed = discord.Embed(colour=0xa82021, description='Almost done! What would you like as your description? It must be 130 characters or less. You can change this later on!')
                     embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                     embed.set_footer(text="You have 90 seconds to reply")
                     await msg1.edit(embed=embed)
@@ -1126,7 +1126,7 @@ class Shop(commands.Cog):
                         failed.set_author(name="Creation Failed.")
                         await msg1.edit(embed=failed)
                     else:
-                        new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace('fag', 'f*g').replace('FAG', 'f*g')
+                        new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace('fag', 'f*g').replace('FAG', 'f*g').replace("Fag", "F*g")
                         await self.update_data(ctx.author, country.content.lower(), new_name, desc.content)
                         embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant` and view all Restaurant commands with `r!help`.')
                         embed.add_field(name="Quick Tips", value=":one: [Earn some money](http://paixlukee.ml/m/PL0LD.mp4)\n:two: [Set a custom logo](http://paixlukee.ml/m/CBXXZ.mp4)\n:three: [Hire a worker](https://paixlukee.ml/m/1GZCD.mp4)\n:four: [Buy a custom item and use it](http://paixlukee.ml/m/DEMD4.mp4)")
@@ -1180,6 +1180,7 @@ class Shop(commands.Cog):
             "logo_url":None,
             "ratings":[{"rating":5, "user":0}],
             "exp":0,
+            "level": 0,
             "inventory":[],
             "colour": None,
             "banner": None,
