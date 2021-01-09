@@ -1086,7 +1086,7 @@ class Shop(commands.Cog):
             cl = user['level']
             unlocks = "• " + "\n- ".join(self.unlocks[str(cl)])
             nextUnlocks = "• " + "\n- ".join(self.unlocks[str(cl+1)])
-            embed = discord.Embed(description=f"{self.levelEmoji(str(cl))} Level up! You've unlocked...\n{unlocks}")
+            embed = discord.Embed(description=f"{self.levelEmoji[str(cl)]} Level up! You've unlocked...\n{unlocks}")
             embed.add_field(name="Next Unlocks...", value=nextUnlocks)
             await ctx.send(embed=embed)
 
