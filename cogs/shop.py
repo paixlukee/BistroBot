@@ -1082,8 +1082,8 @@ class Shop(commands.Cog):
         else:
             #await self.take_exp(ctx.author.id, nextLevel)
             db.market_update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
-            unlocks = "- " + "\n- ".join(self.unlocks[user['level'])
-            nextUnlocks = "- " + "\n- ".join(self.unlocks[user['level']+1)
+            unlocks = "- " + "\n- ".join(self.unlocks[user['level']})
+            nextUnlocks = "- " + "\n- ".join(self.unlocks[user['level']+1])
             embed = discord.Embed(description=f"Level up! You've unlocked...\n{unlocks}")
             embed.add_field(name="Next Unlocks...", value=nextUnlocks)
             await ctx.send(embed=embed)
