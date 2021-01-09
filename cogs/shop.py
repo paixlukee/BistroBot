@@ -35,7 +35,7 @@ class Shop(commands.Cog):
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "turkey": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Turkey.png","united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
-        self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 1500, "6": 2500}
+        self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 1500, "6": 3000}
         self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['+1 Worker', 'Add 1 custom item to the menu'], "4": ['Luck Potion', '+10% Goodluck'], "5": ['+1 Worker', '+20% Goodluck'], "6": ["Add 2 custom items to the menu", "+30% Goodluck"]}
         self.levelEmoji = {"1": "<:levelone:796813114652753992>", "2": "<:leveltwo:796813114779762729>", "3": "<:levelthree:796813114640433152>", "4": "<:levelfour:796813115055538186>", "5": "<:levelfive:796813115135229992>", "6": "<:levelsix:796813115194474506>"}
 
@@ -338,7 +338,11 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
-        embed = discord.Embed(colour=0xa82021, title="Which item would you like to buy?", description="[1] Fishing Rod - $60 :fishing_pole_and_fish:\n[2] Experience Potion (+50 EXP) - $80 <:ExperiencePotion:715822985780658238>")
+        if post['level'] >= 2:
+            uy = "$80 <:ExperiencePotion:715822985780658238>"
+        else:
+            uy = ":lock: Unlocks at Level 2"
+        embed = discord.Embed(colour=0xa82021, title="Which item would you like to buy?", description="[1] Fishing Rod - $60 :fishing_pole_and_fish:\n[2] Experience Potion (+50 EXP) - {uy}")
         embed.set_footer(text="You have 90 seconds to reply with the number, or say 'cancel' to cancel.")
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
@@ -351,7 +355,9 @@ class Shop(commands.Cog):
                 db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"item": "fish"}}})
         elif choice.content == '2':
             if post['money'] < 80:
-                await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this.")
+                await ctx.send("<:RedTick:653464977788895252> You don't have enough money for this!")
+            elif not post['level'] >= 2:
+                await ctx.send("<:RedTick:653464977788895252> You must be at least Level 2 to unlock this! For more information, send `r!level`.")
             else:
                 await ctx.send(f"{ctx.author.mention}, You bought 1 Experience Potion. Do `r!use Experience Potion` to use it.")
                 db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"item": "ep"}}})
@@ -1069,6 +1075,17 @@ class Shop(commands.Cog):
             embed.set_footer(text=f"Last Work: {post['laststock']}")
             msg = await ctx.send(embed=embed)
 
+    @commands.command(aliases=['Level'])
+    @commands.cooldown(1,3, commands.BucketType.user)
+    async def level(self, ctx):
+        user = db.market.find_one({"owner": ctx.author.id})
+        if user['level'] != 6:
+            cl = f"cannot level up further"
+        else:
+            cl = f"will level up to Level {user['level']+1} next"
+        embed = discord.Embed(colour=0xa82021, description=f"You are currently Level {user['level']}, which means you {cl}.\n\nRestaurant Levels are bought with EXP. The more you level up, the more the next level will cost. You get money and cool perks for levelling up!")
+        embed.set_author(text="Restaurant Levelling", icon_url=ctx.me.avatar_url_as(format="png"))
+
     @commands.command(aliases=["Levelup", "LevelUp"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def levelup(self, ctx):
@@ -1082,6 +1099,10 @@ class Shop(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> You do not have enough EXP to perform this action!")
         else:
             #await self.take_exp(ctx.author.id, nextLevel)
+            if level <= 4:
+                money = 500
+            else:
+                money = 250
             db.market.update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
             await asyncio.sleep(0.3)
             cl = user['level']
@@ -1089,6 +1110,7 @@ class Shop(commands.Cog):
             nextUnlocks = "• " + "\n- ".join(self.unlocks[str(nextLevel+1)])
             embed = discord.Embed(colour=0xa82021, description=f"{self.levelEmoji[str(nextLevel)]} **Level up!** You've unlocked...\n{unlocks}")
             embed.add_field(name="Next Unlocks...", value=nextUnlocks)
+            embed.set_footer(text="You've also earned $500 for levelling up!")
             await ctx.send(embed=embed)
 
 
