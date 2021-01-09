@@ -1067,7 +1067,7 @@ class Shop(commands.Cog):
                 embed.set_thumbnail(url=post['logo_url'])
             embed.set_footer(text=f"Last Work: {post['laststock']}")
             msg = await ctx.send(embed=embed)
-                             
+
     @commands.command(aliases=["Levelup", "LevelUp"])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def levelup(self, ctx):
@@ -1080,11 +1080,14 @@ class Shop(commands.Cog):
         elif user['exp'] < self.exp_needed[nextLevel]:
             await ctx.send("<:RedTick:653464977788895252> You do not have enough EXP to perform this action!")
         else:
-            await self.take_exp(ctx.author.id, nextLevel)
+            #await self.take_exp(ctx.author.id, nextLevel)
             db.market_update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
             unlocks = "- " + "\n- ".join(self.unlocks[user['level'])
-            embed = discord.Embed(description=f"Level up! You've unlocked...\n")
-            
+            nextUnlocks = "- " + "\n- ".join(self.unlocks[user['level']+1)
+            embed = discord.Embed(description=f"Level up! You've unlocked...\n{unlocks}")
+            embed.add_field(name="Next Unlocks...", value=nextUnlocks)
+            await ctx.send(embed=embed)
+
 
     @commands.command(aliases=['Start', 'create'])
     @commands.cooldown(1, 3, commands.BucketType.user)
@@ -1177,7 +1180,7 @@ class Shop(commands.Cog):
         exp = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
         return count
-                             
+
     async def take_exp(self, user, count):
         data = db.market.find_one({"owner": user})
         bal = data['exp']
