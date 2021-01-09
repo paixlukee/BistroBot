@@ -1081,7 +1081,7 @@ class Shop(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> You do not have enough EXP to perform this action!")
         else:
             #await self.take_exp(ctx.author.id, nextLevel)
-            db.market_update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
+            db.market.update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
             cl = user['level']
             unlocks = "- " + "\n- ".join(self.unlocks[cl])
             nextUnlocks = "- " + "\n- ".join(self.unlocks[cl+1])
