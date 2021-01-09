@@ -37,6 +37,7 @@ class Shop(commands.Cog):
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 1500, "6": 2500}
         self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['+1 Worker', 'Add 1 custom item to the menu'], "4": ['Luck Potion', '+10% Goodluck'], "5": ['+1 Worker', '+20% Goodluck'], "6": ["Add 2 custom items to the menu", "+30% Goodluck"]}
+        self.levelEmoji = {"1": "<:levelone:796813114652753992>", "2": "<:leveltwo:796813114779762729>", "3": "<:levelthree:796813114640433152>", "4": "<:levelfour:796813115055538186>", "5": "<:levelfive:796813115135229992>", "6": "<:levelsix:796813115194474506>"}
 
 
 
@@ -1083,9 +1084,9 @@ class Shop(commands.Cog):
             #await self.take_exp(ctx.author.id, nextLevel)
             db.market.update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
             cl = user['level']
-            unlocks = "- " + "\n- ".join(self.unlocks[str(cl)])
-            nextUnlocks = "- " + "\n- ".join(self.unlocks[str(cl+1)])
-            embed = discord.Embed(description=f"Level up! You've unlocked...\n{unlocks}")
+            unlocks = "• " + "\n- ".join(self.unlocks[str(cl)])
+            nextUnlocks = "• " + "\n- ".join(self.unlocks[str(cl+1)])
+            embed = discord.Embed(description=f"{self.levelEmoji(str(cl))} Level up! You've unlocked...\n{unlocks}")
             embed.add_field(name="Next Unlocks...", value=nextUnlocks)
             await ctx.send(embed=embed)
 
