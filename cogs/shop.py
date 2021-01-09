@@ -1084,7 +1084,7 @@ class Shop(commands.Cog):
         else:
             cl = f"will level up to Level {user['level']+1} next"
         embed = discord.Embed(colour=0xa82021, description=f"You are currently Level {user['level']}, which means you {cl}.\n\nRestaurant Levels are bought with EXP. The more you level up, the more the next level will cost. You get money and cool perks for levelling up!")
-        embed.set_author(text="Restaurant Levelling", icon_url=ctx.me.avatar_url_as(format="png"))
+        embed.set_author(name="Restaurant Levelling", icon_url=ctx.me.avatar_url_as(format="png"))
 
     @commands.command(aliases=["Levelup", "LevelUp"])
     @commands.cooldown(1, 3, commands.BucketType.user)
