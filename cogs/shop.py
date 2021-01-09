@@ -1075,7 +1075,7 @@ class Shop(commands.Cog):
         nextLevel = user['level']+1
         if not user:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `r!restaurant`.")
-        elif user['level'] < 6:
+        elif user['level'] >= 6:
             await ctx.send("<:RedTick:653464977788895252> You are currently level 6 (max level) and cannot level further!")
         elif user['exp'] < self.exp_needed[nextLevel]:
             await ctx.send("<:RedTick:653464977788895252> You do not have enough EXP to perform this action!")
