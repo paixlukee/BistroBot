@@ -1085,9 +1085,9 @@ class Shop(commands.Cog):
             db.market.update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
             await asyncio.sleep(0.3)
             cl = user['level']
-            unlocks = "• " + "\n- ".join(self.unlocks[str(cl)])
-            nextUnlocks = "• " + "\n- ".join(self.unlocks[str(cl+1)])
-            embed = discord.Embed(colour=0xa82021, description=f"{self.levelEmoji[str(cl)]} **Level up!** You've unlocked...\n{unlocks}")
+            unlocks = "• " + "\n- ".join(self.unlocks[str(nextLevel)])
+            nextUnlocks = "• " + "\n- ".join(self.unlocks[str(nextLevel+1)])
+            embed = discord.Embed(colour=0xa82021, description=f"{self.levelEmoji[str(nextLevel)]} **Level up!** You've unlocked...\n{unlocks}")
             embed.add_field(name="Next Unlocks...", value=nextUnlocks)
             await ctx.send(embed=embed)
 
