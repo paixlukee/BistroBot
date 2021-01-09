@@ -342,7 +342,7 @@ class Shop(commands.Cog):
             uy = "$80 <:ExperiencePotion:715822985780658238>"
         else:
             uy = ":lock: Unlocks at Level 2"
-        embed = discord.Embed(colour=0xa82021, title="Which item would you like to buy?", description="[1] Fishing Rod - $60 :fishing_pole_and_fish:\n[2] Experience Potion (+50 EXP) - {uy}")
+        embed = discord.Embed(colour=0xa82021, title="Which item would you like to buy?", description=f"[1] Fishing Rod - $60 :fishing_pole_and_fish:\n[2] Experience Potion (+50 EXP) - {uy}")
         embed.set_footer(text="You have 90 seconds to reply with the number, or say 'cancel' to cancel.")
         await ctx.send(embed=embed)
         choice = await self.bot.wait_for('message', check=nc, timeout=90)
@@ -1103,6 +1103,7 @@ class Shop(commands.Cog):
                 money = 500
             else:
                 money = 250
+            await self.add_money(ctx.author.id, money)
             db.market.update_one({"owner": ctx.author.id}, {"$set":{"level": nextLevel}})
             await asyncio.sleep(0.3)
             cl = user['level']
@@ -1110,7 +1111,7 @@ class Shop(commands.Cog):
             nextUnlocks = "• " + "\n- ".join(self.unlocks[str(nextLevel+1)])
             embed = discord.Embed(colour=0xa82021, description=f"{self.levelEmoji[str(nextLevel)]} **Level up!** You've unlocked...\n{unlocks}")
             embed.add_field(name="Next Unlocks...", value=nextUnlocks)
-            embed.set_footer(text="You've also earned $500 for levelling up!")
+            embed.set_footer(text=f"You've also earned ${money} for levelling up!")
             await ctx.send(embed=embed)
 
 
