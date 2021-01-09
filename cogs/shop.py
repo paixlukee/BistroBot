@@ -35,8 +35,8 @@ class Shop(commands.Cog):
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "turkey": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Turkey.png","united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
-        self.exp_needed = {2: 250, 3: 500, 4: 1000, 5: 1500, 6: 2500}
-        self.unlocks = {2: ['Experience Potion', '+10% Goodluck'], 3: ['+1 Worker', 'Add 1 custom item to the menu'], 4: ['Luck Potion', '+10% Goodluck'], 5: ['+1 Worker', '+20% Goodluck'], 6: ["Add 2 custom items to the menu", "+30% Goodluck"]}
+        self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 1500, "6": 2500}
+        self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['+1 Worker', 'Add 1 custom item to the menu'], "4": ['Luck Potion', '+10% Goodluck'], "5": ['+1 Worker', '+20% Goodluck'], "6": ["Add 2 custom items to the menu", "+30% Goodluck"]}
 
 
 
