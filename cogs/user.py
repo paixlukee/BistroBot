@@ -307,7 +307,7 @@ class User(commands.Cog):
                             await self.add_exp(user=ctx.author.id, count=50)         
                             db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory":{"item": "ep"}}})
                         else:
-                            await ctx.send("<:RedTick:653464977788895252> You do not have any Experience Potions in your inventory!")
+                            pass#await ctx.send("<:RedTick:653464977788895252> You do not have any Experience Potions in your inventory!")
                     else:
                         pass
 
