@@ -64,6 +64,21 @@ class Dev(commands.Cog):
         stat.set_footer(text="Thanks for using Restaurant! | Res-V2.5")
         await ctx.send(embed=stat)
 
+    @commands.command(aliases=['Prefix', 'prefix'])
+    @commands.cooldown(2, 120, commands.BucketType.user)
+    async def prefix(self, ctx, prefix=None):
+        cp = self.pr
+        if ctx.author.guild_permissions.manage_server:
+            if not prefix:
+                await ctx.send("<:RedTick:653464977788895252> You need to include a prefix! Example: `{cp}prefix ?`")
+            elif len(prefix) > 4:
+                await ctx.send("<:RedTick:653464977788895252> Prefix can't be longer than 4 characters!")
+            else:
+                db.utility.update_one({"utility": "prefixes"}, {"$push":{"guild": ctx.guild, "prefix": prefix}})
+                await ctx.send(f"Restaurant Prefix set! To change it back, do `{prefix}prefix cp`")
+        else:
+            await ctx.send("<:RedTick:653464977788895252> You need `manage_server` permissions to change the server prefix!")
+
     @commands.command(aliases=['ptr'])
     async def patron(self, ctx, user_id:int, tier='BRONZE'):
         if ctx.author.id == 396153668820402197:
