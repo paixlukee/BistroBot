@@ -534,7 +534,7 @@ class Shop(commands.Cog):
         if "customitem" in post:
             await ctx.send("<:RedTick:653464977788895252> You have already created your custom item!")
         elif post['level'] < 3:
-            await ctx.send("<:RedTick:653464977788895252> You must be level 3 or higher to set a custom item!")         
+            await ctx.send("<:RedTick:653464977788895252> You must be level 3 or higher to set a custom item!")
         else:
             embed = discord.Embed(colour=0xa82021, description='What are you going to name your custom item? It cannot be longer than 11 characters.')
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
@@ -1092,7 +1092,8 @@ class Shop(commands.Cog):
                 badge = ""
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(description=post['description'])
-            embed.set_author(icon_url=self.flags[country], name=post['name'])
+            level = post['level']
+            embed.set_author(icon_url=self.flags[country], name=post['name'] + f" {self.levelEmoji[level]}")
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
@@ -1116,7 +1117,7 @@ class Shop(commands.Cog):
                 embed.set_thumbnail(url=ctx.me.avatar_url_as(format='png'))
             else:
                 embed.set_thumbnail(url=post['logo_url'])
-            embed.set_footer(text=f"Last Work: {post['laststock']}")
+            embed.set_footer(text=f"Level {level} | Last Work: {post['laststock']}")
             msg = await ctx.send(embed=embed)
 
     @commands.command(aliases=['Level'])
