@@ -553,6 +553,7 @@ class Shop(commands.Cog):
                 embed = discord.Embed(colour=0xa82021, description=f'Perfect! Your dine message has been set!')
                 embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
                 await ctx.send(embed=embed)
+                db.market.update_one({"owner": ctx.author.id}, {"$set": {"dinemsg": newmsg}})
 
     @set.command(aliases=['custom', 'customitem', 'Item'])
     async def item(self, ctx):
