@@ -141,7 +141,7 @@ class Shop(commands.Cog):
                 db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker": chw}})
                 db.market.update_one({"owner": ctx.author.id}, {"$set": {"worker_name": chosen}})
                 me = discord.Embed(colour=0xa82021, description=f"Hello, {ctx.author.name.capitalize()}!\n\nThanks for hiring me! I hope that I can help make your restaurant the best in the world! If you ever want to check on me, do `r!worker`.")
-                me.set_author(name=f"Message from {chosen}", icon_url="http://paixlukee.ml/m/SKRFY.png")
+                me.set_author(name=f"Message from {chosen}", icon_url="http://paixlukee.dev/m/SKRFY.png")
                 await ctx.send(embed=me)
 
 
@@ -1130,6 +1130,7 @@ class Shop(commands.Cog):
             ':flag_it: Italy\n'\
             ':flag_jp: Japan\n'\
             ':flag_mx: Mexico\n'\
+            ':flag_ru: Russia\n'\
             ':flag_tr: Turkey\n'\
             ':flag_gb: United Kingdom\n'\
             ':flag_us: United States\n'
@@ -1178,7 +1179,7 @@ class Shop(commands.Cog):
                         new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace('fag', 'f*g').replace('FAG', 'f*g').replace("Fag", "F*g")
                         await self.update_data(ctx.author, country.content.lower(), new_name, desc.content)
                         embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant` and view all Restaurant commands with `r!help`.')
-                        embed.add_field(name="Quick Tips", value=":one: [Earn some money](http://paixlukee.ml/m/PL0LD.mp4)\n:two: [Set a custom logo](http://paixlukee.ml/m/CBXXZ.mp4)\n:three: [Hire a worker](https://paixlukee.ml/m/1GZCD.mp4)\n:four: [Buy a custom item and use it](http://paixlukee.ml/m/DEMD4.mp4)")
+                        embed.add_field(name="Quick Tips", value=":one: [Earn some money](http://paixlukee.dev/m/PL0LD.mp4)\n:two: [Set a custom logo](http://paixlukee.dev/m/CBXXZ.mp4)\n:three: [Hire a worker](https://paixlukee.dev/m/1GZCD.mp4)\n:four: [Buy a custom item and use it](http://paixlukee.dev/m/DEMD4.mp4)")
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
         else:

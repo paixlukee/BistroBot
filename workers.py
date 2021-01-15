@@ -41,6 +41,12 @@ list = {
     {"Rosa": [{"exp": 0.05}, {"tips": -0.2}, {"pay": 12}]},
     {"Juan": [{"exp": 0.3}, {"tips": 0.2}, {"pay": 2}]}
     ],
+"russia": [
+    {"Sasha": [{"exp": -0.05}, {"tips": 0.4}, {"pay": 5}]},
+    {"Viktor": [{"exp": 0.12}, {"tips": 0.24}, {"pay": 6}]},
+    {"Natalya": [{"exp": 0.05}, {"tips": -0.2}, {"pay": 12}]},
+    {"Ivan": [{"exp": 0.3}, {"tips": 0.2}, {"pay": 2}]}
+    ],
 "turkey": [
     {"Meryem": [{"exp": -0.05}, {"tips": 0.4}, {"pay": 5}]},
     {"Muhammed": [{"exp": 0.12}, {"tips": 0.24}, {"pay": 6}]},
