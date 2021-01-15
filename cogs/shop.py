@@ -566,8 +566,8 @@ class Shop(commands.Cog):
                     embed = discord.Embed(colour=0xa82021, description=f'Awesome! Menu item, "{newitem}", has been added to your menu!')
                     embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
                     await ctx.send(embed=embed)
-                    db.market.update_one({"owner": ctx.author.id}, {"$push":{"inventory": {{"name": newitem, "price": price, "stock": 0, "sold": 0}}}})
-
+                    db.market.update_one({"owner": ctx.author.id}, {"$push":{"inventory": {"name": newitem, "price": price, "stock": 0, "sold": 0}}})
+                    db.market.update_one({"owner": ctx.author.id}, {"$set": {"customitem": True}})
 
 
 
