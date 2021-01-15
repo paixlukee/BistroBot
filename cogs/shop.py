@@ -35,8 +35,8 @@ class Shop(commands.Cog):
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "russia":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Russia.png", "turkey": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Turkey.png","united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
-        self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 1500, "6": 3000}
-        self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['Add 1 custom item to the menu'], "4": ['Rich Potion', '+10% Goodluck'], "5": ['Add another custom item to the menu', '+20% Goodluck'], "6": ["+30% Goodluck"]}
+        self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 2000, "6": 4000}
+        self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['Add 1 custom item to the menu'], "4": ['Rich Potion', '+10% Goodluck'], "5": ['Custom dine message', '+20% Goodluck'], "6": ["+30% Goodluck"]}
         self.levelEmoji = {"1": "<:levelone:796813114652753992>", "2": "<:leveltwo:796813114779762729>", "3": "<:levelthree:796813114640433152>", "4": "<:levelfour:796813115055538186>", "5": "<:levelfive:796813115135229992>", "6": "<:levelsix:796813115194474506>"}
 
 
@@ -525,6 +525,50 @@ class Shop(commands.Cog):
                 await ctx.send("Notifications turned off.")
             else:
                 pass
+
+    @set.command(aliases=['custom', 'customitem', 'Item'])
+    async def item(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        def check(m):
+                return m.author == ctx.message.author
+        if "customitem" in post:
+            await ctx.send("<:RedTick:653464977788895252> You have already created your custom item!")
+        elif post['level'] < 3:
+            await ctx.send("<:RedTick:653464977788895252> You must be level 3 or higher to set a custom item!")         
+        else:
+            embed = discord.Embed(colour=0xa82021, description='What are you going to name your custom item? It cannot be longer than 11 characters.')
+            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
+            embed.set_footer(text="You have 90 seconds to reply")
+            await ctx.send(embed=embed)
+            msg = await self.bot.wait_for('message', check=check, timeout=90)
+            item = msg.content
+            newitem = item.lower().replace("nigg", "n*gg").replace("fag", "f*g").replace("fuck", "f*ck").replace("penis", "p*nis").replace("vagin", "v*gin")
+            string = []
+            for x in newitem.split(' '):
+                string.append(x.capitalize())
+            newitem = " ".join(string)
+            if len(newitem) > 11:
+                failed = discord.Embed(colour=0xa82021, description="Item name must be 11 characters or less")
+                failed.set_author(name="Creation Failed.")
+                await ctx.send(embed=failed)
+            else:
+                embed = discord.Embed(colour=0xa82021, description=f'Perfect! How much should "{newitem}" cost? It must be between $1 and $10')
+                embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
+                embed.set_footer(text="You have 90 seconds to reply")
+                await ctx.send(embed=embed)
+                msg = await self.bot.wait_for('message', check=check, timeout=90)
+                price = int(msg.content)
+                if price > 10 or price < 1:
+                    failed = discord.Embed(colour=0xa82021, description="Item cost must be between $1 and $10!")
+                    failed.set_author(name="Creation Failed.")
+                    await ctx.send(embed=failed)
+                else:
+                    embed = discord.Embed(colour=0xa82021, description=f'Awesome! Menu item, "{newitem}", has been added to your menu!')
+                    embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
+                    await ctx.send(embed=embed)
+                    db.market.update_one({"owner": ctx.author.id}, {"$push":{"inventory": {{"name": newitem, "price": price, "stock": 0, "sold": 0}}}})
+
+
 
 
     @set.command(aliases=['Logo', 'image', 'icon'])
