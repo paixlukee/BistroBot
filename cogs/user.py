@@ -517,7 +517,25 @@ class User(commands.Cog):
             else:
                 ml = 1
             country = str(user['country'])
-            rm = rnd(posts['resp'])['text']
+            rmb = rnd(posts['resp'])
+            if rmb['good'] is False:
+                if user['level'] == 2 or user['level'] == 3:
+                    randomChance = random.choice(1, 10)
+                    if randomChoice == 10:
+                        rmb = rnd(posts['resp'])
+                elif user['level'] == 4:
+                    randomChoice = random.choice(1, 5)
+                    if randomChoice == 5:
+                        rmb = rnd(posts['resp'])
+                elif user['level'] == 5:
+                    randomChoice = random.choice(2, 5)
+                    if randomChoice == 5:
+                        rmb = rnd(posts['resp'])
+                elif user['level'] == 6:
+                    randomChoice = random.choice(3, 5)
+                    if randomChoice == 5:
+                        rmb = rnd(posts['resp'])
+            rm = rmb['text']
             count = 0
             r1 = rnd(food.food[country])
             r2 = rnd(food.food[country])
