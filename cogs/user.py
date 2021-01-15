@@ -243,7 +243,7 @@ class User(commands.Cog):
                     await self.take_money(ctx.author.id, item['price'])
                     c = await self.add_exp(ctx.author.id, rxp)
                     if "dinemsg" in res:
-                        dinemsg = res['dinemsg'].replace("ITEM", item['name']).replace("COST", item['price'])
+                        dinemsg = res['dinemsg'].replace("ITEM", item['name']).replace("COST", str(item['price']))
                         if dinemsg.endswith('.') or dinemsg.endswith('!') or dinemsg.endswith('?'):
                             p = ''
                         else:
