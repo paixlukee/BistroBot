@@ -1093,7 +1093,7 @@ class Shop(commands.Cog):
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(description=post['description'])
             level = str(post['level'])
-            embed.set_author(icon_url=self.flags[country], name=post['name'] + f" {self.levelEmoji[level]}")
+            embed.set_author(icon_url=self.flags[country], name=post['name']) #+ f" {self.levelEmoji[level]}")
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
@@ -1144,7 +1144,7 @@ class Shop(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> You do not have enough EXP to perform this action!")
         else:
             #await self.take_exp(ctx.author.id, nextLevel)
-            if level <= 4:
+            if nextLevel <= 4:
                 money = 500
             else:
                 money = 250
