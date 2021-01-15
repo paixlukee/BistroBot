@@ -68,7 +68,7 @@ class Dev(commands.Cog):
     @commands.cooldown(2, 120, commands.BucketType.user)
     async def prefix(self, ctx, prefix=None):
         cp = "r!"
-        if ctx.author.guild_permissions.manage_server:
+        if ctx.author.guild_permissions.manage_guild:
             if not prefix:
                 await ctx.send("<:RedTick:653464977788895252> You need to include a prefix! Example: `{cp}prefix ?`")
             elif len(prefix) > 4:
