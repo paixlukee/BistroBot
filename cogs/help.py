@@ -19,10 +19,17 @@ import pymongo
 client = MongoClient(config.mongo_client)
 db = client['siri']
 
+async def get_pre(bot, message):
+    posts = db.utility.find_one({"utility": "prefixes"})
+    pref = "r!"
+    for x in posts['prefixes']:
+        if x['guild'] == message.guild.id:
+            pref = x['prefix']
+    return pref
+
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.pr = 'r!'
 
 
     @commands.command(aliases=['V2'])
@@ -53,6 +60,7 @@ class Help(commands.Cog):
     async def help(self, ctx, page=None):
         #keeping this hardcoded, because it will only make me do more work :)
         post = db.market.find_one({"owner": ctx.author.id})
+        pre = get_pre(bot, ctx.message)
         try:
             page = int(page.lower().replace("#", "").replace("page", ""))
         except:
@@ -72,57 +80,58 @@ class Help(commands.Cog):
             embed.add_field(name="Links", value="[DBL](https://top.gg/bot/648065060559781889)\n[Donate](https://www.patreon.com/paixlukee)\n[Support Server](http://discord.gg/BCRtw7c)")
             #embed.add_field(name="Page #4 | Configuration", value="Configurate guild-only settings,")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual")
-            embed.set_image(url="http://paixlukee.ml/m/SUG3O.png")#reg: http://paixlukee.ml/m/FGGUC.png")
+            embed.set_image(url="http://paixlukee.dev/m/SUG3O.png")#reg: http://paixlukee.dev/m/FGGUC.png")
             embed.set_footer(text="To view a page, put the page number right after the command. Example: r!help 1")
             await ctx.send(embed=embed)
         elif page == 1:
             embed = discord.Embed(colour=0xa82021, description="The main restaurant commands.")
-            embed.add_field(name=f"{self.pr}start", value="Create your restaurant")
-            embed.add_field(name=f"{self.pr}restaurant [restaurant]", value="View your own restaurant")
-            embed.add_field(name=f"{self.pr}rate <@user>", value="Rate a restaurant")
-            embed.add_field(name=f"{self.pr}menu <restaurant>", value="View a restaurant menu")
-            embed.add_field(name=f"{self.pr}set", value="Configurate your restaurant settings")
-            embed.add_field(name=f"{self.pr}daily", value="Receive your daily cash")
-            embed.add_field(name=f"{self.pr}work", value="Work at your restaurant and receive money")
-            embed.add_field(name=f"{self.pr}beg", value="Beg the bank to give you a grant")
-            embed.add_field(name=f"{self.pr}clean", value="Clean your restaurant and receive EXP")
-            embed.add_field(name=f"{self.pr}cook", value="Cook an item and receive EXP")
-            embed.add_field(name=f"{self.pr}fish", value="Go fishing and get money & EXP.")
-            embed.add_field(name=f"{self.pr}trivia", value="Play trivia and earn money.")
-            embed.add_field(name=f"{self.pr}leaderboard", value="View the global restaurant leaderboard")
-            embed.add_field(name=f"{self.pr}hire", value="Hire an employee to help you work")
-            embed.add_field(name=f"{self.pr}worker", value="View how your employee is doing")
+            embed.add_field(name=f"{pre}start", value="Create your restaurant")
+            embed.add_field(name=f"{pre}restaurant [restaurant]", value="View your own restaurant")
+            embed.add_field(name=f"{pre}rate <@user>", value="Rate a restaurant")
+            embed.add_field(name=f"{pre}menu <restaurant>", value="View a restaurant menu")
+            embed.add_field(name=f"{pre}set", value="Configurate your restaurant settings")
+            embed.add_field(name=f"{pre}daily", value="Receive your daily cash")
+            embed.add_field(name=f"{pre}work", value="Work at your restaurant and receive money")
+            embed.add_field(name=f"{pre}beg", value="Beg the bank to give you a grant")
+            embed.add_field(name=f"{pre}clean", value="Clean your restaurant and receive EXP")
+            embed.add_field(name=f"{pre}cook", value="Cook an item and receive EXP")
+            embed.add_field(name=f"{pre}fish", value="Go fishing and get money & EXP.")
+            embed.add_field(name=f"{pre}trivia", value="Play trivia and earn money.")
+            embed.add_field(name=f"{pre}leaderboard", value="View the global restaurant leaderboard")
+            embed.add_field(name=f"{pre}hire", value="Hire an employee to help you work")
+            embed.add_field(name=f"{pre}worker", value="View how your employee is doing")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 1")
-            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
+            embed.set_image(url="http://paixlukee.dev/m/FGGUC.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
         elif page == 2:
             embed = discord.Embed(colour=0xa82021, description="Commands that interact with regular users.")
-            embed.add_field(name=f"{self.pr}profile [@user]", value="View a user profile")
-            embed.add_field(name=f"{self.pr}balance", value="View your balance")
-            embed.add_field(name=f"{self.pr}donate <@user> <amount>", value="Donate money to someone else")
-            embed.add_field(name=f"{self.pr}dine <restaurant>", value="Dine at a restaurant and gain EXP")
-            embed.add_field(name=f"{self.pr}donation", value="Donate to the bot")
-            embed.add_field(name=f"{self.pr}discoin", value="Manage discoin transactions")
+            embed.add_field(name=f"{pre}profile [@user]", value="View a user profile")
+            embed.add_field(name=f"{pre}balance", value="View your balance")
+            embed.add_field(name=f"{pre}donate <@user> <amount>", value="Donate money to someone else")
+            embed.add_field(name=f"{pre}dine <restaurant>", value="Dine at a restaurant and gain EXP")
+            embed.add_field(name=f"{pre}donation", value="Donate to the bot")
+            embed.add_field(name=f"{pre}discoin", value="Manage discoin transactions")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 2")
-            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
+            embed.set_image(url="http://paixlukee.dev/m/FGGUC.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
         elif page == 3:
             embed = discord.Embed(colour=0xa82021, description="Buy, use, and view items in your inventory.")
-            embed.add_field(name=f"{self.pr}inventory", value="View your inventory")
-            embed.add_field(name=f"{self.pr}use <item>", value="View your balance")
-            embed.add_field(name=f"{self.pr}buy", value="View shop and buy items")
+            embed.add_field(name=f"{pre}inventory", value="View your inventory")
+            embed.add_field(name=f"{pre}use <item>", value="View your balance")
+            embed.add_field(name=f"{pre}buy", value="View shop and buy items")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 3")
-            embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
+            embed.set_image(url="http://paixlukee.dev/m/FGGUC.png")
             embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
         elif page == 4:
             embed = discord.Embed(colour=0xa82021, description="Commands that have to do with the main bot.")
-            embed.add_field(name=f"{self.pr}ping", value="View the ping")
-            embed.add_field(name=f"{self.pr}info", value="View information about Restaurant Bot")
-            embed.add_field(name=f"{self.pr}invite", value="Get the invite URL")
-            embed.add_field(name=f"{self.pr}patrons", value="View all of the current patrons")
+            embed.add_field(name=f"{pre}ping", value="View the ping")
+            embed.add_field(name=f"{pre}info", value="View information about Restaurant Bot")
+            embed.add_field(name=f"{pre}invite", value="Get the invite URL")
+            embed.add_field(name=f"{pre}prefix <new-prefix>", value="Set server prefix. (requires `manage_server` permissions)")
+            embed.add_field(name=f"{pre}patrons", value="View all of the current patrons")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 4")
             embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
             #embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
