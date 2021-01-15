@@ -36,7 +36,7 @@ class Shop(commands.Cog):
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "turkey": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Turkey.png","united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 1500, "6": 3000}
-        self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['+1 Worker', 'Add 1 custom item to the menu'], "4": ['Luck Potion', '+10% Goodluck'], "5": ['+1 Worker', '+20% Goodluck'], "6": ["Add 2 custom items to the menu", "+30% Goodluck"]}
+        self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['Add 1 custom item to the menu'], "4": ['Rich Potion', '+10% Goodluck'], "5": ['Add another custom item to the menu', '+20% Goodluck'], "6": ["+30% Goodluck"]}
         self.levelEmoji = {"1": "<:levelone:796813114652753992>", "2": "<:leveltwo:796813114779762729>", "3": "<:levelthree:796813114640433152>", "4": "<:levelfour:796813115055538186>", "5": "<:levelfive:796813115135229992>", "6": "<:levelsix:796813115194474506>"}
 
 
@@ -1241,7 +1241,7 @@ class Shop(commands.Cog):
             "colour": None,
             "banner": None,
             "worker": None,
-            "worker_name": None
+            "worker_name": None,
         }
         db.market.insert_one(post)
 

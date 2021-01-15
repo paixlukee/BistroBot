@@ -292,7 +292,8 @@ class User(commands.Cog):
                         pass
                     elif x['banner']['name'].lower() == item.lower():
                         await asyncio.sleep(1)
-                        db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": x['banner']['url']}})
+                        url = x['banner']['url'].replace('paixlukee.ml', 'paixlukee.dev')
+                        db.market.update_one({"owner": ctx.author.id}, {"$set": {"banner": url}})
                         w.append(' ')
                     else:
                         pass
