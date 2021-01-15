@@ -60,7 +60,7 @@ class Help(commands.Cog):
     async def help(self, ctx, page=None):
         #keeping this hardcoded, because it will only make me do more work :)
         post = db.market.find_one({"owner": ctx.author.id})
-        pre = get_pre()#ctx.bot, ctx.message
+        pre = await get_pre(ctx.bot, ctx.message)
         try:
             page = int(page.lower().replace("#", "").replace("page", ""))
         except:
