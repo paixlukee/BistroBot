@@ -27,11 +27,11 @@ db = client['siri']
 
 async def get_pre(bot, message):
     posts = db.utility.find_one({"utility": "prefixes"})
-    prefix = "r!"
+    pref = "r!"
     for x in posts['prefixes']:
         if x['guild'] == message.guild.id:
-            prefix = x['prefix']
-    return prefix
+            pref = x['prefix']
+    return pref
 
 
 bot = commands.AutoShardedBot(heartbeat_timeout=20, shard_count=3, command_prefix=commands.when_mentioned_or(get_pre))
