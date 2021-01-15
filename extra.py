@@ -206,7 +206,7 @@ extra = {
        "stock": 0,
        "sold": 0
     }
-   ]
+   ],
    "turkey": [
       {
          "name": "Ashure",
