@@ -64,7 +64,7 @@ class Dev(commands.Cog):
         stat.set_footer(text="Thanks for using Restaurant! | Res-V2.5")
         await ctx.send(embed=stat)
 
-    @commands.command(aliases=['Prefix', 'prefix'])
+    @commands.command(aliases=['Prefix'])
     @commands.cooldown(2, 120, commands.BucketType.user)
     async def prefix(self, ctx, prefix=None):
         cp = self.pr
