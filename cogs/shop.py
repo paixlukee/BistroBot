@@ -534,19 +534,19 @@ class Shop(commands.Cog):
         if post['level'] < 5:
             await ctx.send("<:RedTick:653464977788895252> You must be level 5 or higher to set a custom item!")
         else:
-            embed = discord.Embed(colour=0xa82021, description='What are you going to set your custom dine message? You must include COST and ITEM in your message, and it must be 200 characters or less.\n\nExample: `You\'ve ordered ITEM for COST! Have a good day!`')
+            embed = discord.Embed(colour=0xa82021, description='What are you going to set your custom dine message? You must include COST and ITEM in your message, and it must be 200 characters or less.\n\nExample: `You\'ve ordered ITEM for $COST! Have a good day!`')
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
             embed.set_footer(text="You have 90 seconds to reply")
             await ctx.send(embed=embed)
             msg = await self.bot.wait_for('message', check=check, timeout=90)
             dine = msg.content
-            newmsg = dine.lower().replace("nigg", "n*gg").replace("fag", "f*g").replace("fuck", "f*ck").replace("penis", "p*nis").replace("vagin", "v*gin")
+            newmsg = dine.replace("nigg", "n*gg").replace("fag", "f*g").replace("fuck", "f*ck").replace("penis", "p*nis").replace("vagin", "v*gin")
             if len(newmsg) > 200:
                 failed = discord.Embed(colour=0xa82021, description="Dine messages must be 200 characters or less")
                 failed.set_author(name="Creation Failed.")
                 await ctx.send(embed=failed)
             elif not "COST" in newmsg or not "ITEM" in newmsg:
-                failed = discord.Embed(colour=0xa82021, description="You must include both COST and ITEM in your message! This makes the user know what they bought and how much it was!\n\nYou input: You bought a ITEM for COST!\nDine message: You bought a Pizza for $5!")
+                failed = discord.Embed(colour=0xa82021, description="You must include both COST and ITEM in your message! This makes the user know what they bought and how much it was!\n\nYou input: You bought a ITEM for $COST!\nDine message: You bought a Pizza for $5!")
                 failed.set_author(name="Creation Failed.")
                 await ctx.send(embed=failed)
             else:
