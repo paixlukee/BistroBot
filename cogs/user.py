@@ -242,15 +242,15 @@ class User(commands.Cog):
                     rxp = round(1.2*item['price'])
                     await self.take_money(ctx.author.id, item['price'])
                     c = await self.add_exp(ctx.author.id, rxp)
-                    if "dinemsg" in post:
-                        dinemsg = post['dinemsg'].replace("ITEM", item['name']).replace("COST", item['price'])
+                    if "dinemsg" in res:
+                        dinemsg = res['dinemsg'].replace("ITEM", item['name']).replace("COST", item['price'])
                         if dinemsg.endswith('.') or dinemsg.endswith('!') or dinemsg.endswith('?'):
                             p = ''
                         else:
                             p = '.'
                         await ctx.send(f"{dinemsg}{p} You've earned {c} EXP for dining in.")
                     else:
-                        await ctx.send(f"-You've ordered a {item['name']} from {res['name']} for ${item['price']}. You've earned {c} EXP for dining in.")
+                        await ctx.send(f"You've ordered a {item['name']} from {res['name']} for ${item['price']}. You've earned {c} EXP for dining in.")
                     price_paid = round(item['price']/1.8)
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
