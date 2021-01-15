@@ -1092,7 +1092,7 @@ class Shop(commands.Cog):
                 badge = ""
             list = sorted(ldi, key=lambda x: x['sold'], reverse=True)
             embed = discord.Embed(description=post['description'])
-            level = post['level']
+            level = str(post['level'])
             embed.set_author(icon_url=self.flags[country], name=post['name'] + f" {self.levelEmoji[level]}")
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
