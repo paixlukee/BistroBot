@@ -230,10 +230,11 @@ class Botdev(commands.Cog):
             if ctx.guild:
                 description += f'\n**Guild**: {ctx.guild} `ID: {ctx.guild.id}`'
             fe = ''.join(traceback.format_exception(type(error), error, error.__traceback__, chain=False))
+            desc = "ERROR:\n\n{fe}"
             description += f'\n```py\n{fe}\n```'
             embed.description = description
             embed.timestamp = datetime.datetime.utcnow()
-            r = requests.post(f"https://hastebin.com/documents", data=str(fe).encode('utf-8')).json()
+            r = requests.post(f"https://hastebin.com/documents", data=str(desc).encode('utf-8')).json()
             await self.bot.get_channel(658708974836645888).send(content=f"<https://hastebin.com/{r['key']}>")
             try:
                 await self.bot.get_channel(658708974836645888).send(embed=embed)
