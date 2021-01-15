@@ -29,11 +29,11 @@ class Shop(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
-        self.countries = ['CHINA', 'FRANCE','GREECE', 'INDIA', 'ITALY', 'JAPAN', 'MEXICO', 'TURKEY','UNITED KINGDOM', 'UNITED STATES']
+        self.countries = ['CHINA', 'FRANCE','GREECE', 'INDIA', 'ITALY', 'JAPAN', 'MEXICO', 'RUSSIA','TURKEY','UNITED KINGDOM', 'UNITED STATES']
         self.flags = {"china":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_China.png", "france":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_France.png",
                      "greece":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Greece.png", "india":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_India.png",
                      "italy": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Italy.png", "japan": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Japan.png",
-                     "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "turkey": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Turkey.png","united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
+                     "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "russia":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Russia.png", "turkey": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Turkey.png","united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 1500, "6": 3000}
         self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['Add 1 custom item to the menu'], "4": ['Rich Potion', '+10% Goodluck'], "5": ['Add another custom item to the menu', '+20% Goodluck'], "6": ["+30% Goodluck"]}
