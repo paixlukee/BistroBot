@@ -506,7 +506,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def set(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set notifications` - **Set notifications for your Restaurant**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**\n`r!set item` - **Set the price of your custom item (Level 3+)**")
+            embed = discord.Embed(colour=0xa82021, title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set notifications` - **Set notifications for your Restaurant**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**\n`r!set item` - **Set the price of your custom item (Level 3+)**\n`r!set dine` - **Set your dine message (Level 5+)**")
             await ctx.send(embed=embed)
             self.bot.get_command("set").reset_cooldown(ctx)
 
