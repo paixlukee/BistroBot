@@ -34,7 +34,7 @@ async def get_pre(bot, message):
     return pref
 
 
-bot = commands.AutoShardedBot(heartbeat_timeout=20, shard_count=3, command_prefix=commands.when_mentioned_or(get_pre))
+bot = commands.AutoShardedBot(heartbeat_timeout=20, shard_count=3, command_prefix=get_pre)
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 
