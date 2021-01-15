@@ -95,7 +95,7 @@ class Help(commands.Cog):
             embed.add_field(name=f"{pre}beg", value="Beg the bank to give you a grant")
             embed.add_field(name=f"{pre}clean", value="Clean your restaurant and receive EXP")
             embed.add_field(name=f"{pre}cook", value="Cook an item and receive EXP")
-            embed.add_field(name=f"{pre}fish", value="Go fishing and get money & EXP.")
+            embed.add_field(name=f"{pre}fish", value="Go fishing and get money & EXP. Your rod has 10% of breaking every use.")
             embed.add_field(name=f"{pre}trivia", value="Play trivia and earn money.")
             embed.add_field(name=f"{pre}leaderboard", value="View the global restaurant leaderboard")
             embed.add_field(name=f"{pre}hire", value="Hire an employee to help you work")

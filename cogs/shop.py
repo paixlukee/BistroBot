@@ -884,18 +884,19 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 5}, {'name': 'some eggs', 'money': 3, 'exp': 3}, {'name': 'a fish', 'money': 11, 'exp': 17}, {'name': 'some rice', 'money': 3, 'exp': 19}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 10}, {'name': 'a few apples', 'money': 7, 'exp': 11}, {'name': 'two bags of carrots', 'money': 8, 'exp': 12}, {'name': 'a bag of flour', 'money': 4, 'exp': 16}, {'name': 'a can of salt', 'money': 7, 'exp': 16}]
         if post:
-            x = False
+            fish = False
+            item = None
             for x in post['inventory']:
                 if 'item' in x:
                     if x['item'] == 'fish':
                         fish = True
-                        x = True
+                        item = x
                     else:
-                        fish = False
+                        pass
                 else:
                     pass
-            if not x:
-                fish = False
+            #if not fish:
+                #fish = False
             if not fish:
                 await ctx.send("You don't have a fishing rod. Buy one by saying `r!buy item` and then saying `1`.")
                 self.bot.get_command("fish").reset_cooldown(ctx)
@@ -903,7 +904,13 @@ class Shop(commands.Cog):
                 rn = rnd(to_fish)
                 await self.add_exp(user=ctx.author.id, count=rn['exp'])
                 await self.add_money(user=ctx.author.id, count=rn['money'])
-                await ctx.send(f"{ctx.author.mention}, You threw out your fishing rod and got {rn['name']} which earned you ${rn['money']} & {rn['exp']} EXP.")
+                rn2 = random.randint(1, 10)
+                if rn2 == 10:
+                    bmsg = "Unfortunately, your rod broke after you reeled in your rewards."
+                    db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory": item}})
+                else:
+                    bmsg = ""
+                await ctx.send(f"{ctx.author.mention}, You threw out your fishing rod and got {rn['name']} which earned you ${rn['money']} & {rn['exp']} EXP. {bmsg}")
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
