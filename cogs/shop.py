@@ -36,7 +36,7 @@ class Shop(commands.Cog):
                      "mexico":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Mexico.png", "russia":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Russia.png", "turkey": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_Turkey.png","united kingdom":"https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_Kingdom.png",
                      "united states": "https://cdn2.iconfinder.com/data/icons/world-flag-icons/128/Flag_of_United_States.png"}
         self.exp_needed = {"2": 250, "3": 500, "4": 1000, "5": 2000, "6": 4000}
-        self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['Add 1 custom item to the menu'], "4": ['Rich Potion', '+10% Goodluck'], "5": ['Custom dine message', '+20% Goodluck'], "6": ["+30% Goodluck"]}
+        self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['Add 1 custom item to the menu'], "4": ['+10% Goodluck'], "5": ['Custom dine message', '+20% Goodluck'], "6": ["+30% Goodluck"]}
         self.levelEmoji = {"1": "<:levelone:796813114652753992>", "2": "<:leveltwo:796813114779762729>", "3": "<:levelthree:796813114640433152>", "4": "<:levelfour:796813115055538186>", "5": "<:levelfive:796813115135229992>", "6": "<:levelsix:796813115194474506>"}
 
 
@@ -506,7 +506,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 4, commands.BucketType.user)
     async def set(self, ctx):
         if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set notifications` - **Set notifications for your Restaurant**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**")
+            embed = discord.Embed(colour=0xa82021, title="'Set' Command Group", description="`r!set logo` - **Set Restaurant logo**\n`r!set notifications` - **Set notifications for your Restaurant**\n`r!set description` - **Set Restaurant description**\n`r!set name` - **Set Restaurant name**\n`r!set price` - **Set the price of an item**\n`r!set item` - **Set the price of your custom item (Level 3+)**")
             await ctx.send(embed=embed)
             self.bot.get_command("set").reset_cooldown(ctx)
 
@@ -525,6 +525,34 @@ class Shop(commands.Cog):
                 await ctx.send("Notifications turned off.")
             else:
                 pass
+
+    @set.command(aliases=['dinemessage', 'Dine'])
+    async def dine(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        def check(m):
+                return m.author == ctx.message.author
+        if post['level'] < 5:
+            await ctx.send("<:RedTick:653464977788895252> You must be level 5 or higher to set a custom item!")
+        else:
+            embed = discord.Embed(colour=0xa82021, description='What are you going to set your custom dine message? You must include COST and ITEM in your message, and it must be 200 characters or less.\n\nExample: `You\'ve ordered ITEM for $COST! Have a good day!`')
+            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
+            embed.set_footer(text="You have 90 seconds to reply")
+            await ctx.send(embed=embed)
+            msg = await self.bot.wait_for('message', check=check, timeout=90)
+            dine = msg.content
+            newmsg = dine.lower().replace("nigg", "n*gg").replace("fag", "f*g").replace("fuck", "f*ck").replace("penis", "p*nis").replace("vagin", "v*gin")
+            if len(newmsg) > 200:
+                failed = discord.Embed(colour=0xa82021, description="Dine messages must be 200 characters or less")
+                failed.set_author(name="Creation Failed.")
+                await ctx.send(embed=failed)
+            elif not "COST" in newmsg or not "ITEM" in newmsg:
+                failed = discord.Embed(colour=0xa82021, description="You must include both COST and ITEM in your message! This makes the user know what they bought and how much it was!\n\nYou input: You bought a ITEM for $COST!\nDine message: You bought a Pizza for $5!")
+                failed.set_author(name="Creation Failed.")
+                await ctx.send(embed=failed)
+            else:
+                embed = discord.Embed(colour=0xa82021, description=f'Perfect! Your dine message has been set!')
+                embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
+                await ctx.send(embed=embed)
 
     @set.command(aliases=['custom', 'customitem', 'Item'])
     async def item(self, ctx):
