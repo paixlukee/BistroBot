@@ -301,11 +301,14 @@ class User(commands.Cog):
                     if w:
                         pass
                     elif item == 'fish':
-                        await ctx.send("Incorrect Usage...")
+                        await ctx.send("Incorrect Usage... Try the `r!fish` command!")
                     elif item == 'experience potion':
-                        w.append('+50 EXP has been added to your Restaurant.')
-                        await self.add_exp(user=ctx.author.id, count=50)
-                        db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory":{"item": "ep"}}})
+                        if {"item": "ep"} in post['inventory']:
+                            w.append('+50 EXP has been added to your Restaurant.')
+                            await self.add_exp(user=ctx.author.id, count=50)         
+                            db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory":{"item": "ep"}}})
+                        else:
+                            pass#await ctx.send("<:RedTick:653464977788895252> You do not have any Experience Potions in your inventory!")
                     else:
                         pass
 
@@ -327,7 +330,7 @@ class User(commands.Cog):
                             except:
                                 pass
                             if not self.bot.get_command(resp.content.lower()):
-                                await ctx.send("Error using potion, did you type it right? `Example: daily`")
+                                await ctx.send("<:RedTick:653464977788895252> Error using potion, did you type it right? `Example: daily`")
                                 w.append(1)
                             else:
                                 self.bot.get_command(resp.content.lower()).reset_cooldown(ctx)

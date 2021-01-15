@@ -69,9 +69,9 @@ class Dev(commands.Cog):
         if ctx.author.id == 396153668820402197:
             db.utility.update_one({"utility": "patrons"}, {"$push":{tier.lower(): user_id}})
             if tier.lower() == "gold":
-                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Gold Patron", "url": "http://paixlukee.ml/m/MKAKZ.png", 'rarity': 'Legendary'}}}})
+                db.market.update_one({"owner": user_id}, {"$push": {"inventory":{"banner": {"name": "Gold Patron", "url": "http://paixlukee.ml/m/MKAKZ.png", 'rarity': 'Legendary'}}}})
             elif tier.lower() == "diamond":
-                db.market.update_one({"owner": ctx.author.id}, {"$push": {"inventory":{"banner": {"name": "Diamond Patron", "url": "http://paixlukee.ml/m/S1L2D.png",'rarity': 'Legendary'}}}})
+                db.market.update_one({"owner": user_id}, {"$push": {"inventory":{"banner": {"name": "Diamond Patron", "url": "http://paixlukee.ml/m/S1L2D.png",'rarity': 'Legendary'}}}})
             else:
                 pass
             user = self.bot.get_user(user_id)
