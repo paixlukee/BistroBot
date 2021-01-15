@@ -233,7 +233,12 @@ class Botdev(commands.Cog):
             description += f'\n```py\n{fe}\n```'
             embed.description = description
             embed.timestamp = datetime.datetime.utcnow()
-            await self.bot.get_channel(658708974836645888).send(embed=embed)
+            r = requests.post(f"https://hastebin.com/documents", data=str(result).encode('utf-8')).json()
+            await self.bot.get_channel(658708974836645888).send(content=f"<https://hastebin.com/{r['key']}>")
+            try:
+                await self.bot.get_channel(658708974836645888).send(embed=embed)
+            except:
+                pass
             if isinstance(error, commands.CommandInvokeError):
                 error = getattr(error, 'original', error)
                 if str(error).startswith("403"):
