@@ -26,7 +26,7 @@ client = MongoClient(config.mongo_client)
 db = client['siri']
 
 async def get_pre(bot, message):
-    posts = db.utility.find_one("utility": "prefixes")
+    posts = db.utility.find_one({"utility": "prefixes"})
     prefix = "r!"
     for x in posts['prefixes']:
         if x['guild'] == message.guild.id:
