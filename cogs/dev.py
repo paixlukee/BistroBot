@@ -74,7 +74,7 @@ class Dev(commands.Cog):
             elif len(prefix) > 4:
                 await ctx.send("<:RedTick:653464977788895252> Prefix can't be longer than 4 characters!")
             else:
-                db.utility.update_one({"utility": "prefixes"}, {"$push": {"prefixes": [{"guild": ctx.guild.id, "prefix": prefix}]})
+                db.utility.update_one({"utility": "prefixes"}, {"$push": {"prefixes": [{"guild": ctx.guild.id, "prefix": prefix}]}})
                 await ctx.send(f"Restaurant Prefix set! To change it back, do `{prefix}prefix cp`")
         else:
             await ctx.send("<:RedTick:653464977788895252> You need `manage_server` permissions to change the server prefix!")
