@@ -536,7 +536,7 @@ class Shop(commands.Cog):
         elif post['level'] < 3:
             await ctx.send("<:RedTick:653464977788895252> You must be level 3 or higher to set a custom item!")
         else:
-            embed = discord.Embed(colour=0xa82021, description='What are you going to name your custom item? It cannot be longer than 11 characters.')
+            embed = discord.Embed(colour=0xa82021, description='What are you going to name your custom item? It cannot be longer than 14 characters.')
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Custom Item Creation")
             embed.set_footer(text="You have 90 seconds to reply")
             await ctx.send(embed=embed)
@@ -547,8 +547,8 @@ class Shop(commands.Cog):
             for x in newitem.split(' '):
                 string.append(x.capitalize())
             newitem = " ".join(string)
-            if len(newitem) > 11:
-                failed = discord.Embed(colour=0xa82021, description="Item name must be 11 characters or less")
+            if len(newitem) > 14:
+                failed = discord.Embed(colour=0xa82021, description="Item name must be 14 characters or less")
                 failed.set_author(name="Creation Failed.")
                 await ctx.send(embed=failed)
             else:
