@@ -334,7 +334,7 @@ class Shop(commands.Cog):
         else:
             await ctx.send("Boosts are still in the works! Suggest what you want to see here: <https://discord.gg/BCRtw7c>")
 
-    @buy.command(aliases=['Item'], pass_context=True)
+    @buy.command(aliases=['Item'])
     async def item(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
         def nc(m):
@@ -556,8 +556,8 @@ class Shop(commands.Cog):
                 await ctx.send(embed=embed)
                 db.market.update_one({"owner": ctx.author.id}, {"$set": {"dinemsg": newmsg}})
 
-    @set.command(aliases=['custom', 'customitem', 'Item'])
-    async def item(self, ctx):
+    @set.command(name="item", aliases=['custom', 'customitem', 'Item'])
+    async def _item(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
         def check(m):
                 return m.author == ctx.message.author
