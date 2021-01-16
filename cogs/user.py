@@ -234,9 +234,9 @@ class User(commands.Cog):
                 pass
             newi = []
             for x in res['items']:
-                if x['name'] == chi.content:
+                if x['name'] == chi.content or x['name'] == chi.content.title():
                     newi.append(x)
-            if chi.content in items:
+            if chi.content in items or chi.content.title() in items:
                 item = newi[0]
                 if post['money'] >= item['price']:
                     rxp = round(1.2*item['price'])
