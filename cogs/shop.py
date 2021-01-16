@@ -52,7 +52,7 @@ class Shop(commands.Cog):
         for x in find_c[start:end]:
             exp = format(x['exp'], ",d")
             level = x['level']
-            embed.add_field(name=x['name'], value=f"{self.levelEmoji[str(level])} {exp} EXP", inline=False)
+            embed.add_field(name=x['name'], value=f"{self.levelEmoji[str(level)]} {exp} EXP", inline=False)
         embed.set_footer(text=f"Sort by: experience | r!lb {page+1} for next page")
         await ctx.send(embed=embed)
 
