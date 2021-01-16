@@ -1161,7 +1161,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1,3, commands.BucketType.user)
     async def level(self, ctx):
         user = db.market.find_one({"owner": ctx.author.id})
-        nextLevel = user['level']+1
+        nextLevel = str(user['level']+1)
         if user['level'] != 6:
             cl = f"will level up to Level {nextLevel} next."
             a = True
