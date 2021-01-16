@@ -39,7 +39,7 @@ class Shop(commands.Cog):
         self.unlocks = {"2": ['Experience Potion', '+10% Goodluck'], "3": ['Add 1 custom item to the menu'], "4": ['+10% Goodluck'], "5": ['Custom dine message', '+20% Goodluck'], "6": ["+30% Goodluck"]}
         self.levelEmoji = {"1": "<:levelone:796813114652753992>", "2": "<:leveltwo:796813114779762729>", "3": "<:levelthree:796813114640433152>", "4": "<:levelfour:796813115055538186>", "5": "<:levelfive:796813115135229992>", "6": "<:levelsix:796813115194474506>"}
 
-
+# 2-3: 0.1, 4: 0.2, 5: 0.4, 6: 0.7
 
     @commands.command(aliases=['Leaderboard', 'lb'])
     @commands.cooldown(1, 5, commands.BucketType.user)
@@ -51,7 +51,8 @@ class Shop(commands.Cog):
         find_c = db.market.find().sort("exp", -1)
         for x in find_c[start:end]:
             exp = format(x['exp'], ",d")
-            embed.add_field(name=x['name'], value=f":bar_chart: {exp}", inline=False)
+            level = x['level']
+            embed.add_field(name=x['name'], value=f"{self.levelEmoji(level)} {exp} EXP", inline=False)
         embed.set_footer(text=f"Sort by: experience | r!lb {page+1} for next page")
         await ctx.send(embed=embed)
 

@@ -24,5 +24,10 @@ questions = [
 {"question": "Where was beer invented?", "answers": ["Greece", "Mesopotamia", "Italy", "Ireland"], "correct":"Mesopotamia"},
 {"question": "When was McDonalds invented?", "answers": ["1955", "1925", "1895", "1965"], "correct":"1955"},
 {"question": "What is the proper title for a person who makes pizzas in a pizzeria?", "answers": ["Pizzarian", "Pizza Chef", "Pizzaiolo", "Pizal"], "correct":"Pizzaiolo"},
-{"question": "What is name of the scale used to measure the spicy heat of peppers?", "answers": ["Fahrenheit", "Heat Units", "Covin Units", "Scoville Units"], "correct":"Scoville Units"}
+{"question": "What is name of the scale used to measure the spicy heat of peppers?", "answers": ["Fahrenheit", "Heat Units", "Covin Units", "Scoville Units"], "correct":"Scoville Units"},
+{"question": "Where did chopsticks originate?", "answers": ["Japan", "China", "Russia", "Malaysia"], "correct":"China"},
+{"question": "What is the national dish of Italy?", "answers": ["Ragu all Bolognese", "Spaghetti", "Pizza", "Chicken Alfredo"], "correct":"Chicken Alfredo"},
+{"question": "What is the national dish of Japan?", "answers": ["Sushi", "Mochi", "Yakitori", "Curry Rice"], "correct":"Curry Rice"},
+{"question": "What is the national dish of Mexico?", "answers": ["Huevos Rancheros", "Burrito", "Mole Poblano", "Enchiladas"], "correct":"Mole Poblano"},
+{"question": "What part of the body do carrots help?", "answers": ["Bones", "Eyes", "Brain", "Muscles"], "correct":"Eyes"}
 ]
