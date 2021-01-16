@@ -1163,10 +1163,11 @@ class Shop(commands.Cog):
         user = db.market.find_one({"owner": ctx.author.id})
         nextLevel = str(user['level']+1)
         if user['level'] != 6:
-            cl = f"will level up to Level {nextLevel} next."
+            cl = f"will level up to Level {nextLevel} next"
             a = True
         else:
             cl = f"cannot level up further"
+            a = False
         embed = discord.Embed(colour=0xa82021, description=f"You are currently Level {user['level']}, which means you {cl}.\n\nRestaurant Levels are bought with EXP. The more you level up, the more the next level will cost. You get money and cool perks for levelling up! To level up, do `r!levelup`.")
         embed.set_author(name="Restaurant Levelling", icon_url=ctx.me.avatar_url_as(format="png"))
         if a:
