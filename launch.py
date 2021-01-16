@@ -35,7 +35,7 @@ async def get_pre(bot, message):
 
 
 
-bot = commands.AutoShardedBot(shard_count=3, command_prefix=get_pre)
+bot = commands.AutoShardedBot(schunk_guilds_at_startup=False, shard_count=3, command_prefix=get_pre)
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 
@@ -45,7 +45,7 @@ async def status_task():
     #bot.change_presence(activity=discord.Game(name=f'Under Maintenance | https://discord.gg/BCRtw7c', type=2))
 
 @bot.event
-async def on_ready(chunk_guilds_at_startup=False):
+async def on_ready():
     print('\x1b[1;34;40m' + 'Discord Version: ' + '\x1b[0m' + f'{discord.__version__}\n------')
     print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'Logged in as: {bot.user.name} ({str(bot.user.id)})')
     print("\x1b[1;33;40m" + "[AWAITING]: " + "\x1b[0m" + "Run 'r!load all'")
