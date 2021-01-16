@@ -39,7 +39,7 @@ colours = {
     {"colour": "White", "hex": 0xd6d6d6},
     {"colour": "Orange", "hex": 0xffa500},
     {"colour": "Yellow", "hex": 0xffff00},
-    {"colour": "Violet", "hex": 0x6a0dad}.
+    {"colour": "Violet", "hex": 0x6a0dad},
     {"colour": "Grey", "hex": 0x8f8f8f}
     ],
 "uncommon": [
