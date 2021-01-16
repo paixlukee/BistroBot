@@ -69,7 +69,7 @@ class User(commands.Cog):
             embed = discord.Embed(colour=0xa82021, description=str(user))
             embed.set_author(icon_url=user.avatar_url_as(format='png'), name="User Stats")
             embed.set_thumbnail(url=user.avatar_url_as(format='png'))
-            embed.add_field(name="Restaurant", value=post['name'])
+            embed.add_field(name="Restaurant", value=post['name'] + f" (Level {post['level']})")
             embed.add_field(name="Money", value="$" + str(post['money']))
             await ctx.send(embed=embed)
         else:
