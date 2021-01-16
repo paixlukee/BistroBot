@@ -61,7 +61,7 @@ class Dev(commands.Cog):
         f"I can use **{emojis} emojis**!\n\n"\
         f"[[Invite]](https://discordapp.com/api/oauth2/authorize?client_id=648065060559781889&permissions=8192&scope=bot)"\
         f" [[Support]](https://discord.gg/BCRtw7c)")
-        stat.set_footer(text="Thanks for using Restaurant! | Res-V2.5")
+        stat.set_footer(text="Thanks for using Restaurant! | Res-V3")
         await ctx.send(embed=stat)
 
     @commands.command(aliases=['Prefix'])
