@@ -98,6 +98,7 @@ class Help(commands.Cog):
             embed.add_field(name=f"{pre}fish", value="Go fishing and get money & EXP. Your rod has 10% of breaking every use.")
             embed.add_field(name=f"{pre}trivia", value="Play trivia and earn money.")
             embed.add_field(name=f"{pre}leaderboard", value="View the global restaurant leaderboard")
+            embed.add_field(name=f"{pre}level", value="View level stats and how to level up.")
             embed.add_field(name=f"{pre}hire", value="Hire an employee to help you work")
             embed.add_field(name=f"{pre}worker", value="View how your employee is doing")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 1")
