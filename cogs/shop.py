@@ -909,7 +909,7 @@ class Shop(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
 
     @commands.command(aliases=['Fish'])
-    @commands.cooldown(1, 180, commands.BucketType.user)
+    @commands.cooldown(1, 120, commands.BucketType.user)
     async def fish(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
         to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 5}, {'name': 'some eggs', 'money': 3, 'exp': 3}, {'name': 'a fish', 'money': 11, 'exp': 17}, {'name': 'some rice', 'money': 3, 'exp': 19}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 10}, {'name': 'a few apples', 'money': 7, 'exp': 11}, {'name': 'two bags of carrots', 'money': 8, 'exp': 12}, {'name': 'a bag of flour', 'money': 4, 'exp': 16}, {'name': 'a can of salt', 'money': 7, 'exp': 16}]
@@ -1267,7 +1267,7 @@ class Shop(commands.Cog):
                         new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace('fag', 'f*g').replace('FAG', 'f*g').replace("Fag", "F*g")
                         await self.update_data(ctx.author, country.content.lower(), new_name, desc.content)
                         embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant` and view all Restaurant commands with `r!help`.')
-                        embed.add_field(name="Quick Tips", value=":one: [Earn some money](http://paixlukee.dev/m/PL0LD.mp4)\n:two: [Set a custom logo](http://paixlukee.dev/m/CBXXZ.mp4)\n:three: [Hire a worker](https://paixlukee.dev/m/1GZCD.mp4)\n:four: [Buy a custom item and use it](http://paixlukee.dev/m/DEMD4.mp4)")
+                        embed.add_field(name="Quick Tips", value=":one: [Earn some money](http://paixlukee.dev/m/PL0LD.mp4)\n:two: [Set a custom logo](http://paixlukee.dev/m/CBXXZ.mp4)\n:three: [Hire a worker](https://paixlukee.dev/m/1GZCD.mp4)\n:four: [Buy a custom item and use it](http://paixlukee.dev/m/DEMD4.mp4)\n:five: [Level up your Restaurant](https://docs.google.com/document/d/1sTv9vN3TucTGx8rmRHw6FDfTvJ_TWJN7vVitqrqDLP0/edit?usp=sharing)")
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
         else:

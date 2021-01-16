@@ -198,7 +198,7 @@ class User(commands.Cog):
             await ctx.send("You don't have a restaurant! Create one with `r!start`.")
 
     @commands.command(aliases=['Dine', 'Eat', 'eat'])
-    @commands.cooldown(1,30, commands.BucketType.user)
+    @commands.cooldown(1,45, commands.BucketType.user)
     async def dine(self, ctx, *, restaurant=None):
         post = db.market.find_one({"owner":ctx.author.id})
         def nc(m):
@@ -456,7 +456,7 @@ class User(commands.Cog):
 
 
     @commands.command(aliases=['Beg'])
-    @commands.cooldown(1, 90, commands.BucketType.user)
+    @commands.cooldown(1, 70, commands.BucketType.user)
     async def beg(self, ctx):
         numb = random.randint(1,5)
         post = db.market.find_one({"owner": ctx.author.id})
