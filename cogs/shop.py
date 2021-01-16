@@ -334,7 +334,7 @@ class Shop(commands.Cog):
         else:
             await ctx.send("Boosts are still in the works! Suggest what you want to see here: <https://discord.gg/BCRtw7c>")
 
-    @buy.command(aliases=['Item'])
+    @buy.command(aliases=['Item'], pass_context=True)
     async def item(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
         def nc(m):
@@ -1267,7 +1267,7 @@ class Shop(commands.Cog):
                         new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace('fag', 'f*g').replace('FAG', 'f*g').replace("Fag", "F*g")
                         await self.update_data(ctx.author, country.content.lower(), new_name, desc.content)
                         embed = discord.Embed(colour=0xa82021, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant` and view all Restaurant commands with `r!help`.')
-                        embed.add_field(name="Quick Tips", value=":one: [Earn some money](http://paixlukee.dev/m/PL0LD.mp4)\n:two: [Set a custom logo](http://paixlukee.dev/m/CBXXZ.mp4)\n:three: [Hire a worker](https://paixlukee.dev/m/1GZCD.mp4)\n:four: [Buy a custom item and use it](http://paixlukee.dev/m/DEMD4.mp4)\n:five: [Level up your Restaurant](https://docs.google.com/document/d/1sTv9vN3TucTGx8rmRHw6FDfTvJ_TWJN7vVitqrqDLP0/edit?usp=sharing)")
+                        embed.add_field(name="Quick Tips", value=":one: [Earn some money](http://paixlukee.dev/m/PL0LD.mp4)\n:two: [Set a custom logo](https://paixlukee.dev/m/CBXXZ.mp4)\n:three: [Hire a worker](https://paixlukee.dev/m/1GZCD.mp4)\n:four: [Buy a custom item and use it](https://paixlukee.dev/m/DEMD4.mp4)\n:five: [Level up your Restaurant](https://docs.google.com/document/d/1sTv9vN3TucTGx8rmRHw6FDfTvJ_TWJN7vVitqrqDLP0/edit?usp=sharing)")
                         embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Creation")
                         await msg1.edit(embed=embed)
         else:
