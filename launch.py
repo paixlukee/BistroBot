@@ -35,7 +35,7 @@ async def get_pre(bot, message):
 
 
 
-bot = commands.AutoShardedBot(chunk_guilds_at_startup=False, shard_count=3, command_prefix=get_pre)
+bot = commands.AutoShardedBot(chunk_guilds_at_startup=False, heartbeat_timeout=20, shard_count=3, command_prefix=get_pre)
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 
