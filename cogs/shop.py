@@ -1135,6 +1135,7 @@ class Shop(commands.Cog):
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
+            await ctx.send(f"id > {post['owner']}")
             embed.add_field(name=":name_badge: Owner", value=str(self.bot.get_user(post['owner'])).replace("None", "Unknown") + badge)
             try:
                 if post['banner']:

@@ -111,15 +111,15 @@ class Botdev(commands.Cog):
         ol = round(ctx.bot.latencies[0][1]*1000)
         sl = round(ctx.bot.latencies[1][1]*1000)
         tl = round(ctx.bot.latencies[2][1]*1000)
-        if ol >= 50:
+        if ol >= 90:
             oe = '<:idle:701016198531383316>'
         else:
             oe = '<:online:701012643263283242>'
-        if sl >= 50:
+        if sl >= 90:
             se = '<:idle:701016198531383316>'
         else:
             se = '<:online:701012643263283242>'
-        if tl >= 50:
+        if tl >= 90:
             te = '<:idle:701016198531383316>'
         else:
             te = '<:online:701012643263283242>'
