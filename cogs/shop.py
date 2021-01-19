@@ -1188,7 +1188,7 @@ class Shop(commands.Cog):
         elif user['exp'] < self.exp_needed[str(nextLevel)]:
             await ctx.send("<:RedTick:653464977788895252> You do not have enough EXP to perform this action!")
         else:
-            await self.take_exp(ctx.author.id, self.exp_needed(nextLevel))
+            await self.take_exp(ctx.author.id, self.exp_needed[nextLevel])
             if nextLevel <= 4:
                 money = 500
             else:
