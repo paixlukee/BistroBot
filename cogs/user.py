@@ -520,19 +520,19 @@ class User(commands.Cog):
             rmb = rnd(posts['resp'])
             if rmb['good'] is False:
                 if user['level'] == 2 or user['level'] == 3:
-                    randomChance = random.choice(1, 10)
+                    randomChance = random.randint(1, 10)
                     if randomChoice == 10:
                         rmb = rnd(posts['resp'])
                 elif user['level'] == 4:
-                    randomChoice = random.choice(1, 5)
+                    randomChoice = random.randint(1, 5)
                     if randomChoice == 5:
                         rmb = rnd(posts['resp'])
                 elif user['level'] == 5:
-                    randomChoice = random.choice(2, 5)
+                    randomChoice = random.randint(2, 5)
                     if randomChoice == 5:
                         rmb = rnd(posts['resp'])
                 elif user['level'] == 6:
-                    randomChoice = random.choice(3, 5)
+                    randomChoice = random.randint(3, 5)
                     if randomChoice == 5:
                         rmb = rnd(posts['resp'])
             rm = rmb['text']
