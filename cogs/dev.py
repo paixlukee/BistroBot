@@ -43,9 +43,9 @@ class Dev(commands.Cog):
         elif len(message) > 1600:
             await ctx.send("<:RedTick:653464977788895252> Your message can't be longer than 1,600 characters. If you want to write more, join the support server: <http://discord.gg/BCRtw7c>")
         else:
-            embed = discord.Embed(colour=0xfcba03, description=f"User `{str(ctx.user)}` has sent you a support ticket.")
+            embed = discord.Embed(colour=0xfcba03, description=f"User `{str(ctx.author)}` has sent you a support ticket.")
             embed.add_field(name=f"Message:", value=message)
-            embed.set_footer(text=f'Guild ID: {ctx.guild.id} | User ID: {ctx.user.id}', icon_url=ctx.user.icon_url_as(format='png'))
+            embed.set_footer(text=f'Guild ID: {ctx.guild.id} | User ID: {ctx.author.id}', icon_url=ctx.user.icon_url_as(format='png'))
             await log.send(embed=embed)
             await ctx.send("Success! Your message has been sent to support. You should expect a message in your DMs when we get the chance! If you are reporting a serious bug, or having anymore questions, join the support server: <http://discord.gg/BCRtw7c>")
 
