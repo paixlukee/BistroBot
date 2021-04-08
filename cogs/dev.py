@@ -37,7 +37,7 @@ class Dev(commands.Cog):
     @commands.command(aliases=['Message'])
     @commands.cooldown(1, 21600, commands.BucketType.user) # 6 hrs
     async def message(self, ctx, *, message=None):
-        log = bot.get_channel(653466873089753098)
+        log = self.bot.get_channel(653466873089753098)
         if not message:
             await ctx.send("<:RedTick:653464977788895252> You need to include a message with your support ticket.")
         elif len(message) > 1600:
