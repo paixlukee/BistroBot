@@ -1282,14 +1282,12 @@ class Shop(commands.Cog):
         post = db.market.find_one({"owner": ctx.author.id})
         if not 'tasks' in post:
             await ctx.send("Setting your challenges...")
-            t1 = random.choice(quests.questlist1)
+            t1 = random.choice(quests.questlist1)[0]
+            print(t1)
             t2 = random.choice(quests.questlist2)
             t3 = random.choice(quests.questlist3)
-            t1n = t1['name']
-            t2n = t2['name']
-            t3n = t3['name']
             db.market.update_one({"owner": ctx.author.id}, {"$set": {"task_list": [t1, t2, t3]}})
-            db.market.update_one({"owner": ctx.author.id}, {"$set": {"tasks": [t1n, t2n, t3n]}})
+            db.market.update_one({"owner": ctx.author.id}, {"$set": {"tasks": [t1['name'], t2['name'], t3['name']]}})
         task1 = post['task_list'][0]
         task2 = post['task_list'][1]
         task3 = post['task_list'][2]
