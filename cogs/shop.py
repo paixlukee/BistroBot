@@ -1322,8 +1322,8 @@ class Shop(commands.Cog):
         else:
             bar3 = '<:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392>'
         embed=discord.Embed(colour=0xa82021, description=f"**{task1['description']}**\n{bar1} *({task1['completed']}/{task1['total']})* `{task1['rewards']} EXP`"\
-        f"\n**{task2['description']}**\n{bar2} *({task2['completed']}/1)* `${task['rewards']}`"\
-        f"\n**{task3['description']}**\n{bar3} *({task3['completed']})/{task3['total']}* `${task['rewards']}`")
+        f"\n**{task2['description']}**\n{bar2} *({task2['completed']}/1)* `${task2['rewards']}`"\
+        f"\n**{task3['description']}**\n{bar3} *({task3['completed']})/{task3['total']}* `${task3['rewards']}`")
         embed.set_author(name="Weekly Tasks", icon_url=ctx.author.avatar_url_as(format="png"))
         await ctx.send(embed=embed)
 
