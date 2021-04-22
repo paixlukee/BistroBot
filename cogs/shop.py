@@ -17,6 +17,7 @@ import pymongo
 import string
 import food
 import items
+import quests
 from threading import Thread
 import extra
 import workers
@@ -1275,6 +1276,57 @@ class Shop(commands.Cog):
         else:
             await ctx.send(f'<:RedTick:653464977788895252> You already have a restaurant created. View it with `r!restaurant`.')
 
+    @commands.command(aliases=['Tasks', 'challenges', 'quests'])
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def tasks(self, ctx):
+        post = db.market.find_one({"owner": ctx.author.id})
+        if not 'tasks' in post:
+            await ctx.send("Setting your challenges...")
+            t1 = random.choice(quests.questlist1)
+            t2 = random.choice(quests.questlist2)
+            t3 = random.choice(quests.questlist3)
+            db.market.update_one({"owner": ctx.author.id}, {"$set": {"task_list": [t1, t2, t3]}})
+            db.market.update_one({"owner": ctx.author.id}, {"$set": {"tasks": [t1['name'], t2['name'], t3['name']]}})
+        task1 = post['task_list'][0]
+        task2 = post['task_list'][1]
+        task3 = post['task_list'][2]
+        progress = task1['completed']/task1['total']
+        if progress == 1:
+            bar1 = '<:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764>'
+        elif progress >= 0.8:
+            bar1 = '<:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:blacksq:829872214899556392>'
+        elif progress >= 0.6:
+            bar1 = '<:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        elif progress >= 0.4:
+            bar1 = '<:greensq:829870925583089764><:greensq:829870925583089764><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        elif progress >= 0.2:
+            bar1 = '<:greensq:829870925583089764><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        else:
+            bar1 = '<:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        progress = task2['completed']/1
+        if progress == 1:
+            bar2 = '<:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764>'
+        else:
+            bar2 = '<:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        progress = task3['completed']/task3['total']
+        if progress == 1:
+            bar3 = '<:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764>'
+        elif progress >= 0.8:
+            bar3 = '<:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:blacksq:829872214899556392>'
+        elif progress >= 0.6:
+            bar3 = '<:greensq:829870925583089764><:greensq:829870925583089764><:greensq:829870925583089764><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        elif progress >= 0.4:
+            bar3 = '<:greensq:829870925583089764><:greensq:829870925583089764><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        elif progress >= 0.2:
+            bar3 = '<:greensq:829870925583089764><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        else:
+            bar3 = '<:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392><:blacksq:829872214899556392>'
+        embed=discord.Embed(colour=0xa82021, description=f"**{task1['description']}**\n{bar1} *({task1['completed']}/{task1['total']})* `{task1['rewards']} EXP`"\
+        f"\n**{task2['description']}**\n{bar2} *({task2['completed']}/1)* `${task['rewards']}`"\
+        f"\n**{task3['description']}**\n{bar3} *({task3['completed']})/{task3['total']}* `${task['rewards']}`")
+        embed.set_author(name="Weekly Tasks", icon_url=ctx.author.avatar_url_as(format="png"))
+        await ctx.send(embed=embed)
+
     async def add_money(self, user:int, count):
         data = db.market.find_one({"owner": user})
         bal = data['money']
@@ -1333,6 +1385,8 @@ class Shop(commands.Cog):
             "banner": None,
             "worker": None,
             "worker_name": None,
+            "task_list": [],
+            "tasks": []
         }
         db.market.insert_one(post)
 
