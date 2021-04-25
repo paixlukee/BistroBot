@@ -1280,7 +1280,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def tasks(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
-        if not 'tasks' in post or not post['tasks']:
+        if not 'tasks' in post or post['tasks'] is None:
             await ctx.send("Setting your challenges...")
             t1 = random.choice(quests.questlist1)[0]
             t2 = random.choice(quests.questlist2)[0]
