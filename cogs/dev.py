@@ -38,15 +38,15 @@ class Dev(commands.Cog):
     @commands.is_owner()
     async def taskreset(self, ctx):
         all = db.market.find()
-        msg = await ctx.send("Please wait...")
+        await ctx.send("Please wait...")
         count = 0
         for x in all:
             user = x['owner']
             if 'tasks' in x:
-                db.market.update_one({"owner": user.id}, {"$set": {"tasks": []}})
-                db.market.update_one({"owner": user.id}, {"$set": {"task_list": []}})
+                db.market.update_one({"owner": user.id}, {"$pull": {"tasks": x['tasks']}})
+                db.market.update_one({"owner": user.id}, {"$pull": {"task_list": x['task_list']}})
                 count += 1
-        await msg.edit(f"Done, tasks reset for `{count}` users.")
+        await ctx.send(f"Done, tasks reset for `{count}` users.")
 
     @commands.command(aliases=['Message'])
     @commands.cooldown(1, 21600, commands.BucketType.user) # 6 hrs
