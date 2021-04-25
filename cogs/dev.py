@@ -43,8 +43,8 @@ class Dev(commands.Cog):
         for x in all:
             user = x['owner']
             if 'tasks' in x:
-                db.market.update_one({"owner": ctx.auth}, {"$set": {"tasks": []}})
-                db.market.update_one({"owner": ctx.auth}, {"$set": {"task_list": []}})
+                db.market.update_one({"owner": ctx.author.id}, {"$set": {"tasks": []}})
+                db.market.update_one({"owner": ctx.author.id}, {"$set": {"task_list": []}})
                 count += 1
         await msg.edit(f"Done, tasks reset for `{count}` users.")
 
