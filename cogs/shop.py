@@ -1280,7 +1280,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def tasks(self, ctx):
         post = db.market.find_one({"owner": ctx.author.id})
-        if not 'tasks' in post:
+        if not 'tasks' in post or not post['tasks']:
             await ctx.send("Setting your challenges...")
             t1 = random.choice(quests.questlist1)[0]
             t2 = random.choice(quests.questlist2)[0]
@@ -1325,6 +1325,7 @@ class Shop(commands.Cog):
         f"\n**{task2['description']}**\n{bar2} *({task2['completed']}/1)* `${task2['rewards']}`"\
         f"\n**{task3['description']}**\n{bar3} *({task3['completed']})/{task3['total']}* `${task3['rewards']}`")
         embed.set_author(name="Weekly Tasks", icon_url=ctx.author.avatar_url_as(format="png"))
+        embed.set_footer(text="Tasks reset weekly.")
         await ctx.send(embed=embed)
 
     async def add_money(self, user:int, count):
