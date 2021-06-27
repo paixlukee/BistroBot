@@ -32,6 +32,7 @@ class User(commands.Cog):
         self.prefix = 'r!'
         self.discoin_client = Client(token=config.discoin_token, me="RBC", loop=bot.loop)
         self.discoin_update.start()
+        self.discoin_off = True
 
     def cog_unload(self):
         self.discoin_update.cancel()
@@ -46,7 +47,7 @@ class User(commands.Cog):
             await self.discoin_client.handle_transaction(transaction.id)
             user = self.bot.get_user(transaction.user_id)
             await self.add_money(user=transaction.user_id, count=round(transaction.payout))
-            if user:
+            if not self.discoin_off and user:
                 po = round(transaction.payout)
                 cid = transaction.currency_from.id
                 tid = transaction.id
@@ -675,6 +676,8 @@ class User(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant yet! Create one with `r!create`")
         elif not post['money'] >= count:
             await ctx.send("<:RedTick:653464977788895252> You don't have enough to make that transaction!")
+        elif self.discoin_off:
+            await ctx.send("Discoin commands are currently disabled.")
         else:
             r = await self.discoin_client.create_transaction(toId, count, ctx.author.id)
             embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{r.id}/show)")
