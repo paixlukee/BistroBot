@@ -230,7 +230,7 @@ class Botdev(commands.Cog):
             if ctx.guild:
                 description += f'\n**Guild**: {ctx.guild} `ID: {ctx.guild.id}`'
             fe = ''.join(traceback.format_exception(type(error), error, error.__traceback__, chain=False))
-            desc = "ERROR:\n\n{fe}"
+            desc = f"ERROR:\n\n{fe}"
             description += f'\n```py\n{fe}\n```'
             embed.description = description
             embed.timestamp = datetime.datetime.utcnow()
