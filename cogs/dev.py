@@ -118,7 +118,7 @@ class Dev(commands.Cog):
                 db.market.update_one({"owner": user_id}, {"$push": {"inventory":{"banner": {"name": "Diamond Patron", "url": "http://paixlukee.ml/m/S1L2D.png",'rarity': 'Legendary'}}}})
             else:
                 pass
-            user = self.bot.get_user(user_id)
+            user = self.bot.fetch_user(user_id)
             await ctx.send(f"**{user}** is now a patron in the **{tier.upper()}** tier! Hell yeah!")
             embed = discord.Embed(colour=0xa82021, title="Thanks!", description="Woah! Thank you so so so much for your patronage!\n\nAll the rewards have been applied to your account. All tiers and information on them are listed [here](https://www.patreon.com/join/paixlukee).")
             await user.send(embed=embed)
