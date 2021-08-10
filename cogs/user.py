@@ -32,7 +32,7 @@ class User(commands.Cog):
         self.prefix = 'r!'
         self.discoin_client = Client(token=config.discoin_token, me="RBC", loop=bot.loop)
         self.discoin_update.start()
-        self.discoin_off = True
+        self.discoin_off = False
 
     def cog_unload(self):
         self.discoin_update.cancel()
@@ -45,7 +45,7 @@ class User(commands.Cog):
         unhandled_transactions = await self.discoin_client.fetch_transactions()
         for transaction in unhandled_transactions:
             await self.discoin_client.handle_transaction(transaction.id)
-            user = self.bot.get_user(transaction.user_id)
+            user = self.bot.fetch_user(transaction.user_id)
             await self.add_money(user=transaction.user_id, count=round(transaction.payout))
             if not self.discoin_off and user:
                 po = round(transaction.payout)
@@ -470,7 +470,7 @@ class User(commands.Cog):
             await ctx.send(f"The Bank of Restaria granted you ${grant} for your restaurant.")
             await self.add_money(ctx.author.id, grant)
 
-    @commands.command(aliases=['Donate'])
+    @commands.command(aliases=['Donation'])
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def donation(self, ctx):
         embed = discord.Embed(colour=0xa82021, title="Donate", description="Want to support restaurant AND receive awesome rewards? To donate now or view information on rewards, click [here](https://www.patreon.com/join/paixlukee).")
@@ -614,7 +614,7 @@ class User(commands.Cog):
 
     @commands.command(aliases=['Halloweene', 'hlwe'])
     @commands.cooldown(1, 21600, commands.BucketType.user)
-    async def halloweene(self, ctx):
+    async def halloweenez(self, ctx):
         def check(m):
             return m.author == ctx.message.author
         #await ctx.send(f"{ctx.author.mention}, You crossed a beautiful witch on your way to work. This could be bad! Do you wanna talk to her? (yes/no)")
