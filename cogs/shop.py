@@ -1132,13 +1132,14 @@ class Shop(commands.Cog):
             embed = discord.Embed(description=post['description'])
             level = str(post['level'])
             owner = post['owner']
+
             embed.set_author(icon_url=self.flags[country], name=post['name']) #+ f" {self.levelEmoji[level]}")
             embed.add_field(name=":notepad_spiral: Menu", value=post['items'][0]['name'] + ", " + post['items'][1]['name'] + ", " + post['items'][2]['name'] + f"... To view the full menu, do `r!menu {post['name']}`")
             embed.add_field(name=":bar_chart: Experience", value=format(post['exp'], ",d"))
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
             #await ctx.send(f"id > {post['owner']}")
-            embed.add_field(name=":name_badge: Owner", value=str(self.bot.fetch_user(owner).display_name).replace("None", "Unknown") + badge)
+            embed.add_field(name=":name_badge: Owner", value=str(self.bot.fetch_user(owner)).replace("None", "Unknown") + badge)
             try:
                 if post['banner']:
                     embed.set_image(url=post['banner'])
