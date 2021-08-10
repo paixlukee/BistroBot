@@ -119,7 +119,7 @@ class Dev(commands.Cog):
             else:
                 pass
             user = self.bot.fetch_user(user_id)
-            await ctx.send(f"**{user}** is now a patron in the **{tier.upper()}** tier! Hell yeah!")
+            await ctx.send(f"**{user.name}** is now a patron in the **{tier.upper()}** tier! Hell yeah!")
             embed = discord.Embed(colour=0xa82021, title="Thanks!", description="Woah! Thank you so so so much for your patronage!\n\nAll the rewards have been applied to your account. All tiers and information on them are listed [here](https://www.patreon.com/join/paixlukee).")
             await user.send(embed=embed)
         else:
@@ -129,8 +129,8 @@ class Dev(commands.Cog):
     async def unpatron(self, ctx, user_id:int, tier='BRONZE'):
         if ctx.author.id == 396153668820402197:
             db.utility.update_one({"utility": "patrons"}, {"$pull":{tier.lower(): user_id}})
-            user = self.bot.get_user(user_id)
-            await ctx.send(f"**{user}** is no longer a patron in the **{tier.upper()}** tier. :(")
+            user = self.bot.fetch_user(user_id)
+            await ctx.send(f"**{user.name}** is no longer a patron in the **{tier.upper()}** tier. :(")
         else:
             pass
 
@@ -142,17 +142,17 @@ class Dev(commands.Cog):
         gold = []
         diamond = []
         for x in patrons['bronze']:
-            user = self.bot.get_user(x)
-            bronze.append(f"{user} - {user.id}")
+            user = self.bot.fetch_user(x)
+            bronze.append(f"{user.name} - {user.id}")
         for x in patrons['silver']:
-            user = self.bot.get_user(x)
-            silver.append(f"{user} - {user.id}")
+            user = self.bot.fetch_user(x)
+            silver.append(f"{user.name} - {user.id}")
         for x in patrons['gold']:
-            user = self.bot.get_user(x)
-            gold.append(f"{user} - {user.id}")
+            user = self.bot.fetch_user(x)
+            gold.append(f"{user.name} - {user.id}")
         for x in patrons['diamond']:
-            user = self.bot.get_user(x)
-            diamond.append(f"{user} - {user.id}")
+            user = self.bot.fetch_user(x)
+            diamond.append(f"{user.name} - {user.id}")
         embed = discord.Embed(description="Listed are users patronising:")
         if bronze:
             embed.add_field(name="Bronze", value=", ".join(bronze))
