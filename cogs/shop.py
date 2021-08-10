@@ -205,7 +205,7 @@ class Shop(commands.Cog):
                     cn += 1
                     n.append({str(cn):x})
                     own = self.bot.fetch_user(x['owner'])
-                    desc += f"[{cn}] {x['name']} | {own.name}\n"
+                    desc += f"[{cn}] {x['name']} | {own.display_name}\n"
                 embed.description = desc
                 embed.set_footer(text="You have 90 seconds to reply with the number.")
                 await ctx.send(embed=embed)
@@ -1138,7 +1138,7 @@ class Shop(commands.Cog):
             embed.add_field(name=":moneybag: Average Price", value="$" + str(average))
             embed.add_field(name=":page_with_curl: Rating", value=stars)
             #await ctx.send(f"id > {post['owner']}")
-            embed.add_field(name=":name_badge: Owner", value=str(self.bot.fetch_user(owner).name).replace("None", "Unknown") + badge)
+            embed.add_field(name=":name_badge: Owner", value=str(self.bot.fetch_user(owner).display_name).replace("None", "Unknown") + badge)
             try:
                 if post['banner']:
                     embed.set_image(url=post['banner'])
