@@ -34,8 +34,10 @@ async def get_pre(bot, message):
     return pref
 
 
+intents = discord.Intents.default()
+intents.members = True
 
-bot = commands.AutoShardedBot(chunk_guilds_at_startup=False, heartbeat_timeout=20, shard_count=3, command_prefix=get_pre)
+bot = commands.AutoShardedBot(chunk_guilds_at_startup=False, heartbeat_timeout=20, shard_count=3, command_prefix=get_pre, intents=intents)
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
 
 
