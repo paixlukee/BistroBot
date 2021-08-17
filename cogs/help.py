@@ -120,7 +120,7 @@ class Help(commands.Cog):
         elif page == 3:
             embed = discord.Embed(colour=0xa82021, description="Buy, use, and view items in your inventory.")
             embed.add_field(name=f"{pre}inventory", value="View your inventory")
-            embed.add_field(name=f"{pre}use <item>", value="View your balance")
+            embed.add_field(name=f"{pre}use <item>", value="Use or equip an item")
             embed.add_field(name=f"{pre}buy", value="View shop and buy items")
             embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 3")
             embed.set_image(url="http://paixlukee.dev/m/FGGUC.png")
