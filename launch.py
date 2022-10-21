@@ -120,4 +120,4 @@ if __name__ == '__main__':
 
 
 
-bot.run(config.token, bot=True, reconnect=True)
+bot.run(config.token, reconnect=True)
