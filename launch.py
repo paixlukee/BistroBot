@@ -120,3 +120,5 @@ async def main():
         for x in extensions:
             await bot.load_extension('cogs.'+x)
         bot.start(config.token, reconnect=True)
+
+asyncio.run(main())
