@@ -133,7 +133,7 @@ class Help(commands.Cog):
             embed.add_field(name=f"{pre}invite", value="Get the invite URL")
             embed.add_field(name=f"{pre}prefix <new-prefix>", value="Set server prefix. (requires `manage_server` permissions)")
             embed.add_field(name=f"{pre}patrons", value="View all of the current patrons")
-            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Restaurant Help Manual | Page 4")
+            embed.set_author(icon_url=ctx.me.avatar.url.with_format('png'), name="Restaurant Help Manual | Page 4")
             embed.set_image(url="http://paixlukee.ml/m/FGGUC.png")
             #embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
             await ctx.send(embed=embed)
