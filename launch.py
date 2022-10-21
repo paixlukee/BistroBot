@@ -112,6 +112,7 @@ async def globally_block_dms(ctx):
     return ctx.author.id not in db.utility.find_one({"utility":"banlist"})
 
 
+bot.load_extension("cogs.bot")
 
 if __name__ == '__main__':
     bot.load_extension("cogs.bot")
