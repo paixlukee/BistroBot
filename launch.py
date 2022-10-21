@@ -53,6 +53,7 @@ async def on_ready():
     print('\x1b[1;36;40m' + '[UPDATE]: ' + '\x1b[0m' + 'Logged in as: {bot.user.name} ({str(bot.user.id)})')
     print("\x1b[1;33;40m" + "[AWAITING]: " + "\x1b[0m" + "Run 'r!load all'")
     bot.loop.create_task(status_task())
+    bot.load_extension("cogs.bot")
 
 @bot.event
 async def on_guild_join(guild):
@@ -112,13 +113,12 @@ async def globally_block_dms(ctx):
     return ctx.author.id not in db.utility.find_one({"utility":"banlist"})
 
 
-#bot.load_extension("cogs.bot")
 
 if __name__ == '__main__':
-    await bot.load_extension("cogs.bot")
-    await bot.remove_command("help")
+    bot.load_extension("cogs.bot")
+    bot.remove_command("help")
     for x in extensions:
-        await bot.load_extension('cogs.'+x)
+        bot.load_extension('cogs.'+x)
 
 
 
