@@ -119,6 +119,6 @@ async def main():
         bot.remove_command("help")
         for x in extensions:
             await bot.load_extension('cogs.'+x)
-        bot.start(config.token, reconnect=True)
+        await bot.start(config.token, reconnect=True)
 
 asyncio.run(main())
