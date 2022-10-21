@@ -39,13 +39,7 @@ intents.members = True
 intents.message_content = True
 
 bot = commands.AutoShardedBot(chunk_guilds_at_startup=False, heartbeat_timeout=20, shard_count=3, command_prefix=get_pre, intents=intents)
-extensions = ['help', 'shop', 'user', 'dev', 'dbl']
-
-if __name__ == '__main__':
-    bot.load_extension("cogs.bot")
-    bot.remove_command("help")
-    for x in extensions:
-        bot.load_extension('cogs.'+x)
+extensions = ['bot', 'help', 'shop', 'user', 'dev', 'dbl']
 
 
 async def status_task():
@@ -120,5 +114,9 @@ async def globally_block_dms(ctx):
 
 
 
-
-bot.run(config.token, reconnect=True)
+async def main():
+    async with bot:
+        bot.remove_command("help")
+        for x in extensions:
+            await bot.load_extension('cogs.'+x)
+        bot.start(config.token, reconnect=True)

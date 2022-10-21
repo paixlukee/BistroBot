@@ -10,5 +10,5 @@ class TopGG(commands.Cog):
         self.dblpy = dbl.DBLClient(self.bot, config.dbl_token, autopost=True)
 
 
-def setup(bot):
+async def setup(bot):
     bot.add_cog(TopGG(bot))

@@ -504,7 +504,7 @@ class User(commands.Cog):
         patrons = db.utility.find_one({"utility": "patrons"})
         user = db.market.find_one({"owner": ctx.author.id})
         now = datetime.datetime.now()
-        celebrities = ["Taylor Swift", "Lady Gaga", "Zac Efron", "6ix9ine", "Brendon Urie", "Chris Pratt", "Katy Perry", "Ellen Degeneres", "David Dobrik", "Benedict Cumberpatch", "John Cena", "Miley Cyrus", "Kylie Jenner", "Victoria Justice", "Ariana Grande", "Ryan Gosling", "Selena Gomez", "Shawn Mendes", "Keanu Reeves", "Beyoncé", "Rihanna", "Eminem"]
+        celebrities = ["Taylor Swift", "Lady Gaga", "Zac Efron", "6ix9ine", "Brendon Urie", "Tom Holland", "Katy Perry", "Ellen Degeneres", "Logan Paul", "Benedict Cumberpatch", "John Cena", "Miley Cyrus", "Kylie Jenner", "Dua Lipa", "Ariana Grande", "Ryan Gosling", "Selena Gomez", "Shawn Mendes", "Keanu Reeves", "Beyoncé", "Rihanna", "Eminem"]
         db.market.update_one({"owner": ctx.author.id}, {"$set":{"laststock": now.strftime("%d/%m/%Y %H:%M")}})
         if user:
             if ctx.author.id in patrons['bronze']:
@@ -600,6 +600,14 @@ class User(commands.Cog):
                     nn = "a " + r1['name']
             msg = msg.replace(r1['name'], nn)
             await ctx.send(f"{ctx.author.mention}, {msg}")
+            if "work_hundred" in posts['tasks']:
+                ix = posts['tasks'].index("work_hundred")
+                if posts['task_list'][ix]['completed']-1 == posts['task_list'][ix]['total']:
+                    await ctx.author.send(f"You have completed the **{posts['task_list'][ix]['description']}** task. You have been awarded **{posts['task_list'][ix]['rewards']} EXP**.")
+                    await self.add_exp(user=ctx.author.id, count=posts['task_list'][ix]['rewards'])
+                else:
+                    new_set = str(posts['task_list']).replace('"completed:"')
+                    db.market.update_one({"owner": ctx.author.id}, {"$set":{}})
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `r!start`.")
     @commands.command()
@@ -782,5 +790,5 @@ class User(commands.Cog):
         db.market.update_one({"owner": user}, {"$push":{"items": {"name": item, "price": it['price'], "stock": it['stock'], "sold": tc}}})
 
 
-def setup(bot):
+async def setup(bot):
     bot.add_cog(User(bot))
