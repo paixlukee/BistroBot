@@ -251,4 +251,4 @@ class Botdev(commands.Cog):
 
 
 async def setup(bot):
-    bot.add_cog(Botdev(bot))
+    await bot.add_cog(Botdev(bot))

@@ -41,7 +41,7 @@ class Drops(commands.Cog):
             else:
                 pass
         print(ntp)
-            
+
         for x in ntp:
             print('test2')
             await bot.get_channel(int(ntp)).send("TEST")
@@ -57,5 +57,5 @@ class Drops(commands.Cog):
         money = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"money": money}})
 
-def setup(bot):
-    bot.add_cog(Drops(bot))
+async def setup(bot):
+    await bot.add_cog(Drops(bot))

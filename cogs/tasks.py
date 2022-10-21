@@ -51,5 +51,5 @@ class Tasks(commands.Cog):
         money = int(bal) + count
         db.market.update_one({"owner": user}, {"$set":{"money": money}})
 
-def setup(bot):
-    bot.add_cog(Tasks(bot))
+async def setup(bot):
+    await bot.add_cog(Tasks(bot))
