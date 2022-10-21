@@ -17,7 +17,7 @@ import string
 import food
 import requests
 import trivia
-from discoin import Client
+
 
 #mongo
 client = MongoClient(config.mongo_client)
@@ -30,29 +30,26 @@ class User(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.prefix = 'r!'
-        self.discoin_client = Client(token=config.discoin_token, me="RBC", loop=bot.loop)
-        self.discoin_update.start()
-        self.discoin_off = False
 
-    def cog_unload(self):
-        self.discoin_update.cancel()
+    #def cog_unload(self):
+        #self.discoin_update.cancel()
 
-    @tasks.loop(minutes=4.0)
-    async def discoin_update(self):
-        await self.bot.wait_until_ready()
-        await asyncio.sleep(1)
+    #@tasks.loop(minutes=4.0)
+    #async def discoin_update(self):
+        #await self.bot.wait_until_ready()
+        #await asyncio.sleep(1)
 
-        unhandled_transactions = await self.discoin_client.fetch_transactions()
-        for transaction in unhandled_transactions:
-            await self.discoin_client.handle_transaction(transaction.id)
-            user = self.bot.fetch_user(transaction.user_id)
-            await self.add_money(user=transaction.user_id, count=round(transaction.payout))
-            if not self.discoin_off and user:
-                po = round(transaction.payout)
-                cid = transaction.currency_from.id
-                tid = transaction.id
-                embed = discord.Embed(colour=0xa82021, title="Transaction successful", description=f"Your transfer from **{cid}** to **RBC** has been processed! You have received ${po}.\n\n[Transaction Receipt](https://dash.discoin.zws.im/#/transactions/{tid}/show)")
-                await user.send(embed=embed)
+        #unhandled_transactions = await self.discoin_client.fetch_transactions()
+        #for transaction in unhandled_transactions:
+            #await self.discoin_client.handle_transaction(transaction.id)
+            #user = self.bot.fetch_user(transaction.user_id)
+            #await self.add_money(user=transaction.user_id, count=round(transaction.payout))
+            #if not self.discoin_off and user:
+                #po = round(transaction.payout)
+                #cid = transaction.currency_from.id
+                #tid = transaction.id
+                #embed = discord.Embed(colour=0xa82021, title="Transaction successful", description=f"Your transfer from **{cid}** to **RBC** has been processed! You have received ${po}.\n\n[Transaction Receipt](https://dash.discoin.zws.im/#/transactions/{tid}/show)")
+                #await user.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -667,49 +664,7 @@ class User(commands.Cog):
             self.bot.get_command("halloween").reset_cooldown(ctx)
 
 
-    @commands.group(aliases=['dsc', 'Discoin'])
-    @commands.cooldown(1, 4, commands.BucketType.user)
-    async def discoin(self, ctx):
-        if ctx.invoked_subcommand is None:
-            embed = discord.Embed(colour=0xa82021, title="'Discoin' Command Group", description="Convert bot currencies from one to another bot, invest your earnings and get high returns!\n`r!discoin exchange <currency> <money-count>` - **Exchange Restaurant credits**\n`r!discoin bots` - **View all available bot currencies**")
-            embed.set_footer(text="Arguments are inside [] and <>. [] is optional and <> is required. Do not include [] or <> in the command.")
-            embed.set_thumbnail(url="https://avatars2.githubusercontent.com/u/30993376?s=200&v=4")
-            await ctx.send(embed=embed)
-            self.bot.get_command("discoin").reset_cooldown(ctx)
 
-    @discoin.command(aliases=['Exchange'])
-    async def exchange(self, ctx, toId, count : int):
-        post = db.market.find_one({"owner": ctx.author.id})
-        if not post:
-            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant yet! Create one with `r!create`")
-        elif not post['money'] >= count:
-            await ctx.send("<:RedTick:653464977788895252> You don't have enough to make that transaction!")
-        elif self.discoin_off:
-            await ctx.send("Discoin commands are currently disabled.")
-        else:
-            r = await self.discoin_client.create_transaction(toId, count, ctx.author.id)
-            embed = discord.Embed(colour=0xa82021, title="Exchange request sent", description=f"Exchanging ${count} for {r.payout} {toId}. \n\n[Track your transaction](https://dash.discoin.zws.im/#/transactions/{r.id}/show)")
-            await ctx.send(embed=embed)
-            await self.take_money(user=ctx.author.id, count=count)
-
-
-    @discoin.command(aliases=['Bots'])
-    async def bots(self, ctx):
-        r = requests.get("https://discoin.zws.im/bots").json()
-        desc = ""
-        rbc_rate = 0
-        for x in r:
-            if x['currencies'][0]['id'] == "RBC":
-                rbc_rate = x['currencies'][0]['value']
-        for x in r:
-            if not x['currencies'][0]['id'] == "RBC":
-                name = x['name']
-                id = x['currencies'][0]['id']
-                uid = x['discord_id']
-                rate = round(rbc_rate / x['currencies'][0]['value'], 4)
-                desc += f"[{name}](https://top.gg/bot/{uid}) **ID:** `{id}` **Rate:** `$1 RBC = {rate} {id}`\n"
-        embed = discord.Embed(colour=0xa82021, title="Available Bots Currencies", description=desc)
-        await ctx.send(embed=embed)
 
     @commands.command(aliases=['bugreport'])
     async def reportbug(self, ctx, *, topic, option=None, description=None):
