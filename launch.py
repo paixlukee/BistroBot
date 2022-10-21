@@ -112,13 +112,13 @@ async def globally_block_dms(ctx):
     return ctx.author.id not in db.utility.find_one({"utility":"banlist"})
 
 
-bot.load_extension("cogs.bot")
+#bot.load_extension("cogs.bot")
 
 if __name__ == '__main__':
-    bot.load_extension("cogs.bot")
-    bot.remove_command("help")
+    await bot.load_extension("cogs.bot")
+    await bot.remove_command("help")
     for x in extensions:
-        bot.load_extension('cogs.'+x)
+        await bot.load_extension('cogs.'+x)
 
 
 
