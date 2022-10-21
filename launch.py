@@ -39,7 +39,7 @@ intents.members = True
 intents.message_content = True
 
 bot = commands.AutoShardedBot(chunk_guilds_at_startup=False, heartbeat_timeout=20, shard_count=3, command_prefix=get_pre, intents=intents)
-extensions = ['bot', 'help', 'shop', 'user', 'dev', 'dbl']
+extensions = ['bot', 'help', 'shop', 'user', 'dev'] #+dbl?
 
 
 async def status_task():
