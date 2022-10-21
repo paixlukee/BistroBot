@@ -27,7 +27,7 @@ db = client['siri']
 
 async def get_pre(bot, message):
     posts = db.utility.find_one({"utility": "prefixes"})
-    pref = "r!"
+    pref = "b."
     for x in posts['prefixes']:
         if x['guild'] == message.guild.id:
             pref = x['prefix']
@@ -40,6 +40,12 @@ intents.message_content = True
 
 bot = commands.AutoShardedBot(chunk_guilds_at_startup=False, heartbeat_timeout=20, shard_count=3, command_prefix=get_pre, intents=intents)
 extensions = ['help', 'shop', 'user', 'dev', 'dbl']
+
+if __name__ == '__main__':
+    bot.load_extension("cogs.bot")
+    bot.remove_command("help")
+    for x in extensions:
+        bot.load_extension('cogs.'+x)
 
 
 async def status_task():
@@ -113,13 +119,6 @@ async def globally_block_dms(ctx):
     return ctx.author.id not in db.utility.find_one({"utility":"banlist"})
 
 
-if __name__ == '__main__':
-    bot.load_extension("cogs.bot")
-    bot.remove_command("help")
-    for x in extensions:
-        bot.load_extension('cogs.'+x)
-
 
 
 bot.run(config.token, reconnect=True)
-bot.load_extension("cogs.bot")
