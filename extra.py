@@ -284,5 +284,187 @@ extra = {
          "stock": 0,
          "sold": 0
       }
+   ],
+   "south korea": [
+      {
+         "name": "Chimaek",
+         "price": 7,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Hangover Stew",
+         "price": 8,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Jjajangmyeon",
+         "price": 9,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Yakgwa",
+         "price": 6,
+         "stock": 0,
+         "sold": 0
+      }
+   ],
+   "brazil": [
+    {
+        "name": "Coxinha",
+        "price": 8,
+        "stock": 0,
+        "sold": 0
+    },
+    {
+        "name": "Cachaca",
+        "price": 9,
+        "stock": 0,
+        "sold": 0
+    },
+    {
+        "name": "Vatapa",
+        "price": 7,
+        "stock": 0,
+        "sold": 0
+    },
+    {
+        "name": "Churrasco",
+        "price": 10,
+        "stock": 0,
+        "sold": 0
+    }
+],
+   "bakery": [
+      {
+         "name": "Coffee Cake",
+         "price": 3,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Angel Food Cake",
+         "price": 7,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Pumpkin Pie",
+         "price": 6,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Brioche",
+         "price": 8,
+         "stock": 0,
+         "sold": 0
+      }
+   ],
+   "cafe": [
+      {
+         "name": "Fruit Smoothie",
+         "price": 5,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Shot of Espresso",
+         "price": 4,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Cortado",
+         "price": 3,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Frappuccino",
+         "price": 7,
+         "stock": 0,
+         "sold": 0
+      }
+   ],
+   "pizzeria": [
+      {
+         "name": "Lemon-Lime Soda",
+         "price": 2,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "JoJos",
+         "price": 4,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Mozzarella Sticks",
+         "price": 3,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Pineapple Pizza",
+         "price": 9,
+         "stock": 0,
+         "sold": 0
+      }
+   ],
+   "bar": [
+      {
+         "name": "Mai Tai",
+         "price": 6,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Vodka",
+         "price": 4,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Pizza",
+         "price": 7,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Nachos",
+         "price": 3,
+         "stock": 0,
+         "sold": 0
+      }
+   ],
+   "singapore": [
+      {
+         "name": "Chili Crab",
+         "price": 6,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Fish Head Curry",
+         "price": 7,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Satay",
+         "price": 5,
+         "stock": 0,
+         "sold": 0
+      },
+      {
+         "name": "Barbecued Stingray",
+         "price": 8,
+         "stock": 0,
+         "sold": 0
+      }
    ]
 }

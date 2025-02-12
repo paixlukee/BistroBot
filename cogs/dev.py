@@ -29,7 +29,7 @@ db = client['siri']
 class Dev(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.prefix = 'r!'
+        self.prefix = 'b.'
         self.process = psutil.Process(os.getpid())
         self.rs = []
         self._last_result = None
@@ -63,9 +63,9 @@ class Dev(commands.Cog):
             await log.send(embed=embed)
             await ctx.send("Success! Your message has been sent to support. You should expect a message in your DMs when we get the chance! If you are reporting a serious bug, or having anymore questions, join the support server: <http://discord.gg/BCRtw7c>")
 
-    @commands.command(aliases=['Stats', 'info', 'botinfo', 'status'])
+    @commands.command(aliases=['Info', 'botinfo', 'status'])
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def stats(self, ctx):
+    async def info(self, ctx):
 
         users = len(set(self.bot.get_all_members()))
         channels = []
@@ -80,31 +80,42 @@ class Dev(commands.Cog):
 
         ram = self.process.memory_full_info().rss / 1024**2
 
-        stat = discord.Embed(colour=0xa82021, description=f"**Restaurant** `by lukee#0420`\n\n\n" \
-        f"\> **Python**... `3.6`\n" \
-        f"\> **Ubuntu**... `18.04`\n" \
-        f"\> **RAM Usage**... `{ram:.2f}MB`\n\n"
+        stat = discord.Embed(colour=0x8980d9, description=f"**Bistro** `by paixlukee`\n\n\n"\
+        f"\\> **Python**... `3.2`\n"\
+        f"\\> **Ubuntu**... `22`\n"\
+        f"\\> **RAM Usage**... `{ram:.2f}MB`\n\n"\
         f"I am in **{str(len(self.bot.guilds))} servers**!\n"\
         f"I can view **{channels} channels**!\n"\
         f"I am with **{users} users**!\n"\
         f"I can use **{emojis} emojis**!\n\n"\
-        f"[[Invite]](https://discordapp.com/api/oauth2/authorize?client_id=648065060559781889&permissions=8192&scope=bot)"\
+        f"[[Invite]](https://discord.com/oauth2/authorize?client_id=657037653346222102&permissions=274878180416&integration_type=0&scope=bot)"\
         f" [[Support]](https://discord.gg/BCRtw7c)")
-        stat.set_footer(text="Thanks for using Restaurant! | Res-V3")
+        stat.set_footer(text="Thanks for using Bistro! | Res-V4")
         await ctx.send(embed=stat)
 
-    @commands.command(aliases=['Prefix'])
-    @commands.cooldown(2, 120, commands.BucketType.user)
+    @commands.command(aliases=['Prefix', 'setprefix'])
+    @commands.cooldown(2, 20, commands.BucketType.user)
     async def prefix(self, ctx, prefix=None):
-        cp = "r!"
+        cp = "b."
+        await ctx.typing()
+        current = db.utility.find_one({"utility": "prefixes", "prefixes.guild": ctx.guild.id})
         if ctx.author.guild_permissions.manage_guild:
             if not prefix:
                 await ctx.send("<:RedTick:653464977788895252> You need to include a prefix! Example: `{cp}prefix ?`")
             elif len(prefix) > 4:
                 await ctx.send("<:RedTick:653464977788895252> Prefix can't be longer than 4 characters!")
+            elif current:
+                if prefix == 'b.':
+                    await ctx.send("<:CheckMark:1330789181470937139> Prefix reset.")
+                    db.utility.update_one({"utility": "prefixes", "prefixes.guild": ctx.guild.id}, {"$pull": {"prefixes": {"guild": ctx.guild.id}}})
+                else:
+                    db.utility.update_one({"utility": "prefixes", "prefixes.guild": ctx.guild.id}, {"$set": {"prefixes.$.prefix": prefix}})
+                    await ctx.send(f"<:CheckMark:1330789181470937139> BistroBot Prefix set! To reset it, do `{prefix}prefix {cp}`")
+            elif prefix == 'b.':
+                await ctx.send(f"<:RedTick:653464977788895252> That is the standard prefix of BistroBot!")
             else:
                 db.utility.update_one({"utility": "prefixes"}, {"$push": {"prefixes": {"guild": ctx.guild.id, "prefix": prefix}}})
-                await ctx.send(f"Restaurant Prefix set! To change it back, do `{prefix}prefix {cp}`")
+                await ctx.send(f"<:CheckMark:1330789181470937139> BistroBot Prefix set! To change it back, do `{prefix}prefix {cp}`")
         else:
             await ctx.send("<:RedTick:653464977788895252> You need `manage_server` permissions to change the server prefix!")
 
@@ -112,16 +123,16 @@ class Dev(commands.Cog):
     async def patron(self, ctx, user_id:int, tier='BRONZE'):
         if ctx.author.id == 396153668820402197:
             db.utility.update_one({"utility": "patrons"}, {"$push":{tier.lower(): user_id}})
-            if tier.lower() == "gold":
-                db.market.update_one({"owner": user_id}, {"$push": {"inventory":{"banner": {"name": "Gold Patron", "url": "http://paixlukee.ml/m/MKAKZ.png", 'rarity': 'Legendary'}}}})
-            elif tier.lower() == "diamond":
-                db.market.update_one({"owner": user_id}, {"$push": {"inventory":{"banner": {"name": "Diamond Patron", "url": "http://paixlukee.ml/m/S1L2D.png",'rarity': 'Legendary'}}}})
-            else:
+            if tier.lower() == "diamond":
+                await self.add_rand_fragment(ctx.author.id, all=True)
+
+            user = await self.bot.fetch_user(user_id)
+            await ctx.send(f"<:CheckMark:1330789181470937139> **{str(user)}** is now a patron in the **{tier.upper()}** tier! Hell yeah!")
+            embed = discord.Embed(colour=0x8980d9, title="Thanks!", description="Woah! Thank you so so so much for your patronage!\n\nAll of the rewards have been applied to your account. All tiers and information on them are listed [here](https://www.patreon.com/join/paixlukee).")
+            try:
+                await user.send(embed=embed)
+            except:
                 pass
-            user = self.bot.fetch_user(user_id)
-            await ctx.send(f"**{user.display_name}** is now a patron in the **{tier.upper()}** tier! Hell yeah!")
-            embed = discord.Embed(colour=0xa82021, title="Thanks!", description="Woah! Thank you so so so much for your patronage!\n\nAll the rewards have been applied to your account. All tiers and information on them are listed [here](https://www.patreon.com/join/paixlukee).")
-            await user.send(embed=embed)
         else:
             pass
 
@@ -129,8 +140,8 @@ class Dev(commands.Cog):
     async def unpatron(self, ctx, user_id:int, tier='BRONZE'):
         if ctx.author.id == 396153668820402197:
             db.utility.update_one({"utility": "patrons"}, {"$pull":{tier.lower(): user_id}})
-            user = self.bot.fetch_user(user_id)
-            await ctx.send(f"**{user.display_name}** is no longer a patron in the **{tier.upper()}** tier. :(")
+            user = await self.bot.fetch_user(user_id)
+            await ctx.send(f"**{str(user)}** is no longer a patron in the **{tier.upper()}** tier. :(")
         else:
             pass
 
@@ -142,16 +153,16 @@ class Dev(commands.Cog):
         gold = []
         diamond = []
         for x in patrons['bronze']:
-            user = self.bot.fetch_user(x)
+            user = await ctx.guild.fetch_member(x)
             bronze.append(f"{user.display_name} - {user.id}")
         for x in patrons['silver']:
-            user = self.bot.fetch_user(x)
+            user = await ctx.guild.fetch_member(x)
             silver.append(f"{user.display_name} - {user.id}")
         for x in patrons['gold']:
-            user = self.bot.fetch_user(x)
+            user = await ctx.guild.fetch_member(x)
             gold.append(f"{user.display_name} - {user.id}")
         for x in patrons['diamond']:
-            user = self.bot.fetch_user(x)
+            user = await ctx.guild.fetch_member(x)
             diamond.append(f"{user.display_name} - {user.id}")
         embed = discord.Embed(description="Listed are users patronising:")
         if bronze:
@@ -216,7 +227,7 @@ class Dev(commands.Cog):
                 self._last_result = result
 
                 if code == "bot.http.token":
-                    embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{result}```")
+                    embed=discord.Embed(colour=0x8980d9, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{result}```")
                     return await ctx.send(embed=embed)
 
                 elif o_code.endswith(" -silent") or o_code.endswith(" -s"):
@@ -228,7 +239,7 @@ class Dev(commands.Cog):
                         return await ctx.send(":weary::ok_hand: The output is too long to send to chat. Here is a hastebin file for ya.. :point_right: https://hastebin.com/" + r['key'])
                     else:
                         try:
-                            embed=discord.Embed(colour=0xa82021, description=f":inbox_tray: **INPUT**:\n```py\n\u200b{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{result}```")
+                            embed=discord.Embed(colour=0x8980d9, description=f":inbox_tray: **INPUT**:\n```py\n\u200b{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{result}```")
                             return await ctx.send(embed=embed)
                         except Exception as e:
                             embed=discord.Embed(colour=0xff0000, description=f":inbox_tray: **INPUT**:\n```py\n{code}```\n:outbox_tray: **OUTPUT**:\n```py\n{e}```")
@@ -240,6 +251,24 @@ class Dev(commands.Cog):
                 return await ctx.send(embed=embed)
         else:
             pass
+        
+    async def add_rand_fragment(self, user, all=False):
+        post = db.market.find_one({"owner": user})
+        fragments = ['agility', 'opportunity', 'endearing', 'ambience']
+        exclude = post['stones']
+        if all: 
+            for fragment in fragments:
+                if fragment in exclude: 
+                    continue
+                in_list = False
+                for frag in post['fragments']:
+                    if frag['stone'] == fragment:
+                        db.market.update_one({"owner": user, "fragments.stone": fragment},{"$inc": {"fragments.$.count": 1}})
+                        in_list = True
+                        break
+                if not in_list:
+                    db.market.update_one({"owner": user}, {"$push": {"fragments": {"stone": fragment, "count": 1}}})
+            return True
 
 
 

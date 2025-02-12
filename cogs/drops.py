@@ -33,7 +33,6 @@ class Drops(commands.Cog):
         servers = lb['guilds']
         ntp = []
         ntp_g = []
-        # {"gid": 0, "cid": 0, "opened_last": bool}
         for x in servers:
             if opened_last is True:
                 ntp.append(x['cid'])

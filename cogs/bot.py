@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 import datetime
-
+import string
 import time
 import subprocess
 import traceback
@@ -46,7 +46,7 @@ class Botdev(commands.Cog):
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
         try:
-            embed = discord.Embed(colour=0xa82021, description="Please take the time to fill out [this exit form](https://forms.gle/wkMNiSanpnpeLTt88). Thanks for using Restaurant Bot.")
+            embed = discord.Embed(colour=0x8980d9, description="Please take the time to fill out [this exit form](https://forms.gle/wkMNiSanpnpeLTt88). Thanks for using Bistro Bot.")
             embed.set_author(name="Goodbye!")
             await self.bot.get_user(guild.owner.id).send(embed=embed)
         except:
@@ -78,9 +78,9 @@ class Botdev(commands.Cog):
     async def ban(self, ctx, id:int, *, reason):
         if ctx.author.id == 396153668820402197:
             user = self.bot.get_user(id)
-            await ctx.send(f"**{user}** was banned from using Restaurant.")
+            await ctx.send(f"**{user}** was banned from using Bistro.")
             db.utility.update_one({"utility": "banlist"}, {"$push":{"banned": user.id}})
-            embed = discord.Embed(colour=0xa82021, description=f"You were banned from using **Restaurant**. Reason: `{reason}`\n\nIf you would like to appeal, visit http://paixlukee.ml/restaurant/appeal.html.")
+            embed = discord.Embed(colour=0x8980d9, description=f"You were banned from using **Bistro**. Reason: `{reason}`\n\nIf you would like to appeal, visit http://paixlukee.ml/restaurant/appeal.html.")
             embed.set_image(url="http://paixlukee.ml/m/6UK4U.jpg")
             await user.send(embed=embed)
         else:
@@ -90,11 +90,11 @@ class Botdev(commands.Cog):
     async def shell(self, ctx, *, code):
         if ctx.author.id == 396153668820402197:
             embed = discord.Embed(description=f"```css\nConnecting to shell..```")
-            embed.set_author(name="Please Wait.", icon_url=self.bot.user.avatar_url)
+            embed.set_author(name="Please Wait.", icon_url=ctx.me.avatar.with_format('png'))
             msg = await ctx.send(embed=embed)
             shell = await self.run_cmd(code)
             embed = discord.Embed(description=f"```css\n{shell}```")
-            embed.set_author(name="Shell", icon_url=self.bot.user.avatar_url)
+            embed.set_author(name="Shell", icon_url=ctx.me.avatar.with_format('png'))
             await msg.delete()
             await ctx.send(embed=embed)
         else:
@@ -103,14 +103,13 @@ class Botdev(commands.Cog):
 
     @commands.command(pass_context=True)
     async def ping(self, ctx):
-        """Get Res's Ping"""
         t1 = time.perf_counter()
-        await ctx.trigger_typing()
+        await ctx.typing()
         t2 = time.perf_counter()
         ping = str(round((t2-t1)*1000))
-        ol = round(ctx.bot.latencies[0][1]*1000)
-        sl = round(ctx.bot.latencies[1][1]*1000)
-        tl = round(ctx.bot.latencies[2][1]*1000)
+        ol = round(ctx.bot.latency * 1000)
+        sl = round(ctx.bot.latency * 1000)
+        tl = round(ctx.bot.latency * 1000)
         if ol >= 90:
             oe = '<:idle:701016198531383316>'
         else:
@@ -126,9 +125,9 @@ class Botdev(commands.Cog):
         oc = await self.get_shard(1)
         sc = await self.get_shard(2)
         tc = await self.get_shard(3)
-        shard = ctx.guild.shard_id+1
-        embed = discord.Embed(colour=0xa82021, description=f"The ping for **{ctx.guild.name}** is `{ping}ms`.")
-        embed.set_author(name="Pong!", icon_url=ctx.me.avatar_url_as(format='png'))
+        shard = ctx.guild.shard_id + 1
+        embed = discord.Embed(colour=0x8980d9, description=f"The ping for **{ctx.guild.name}** is `{ping}ms`.")
+        embed.set_author(name="Pong!", icon_url=ctx.bot.user.avatar.url)
         embed.add_field(name=f"{oe} Shard #1", value=f"`{ol}ms`  `{oc} servers`")
         embed.add_field(name=f"{se} Shard #2", value=f"`{sl}ms`  `{sc} servers`")
         embed.add_field(name=f"{te} Shard #3", value=f"`{tl}ms`  `{tc} servers`")
@@ -137,10 +136,11 @@ class Botdev(commands.Cog):
 
     @commands.command()
     async def invite(self, ctx):
-        await ctx.send("Invite me to your server! <https://discordapp.com/api/oauth2/authorize?client_id=648065060559781889&permissions=10240&scope=bot>")
+        await ctx.send("Invite me to your server! <https://discord.com/oauth2/authorize?client_id=657037653346222102&permissions=274878180416&integration_type=0&scope=bot>")
 
     @commands.command(hidden=True)
     async def load(self, ctx, extension):
+        print("\nLOAD INIT!\n")
         if ctx.author.id == 396153668820402197:
             try:
                 if extension == 'all':
@@ -150,7 +150,7 @@ class Botdev(commands.Cog):
                     not_loaded = []
                     for extension in extensions:
                         try:
-                            self.bot.load_extension(extension)
+                            await self.bot.load_extension(extension)
                             loaded.append(f'`{extension}`')
                         except Exception as error:
                             not_loaded.append(f'`{extension}` - `{error}`')
@@ -164,13 +164,13 @@ class Botdev(commands.Cog):
                         embed.add_field(name='Not Loaded', value=not_loaded)
                     await ctx.send(embed=embed)
                 else:
-                    self.bot.load_extension("cogs.{}".format(extension))
-                    embed = discord.Embed(title="<:CheckMark:473276943341453312> Cog loaded:", color=0x5bff69, description="**Cog:** `cogs\{}.py`".format(extension))
+                    await self.bot.load_extension("cogs.{}".format(extension))
+                    embed = discord.Embed(title="Cog loaded:", color=0x5bff69, description="<:CheckMark:473276943341453312> **Cog:** `cogs\\{}.py`".format(extension))
                     await ctx.send(embed=embed)
                     print('\n\nCOG LOAD\n--[Cog loaded, {}.py]--\n\n'.format(extension))
             except Exception as error:
                 print('\n\nEXTEN./COG ERROR: {} was not loaded due to an error: \n-- [{}] --\n\n'.format(extension, error))
-                embed = discord.Embed(title="<:WrongMark:473277055107334144> Error loading cog:", color=0xff775b, description="**Cog:** `cogs\{}.py`\n**Errors:**\n```{}```".format(extension, error))
+                embed = discord.Embed(title="<:RedTick:653464977788895252> Error loading cog:", color=0xff775b, description="**Cog:** `cogs\\{}.py`\n**Errors:**\n```{}```".format(extension, error))
                 await ctx.send(embed=embed)
         else:
             pass
@@ -178,8 +178,8 @@ class Botdev(commands.Cog):
     @commands.command(aliases=['un'], hidden=True)
     @commands.is_owner()
     async def unload(self, ctx, extension):
-        self.bot.unload_extension("cogs.{}".format(extension))
-        embed = discord.Embed(title="<:CheckMark:473276943341453312> Cog unloaded:", color=0x5bff69, description="**Cog:** `cogs\{}.py`".format(extension))
+        await self.bot.unload_extension("cogs.{}".format(extension))
+        embed = discord.Embed(title="Cog unloaded:", color=0x5bff69, description="<:CheckMark:473276943341453312> **Cog:** `cogs\\{}.py`".format(extension))
         print('\x1b[1;32;40m' + '[COG-RELOADED]: ' + '\x1b[0m' + '{} was unloaded successfully'.format(extension))
         await ctx.send(embed=embed)
 
@@ -188,14 +188,16 @@ class Botdev(commands.Cog):
     async def reload(self, ctx, extension):
         if ctx.author.id == 396153668820402197:
             try:
-                self.bot.unload_extension("cogs.{}".format(extension))
-                self.bot.load_extension("cogs.{}".format(extension))
-                embed = discord.Embed(title="<:CheckMark:473276943341453312> Cog reloaded:", color=0x5bff69, description="**Cog:** `cogs\{}.py`".format(extension))
+                await ctx.typing()
+                await self.bot.unload_extension("cogs.{}".format(extension))
+                await asyncio.sleep(1)
+                await self.bot.load_extension("cogs.{}".format(extension))
+                embed = discord.Embed(title="Cog reloaded:", color=0x5bff69, description="<:CheckMark:473276943341453312> **Cog:** `cogs\\{}.py`".format(extension))
                 await ctx.send(embed=embed)
                 print('\x1b[1;32;40m' + '[COG-RELOADED]: ' + '\x1b[0m' + '{} was reloaded successfully'.format(extension))
             except Exception as error:
                 print('\x1b[1;31;40m' + '[COG-RELOAD-ERROR]: ' + '\x1b[0m' + '{} was not reloaded due to an error: {} '.format(extension, error))
-                embed = discord.Embed(title="<:WrongMark:473277055107334144> Error reloading cog:", color=0xff775b, description="**Cog:** `cogs\{}.py`\n**Errors:**\n```{}```".format(extension, error))
+                embed = discord.Embed(title="<:RedTick:653464977788895252> Error reloading cog:", color=0xff775b, description="**Cog:** `cogs\\{}.py`\n**Errors:**\n```{}```".format(extension, error))
                 await ctx.send(embed=embed)
         else:
             pass
@@ -216,17 +218,19 @@ class Botdev(commands.Cog):
             await ctx.send(f"<:RedTick:653464977788895252> You are on cooldown! Please wait **{hours} {round(minutes)}m {round(seconds)}s**.")
 
         else:
+            id = ''.join([random.choice(string.digits) if i % 2 == 0 else random.choice(string.ascii_letters) for i in range(7)])
             print("\x1b[1;31;40m" + f"[{type(error).__name__}]: " + "\x1b[0m" + str(error))
-            ig = (asyncio.futures.TimeoutError, commands.CommandNotFound, commands.CommandOnCooldown, discord.Forbidden, commands.NoPrivateMessage, commands.DisabledCommand, commands.CheckFailure, commands.UserInputError)
+            ig = (TimeoutError, commands.CommandNotFound, commands.CommandOnCooldown, discord.Forbidden, commands.NoPrivateMessage, commands.DisabledCommand, commands.CheckFailure, commands.UserInputError)
             error = getattr(error, 'original', error)
             if isinstance(error, ig):
                 return
-            embed = discord.Embed(colour=0xa82021)
-            embed.set_author(icon_url=ctx.me.avatar_url_as(format='png'), name="Command Error")
+            embed = discord.Embed(colour=0xff0000)
+            embed.set_author(icon_url=ctx.bot.user.avatar.url, name="Command Error")
             embed.set_footer(text=f"Type: {type(error).__name__.upper()}")
             description = f"**Command**: {ctx.command.qualified_name}\n"\
                           f"**Author**: {ctx.author} `ID: {ctx.author.id}`\n"\
-                          f"**Channel**: #{ctx.channel} `ID: {ctx.channel.id}`"
+                          f"**Channel**: #{ctx.channel} `ID: {ctx.channel.id}`\n"\
+                          f"**Error ID:** {id}"
             if ctx.guild:
                 description += f'\n**Guild**: {ctx.guild} `ID: {ctx.guild.id}`'
             fe = ''.join(traceback.format_exception(type(error), error, error.__traceback__, chain=False))
@@ -241,6 +245,7 @@ class Botdev(commands.Cog):
                 pass
             try:
                 await self.bot.get_channel(658708974836645888).send(embed=embed)
+                await ctx.send(f"<:RedTick:653464977788895252> Error! Please see our [Support Server](https://discord.gg/BCRtw7c) for more information. `Code: {id}`")
             except:
                 pass
             if isinstance(error, commands.CommandInvokeError):
@@ -251,4 +256,5 @@ class Botdev(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(Botdev(bot))
+    cog = Botdev(bot)
+    await bot.add_cog(cog)

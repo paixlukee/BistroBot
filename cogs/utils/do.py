@@ -8,21 +8,6 @@ import asyncio
 import config
 import subprocess
 
-dbl_token = config.dbl_token
-
-async def post(count, list:str):
-    lists = ['dbl']
-    if not list.lower() in lists:
-        return f"'{list}' list not available."
-    else:
-      if list.lower() == 'dbl':
-          try:
-              data = {'server_count': count}
-              headers = {'Authorization': dbl_token}
-              p = requests.post('https://discordbots.org/api/bots/648065060559781889/stats', data=data, headers=headers).json()
-              return f"{list.upper()}: Server count posted"
-          except Exception as e:
-              return f'{type(e).__name__}: {e}'
               
 async def shell(cmd):
     process =\
