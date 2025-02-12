@@ -40,7 +40,7 @@ class Help(commands.Cog):
         #keeping this hardcoded, because it will only make me do more work :)
         embed = discord.Embed(color=0x8980d9)
         embed.set_image(url="https://media.discordapp.net/attachments/1325282246181130330/1325282279689289788/E46C7244-B665-48E2-B1A5-46A671413153.jpg?ex=677b38ce&is=6779e74e&hm=bd4d2f636a706e6a6aac44aec429884b1a121ff43d9f3f4d155238e14bbcd6af&=&format=webp&width=1140&height=1046")
-        embed.set_footer(text="Click a page number below to view it ")
+        embed.set_footer(text="Click a page number below to view it | bistrobot.co/documentation")
         view = pageBtns()
         await ctx.send(embed=embed, view=view)
 
@@ -75,7 +75,7 @@ class pageBtns(discord.ui.View):
         embed.add_field(name=f"{pre}leaderboard [page | restaurant]", value="View the global Bistro leaderboard")
         embed.add_field(name=f"{pre}hire", value="Hire an employee to help you work")
         embed.add_field(name=f"{pre}workers", value="View how your employees are doing")
-        embed.add_field(name=f"{pre}adveArtise", value="Advertise your restaurant")
+        embed.add_field(name=f"{pre}advertise", value="Advertise your restaurant")
         embed.add_field(name=f"{pre}cookoff", value="Start a cook-off with other players")
         embed.add_field(name=f"{pre}event", value="Host an event")
         embed.add_field(name=f"{pre}stones", value="View and fuse *Enhancement Stones*")
