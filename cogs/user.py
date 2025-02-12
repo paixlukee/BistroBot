@@ -981,7 +981,7 @@ class User(commands.Cog):
                 r = requests.post(f"https://api.trello.com/1/cards?key=4ae5477b485b5afa44ae72997bb53b54&token=ae0c71469c814c9335b57be7a35508f828e7d0f84af8adfa10fcce73888a49d6", data=data).json()
                 trello_link = r['url']
 
-                msg = await ctx.send(f"{ctx.author.mention}, your report has been sent! I've sent a transcipt to your DMs.", delete_after=10)
+                #msg = await ctx.send(f"{ctx.author.mention}, your report has been sent! I've sent a transcipt to your DMs.", delete_after=10)
 
                 embed = discord.Embed(colour=0x8980d9, description="Bug Report Transcript")
                 embed.add_field(name="Topic/Command:", value=str(topic).capitalize())
