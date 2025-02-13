@@ -377,8 +377,8 @@ class Shop(commands.Cog):
              f"<:W2:1325370773212233849> `{[key for key in available[2]][0]}` **+5% EXP** | **-10% Tips** | **Earns you <:BistroBux:1324936072760786964>20/day**\n"\
              f"<:M2:1325373899688509500> `{[key for key in available[3]][0]}` **+25% EXP** | **+10% Tips** | **Earns you <:BistroBux:1324936072760786964>8/day**"
         chefs = [chefs_avail[0]['m'], chefs_avail[1]['w']]
-        chef_names = f"<:ChefM:1329677738059104307> `{chefs_avail[0]['m']}` **-20s Cook Cooldown** | **Costs $200 upfront, $20 from daily**\n"\
-                     f"<:ChefW:1329678594741637171> `{chefs_avail[1]['w']}` **-40s Cook Cooldown** | **Costs $350 upfront, $40 from daily**"
+        chef_names = f"<:ChefM:1329677738059104307> `{chefs_avail[0]['m']}` **-20s Cook Cooldown** | **Costs {bbux}200 upfront, {bbux}20 from daily**\n"\
+                     f"<:ChefW:1329678594741637171> `{chefs_avail[1]['w']}` **-40s Cook Cooldown** | **Costs {bbux}350 upfront, {bbux}40 from daily**"
         embed = discord.Embed(description=f"Which worker would you like to hire? You can only have one manager and one chef at a time.\n\n**Manager**:\nEach manager costs <:BistroBux:1324936072760786964>500 upfront and an additional <:BistroBux:1324936072760786964>50 taken away from the daily command.\n{wd}"\
             f"\n\n**Chef**:\nYou must have at least 500 customers to hire a chef\n{chef_names}\n\n**__NOTE__**: You must re-pay the upfront fee when switching workers")
         embed.set_footer(text="You have 60 seconds to reply.")
@@ -1626,7 +1626,7 @@ class Shop(commands.Cog):
                 if word.endswith("s"):
                     ltr_a = ""
                 else:
-                    ltr_a = "a"
+                    ltr_a = " a"
                 ws = word.split(" ")
                 new = []
                 for x in ws:
@@ -1647,7 +1647,7 @@ class Shop(commands.Cog):
                 if tt < 6:
                     if resp.content.lower().lower() == word.lower():
                         c = await self.add_exp(user=ctx.author.id, count=27)
-                        await ctx.send(f"Perfect! You made {ltr_a} delicious **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
+                        await ctx.send(f"Perfect! You made{ltr_a} delicious **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 5
                     else:
                         if retry_allowed and 'opportunity' in post['stones']:
@@ -1655,21 +1655,21 @@ class Shop(commands.Cog):
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
                                 c = await self.add_exp(user=ctx.author.id, count=7)
-                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making {ltr_a} **{na}**.")
+                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
                                 c = await self.add_exp(user=ctx.author.id, count=2)
-                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making {ltr_a} bad **{na}**.")
+                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
                             return
                         c = await self.add_exp(user=ctx.author.id, count=2)
-                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **{c} EXP** for making {ltr_a} bad **{na}**.")
+                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **{c} EXP** for making{ltr_a} bad **{na}**.")
                         rating = 3
                         chance_of_fire = True
                 elif tt < 8:
                     if resp.content.lower() == word.lower():
                         c = await self.add_exp(user=ctx.author.id, count=20)
-                        await ctx.send(f"Amazing! You made {ltr_a} tasty **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
+                        await ctx.send(f"Amazing! You made{ltr_a} tasty **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 5
                     else:
                         if retry_allowed and 'opportunity' in post['stones']:
@@ -1677,21 +1677,21 @@ class Shop(commands.Cog):
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
                                 c = await self.add_exp(user=ctx.author.id, count=7)
-                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making {ltr_a} **{na}**.")
+                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
                                 c = await self.add_exp(user=ctx.author.id, count=2)
-                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making {ltr_a} bad **{na}**.")
+                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
                             return
                         c = await self.add_exp(user=ctx.author.id, count=1)
-                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **{c} EXP** for making {ltr_a} terrible **{na}**.")
+                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **{c} EXP** for making{ltr_a} terrible **{na}**.")
                         rating = 2
                         chance_of_fire = True
                 elif tt < 10:
                     if resp.content.lower() == word.lower():
                         c = await self.add_exp(user=ctx.author.id, count=16)
-                        await ctx.send(f"Great! You made {ltr_a} delicious **{na}** in {round(tt)} seconds! You've earned **{c}** EXP.")
+                        await ctx.send(f"Great! You made{ltr_a} delicious **{na}** in {round(tt)} seconds! You've earned **{c}** EXP.")
                         rating = 5
                     else:
                         if retry_allowed and 'opportunity' in post['stones']:
@@ -1699,20 +1699,20 @@ class Shop(commands.Cog):
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
                                 c = await self.add_exp(user=ctx.author.id, count=7)
-                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making {ltr_a} **{na}**.")
+                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
                                 c = await self.add_exp(user=ctx.author.id, count=2)
-                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making {ltr_a} bad **{na}**.")
+                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
                             return
-                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **0 EXP** for making {ltr_a} disgusting {na}.")
+                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **0 EXP** for making{ltr_a} disgusting {na}.")
                         rating = 1
                         chance_of_fire = True
                 elif tt < 12:
                     if resp.content.lower() == word.lower():
                         c = await self.add_exp(user=ctx.author.id, count=14)
-                        await ctx.send(f"Nice! You made {ltr_a} good **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
+                        await ctx.send(f"Nice! You made{ltr_a} good **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 4
                     else:
                         if retry_allowed and 'opportunity' in post['stones']:
@@ -1720,14 +1720,14 @@ class Shop(commands.Cog):
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
                                 c = await self.add_exp(user=ctx.author.id, count=7)
-                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making {ltr_a} **{na}**.")
+                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
                                 c = await self.add_exp(user=ctx.author.id, count=2)
-                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making {ltr_a} bad **{na}**.")
+                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
                             return
-                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **0 EXP** for making {ltr_a} disgusting **{na}**.")
+                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **0 EXP** for making{ltr_a} disgusting **{na}**.")
                         rating = 1
                         chance_of_fire = True
                 elif tt < 14:
@@ -1741,14 +1741,14 @@ class Shop(commands.Cog):
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
                                 c = await self.add_exp(user=ctx.author.id, count=7)
-                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making {ltr_a} **{na}**.")
+                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
                                 c = await self.add_exp(user=ctx.author.id, count=2)
-                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making {ltr_a} bad **{na}**.")
+                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
                             return
-                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **0 EXP** for making {ltr_a} disgusting {na}.")
+                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **0 EXP** for making{ltr_a} disgusting {na}.")
                         rating = 1
                         chance_of_fire = True
                 elif tt < 18:
@@ -1757,7 +1757,7 @@ class Shop(commands.Cog):
                         await ctx.send(f"Eh! You made {ltr_a} decent **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 3
                     else:
-                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned 0 EXP for making {ltr_a} disgusting {na}.")
+                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned 0 EXP for making{ltr_a} disgusting {na}.")
                         rating = 1
                         chance_of_fire = True
                 else:
@@ -1772,14 +1772,14 @@ class Shop(commands.Cog):
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
                                 c = await self.add_exp(user=ctx.author.id, count=7)
-                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making {ltr_a} **{na}**.")
+                                await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
                                 c = await self.add_exp(user=ctx.author.id, count=2)
-                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making {ltr_a} bad **{na}**.")
+                                await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
                             return
-                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **0 EXP** for making {ltr_a} disgusting **{na}**.")
+                        await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **0 EXP** for making{ltr_a} disgusting **{na}**.")
                         rating = 1
                 if chance_of_fire:
                     if not "fire" in post['bonuses']:
@@ -1846,6 +1846,7 @@ class Shop(commands.Cog):
                 await asyncio.sleep(1)
                 msg = await ctx.send(embed=embed, view=view)
                 while bar_int <= 6 and not done:
+                    await asyncio.sleep(0.15)
                     bar_int += 1
                     bar = str(bar_int).replace("7", "`🟨🟨🟧🟧🟥⬛`").replace("6", "`🟨🟨🟧🟧🟥⬛`").replace("5", "`🟨🟨🟧🟧🟥`").replace("4", "`🟨🟨🟧🟧`").replace("3", "`🟨🟨🟧`").replace("2", "`🟨🟨`").replace("1", "`🟨`")
                     embed = discord.Embed(description=f"Click `stop` when the bar gets to red. Don't burn it!\n\n{bar}")
