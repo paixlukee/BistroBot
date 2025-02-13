@@ -6,7 +6,11 @@ banners = {
     {"name": "Soft Eatery", "url": "https://i.ibb.co/gvXrdWq/banner6.jpg"},
     {"name": "Moonlit Table", "url": "https://i.ibb.co/fSWVkzj/banner7.jpg"},
     {"name": "Food Cycle", "url": "https://i.ibb.co/j4Gmqq6/banner9.jpg"},
-    {"name": "Sushi Heaven", "url": "https://i.ibb.co/HVL7ct3/banner11.jpg"}
+    {"name": "Sushi Heaven", "url": "https://i.ibb.co/HVL7ct3/banner11.jpg"},
+    {"name": "Yellow Buffet", "url": "https://bistrobot.co/a/yellow-buffet.png"},
+    {"name": "Red Symphony", "url": "https://bistrobot.co/a/red-symphony.png"},
+    {"name": "Foodtopia", "url": "https://bistrobot.co/a/foodtopia.png"},
+    {"name": "All You Can Eat", "url": "https://bistrobot.co/a/all-you-can-eat.png"}
     ],
 "uncommon": [
     {"name": "Midnight Meal", "url": "https://i.ibb.co/rx0kRNB/banner3.jpg"},
@@ -17,10 +21,12 @@ banners = {
     {"name": "Fruit Galaxy", "url": "https://i.ibb.co/gbGHTYvY/4-BE5887-D-C2-A7-4-E57-8001-8-A60-D4610931.jpg"},
     {"name": "Bright Skyline", "url": "https://i.ibb.co/qLyKxvtr/29-B880-FC-3-AD8-44-D4-B08-A-A617569-F4407.jpg"},
     {"name": "Starlit Mountain", "url": "https://i.ibb.co/VYGpYHY5/2232339-A-818-B-4-E73-82-B2-143035-E0-C3-C9.jpg"},
-    {"name": "Orange Moon", "url": "https://i.ibb.co/VWHGWc6s/0177-ABE1-589-C-4-C01-A2-CC-0-C4137619267.jpg"}
+    {"name": "Orange Moon", "url": "https://i.ibb.co/VWHGWc6s/0177-ABE1-589-C-4-C01-A2-CC-0-C4137619267.jpg"},
+    {"name": "Pixelated Bonanza", "url": "https://bistrobot.co/a/PixelatedBonanza.jpeg"}
     ],
 "rare": [
-
+    {"name": "Bistaria", "url": "https://bistrobot.co/a/Bistaria.jpeg"},
+    {"name": "Over The Rainbow", "url": "https://bistrobot.co/a/OverTheRainbow.jpeg"},
 ]}
 
 colours = {
