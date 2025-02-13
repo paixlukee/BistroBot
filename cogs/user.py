@@ -189,7 +189,7 @@ class User(commands.Cog):
             else:
                 try:
                     await self.add_money(user=ctx.author.id, count=rci)
-                    embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest) + "\n\nWant even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `b.votereward` to receive another chest.")
+                    embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest))
                     embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
                     embed.set_footer(text="Come back in 24 hours!")
                     if posts['colour']:
