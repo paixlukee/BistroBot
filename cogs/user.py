@@ -127,7 +127,7 @@ class User(commands.Cog):
         patrons = await db.utility.find_one({"utility": "patrons"})
         if posts:
             ri = random.randint(1,6)
-            rci = random.randint(100, 150)
+            rci = random.randint(90, 130)
             if ctx.author.id in patrons['bronze']:
                 rci *= 1.2
                 rci = round(rci)
@@ -171,7 +171,7 @@ class User(commands.Cog):
                         emoji = '<:EndearingFragment:1331823626080620574>'
                     elif frag == 'ambience':
                         emoji = '<:AmbienceFragment:1331825947036483675>'
-                    embed = discord.Embed(colour=0x8980d9, description=f"* {emoji} Fragment of {frag.capitalize()}")
+                    embed = discord.Embed(colour=0x8980d9, description=f"* {emoji} Fragment of {frag.capitalize()}"+ "\n\nWant even more goodies? Upvote me on [Top.GG](https://top.gg/bot/657037653346222102/vote), and do `b.votereward` to receive another chest.")
                     embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
                     embed.set_footer(text="Come back in 24 hours!")
                     if posts['colour']:
@@ -179,8 +179,7 @@ class User(commands.Cog):
                     await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your daily chest and received...")                
                 else:
                     await self.add_money(user=ctx.author.id, count=rci)
-                    # "\n\nWant even more money? Vote for me on [Discord Bot List](https://top.gg/bot/648065060559781889), and do `b.votereward` to receive another chest.
-                    embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest))
+                    embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest)+ "\n\nWant even more money? Upvote me on [Top.GG](https://top.gg/bot/657037653346222102/vote), and do `b.votereward` to receive another chest.")
                     embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
                     embed.set_footer(text="Come back in 24 hours!")
                     if posts['colour']:
@@ -189,7 +188,7 @@ class User(commands.Cog):
             else:
                 try:
                     await self.add_money(user=ctx.author.id, count=rci)
-                    embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest))
+                    embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest)+ "\n\nWant even more money? Upvote me on [Top.GG](https://top.gg/bot/657037653346222102/vote), and do `b.votereward` to receive another chest.")
                     embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
                     embed.set_footer(text="Come back in 24 hours!")
                     if posts['colour']:
@@ -533,19 +532,19 @@ class User(commands.Cog):
 
     @commands.command(pass_context=True, aliases=['Votereward'])
     @commands.cooldown(1, 43200, commands.BucketType.user)
-    async def votereward(self, ctx): #http://pixelartmaker.com/art/f697739d6ed8a4b.png
+    async def votereward(self, ctx):
         posts = await db.market.find_one({"owner": ctx.author.id})
-        rci = random.randint(100,150)
-        r = requests.get(f"https://discordbots.org/api/bots/648065060559781889/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()
+        rci = random.randint(50,100)
+        r = requests.get(f"https://top.gg/api/bots/648065060559781889/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()
         if posts:
             if r['voted'] == 1:
                 await self.add_money(user=ctx.author.id, count=rci)
-                embed = discord.Embed(colour=0x7289da, description=f"{rci} Cash")
-                embed.set_thumbnail(url="http://pixelartmaker.com/art/f697739d6ed8a4b.png")
+                embed = discord.Embed(colour=0xf04c62, description=f"{rci} Cash")
+                embed.set_thumbnail(url="https://i.ibb.co/Vc0pDPD2/New-Piskel-57.pn")
                 embed.set_footer(text="Thanks for upvoting! Come back in 12 hours!")
-                await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your DBL chest and received...")
+                await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your Top.GG chest and received...")
             else:
-                await ctx.send("You haven't upvoted! Upvote here: <https://top.gg/bot/648065060559781889/vote>")
+                await ctx.send("You haven't upvoted yet! Upvote here: <https://top.gg/bot/657037653346222102/vote>")
                 self.bot.get_command("votereward").reset_cooldown(ctx)
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one by doing `b.start`.")

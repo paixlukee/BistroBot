@@ -39,7 +39,7 @@ intents.members = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix=get_pre, intents=intents, sharded=True)
-extensions = ['bot', 'help', 'shop', 'user', 'dev', 'tasks', 'cookoff']
+extensions = ['bot', 'help', 'shop', 'user', 'dev', 'tasks', 'cookoff', 'topgg']
 
 async def status_task():
     users = len(set(bot.get_all_members()))

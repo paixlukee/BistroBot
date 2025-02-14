@@ -165,7 +165,7 @@ class Botdev(commands.Cog):
                     await ctx.send(embed=embed)
                 else:
                     await self.bot.load_extension("cogs.{}".format(extension))
-                    embed = discord.Embed(title="Cog loaded:", color=0x5bff69, description="<:CheckMark:1330789181470937139> **Cog:** `cogs\\{}.py`".format(extension))
+                    embed = discord.Embed(title="Cog loaded!", color=0x5bff69, description="<:CheckMark:1330789181470937139> **Cog:** `cogs\\{}.py`".format(extension))
                     await ctx.send(embed=embed)
                     print('\n\nCOG LOAD\n--[Cog loaded, {}.py]--\n\n'.format(extension))
             except Exception as error:
@@ -179,7 +179,7 @@ class Botdev(commands.Cog):
     @commands.is_owner()
     async def unload(self, ctx, extension):
         await self.bot.unload_extension("cogs.{}".format(extension))
-        embed = discord.Embed(title="Cog unloaded:", color=0x5bff69, description="<:CheckMark:1330789181470937139> **Cog:** `cogs\\{}.py`".format(extension))
+        embed = discord.Embed(title="Cog unloaded!", color=0x5bff69, description="<:CheckMark:1330789181470937139> **Cog:** `cogs\\{}.py`".format(extension))
         print('\x1b[1;32;40m' + '[COG-RELOADED]: ' + '\x1b[0m' + '{} was unloaded successfully'.format(extension))
         await ctx.send(embed=embed)
 
@@ -192,7 +192,7 @@ class Botdev(commands.Cog):
                 await self.bot.unload_extension("cogs.{}".format(extension))
                 await asyncio.sleep(1)
                 await self.bot.load_extension("cogs.{}".format(extension))
-                embed = discord.Embed(title="Cog reloaded:", color=0x5bff69, description="<:CheckMark:1330789181470937139> **Cog:** `cogs\\{}.py`".format(extension))
+                embed = discord.Embed(title="Cog reloaded!", color=0x5bff69, description="<:CheckMark:1330789181470937139> **Cog:** `cogs\\{}.py`".format(extension))
                 await ctx.send(embed=embed)
                 print('\x1b[1;32;40m' + '[COG-RELOADED]: ' + '\x1b[0m' + '{} was reloaded successfully'.format(extension))
             except Exception as error:

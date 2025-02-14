@@ -2204,9 +2204,9 @@ class Shop(commands.Cog):
                         new_name = str(name.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace('fag', 'f*g').replace('FAG', 'f*g').replace("Fag", "F*g")
                         await self.update_data(ctx.author, country.content.lower(), new_name, desc.content)
                         embed = discord.Embed(colour=0x8980d9, description=f'And... Done! Your Restaurant has been created. \n\nCheck your restaurant out with `{self.prefix}restaurant` and view all Restaurant commands with `b.help`.')
-                        embed.add_field(name="Quick Tips", value=":one: [Earn some money](https://bistrobot.co/a/earn-money.mov)\n:two: [Set a custom logo](https://bistrobot.co/a/set-restaurant-logo.mov)\n:three: [Hire a worker](https://bistrobot.co/a/hire-worker.mov)\n:four: [Buy a custom item and use it](https://bistrobot.co/a/use-item.mov)\n:five: [Level up your Restaurant](https://docs.google.com/document/d/1sTv9vN3TucTGx8rmRHw6FDfTvJ_TWJN7vVitqrqDLP0/edit?usp=sharing)")
+                        embed.add_field(name="Quick Tips", value=":one: [Earn some money](https://bistrobot.co/a/earn-money.mov)\n:two: [Set a custom logo](https://bistrobot.co/a/set-restaurant-logo.mov)\n:three: [Hire a worker](https://bistrobot.co/a/hire-worker.mov)\n:four: [Buy a custom item and use it](https://bistrobot.co/a/use-item.mov)\n:five: [Level up your Restaurant](https://docs.google.com/document/d/1sTv9vN3TucTGx8rmRHw6FDfTvJ_TWJN7vVitqrqDLP0/edit?usp=sharing)\n\n:file_folder: [Documentation](https://bistrobot.co/documentation)\n:grey_question: [FAQ](https://bistrobot.co/faq)")
                         embed.set_author(icon_url=ctx.bot.user.avatar.url, name="Restaurant Creation")
-                        await msg1.edit(embed=embed)
+                        await msg1.edit(embed=embed, view=None)
         else:
             await ctx.send(f'<:RedTick:653464977788895252> You already have a restaurant created. View it with `b.restaurant`.')
 
