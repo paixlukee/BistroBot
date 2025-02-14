@@ -537,7 +537,6 @@ class User(commands.Cog):
         rci = random.randint(50,100)
         r = requests.get(f"https://top.gg/api/bots/648065060559781889/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()
         if posts:
-            print(r)
             if r['voted'] == 1:
                 await self.add_money(user=ctx.author.id, count=rci)
                 embed = discord.Embed(colour=0xf04c62, description=f"{rci} Cash")

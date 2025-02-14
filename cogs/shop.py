@@ -1524,11 +1524,13 @@ class Shop(commands.Cog):
                 await ctx.send("You don't have a fishing rod. Buy one by saying `b.buy item` and then clicking `1`.")
                 self.bot.get_command("fish").reset_cooldown(ctx)
             else:
-                if random.randint(1, 15) == 1:
+                if random.randint(1, 17) == 1:
                     frag = await self.add_rand_fragment(ctx.author.id)
                     if not frag:
                         await self.add_money(ctx.author.id, 120, check_tasks=True)
-                        await ctx.send(f"{ctx.author.mention}, You threw your fishing rod out and received {bbux}120!")
+                        embed = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, You threw your fishing rod out and received {bbux}120!")
+                        embed.set_thumbnail(url="https://i.ibb.co/wFTfx9bK/New-Piskel-56.png")
+                        await ctx.send(embed=embed)
                     else:
                         if frag == 'agility':
                             emoji = '<:AgilityFragment:1331502143760236574>'
@@ -1538,7 +1540,9 @@ class Shop(commands.Cog):
                             emoji = '<:EndearingFragment:1331823626080620574>'
                         elif frag == 'ambience':
                             emoji = '<:AmbienceFragment:1331825947036483675>'
-                        await ctx.send(f"{ctx.author.mention}, you threw your fishing rod out and received a {emoji} **Fragment of {frag.capitalize()}**!")
+                        embed2 = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, you threw your fishing rod out and received a {emoji} **Fragment of {frag.capitalize()}**!")
+                        embed2.set_thumbnail(url="https://i.ibb.co/wFTfx9bK/New-Piskel-56.png")
+                        await ctx.send(embed=embed2)
                 else:
                     rn = rnd(to_fish)
                     money = rn['money']
@@ -1567,14 +1571,15 @@ class Shop(commands.Cog):
                     else:
                         rn2 = random.randint(1, 7)
                     if rn2 == 1:
-                        bmsg = "Unfortunately, your rod broke after you reeled in your rewards."
+                        bmsg = "\n\n**Unfortunately, your rod broke after you reeled in your rewards.**"
                         db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory": item}})
                         award = await self.get_award(ctx.author.id, "broken_pole")
                         pole_broke = True
                     else:
                         bmsg = ""
-                        
-                    await ctx.send(f"{ctx.author.mention}, You threw your fishing rod out and got **{rn['name']}** which earned you <:BistroBux:1324936072760786964>{money} & {exp} EXP. {bmsg}")
+                    embed = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, You threw your fishing rod out and got **{rn['name']}** which earned you <:BistroBux:1324936072760786964>{money} & {exp} EXP. {bmsg}")
+                    embed.set_thumbnail(url="https://i.ibb.co/wFTfx9bK/New-Piskel-56.png")
+                    await ctx.send(embed=embed)   
                     if pole_broke:
                         if award:
                             await ctx.send(f"Even though you broke your fishing pole, you received the {awards.awards["broken_pole"]["emoji"]} **Sad Fisherman** award! View awards with `b.awards`")
