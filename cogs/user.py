@@ -160,7 +160,7 @@ class User(commands.Cog):
             rci += add_on
             
             chest = [f'{rci} Cash']
-            if random.randint(1,11) == 1:
+            if random.randint(1,12) == 1:
                 frag = await self.add_rand_fragment(ctx.author.id)
                 if frag:
                     if frag == 'agility':

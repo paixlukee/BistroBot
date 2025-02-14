@@ -1509,6 +1509,7 @@ class Shop(commands.Cog):
         if post:
             fish = False
             item = None
+            thumb = None
             pole_broke = False
             luck = post['luck']
             for x in post['inventory']:
@@ -1575,10 +1576,12 @@ class Shop(commands.Cog):
                         db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory": item}})
                         award = await self.get_award(ctx.author.id, "broken_pole")
                         pole_broke = True
+                        thumb = "https://i.ibb.co/bjhWnjDv/New-Piskel-59.png"
                     else:
                         bmsg = ""
-                    embed = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, You threw your fishing rod out and got **{rn['name']}** which earned you <:BistroBux:1324936072760786964>{money} & {exp} EXP. {bmsg}")
-                    embed.set_thumbnail(url="https://i.ibb.co/Ps5Rny2k/Fishing-Rod-Sm-1.png")
+                        thumb = "https://i.ibb.co/Ps5Rny2k/Fishing-Rod-Sm-1.png"
+                    embed = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, You threw your fishing rod out and caught **{rn['name']}** which earned you <:BistroBux:1324936072760786964>{money} & {exp} EXP. {bmsg}")
+                    embed.set_thumbnail(url=thumb)
                     await ctx.send(embed=embed)   
                     if pole_broke:
                         if award:
