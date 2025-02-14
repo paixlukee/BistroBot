@@ -1529,7 +1529,7 @@ class Shop(commands.Cog):
                     if not frag:
                         await self.add_money(ctx.author.id, 120, check_tasks=True)
                         embed = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, You threw your fishing rod out and received {bbux}120!")
-                        embed.set_thumbnail(url="https://i.ibb.co/Jw6v3sy5/Fishing-Rod-Sm.png")
+                        embed.set_thumbnail(url="https://i.ibb.co/Ps5Rny2k/Fishing-Rod-Sm-1.png")
                         await ctx.send(embed=embed)
                     else:
                         if frag == 'agility':
@@ -1541,7 +1541,7 @@ class Shop(commands.Cog):
                         elif frag == 'ambience':
                             emoji = '<:AmbienceFragment:1331825947036483675>'
                         embed2 = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, you threw your fishing rod out and received a {emoji} **Fragment of {frag.capitalize()}**!")
-                        embed2.set_thumbnail(url="https://i.ibb.co/Jw6v3sy5/Fishing-Rod-Sm.png")
+                        embed2.set_thumbnail(url="https://i.ibb.co/Ps5Rny2k/Fishing-Rod-Sm-1.png")
                         await ctx.send(embed=embed2)
                 else:
                     rn = rnd(to_fish)
@@ -1578,7 +1578,7 @@ class Shop(commands.Cog):
                     else:
                         bmsg = ""
                     embed = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, You threw your fishing rod out and got **{rn['name']}** which earned you <:BistroBux:1324936072760786964>{money} & {exp} EXP. {bmsg}")
-                    embed.set_thumbnail(url="https://i.ibb.co/Jw6v3sy5/Fishing-Rod-Sm.png")
+                    embed.set_thumbnail(url="https://i.ibb.co/Ps5Rny2k/Fishing-Rod-Sm-1.png")
                     await ctx.send(embed=embed)   
                     if pole_broke:
                         if award:
