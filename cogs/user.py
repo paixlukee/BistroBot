@@ -1010,9 +1010,10 @@ class User(commands.Cog):
                 expires_at = result["expires_at"]
                 if dttm.utcnow() < expires_at:
                     remng = (expires_at - dttm.utcnow()).total_seconds()
+                    remng = str(remng) + "s"
             else:
                 remng = "*Ready to use!*"
-            embed.add_field(name=str(cmd).upper(), value=remng+"s")
+            embed.add_field(name=str(cmd).upper(), value=remng)
         await ctx.send(embed=embed)
         
     @commands.command(aliases=['Stats'])
