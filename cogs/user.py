@@ -1005,7 +1005,7 @@ class User(commands.Cog):
                 cdtime = "*Ready to use!*"
             embed.add_field(name=str(cmd).upper(), value=cdtime)
         for cmd in cmds_db:
-            remng = None
+            remng = "*Ready to use!*"
        
             result = await db.cooldowns.find_one({"user_id": ctx.author.id, "command_name": cmd})
             if result:
