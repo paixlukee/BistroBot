@@ -1529,7 +1529,7 @@ class Shop(commands.Cog):
                     frag = await self.add_rand_fragment(ctx.author.id)
                     if not frag:
                         await self.add_money(ctx.author.id, 120, check_tasks=True)
-                        embed = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, You threw your fishing rod out and received {bbux}120!")
+                        embed = discord.Embed(color=0x81d1e3, description=f"{ctx.author.mention}, You threw your fishing rod out and caught a piece of gold worth {bbux}100!")
                         embed.set_thumbnail(url="https://i.ibb.co/Ps5Rny2k/Fishing-Rod-Sm-1.png")
                         await ctx.send(embed=embed)
                     else:
@@ -1570,7 +1570,7 @@ class Shop(commands.Cog):
                     if luck >= 8:
                         rn2 = random.randint(1, 18)       
                     else:
-                        rn2 = random.randint(1, 7)
+                        rn2 = random.randint(1, 8)
                     if rn2 == 1:
                         bmsg = "\n\n**Unfortunately, your rod broke after you reeled in your rewards.**"
                         db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory": item}})

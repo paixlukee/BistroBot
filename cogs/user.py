@@ -994,7 +994,8 @@ class User(commands.Cog):
     @commands.command(aliases=['Cooldown', 'cd', 'CD'])
     async def cooldown(self, ctx):
         embed = discord.Embed(colour=0x8980d9, description="All BB Cooldowns")
-        cmds = ["daily", "weekly", "work", "cook", "clean", "beg", "trivia"]
+        cmds = ["daily", "weekly", "trivia", "fish"]
+        cmds_db = ["beg", "clean","work", "cook",]
         for command in cmds:     
             cmd = self.bot.get_command(command)    
             remainder = cmd.get_cooldown_retry_after(ctx)
@@ -1003,6 +1004,13 @@ class User(commands.Cog):
             else:
                 cdtime = "*Ready to use!*"
             embed.add_field(name=str(cmd).upper(), value=cdtime)
+        for cmd in cmds_db:
+            result = await db.cooldowns.find_one({"user_id": ctx.author.id, "command_name": cmd})
+            if result:
+                expires_at = result["expires_at"]
+                if dttm.utcnow() < expires_at:
+                    remng = (expires_at - dttm.utcnow()).total_seconds()
+            embed.add_field(name=str(cmd).upper(), value=remng+"s")
         await ctx.send(embed=embed)
         
     @commands.command(aliases=['Stats'])
