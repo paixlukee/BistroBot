@@ -372,7 +372,7 @@ class User(commands.Cog):
                     await self.take_money(ctx.author.id, item['price'])
                     c = await self.add_exp(ctx.author.id, rxp, check_tasks=True)
                     dEmbed = discord.Embed()
-                    dEmbed.set_image(url=res['banner'])
+                    dEmbed.set_thumbnail(url=res['logo_url'])
                     dEmbed.set_footer(text="Enjoyed the service? Rate this restaurant with b.rate <@user>")
                     if post['colour']:
                         if post['colour'] == 0x171717:
@@ -551,7 +551,7 @@ class User(commands.Cog):
             if r['voted'] == 1:
                 await self.add_money(user=ctx.author.id, count=rci)
                 embed = discord.Embed(colour=0xf04c62, description=f"{rci} Cash")
-                embed.set_thumbnail(url="https://i.ibb.co/Vc0pDPD2/New-Piskel-57.png")
+                embed.set_thumbnail(url="https://i.ibb.co/FkrnxLdp/New-Piskel-58.png")
                 embed.set_footer(text="Thanks for upvoting! Come back in 12 hours!")
                 await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your Top.GG chest and received...")
             else:
