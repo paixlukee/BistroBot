@@ -2377,7 +2377,7 @@ class Shop(commands.Cog):
         await db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
         await db.market.update_one({"owner": user}, {"$inc":{"total_exp": count}})
         return count
-        if check_tasks:
+        if check_tasks is True:
             print('checkd')
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
