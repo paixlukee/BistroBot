@@ -1350,6 +1350,7 @@ class User(commands.Cog):
     
     
     async def add_exp(self, user, count, multiplier=True, check_tasks=False):
+        print(check_tasks)
         data = await db.market.find_one({"owner": user})
         bal = data['exp']
         if multiplier:
@@ -1365,7 +1366,7 @@ class User(commands.Cog):
         await db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
         await db.market.update_one({"owner": user}, {"$inc":{"total_exp": count}})
         if check_tasks:
-            print('a')
+            print('checked')
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
                 if data['task_list'][ix]['completed']+count >= user['task_list'][ix]['total']:
