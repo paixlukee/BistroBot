@@ -171,8 +171,7 @@ class User(commands.Cog):
                         emoji = '<:EndearingFragment:1331823626080620574>'
                     elif frag == 'ambience':
                         emoji = '<:AmbienceFragment:1331825947036483675>'
-                    #embed = discord.Embed(colour=0x8980d9, description=f"* {emoji} Fragment of {frag.capitalize()}"+ "\n\nWant even more goodies? Upvote me on [Top.GG](https://top.gg/bot/657037653346222102/vote), and do `b.votereward` to receive another chest.")
-                    embed = discord.Embed(colour=0x8980d9, description=f"* {emoji} Fragment of {frag.capitalize()}")
+                    embed = discord.Embed(colour=0x8980d9, description=f"* {emoji} Fragment of {frag.capitalize()}"+ "\n\nWant even more goodies? Upvote me on [Top.GG](https://top.gg/bot/657037653346222102/vote), and do `b.votereward` to receive another chest.")
                     embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
                     embed.set_footer(text="Come back in 24 hours!")
                     if posts['colour']:
@@ -180,8 +179,7 @@ class User(commands.Cog):
                     await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your daily chest and received...")                
                 else:
                     await self.add_money(user=ctx.author.id, count=rci)
-                    embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest))
-                    #embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest)+ "\n\nWant even more money? Upvote me on [Top.GG](https://top.gg/bot/657037653346222102/vote), and do `b.votereward` to receive another chest.")
+                    embed = discord.Embed(colour=0x8980d9, description="* "+"\n *".join(chest)+ "\n\nWant even more money? Upvote me on [Top.GG](https://top.gg/bot/657037653346222102/vote), and do `b.votereward` to receive another chest.")
                     embed.set_thumbnail(url="http://pixelartmaker.com/art/f6d46bd306aacfd.png")
                     embed.set_footer(text="Come back in 24 hours!")
                     if posts['colour']:
@@ -547,7 +545,7 @@ class User(commands.Cog):
     async def votereward(self, ctx):
         posts = await db.market.find_one({"owner": ctx.author.id})
         rci = random.randint(50,100)
-        r = requests.get(f"https://top.gg/api/bots/648065060559781889/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()
+        r = requests.get(f"https://top.gg/api/bots/657037653346222102/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()
         if posts:
             print(r)
             if r['voted'] == 1:
