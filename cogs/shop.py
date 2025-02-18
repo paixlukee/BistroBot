@@ -1489,7 +1489,7 @@ class Shop(commands.Cog):
             return
         to_clean = [{'name': 'sink', 'exp': 6}, {'name': 'oven', 'exp': 12}, {'name': 'counters', 'exp': 16}, {'name': 'floors', 'exp': 18}, {'name': 'bathrooms', 'exp': 22}, {'name': 'kitchen', 'exp': 26}]
         rn = rnd(to_clean)
-        count = await self.add_exp(user=ctx.author.id, count=rn['exp'])
+        count = await self.add_exp(user=ctx.author.id, count=rn['exp'], check_tasks=True)
         await ctx.send(f"{ctx.author.mention}, You cleaned the {rn['name']} and earned {count} EXP.")
         if "clean_onefifty" in post['tasks']:
             user = post
@@ -2380,9 +2380,9 @@ class Shop(commands.Cog):
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
                 print(f'IX: {ix}')
-                print(data['task_list'] + "\n\n\n")
+                print(data['task_list'], "\n\n\n")
                 print(data['task_list'][ix])
-                print("\n\n\n" + data['task_list'][ix]['completed'])
+                print("\n\n\n", data['task_list'][ix]['completed'])
                 if data['task_list'] and data['task_list'][ix]['completed']+count >= data['task_list'][ix]['total']:
                     await ctx.author.send(f"You have completed the **{data['task_list'][ix]['description']}** task. You have been awarded {bbux}**{data['task_list'][ix]['rewards']}**.")
                     await db.market.update_one({"owner": user}, {"$inc":{"money": data['task_list'][ix]['rewards']}})
