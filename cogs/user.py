@@ -551,7 +551,7 @@ class User(commands.Cog):
             if r['voted'] == 1:
                 await self.add_money(user=ctx.author.id, count=rci)
                 embed = discord.Embed(colour=0xf04c62, description=f"{rci} Cash")
-                embed.set_thumbnail(url="https://i.ibb.co/Vc0pDPD2/New-Piskel-57.pn")
+                embed.set_thumbnail(url="https://i.ibb.co/Vc0pDPD2/New-Piskel-57.png")
                 embed.set_footer(text="Thanks for upvoting! Come back in 12 hours!")
                 await ctx.send(embed=embed, content=f"{ctx.author.mention}, you opened your Top.GG chest and received...")
             else:
