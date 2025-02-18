@@ -36,7 +36,12 @@ class Dev(commands.Cog):
 
     @commands.command(aliases=['tr'])
     @commands.is_owner()
-    async def taskreset(self, ctx):
+    async def taskreset(self, ctx, me=None):
+        if me:
+            db.market.update_one({"owner": ctx.author.id}, {"$set": {"tasks": []}})
+            db.market.update_one({"owner": ctx.author.id}, {"$set": {"task_list": []}})
+            await ctx.send("Your tasks have been reset")
+            return
         all = db.market.find()
         await ctx.send("Please wait...")
         count = 0
