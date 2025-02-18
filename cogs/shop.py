@@ -2376,12 +2376,16 @@ class Shop(commands.Cog):
         exp = int(bal) + count
         await db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
         await db.market.update_one({"owner": user}, {"$inc":{"total_exp": count}})
-        return count
-        if check_tasks is True:
+        
+        if check_tasks:
             print('checkd')
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
-                if data['task_list'][ix]['completed']+count >= data['task_list'][ix]['total']:
+                print(f'IX: {ix}')
+                print(data['task_list'] + "\n\n\n")
+                print(data['task_list'][ix])
+                print("\n\n\n" + data['task_list'][ix]['completed'])
+                if data['task_list'] and data['task_list'][ix]['completed']+count >= data['task_list'][ix]['total']:
                     await ctx.author.send(f"You have completed the **{data['task_list'][ix]['description']}** task. You have been awarded {bbux}**{data['task_list'][ix]['rewards']}**.")
                     await db.market.update_one({"owner": user}, {"$inc":{"money": data['task_list'][ix]['rewards']}})
                     await db.market.update_one({"owner": user}, {"$pull":{"tasks": "earn_exp"}})
@@ -2389,6 +2393,7 @@ class Shop(commands.Cog):
                 else:
                     print('hm')
                     await db.market.update_one({"owner": user, "task_list.name": "earn_exp"},{"$inc": {"task_list.$.completed": count}})
+        return count
 
     async def take_exp(self, user, count):
         data = await db.market.find_one({"owner": user})

@@ -1367,7 +1367,7 @@ class User(commands.Cog):
         if check_tasks:
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
-                if data['task_list'][ix]['completed']+count >= user['task_list'][ix]['total']:
+                if data['task_list'][ix]['completed']+count >= data['task_list'][ix]['total']:
                     await ctx.author.send(f"You have completed the **{data['task_list'][ix]['description']}** task. You have been awarded {bbux}**{data['task_list'][ix]['rewards']}**.")
                     await db.market.update_one({"owner": user}, {"$inc":{"money": data['task_list'][ix]['rewards']}})
                     await db.market.update_one({"owner": user}, {"$pull":{"tasks": "earn_exp"}})
