@@ -2364,8 +2364,8 @@ class Shop(commands.Cog):
         await db.market.update_one({"owner": user}, {"$set":{"money": money}})
 
     async def add_exp(self, user, count, check_tasks=False):
-        print(check_tasks)
         data = await db.market.find_one({"owner": user})
+        print(data)
         bal = data['exp']
         if 'worker' in data:
             if data['worker']:
@@ -2376,9 +2376,7 @@ class Shop(commands.Cog):
         exp = int(bal) + count
         await db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
         await db.market.update_one({"owner": user}, {"$inc":{"total_exp": count}})
-        
         if check_tasks:
-            print('checkd')
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
                 print(f'IX: {ix}')
