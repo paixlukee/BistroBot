@@ -1365,6 +1365,7 @@ class User(commands.Cog):
         await db.market.update_one({"owner": user}, {"$set":{"exp": exp}})
         await db.market.update_one({"owner": user}, {"$inc":{"total_exp": count}})
         if check_tasks:
+            print('a')
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
                 if data['task_list'][ix]['completed']+count >= user['task_list'][ix]['total']:
@@ -1373,6 +1374,7 @@ class User(commands.Cog):
                     await db.market.update_one({"owner": user}, {"$pull":{"tasks": "earn_exp"}})
                     await db.market.update_one({"owner": user, "task_list.name": "earn_exp"},{"$inc": {"task_list.$.completed": count}})
                 else:
+                    print('b')
                     await db.market.update_one({"owner": user, "task_list.name": "earn_exp"},{"$inc": {"task_list.$.completed": count}})
 
         
