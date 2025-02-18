@@ -370,7 +370,7 @@ class User(commands.Cog):
                 if post['money'] >= item['price']:
                     rxp = round(1.2*item['price'])
                     await self.take_money(ctx.author.id, item['price'])
-                    c = await self.add_exp(ctx.author.id, rxp)
+                    c = await self.add_exp(ctx.author.id, rxp, check_tasks=True)
                     if "dinemsg" in res:
                         dinemsg = res['dinemsg'].replace("ITEM", item['name']).replace("COST", str(item['price']))
                         if dinemsg.endswith('.') or dinemsg.endswith('!') or dinemsg.endswith('?'):
@@ -573,7 +573,7 @@ class User(commands.Cog):
                     else:
                         exp = 15      
                     await ctx.send(f"{ctx.author.mention}, you guessed correctly! You have been awarded {exp} EXP!")
-                    await self.add_exp(ctx.author.id, exp)
+                    await self.add_exp(ctx.author.id, exp, check_tasks=True)
                 else:
                     await ctx.send(f"{ctx.author.mention}, you guessed incorrectly! It was **{rms['song']}**")
         else:

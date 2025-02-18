@@ -1553,7 +1553,7 @@ class Shop(commands.Cog):
                         exp*=1.25
                         money = round(money)
                         exp = round(exp)
-                    await self.add_exp(user=ctx.author.id, count=exp)
+                    await self.add_exp(user=ctx.author.id, count=exp, check_tasks=True)
                     await self.add_money(user=ctx.author.id, count=money, check_tasks=True)
                     if luck == 2:
                         rn2 = random.randint(1, 9)
@@ -1654,7 +1654,7 @@ class Shop(commands.Cog):
                 retry_allowed = True
                 if tt < 6:
                     if resp.content.lower().lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=27)
+                        c = await self.add_exp(user=ctx.author.id, count=27, check_tasks=True)
                         await ctx.send(f"Perfect! You made{ltr_a} delicious **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 5
                     else:
@@ -1662,21 +1662,21 @@ class Shop(commands.Cog):
                             await ctx.send(f"You failed to unscramble the letter, but you have the <:OpportunityStone:1331504493015076914> **Opportunity Stone**! One more chance, what is `{sw}`?")
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
-                                c = await self.add_exp(user=ctx.author.id, count=7)
+                                c = await self.add_exp(user=ctx.author.id, count=7, check_tasks=True)
                                 await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
-                                c = await self.add_exp(user=ctx.author.id, count=2)
+                                c = await self.add_exp(user=ctx.author.id, count=2, check_tasks=True)
                                 await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
                             return
-                        c = await self.add_exp(user=ctx.author.id, count=2)
+                        c = await self.add_exp(user=ctx.author.id, count=2, check_tasks=True)
                         await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **{c} EXP** for making{ltr_a} bad **{na}**.")
                         rating = 3
                         chance_of_fire = True
                 elif tt < 8:
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=20)
+                        c = await self.add_exp(user=ctx.author.id, count=20, check_tasks=True)
                         await ctx.send(f"Amazing! You made{ltr_a} tasty **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 5
                     else:
@@ -1684,21 +1684,21 @@ class Shop(commands.Cog):
                             await ctx.send(f"You failed to unscramble the letter, but you have the <:OpportunityStone:1331504493015076914> **Opportunity Stone**! One more chance, what is `{sw}`?")
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
-                                c = await self.add_exp(user=ctx.author.id, count=7)
+                                c = await self.add_exp(user=ctx.author.id, count=7, check_tasks=True)
                                 await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
-                                c = await self.add_exp(user=ctx.author.id, count=2)
+                                c = await self.add_exp(user=ctx.author.id, count=2, check_tasks=True)
                                 await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
                             return
-                        c = await self.add_exp(user=ctx.author.id, count=1)
+                        c = await self.add_exp(user=ctx.author.id, count=1, check_tasks=True)
                         await ctx.send(f"Uh oh! You failed to unscramble the letters. You've earned **{c} EXP** for making{ltr_a} terrible **{na}**.")
                         rating = 2
                         chance_of_fire = True
                 elif tt < 10:
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=16)
+                        c = await self.add_exp(user=ctx.author.id, count=16, check_tasks=True)
                         await ctx.send(f"Great! You made{ltr_a} delicious **{na}** in {round(tt)} seconds! You've earned **{c}** EXP.")
                         rating = 5
                     else:
@@ -1706,10 +1706,10 @@ class Shop(commands.Cog):
                             await ctx.send(f"You failed to unscramble the letter, but you have the <:OpportunityStone:1331504493015076914> **Opportunity Stone**! One more chance, what is `{sw}`?")
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
-                                c = await self.add_exp(user=ctx.author.id, count=7)
+                                c = await self.add_exp(user=ctx.author.id, count=7, check_tasks=True)
                                 await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
-                                c = await self.add_exp(user=ctx.author.id, count=2)
+                                c = await self.add_exp(user=ctx.author.id, count=2, check_tasks=True)
                                 await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
@@ -1719,7 +1719,7 @@ class Shop(commands.Cog):
                         chance_of_fire = True
                 elif tt < 12:
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=14)
+                        c = await self.add_exp(user=ctx.author.id, count=14, check_tasks=True)
                         await ctx.send(f"Nice! You made{ltr_a} good **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 4
                     else:
@@ -1727,10 +1727,10 @@ class Shop(commands.Cog):
                             await ctx.send(f"You failed to unscramble the letter, but you have the <:OpportunityStone:1331504493015076914> **Opportunity Stone**! One more chance, what is `{sw}`?")
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
-                                c = await self.add_exp(user=ctx.author.id, count=7)
+                                c = await self.add_exp(user=ctx.author.id, count=7, check_tasks=True)
                                 await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
-                                c = await self.add_exp(user=ctx.author.id, count=2)
+                                c = await self.add_exp(user=ctx.author.id, count=2, check_tasks=True)
                                 await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
@@ -1740,7 +1740,7 @@ class Shop(commands.Cog):
                         chance_of_fire = True
                 elif tt < 14:
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=8)
+                        c = await self.add_exp(user=ctx.author.id, count=8, check_tasks=True)
                         await ctx.send(f"OK! You made {ltr_a} not-too-bad **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 4
                     else:
@@ -1748,10 +1748,10 @@ class Shop(commands.Cog):
                             await ctx.send(f"You failed to unscramble the letter, but you have the <:OpportunityStone:1331504493015076914> **Opportunity Stone**! One more chance, what is `{sw}`?")
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
-                                c = await self.add_exp(user=ctx.author.id, count=7)
+                                c = await self.add_exp(user=ctx.author.id, count=7, check_tasks=True)
                                 await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
-                                c = await self.add_exp(user=ctx.author.id, count=2)
+                                c = await self.add_exp(user=ctx.author.id, count=2, check_tasks=True)
                                 await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
@@ -1761,7 +1761,7 @@ class Shop(commands.Cog):
                         chance_of_fire = True
                 elif tt < 18:
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=6)
+                        c = await self.add_exp(user=ctx.author.id, count=6, check_tasks=True)
                         await ctx.send(f"Eh! You made {ltr_a} decent **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 3
                     else:
@@ -1771,7 +1771,7 @@ class Shop(commands.Cog):
                 else:
                     chance_of_fire = True
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=1)
+                        c = await self.add_exp(user=ctx.author.id, count=1, check_tasks=True)
                         await ctx.send(f"Uh oh! You made {ltr_a} disgusting **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 3
                     else:
@@ -1779,10 +1779,10 @@ class Shop(commands.Cog):
                             await ctx.send(f"You failed to unscramble the letter, but you have the <:OpportunityStone:1331504493015076914> **Opportunity Stone**! One more chance, what is `{sw}`?")
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
-                                c = await self.add_exp(user=ctx.author.id, count=7)
+                                c = await self.add_exp(user=ctx.author.id, count=7, check_tasks=True)
                                 await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
-                                c = await self.add_exp(user=ctx.author.id, count=2)
+                                c = await self.add_exp(user=ctx.author.id, count=2, check_tasks=True)
                                 await ctx.send(f"Uh oh! You failed again to unscramble the letters. You've earned **{c}** EXP for making{ltr_a} bad **{na}**.")
                                 rating = 3
                                 chance_of_fire = True
@@ -1835,17 +1835,17 @@ class Shop(commands.Cog):
                             rating = 1
                         elif bar_int == 5:
                             embed.set_footer(text=None)
-                            exp_r = await self.add_exp(user=ctx.author.id, count=23)
+                            exp_r = await self.add_exp(user=ctx.author.id, count=23, check_tasks=True)
                             embed.description = f"You cooked **{cfooda}** perfectly! You received {exp_r} EXP!\n\n{bar}"
                             rating = 5
                         elif bar_int == 4:
                             embed.set_footer(text=None)
-                            exp_r = await self.add_exp(user=ctx.author.id, count=15)
+                            exp_r = await self.add_exp(user=ctx.author.id, count=15, check_tasks=True)
                             embed.description = f"You almost cooked **{cfooda}** perfectly. You received {exp_r} for the effort!\n\n{bar}"
                             rating = 4
                         else:
                             embed.set_footer(text=None)
-                            exp_r = await self.add_exp(user=ctx.author.id, count=5)
+                            exp_r = await self.add_exp(user=ctx.author.id, count=5, check_tasks=True)
                             embed.description = f"You undercooked **{cfooda}**! You received {exp_r} EXP for the effort!\n\n{bar}"
                             rating = 3
                         await interaction.edit_original_response(embed=embed, view=None)
