@@ -1156,8 +1156,8 @@ class Shop(commands.Cog):
         except:
             pass
         if link.content.startswith('http') and link.content.endswith('.jpg') or link.content.startswith('http') and link.content.endswith('.png') or link.content.startswith('http') and link.content.endswith('.jpeg') or link.content.startswith('http') and link.content.endswith('.gif'):
-            embed = discord.Embed(colour=0x8980d9, description="Perfect! Your image has been sent to the Restaurant Bot staff team for reviewal.\n\n This process may take up to 24 hours. But don't worry, it will probably be even quicker.")
-            embed.set_footer(text="Too many NSFW requests can end up in a ban from Restaurant Bot!")
+            embed = discord.Embed(colour=0x8980d9, description="Perfect! Your image has been sent to the Bistro staff team for reviewal.\n\n This process may take up to 24 hours. But don't worry, it will probably be even quicker.")
+            embed.set_footer(text="Too many NSFW requests can end up in a ban from Bistro Bot!")
             await msg.edit(embed=embed)
 
             se = discord.Embed(description=link.content)
@@ -1225,8 +1225,8 @@ class Shop(commands.Cog):
                         embed.set_author(name="Failed.")
                         await msg.edit(embed=embed)
                     else:
-                        embed = discord.Embed(colour=0x8980d9, description="Perfect! Your image has been sent to the Restaurant Bot staff team for reviewal.\n\n This process may take up to 24 hours. But don't worry, it will probably be even quicker.")
-                        embed.set_footer(text="Too many inappropriate requests can end up in a ban from Restaurant Bot!")
+                        embed = discord.Embed(colour=0x8980d9, description="Perfect! Your image has been sent to the Bistro staff team for reviewal.\n\n This process may take up to 24 hours. But don't worry, it will probably be even quicker.")
+                        embed.set_footer(text="Too many inappropriate requests can end up in a ban from Bistro Bot!")
                         await msg.edit(embed=embed)
 
                         se = discord.Embed(description=link.content)
@@ -1966,7 +1966,7 @@ class Shop(commands.Cog):
             fire_msg = ""
             if 'fire' in post['bonuses']:
                 fire_msg = ":fire: **ON FIRE** :fire:\n"
-            embed = discord.Embed(description=fire_msg+f"{" ".join(stones_ta)}\n{post['description']}\n\u200b")
+            embed = discord.Embed(description=fire_msg+f"{post['description']}\n\n{" ".join(stones_ta)}\n\u200b")
             level = int(post['level'])
             owner = post['owner']
             perday = await self.calc_customers(owner)
