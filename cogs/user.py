@@ -544,7 +544,7 @@ class User(commands.Cog):
     @commands.cooldown(1, 43200, commands.BucketType.user)
     async def votereward(self, ctx):
         posts = await db.market.find_one({"owner": ctx.author.id})
-        rci = random.randint(50,100)
+        rci = random.randint(28,55)
         r = requests.get(f"https://top.gg/api/bots/657037653346222102/check?userId={ctx.author.id}", headers={"Authorization": config.dbl_token}).json()
         if posts:
             print(r)
