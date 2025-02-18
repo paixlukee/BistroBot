@@ -1487,10 +1487,10 @@ class Shop(commands.Cog):
                 m_l = ""
             await ctx.send(f"<:RedTick:653464977788895252> You are on cooldown! Please wait **{c_min}{m_l}{c_sec}s**.")
             return
-        to_clean = [{'name': 'sink', 'exp': 6}, {'name': 'oven', 'exp': 12}, {'name': 'counters', 'exp': 16}, {'name': 'floors', 'exp': 18}, {'name': 'bathrooms', 'exp': 22}, {'name': 'kitchen', 'exp': 26}]
+        to_clean = [{'name': 'refrigerator', 'exp': 6}, {'name': 'tables', 'exp': 8}, {'name': 'sink', 'exp': 6}, {'name': 'oven', 'exp': 10}, {'name': 'counters', 'exp': 10}, {'name': 'floors', 'exp': 12}, {'name': 'bathrooms', 'exp': 15}, {'name': 'kitchen', 'exp': 18}, {'name': 'grease trap', 'exp': 18},]
         rn = rnd(to_clean)
         count = await self.add_exp(user=ctx.author.id, count=rn['exp'], check_tasks=True)
-        await ctx.send(f"{ctx.author.mention}, You cleaned the {rn['name']} and earned {count} EXP.")
+        await ctx.send(f"{ctx.author.mention}, You cleaned the **{rn['name']}** and earned **{count} EXP.**")
         if "clean_onefifty" in post['tasks']:
             user = post
             ix = user['tasks'].index("clean_onefifty")
@@ -1505,7 +1505,7 @@ class Shop(commands.Cog):
     @commands.cooldown(1, 120, commands.BucketType.user)
     async def fish(self, ctx):
         post = await db.market.find_one({"owner": ctx.author.id})
-        to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 10}, {'name': 'some eggs', 'money': 3, 'exp': 8}, {'name': 'a fish', 'money': 11, 'exp': 19}, {'name': 'a bag of rice', 'money': 3, 'exp': 21}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 12}, {'name': 'an apple', 'money': 7, 'exp': 20}, {'name': 'two bags of carrots', 'money': 8, 'exp': 24}, {'name': 'a bag of flour', 'money': 4, 'exp': 18}, {'name': 'a can of salt', 'money': 7, 'exp': 16}, {'name': 'a worm', 'money': 2, 'exp': 3}, {'name': 'a candy wrapper', 'money': 2, 'exp': 12}, {'name': 'a bag of onions', 'money': 9, 'exp': 14}]
+        to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 8}, {'name': 'some eggs', 'money': 5, 'exp': 7}, {'name': 'a fish', 'money': 10, 'exp': 17}, {'name': 'a bag of rice', 'money': 3, 'exp': 19}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 10}, {'name': 'an apple', 'money': 8, 'exp': 15}, {'name': 'two bags of carrots', 'money': 8, 'exp': 10}, {'name': 'a bag of flour', 'money': 4, 'exp': 11}, {'name': 'a can of salt', 'money': 7, 'exp': 12}, {'name': 'a worm', 'money': 2, 'exp': 3}, {'name': 'a candy wrapper', 'money': 2, 'exp': 6}, {'name': 'a bag of onions', 'money': 9, 'exp': 14}]
         if post:
             fish = False
             item = None
@@ -1525,7 +1525,7 @@ class Shop(commands.Cog):
                 await ctx.send("You don't have a fishing rod. Buy one by saying `b.buy item` and then clicking `1`.")
                 self.bot.get_command("fish").reset_cooldown(ctx)
             else:
-                if random.randint(1, 17) == 1:
+                if random.randint(1, 18) == 1:
                     frag = await self.add_rand_fragment(ctx.author.id)
                     if not frag:
                         await self.add_money(ctx.author.id, 120, check_tasks=True)
@@ -1556,7 +1556,7 @@ class Shop(commands.Cog):
                     await self.add_exp(user=ctx.author.id, count=exp, check_tasks=True)
                     await self.add_money(user=ctx.author.id, count=money, check_tasks=True)
                     if luck == 2:
-                        rn2 = random.randint(1, 9)
+                        rn2 = random.randint(1, 10)
                     if luck == 3:
                         rn2 = random.randint(1, 11)
                     if luck == 4:
@@ -1570,7 +1570,7 @@ class Shop(commands.Cog):
                     if luck >= 8:
                         rn2 = random.randint(1, 18)       
                     else:
-                        rn2 = random.randint(1, 8)
+                        rn2 = random.randint(1, 9)
                     if rn2 == 1:
                         bmsg = "\n\n**Unfortunately, your rod broke after you reeled in your rewards.**"
                         db.market.update_one({"owner": ctx.author.id}, {"$pull": {"inventory": item}})
@@ -1654,7 +1654,7 @@ class Shop(commands.Cog):
                 retry_allowed = True
                 if tt < 6:
                     if resp.content.lower().lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=27, check_tasks=True)
+                        c = await self.add_exp(user=ctx.author.id, count=22, check_tasks=True)
                         await ctx.send(f"Perfect! You made{ltr_a} delicious **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 5
                     else:
@@ -1662,7 +1662,7 @@ class Shop(commands.Cog):
                             await ctx.send(f"You failed to unscramble the letter, but you have the <:OpportunityStone:1331504493015076914> **Opportunity Stone**! One more chance, what is `{sw}`?")
                             resp2 = await self.bot.wait_for('message', check=nc, timeout=120)
                             if resp2.content.lower() == word.lower():
-                                c = await self.add_exp(user=ctx.author.id, count=7, check_tasks=True)
+                                c = await self.add_exp(user=ctx.author.id, count=8, check_tasks=True)
                                 await ctx.send(f"I knew you could do it! You received **{c} EXP** for making{ltr_a} **{na}**.")
                             else:
                                 c = await self.add_exp(user=ctx.author.id, count=2, check_tasks=True)
@@ -1676,7 +1676,7 @@ class Shop(commands.Cog):
                         chance_of_fire = True
                 elif tt < 8:
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=20, check_tasks=True)
+                        c = await self.add_exp(user=ctx.author.id, count=18, check_tasks=True)
                         await ctx.send(f"Amazing! You made{ltr_a} tasty **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 5
                     else:
@@ -1698,7 +1698,7 @@ class Shop(commands.Cog):
                         chance_of_fire = True
                 elif tt < 10:
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=16, check_tasks=True)
+                        c = await self.add_exp(user=ctx.author.id, count=15, check_tasks=True)
                         await ctx.send(f"Great! You made{ltr_a} delicious **{na}** in {round(tt)} seconds! You've earned **{c}** EXP.")
                         rating = 5
                     else:
@@ -1719,7 +1719,7 @@ class Shop(commands.Cog):
                         chance_of_fire = True
                 elif tt < 12:
                     if resp.content.lower() == word.lower():
-                        c = await self.add_exp(user=ctx.author.id, count=14, check_tasks=True)
+                        c = await self.add_exp(user=ctx.author.id, count=12, check_tasks=True)
                         await ctx.send(f"Nice! You made{ltr_a} good **{na}** in {round(tt)} seconds! You've earned **{c} EXP**.")
                         rating = 4
                     else:
@@ -2379,17 +2379,12 @@ class Shop(commands.Cog):
         if check_tasks:
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
-                print(f'IX: {ix}')
-                print(data['task_list'], "\n\n\n")
-                print(data['task_list'][ix])
-                print("\n\n\n", data['task_list'][ix]['completed'])
                 if data['task_list'] and data['task_list'][ix]['completed']+count >= data['task_list'][ix]['total']:
                     await ctx.author.send(f"You have completed the **{data['task_list'][ix]['description']}** task. You have been awarded {bbux}**{data['task_list'][ix]['rewards']}**.")
                     await db.market.update_one({"owner": user}, {"$inc":{"money": data['task_list'][ix]['rewards']}})
                     await db.market.update_one({"owner": user}, {"$pull":{"tasks": "earn_exp"}})
                     await db.market.update_one({"owner": user, "task_list.name": "earn_exp"},{"$inc": {"task_list.$.completed": count}})
                 else:
-                    print('hm')
                     await db.market.update_one({"owner": user, "task_list.name": "earn_exp"},{"$inc": {"task_list.$.completed": count}})
         return count
 

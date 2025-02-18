@@ -257,6 +257,21 @@ class Dev(commands.Cog):
         else:
             pass
         
+    @commands.command(aliases=['Haz'])
+    @commands.is_owner()
+    async def haz(self, ctx, user: discord.Member, *, command: str):
+        message = ctx.message
+        message.author = user
+        message.content = ctx.prefix + command 
+        
+        new_ctx = await self.bot.get_context(message) 
+
+        if new_ctx.command:
+            await self.bot.invoke(new_ctx)
+        else:
+            await ctx.send("Command not found.")
+        
+        
     async def add_rand_fragment(self, user, all=False):
         post = db.market.find_one({"owner": user})
         fragments = ['agility', 'opportunity', 'endearing', 'ambience']

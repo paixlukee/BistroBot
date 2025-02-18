@@ -127,7 +127,7 @@ class User(commands.Cog):
         patrons = await db.utility.find_one({"utility": "patrons"})
         if posts:
             ri = random.randint(1,6)
-            rci = random.randint(90, 130)
+            rci = random.randint(60, 110)
             if ctx.author.id in patrons['bronze']:
                 rci *= 1.2
                 rci = round(rci)
@@ -160,7 +160,7 @@ class User(commands.Cog):
             rci += add_on
             
             chest = [f'{rci} Cash']
-            if random.randint(1,12) == 1:
+            if random.randint(1,13) == 1:
                 frag = await self.add_rand_fragment(ctx.author.id)
                 if frag:
                     if frag == 'agility':
@@ -371,15 +371,25 @@ class User(commands.Cog):
                     rxp = round(1.2*item['price'])
                     await self.take_money(ctx.author.id, item['price'])
                     c = await self.add_exp(ctx.author.id, rxp, check_tasks=True)
+                    dEmbed = discord.Embed()
+                    dEmbed.set_image(url=res['banner'])
+                    dEmbed.set_footer(text="Enjoyed the service? Rate this restaurant with b.rate <@user>")
+                    if post['colour']:
+                        if post['colour'] == 0x171717:
+                            dEmbed.colour = random.randint(0, 0xFFFFFF)
+                        else:
+                            dEmbed.colour = post['colour']
                     if "dinemsg" in res:
                         dinemsg = res['dinemsg'].replace("ITEM", item['name']).replace("COST", str(item['price']))
                         if dinemsg.endswith('.') or dinemsg.endswith('!') or dinemsg.endswith('?'):
                             p = ''
                         else:
                             p = '.'
-                        await ctx.send(f"{dinemsg}{p} You've earned {c} EXP for dining in.")
+                        dEmbed.description = f"{dinemsg}{p} You've earned {c} EXP for dining in."
+                        await ctx.send(embed=dEmbed)
                     else:
-                        await ctx.send(f"You've ordered a {item['name']} from {res['name']} for <:BistroBux:1324936072760786964>{item['price']}. You've earned {c} EXP for dining in.")
+                        dEmbed.description = f"You've ordered a {item['name']} from {res['name']} for <:BistroBux:1324936072760786964>{item['price']}. You've earned {c} EXP for dining in."
+                        await ctx.send(embed=dEmbed)
                     price_paid = round(item['price']/1.8)
                     await self.add_money(res['owner'], round(item['price']/1.8))
                     await self.add_sold(res['owner'], item['name'])
@@ -746,7 +756,7 @@ class User(commands.Cog):
                 resp = rnd(bad_resp)
                 embed.description = f"{ctx.author.mention}, you have been denied for a loan due to your {resp}. Try again later!"
             else:
-                grant = random.randint(8, 45)
+                grant = random.randint(5, 28)
                 embed.description = f"{ctx.author.mention}, Bistaria Bank has granted you {bbux}{grant} for your restaurant!"
                 await self.add_money(ctx.author.id, grant, check_tasks=True)
             await ctx.send(embed=embed)
@@ -846,19 +856,19 @@ class User(commands.Cog):
             r4 = rnd(food[country])
             rm = rm.replace("CELEB", rnd(celebrities))
             if 'happy' in rm or 'refused' in rm:
-                msg = str(rm).replace("ITEM", r1['name'])
+                msg = str(rm).replace("ITEM", f"**{r1['name']}**")
             elif 'ITEM' in rm and not 'ITEM2' in rm:
                 count = r1['price']
                 count *= ml
                 count = round(count)
-                msg = str(rm).replace("ITEM", r1['name']).replace("COUNT", "<:BistroBux:1324936072760786964>" + str(count))
+                msg = str(rm).replace("ITEM", f"**{r1['name']}**").replace("COUNT", "<:BistroBux:1324936072760786964>" + str(count))
                 #await self.add_money(user=ctx.author.id, count=count, check_tasks=True)
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
             elif 'ITEM2' in rm and not 'ITEM4' in rm:
                 count = r1['price']+r2['price']+r3['price']
                 count *= ml
                 count = round(count)
-                msg = str(rm).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "<:BistroBux:1324936072760786964>" + str(count))
+                msg = str(rm).replace("ITEM3", ).replace("ITEM2", f"**{r2['name']}**").replace("ITEM", f"**{r1['name']}**").replace("COUNT", "<:BistroBux:1324936072760786964>" + str(count))
                 #await self.add_money(user=ctx.author.id, count=count, check_tasks=True)
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
                 await self.add_sold(user=ctx.author.id, sold=r2['name'])
@@ -867,7 +877,7 @@ class User(commands.Cog):
                 count = r1['price']+r2['price']+r3['price']+r4['price']
                 count *= ml
                 count = round(count)
-                msg = str(rm).replace("ITEM4", r4['name']).replace("ITEM3", r3['name']).replace("ITEM2", r2['name']).replace("ITEM", r1['name']).replace("COUNT", "<:BistroBux:1324936072760786964>" + str(count))
+                msg = str(rm).replace("ITEM4", f"**{r4['name']}**").replace("ITEM3", f"**{r3['name']}**").replace("ITEM2", f"**{r2['name']}**").replace("ITEM", f"**{r1['name']}**").replace("COUNT", "<:BistroBux:1324936072760786964>" + str(count))
                 #await self.add_money(user=ctx.author.id, count=count, check_tasks=True)
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
                 await self.add_sold(user=ctx.author.id, sold=r2['name'])
@@ -877,7 +887,7 @@ class User(commands.Cog):
             mn_a = 0
             mn_e = 0
             if 'TIP2' in rm:
-                tpct = random.randint(8,10)
+                tpct = random.randint(7,10)
                 tpct *= ml
                 tpct = round(tpct)
                 if 'worker' in user:
@@ -895,7 +905,7 @@ class User(commands.Cog):
                 msg = msg.replace("TIP2", "<:BistroBux:1324936072760786964>" + str(tpct))
                 await self.add_money(user=ctx.author.id, count=tpct, check_tasks=True)
             elif 'TIP3' in rm:
-                tpct = random.randint(20, 28)
+                tpct = random.randint(17, 22)
                 tpct *= ml
                 tpct = round(tpct)
                 if 'worker' in user:
@@ -1375,7 +1385,6 @@ class User(commands.Cog):
                 else:
                     await db.market.update_one({"owner": user, "task_list.name": "earn_exp"},{"$inc": {"task_list.$.completed": count}})
 
-        
         return count
 
     async def add_sold(self, user, sold):
