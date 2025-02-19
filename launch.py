@@ -55,17 +55,17 @@ async def on_ready():
 @bot.event
 async def on_guild_join(guild):
     log = bot.get_channel(653466873089753098)
-    embed = discord.Embed(colour=0x62f442, description=f"BB has joined `{guild.name}`! BB is now in `{str(len(bot.guilds))}` guilds!")
+    embed = discord.Embed(colour=0x62f442, description=f"<:plus_icon:1341860287375998986> Bistro has joined `{guild.name}`! BB is now in `{str(len(bot.guilds))}` guilds!")
     online = len([x for x in guild.members if x.status == discord.Status.online])
     idle = len([x for x in guild.members if x.status == discord.Status.idle])
     dnd = len([x for x in guild.members if x.status == discord.Status.dnd])
     offline = len([x for x in guild.members if x.status == discord.Status.offline])
-    embed.add_field(name=f"Members ({len(guild.members)}):", value=f"<:status_online:596576749790429200> {online} <:status_idle:596576773488115722> {idle} <:status_dnd:596576774364856321> {dnd} <:status_offline:596576752013279242> {offline}")
+    embed.add_field(name=f"Members ({len(guild.members)}):", value=f"<:online:701012643263283242> {online} <:idle:701016198531383316> {idle} <:dnd:1341854951550226513> {dnd} <:offline:1341855008970379345> {offline}")
     embed.set_footer(text=f'ID: {guild.id}', icon_url=guild.icon.url if guild.icon else None)
     await log.send(embed=embed)
     embed = discord.Embed(description="Thank you for adding me! Do `b.help` to see a list of my commands. Do `b.start` to create your restaurant!")
     embed.add_field(name="Join my support server!", value="https://discord.gg/BCRtw7c")
-    embed.set_image(url="https://i.ibb.co/mCD21pb/restaurantbanner.png")
+    embed.set_image(url="https://media.discordapp.net/attachments/1325282246181130330/1328917037409374208/FF17CB1B-C653-4A06-A490-7BB9C4A38DFE.jpg?ex=678871ef&is=6787206f&hm=dba385547438a9343cd1c9c63b12a2b3e83af6c91ab06b9b0779d78e1d80142d&=&format=webp&width=2160&height=474")
     embed.set_footer(text="BistroBot created by paixlukee - Thank you for adding me!", icon_url=bot.user.avatar.url if bot.user.avatar else None)
     for channel_name in ["bot", "bots", "bot-commands", "bot-spam", "bot-channel", "testing", "testing-1", "general", "shitposts", "off-topic", "media"]:
         channel = discord.utils.get(guild.text_channels, name=channel_name)
@@ -79,7 +79,7 @@ async def on_guild_join(guild):
 @bot.event
 async def on_guild_remove(guild):
     log = bot.get_channel(653466873089753098)
-    embed = discord.Embed(colour=0xf44141, description=f"RB has been kicked from `{guild.name}`.. RB is now in `{str(len(bot.guilds))}` guilds.")
+    embed = discord.Embed(colour=0xf44141, description=f"<:minus_icon:1341860249891639397> Bistro has been kicked from `{guild.name}`.. BB is now in `{str(len(bot.guilds))}` guilds.")
     embed.set_footer(text=f'ID: {guild.id}', icon_url=guild.icon.url if guild.icon else None)
     await log.send(embed=embed)
 
