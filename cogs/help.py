@@ -38,11 +38,15 @@ class Help(commands.Cog):
     @commands.group(aliases=['cmds', 'commands', 'Help', 'h', '?'])
     async def help(self, ctx, page=None):
         #keeping this hardcoded, because it will only make me do more work :)
+        post = db.market.find_one({"owner": ctx.author.id})
+        content = None
         embed = discord.Embed(color=0x8980d9)
         embed.set_image(url="https://media.discordapp.net/attachments/1325282246181130330/1325282279689289788/E46C7244-B665-48E2-B1A5-46A671413153.jpg?ex=677b38ce&is=6779e74e&hm=bd4d2f636a706e6a6aac44aec429884b1a121ff43d9f3f4d155238e14bbcd6af&=&format=webp&width=1140&height=1046")
         embed.set_footer(text="Click a page # to view it | bistrobot.co/documentation")
         view = pageBtns()
-        await ctx.send(embed=embed, view=view)
+        if not post:
+            content = f"You must start a restaurant with `b.start` to play Bistro!"
+        await ctx.send(content=content, embed=embed, view=view)
 
 
 

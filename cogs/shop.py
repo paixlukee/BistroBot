@@ -1597,6 +1597,9 @@ class Shop(commands.Cog):
         def nc(m):
             return m.author == ctx.author and m.channel == ctx.channel and not m.content.startswith("r!menu")
         post = await db.market.find_one({"owner": ctx.author.id})
+        if not post:
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `b.start`")
+            return #the double-check will be fixed once i decide to care
         rating = 5
         rn = rnd([1,2])
         if post['luck'] == 2:     

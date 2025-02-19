@@ -800,6 +800,9 @@ class User(commands.Cog):
         uses_left = 0
         celebrities = ["Drake", "Taylor Swift", "Lady Gaga", "Zac Efron", "6ix9ine", "Brendon Urie", "Tom Holland", "Katy Perry", "Ellen Degeneres", "Logan Paul", "Benedict Cumberpatch", "John Cena", "Miley Cyrus", "Kylie Jenner", "Dua Lipa", "Ariana Grande", "Ryan Gosling", "Selena Gomez", "Shawn Mendes", "Keanu Reeves", "Beyoncé", "Rihanna", "Eminem", "Gordon Ramsey", "Billie Eilish"]
         await db.market.update_one({"owner": ctx.author.id}, {"$set":{"laststock": now.strftime("%d/%m/%Y %H:%M")}})
+        if not user:
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `b.start`")
+            return
         if 'agility' in user['stones']:
             cd_sec = 350
         else:
@@ -869,7 +872,7 @@ class User(commands.Cog):
                 count = r1['price']+r2['price']+r3['price']
                 count *= ml
                 count = round(count)
-                msg = str(rm).replace("ITEM3", ).replace("ITEM2", f"**{r2['name']}**").replace("ITEM", f"**{r1['name']}**").replace("COUNT", "<:BistroBux:1324936072760786964>" + str(count))
+                msg = str(rm).replace("ITEM3", f"**{r3['name']}**").replace("ITEM2", f"**{r2['name']}**").replace("ITEM", f"**{r1['name']}**").replace("COUNT", "<:BistroBux:1324936072760786964>" + str(count))
                 #await self.add_money(user=ctx.author.id, count=count, check_tasks=True)
                 await self.add_sold(user=ctx.author.id, sold=r1['name'])
                 await self.add_sold(user=ctx.author.id, sold=r2['name'])
