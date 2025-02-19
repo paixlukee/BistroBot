@@ -183,7 +183,7 @@ class Shop(commands.Cog):
     async def delete(self, ctx):
         def ans(m):
             return m.author == ctx.message.author
-        post = await db.market.find({"owner": ctx.author.id})
+        post = await db.market.find_one({"owner": ctx.author.id})
         if post:
             msg = await ctx.send("Are you sure you want to delete your restaurant? Deleting will erase all of your hardwork. If you're sure, reply with \"I'm sure\".")
             try:
