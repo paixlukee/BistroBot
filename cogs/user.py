@@ -727,6 +727,9 @@ class User(commands.Cog):
     @commands.command(aliases=['Beg', 'loan', 'Loan'])
     async def beg(self, ctx):
         post = await db.market.find_one({"owner": ctx.author.id})
+        if not post:
+            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `b.start`.")
+            return
         if post['luck'] > 3:
             numb = random.randint(1,5)
         elif post['luck'] > 1:

@@ -2369,7 +2369,6 @@ class Shop(commands.Cog):
 
     async def add_exp(self, user, count, check_tasks=False):
         data = await db.market.find_one({"owner": user})
-        print(data)
         bal = data['exp']
         if 'worker' in data:
             if data['worker']:
