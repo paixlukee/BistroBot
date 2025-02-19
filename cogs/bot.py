@@ -64,7 +64,7 @@ class Botdev(commands.Cog):
     async def pull(self, ctx):
         if ctx.author.id == 396153668820402197:
             msg = await ctx.send("Pulling..")
-            shell = await self.run_cmd('git pull Bistro --no-commit --no-edit master')
+            shell = await self.run_cmd('git pull Bistro --no-commit --no-edit --ff-only master')
             shell = str(shell)
             shell = shell.replace("https://github.com/paixlukee/BistroBot", "Github")
             embed = discord.Embed(description=f"```css\n{shell}```")
