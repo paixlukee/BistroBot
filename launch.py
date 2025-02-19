@@ -37,6 +37,7 @@ async def get_pre(bot, message):
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
+intents.presences = True
 
 bot = commands.Bot(command_prefix=get_pre, intents=intents, sharded=True)
 extensions = ['bot', 'help', 'shop', 'user', 'dev', 'tasks', 'cookoff', 'topgg']
