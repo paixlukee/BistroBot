@@ -67,7 +67,7 @@ class Shop(commands.Cog):
             end = start + 8
             embed = discord.Embed(colour=0x8980d9, description="Global Bistro Leaderboard")
             find_c = await db.market.find().sort("total_exp", -1).to_list(length=None)
-            for i, x in enumerate(find_c[start:end]):
+            for i, x in enumerate(find_c[start:end], start=start):
                 exp = format(x['total_exp'], ",d")
                 level = x['level']
                 emoji = ""
@@ -148,7 +148,7 @@ class Shop(commands.Cog):
         end = start + 8
         embed = discord.Embed(colour=0x8980d9, description="Global Bistro Leaderboard")
         find_c = await db.market.find().sort("total_exp", -1).to_list(length=None)
-        for i, x in enumerate(find_c[start:end]):
+        for i, x in enumerate(find_c[start:end], start=start):
             exp = format(x['total_exp'], ",d")
             level = x['level']
             emoji = ""
