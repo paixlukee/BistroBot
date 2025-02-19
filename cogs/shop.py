@@ -1144,7 +1144,9 @@ class Shop(commands.Cog):
     async def logo(self, ctx):
         post = await db.market.find_one({"owner": ctx.author.id})
         def react(reaction, user):
-            return user != ctx.me and str(reaction.emoji) == '✅' or str(reaction.emoji) == '❎'
+            return (user != ctx.me 
+                    and reaction.message.id == sem.id 
+                    and str(reaction.emoji) in ['✅', '❎'])
         def nc(m):
             return m.author == ctx.message.author
         embed = discord.Embed(colour=0x8980d9, description="To keep NSFW off of Restaurant Bot, staff members must review every logo.\n\nReply with the image URL for your logo.")
@@ -1966,7 +1968,7 @@ class Shop(commands.Cog):
             fire_msg = ""
             if 'fire' in post['bonuses']:
                 fire_msg = ":fire: **ON FIRE** :fire:\n"
-            embed = discord.Embed(description=fire_msg+f"{post['description']}\n\n{" ".join(stones_ta)}\n\u200b")
+            embed = discord.Embed(description=fire_msg+f"{post['description']}\n\n{" ".join(stones_ta)}\u200b")
             level = int(post['level'])
             owner = post['owner']
             perday = await self.calc_customers(owner)
