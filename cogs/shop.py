@@ -2352,7 +2352,6 @@ class Shop(commands.Cog):
             if "earn_money" in data['tasks']:
                 ix = data['tasks'].index("earn_money")
                 if data['task_list'][ix]['completed']+count >= data['task_list'][ix]['total']:
-                    await ctx.author.send(f"You have completed the **{data['task_list'][ix]['description']}** task. You have been awarded {bbux}**{data['task_list'][ix]['rewards']}**.")
                     await db.market.update_one({"owner": user}, {"$inc":{"money": data['task_list'][ix]['rewards']}})
                     await db.market.update_one({"owner": user}, {"$pull":{"tasks": "earn_money"}})
                     await db.market.update_one({"owner": user, "task_list.name": "earn_money"},{"$inc": {"task_list.$.completed": count}})
@@ -2382,7 +2381,6 @@ class Shop(commands.Cog):
             if "earn_exp" in data['tasks']:
                 ix = data['tasks'].index("earn_exp")
                 if data['task_list'] and data['task_list'][ix]['completed']+count >= data['task_list'][ix]['total']:
-                    await ctx.author.send(f"You have completed the **{data['task_list'][ix]['description']}** task. You have been awarded {bbux}**{data['task_list'][ix]['rewards']}**.")
                     await db.market.update_one({"owner": user}, {"$inc":{"money": data['task_list'][ix]['rewards']}})
                     await db.market.update_one({"owner": user}, {"$pull":{"tasks": "earn_exp"}})
                     await db.market.update_one({"owner": user, "task_list.name": "earn_exp"},{"$inc": {"task_list.$.completed": count}})
