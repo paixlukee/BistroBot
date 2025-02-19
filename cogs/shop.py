@@ -72,12 +72,12 @@ class Shop(commands.Cog):
                 level = x['level']
                 emoji = ""
                 if i == 0:
-                    emoji = ":first_place: "
+                    emoji = " :first_place:"
                 elif i == 1:
-                    emoji = ":second_place: "
+                    emoji = " :second_place:"
                 elif i == 2:
-                    emoji = ":third_place: "
-                embed.add_field(name=emoji+ x['name'], value=f"{self.levelEmoji[str(level)]} {exp} EXP", inline=False)
+                    emoji = " :third_place:"
+                embed.add_field(name=x['name'] + emoji, value=f"{self.levelEmoji[str(level)]} {exp} EXP", inline=False)
 
             embed.set_footer(text=f"Page {page} | b.lb {page + 1} for next page")
 
@@ -119,12 +119,12 @@ class Shop(commands.Cog):
                 level = x['level']
                 emoji = ""
                 if i == 0:
-                    emoji = ":first_place: "
+                    emoji = " :first_place:"
                 elif i == 1:
-                    emoji = ":second_place: "
+                    emoji = " :second_place:"
                 elif i == 2:
-                    emoji = ":third_place: "
-                embed.add_field(name=emoji + x['name'], value=f"{self.levelEmoji[str(level)]} {exp} EXP", inline=False)
+                    emoji = " :third_place:"
+                embed.add_field(name=x['name'] + emoji, value=f"{self.levelEmoji[str(level)]} {exp} EXP", inline=False)
 
             embed.set_footer(text=f"Page {page_num} | b.lb {page_num + 1} for next page")
 
@@ -153,12 +153,12 @@ class Shop(commands.Cog):
             level = x['level']
             emoji = ""
             if i == 0:
-                emoji = ":first_place: "
+                emoji = " :first_place:"
             elif i == 1:
-                emoji = ":second_place: "
+                emoji = " :second_place:"
             elif i == 2:
-                emoji = ":third_place: "
-            embed.add_field(name=emoji + x['name'], value=f"{self.levelEmoji[str(level)]} {exp} EXP", inline=False)
+                emoji = " :third_place:"
+            embed.add_field(name=x['name'] + emoji, value=f"{self.levelEmoji[str(level)]} {exp} EXP", inline=False)
 
         embed.set_footer(text=f"Page {page} | b.lb {page + 1} for next page")
 
