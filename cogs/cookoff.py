@@ -51,9 +51,9 @@ class Cookoff(commands.Cog):
             else:
                 await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `b.start`")
                 
-    @contest.command(name="info")
+    @contest.command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def contest_info(self, ctx: commands.Context):
+    async def info(self, ctx: commands.Context):
         """View cookoff information and start a lobby"""
         if ctx.invoked_subcommand is None:
             post = await db.market.find_one({"owner": ctx.author.id})
