@@ -36,7 +36,7 @@ class Cookoff(commands.Cog):
 
     @commands.hybrid_group(name="cookoff")
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def cook_off(self, ctx: commands.Context):
+    async def contest(self, ctx: commands.Context):
         """Start a cooking challenge with other members"""
         if ctx.invoked_subcommand is None:
             post = await db.market.find_one({"owner": ctx.author.id})
