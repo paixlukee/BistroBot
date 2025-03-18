@@ -349,7 +349,7 @@ class Cookoff(commands.Cog):
             pass
 
 
-    @contest.command(name=['cancel'])
+    @contest.command(name='cancel')
     async def cancel_game(self, ctx: commands.Context):
         if ctx.author.id != self.game_host:
             await ctx.send("<:RedTick:653464977788895252> Only the host can cancel the game!")

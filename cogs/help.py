@@ -42,8 +42,8 @@ class Help(commands.Cog):
         self.bot = bot
 
 
-    @commands.hybrid_group()
-    async def help(self, ctx: commands.Context, page=None):
+    @commands.hybrid_group(name="help")
+    async def help_menu(self, ctx: commands.Context, page=None):
         """View Bistro's help menu"""
         #keeping this hardcoded, because it will only make me do more work :)
         post = db.market.find_one({"owner": ctx.author.id})
