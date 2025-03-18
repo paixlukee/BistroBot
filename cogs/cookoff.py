@@ -50,7 +50,7 @@ class Cookoff(commands.Cog):
             else:
                 await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `b.start`")
 
-    @contest.hybrid_command()
+    @contest.command()
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def start(self, ctx: commands.Context):
         """Start a cookoff"""
