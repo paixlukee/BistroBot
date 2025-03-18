@@ -54,7 +54,10 @@ class Help(commands.Cog):
         view = pageBtns()
         if not post:
             content = f"You must start a restaurant with `b.start` to play Bistro!"
-        await ctx.send(content=content, embed=embed, view=view)
+        if ctx.interaction:
+            await ctx.interaction.response.send_message(content=content, embed=embed, view=view)
+        else:
+            await ctx.send(content=content, embed=embed, view=view)
 
 
 
