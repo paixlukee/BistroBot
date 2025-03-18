@@ -6,6 +6,7 @@ import random
 import math
 import time
 from discord.ext.commands import errors, converter
+from discord import app_commands
 from random import choice, randint
 from random import choice, randint as rnd
 import aiohttp
@@ -22,7 +23,7 @@ db = client['siri']
 
 async def get_pre(bot, message):
     posts = db.utility.find_one({"utility": "prefixes"})
-    pref = "b."
+    pref = "/"#"b." <<<------------- DIS !!!!
     for x in posts['prefixes']:
         if x['guild'] == message.guild.id:
             pref = x['prefix']
@@ -30,13 +31,20 @@ async def get_pre(bot, message):
 
 
 
+# CHANGE PREFIX ASAP AFTEER!
+#
+#      AHHHHHHHHHHHHH
+#
+#           !!!!
+
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
 
-    @commands.group(aliases=['cmds', 'commands', 'Help', 'h', '?'])
-    async def help(self, ctx, page=None):
+    @commands.hybrid_group()
+    async def help(self, ctx: commands.Context, page=None):
+        """View Bistro's help menu"""
         #keeping this hardcoded, because it will only make me do more work :)
         post = db.market.find_one({"owner": ctx.author.id})
         content = None
@@ -137,7 +145,7 @@ class pageBtns(discord.ui.View):
         embed.add_field(name=f"{pre}info", value="View information about BistroBot")
         embed.add_field(name=f"{pre}invite", value="Get the invite URL")
         embed.add_field(name=f"{pre}prefix <new-prefix>", value="Set server prefix. (requires `manage_server` permissions)")
-        embed.add_field(name=f"{pre}cooldown", value="Check what commands have cooldowns")
+        embed.add_field(name=f"{pre}cooldowns", value="Check what commands have cooldowns")
         embed.set_author(icon_url=bot.user.avatar.with_format('png'), name="Bistro Help Manual | Page 4")
         embed.set_image(url="https://media.discordapp.net/attachments/1325282246181130330/1328917037409374208/FF17CB1B-C653-4A06-A490-7BB9C4A38DFE.jpg?ex=678871ef&is=6787206f&hm=dba385547438a9343cd1c9c63b12a2b3e83af6c91ab06b9b0779d78e1d80142d&=&format=webp&width=2160&height=474")
         await interaction.response.edit_message(embed=embed)

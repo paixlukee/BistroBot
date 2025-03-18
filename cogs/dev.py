@@ -53,9 +53,10 @@ class Dev(commands.Cog):
                 count += 1
         await ctx.send(f"Done, tasks reset for `{count}` users.")
 
-    @commands.command(aliases=['Message'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 21600, commands.BucketType.user) # 6 hrs
-    async def message(self, ctx, *, message=None):
+    async def message(self, ctx: commands.Context, *, message=None):
+        """Send a message to support"""
         log = self.bot.get_channel(653466873089753098)
         if not message:
             await ctx.send("<:RedTick:653464977788895252> You need to include a message with your support ticket.")
@@ -68,16 +69,12 @@ class Dev(commands.Cog):
             await log.send(embed=embed)
             await ctx.send("Success! Your message has been sent to support. You should expect a message in your DMs when we get the chance! If you are reporting a serious bug, or having anymore questions, join the support server: <http://discord.gg/BCRtw7c>")
 
-    @commands.command(aliases=['Info', 'botinfo', 'status'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def info(self, ctx):
-
+    async def info(self, ctx: commands.Context):
+        """Get information about Bistro"""
         users = len(set(self.bot.get_all_members()))
-        channels = []
-        for guild in self.bot.guilds:
-            for channel in guild.channels:
-                channels.append(channel)
-        channels = len(channels)
+        channels = len(self.bot.get_all_channels())
         emojis = len(self.bot.emojis)
         commands = len(self.bot.all_commands)
 
@@ -98,9 +95,10 @@ class Dev(commands.Cog):
         stat.set_footer(text="Thanks for using Bistro! | Res-V4")
         await ctx.send(embed=stat)
 
-    @commands.command(aliases=['Prefix', 'setprefix'])
+    @commands.hybrid_command()
     @commands.cooldown(2, 20, commands.BucketType.user)
-    async def prefix(self, ctx, prefix=None):
+    async def prefix(self, ctx: commands.Context, prefix=None):
+        """Set a new prefix"""
         cp = "b."
         await ctx.typing()
         current = db.utility.find_one({"utility": "prefixes", "prefixes.guild": ctx.guild.id})
@@ -120,7 +118,7 @@ class Dev(commands.Cog):
                 await ctx.send(f"<:RedTick:653464977788895252> That is the standard prefix of BistroBot!")
             else:
                 db.utility.update_one({"utility": "prefixes"}, {"$push": {"prefixes": {"guild": ctx.guild.id, "prefix": prefix}}})
-                await ctx.send(f"<:CheckMark:1330789181470937139> BistroBot Prefix set! To change it back, do `{prefix}prefix {cp}`")
+                await ctx.send(f"<:CheckMark:1330789181470937139> BistroBot Prefix set! To change it back, do `{prefix}prefix {cp}`\n**NOTE:** You can also use slash commands! (`/prefix <new-prefix>`)")
         else:
             await ctx.send("<:RedTick:653464977788895252> You need `manage_server` permissions to change the server prefix!")
 

@@ -36,7 +36,7 @@ questions = [
 {"question": "Which of these is a common ingredient in Caesar salad dressing?", "answers": ["Yogurt", "Anchovies", "Mayonnaise", "Horseradish"], "correct":"Anchovies"},
 {"question": "What type of bean is used in traditional chili con carne?", "answers": ["Pinto Beans", "Kidney Beans", "Black Beans", "Lima Beans"], "correct":"Kidney Beans"},
 {"question": "Which fruit is known as the 'king of fruits' and is known for its strong odor?", "answers": ["Mango", "Papaya", "Durian", "Starfruit"], "correct":"Durian"},
-{"question": "Which type of meat is typically used in a traditional shepherd's pie?", "answers": ["Chicken", "Lamb", "Beef", "Pork"], "correct":"Eyes"},
+{"question": "Which type of meat is typically used in a traditional shepherd's pie?", "answers": ["Chicken", "Lamb", "Duck", "Pork"], "correct":"Lamb"},
 {"question": "What is the main ingredient in the Japanese dish, tempura?", "answers": ["Tuna", "Tofu", "Salmon", "Shrimp"], "correct":"Shrimp"},
 {"question": "What is the main ingredient in the hummus?", "answers": ["Chickpeas", "Lentils", "Avocado", "Cabbage"], "correct":"Chickpeas"},
 {"question": "Which Italian coffee drink is made with equal parts espresso, steamed milk, and milk foam?", "answers": ["Latte", "Macchiato", "Cappuccino", "Cortado"], "correct":"Cappuccino"},

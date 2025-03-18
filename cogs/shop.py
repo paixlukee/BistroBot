@@ -57,9 +57,10 @@ class Shop(commands.Cog):
                            "7": "<:levelseven:1328924460417286244>", "8": "<:leveleight:1328924512783433788>", "9": "<:levelnine:1328924559013056512>", "10": "<:levelten:1328924635739459676>", "11": "<:leveleleven:1328924731285700670>", "12": "<:leveltwelve:1328924789871743028>",
                            "13": "<:levelthirteen:1328924832422690857>", "14": "<:levelfourteen:1328924878400651345>", "15": "<:levelfifteen:1328924948143673384>"}
 
-    @commands.command(aliases=['Leaderboard', 'lb'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 5, commands.BucketType.user)
-    async def leaderboard(self, ctx, page="1"):
+    async def leaderboard(self, ctx: commands.Context, page="1"):
+        """View Bistro's global leaderboard"""
         if isinstance(page, int) or isinstance(page, str) and page.isdigit():
             page = int(page)
             await ctx.typing()
@@ -178,9 +179,10 @@ class Shop(commands.Cog):
 
         await interaction.response.edit_message(embed=embed, view=view)
 
-    @commands.command(aliases=['Delete'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def delete(self, ctx):
+    async def delete(self, ctx: commands.Context):
+        """Delete your restaurant"""
         def ans(m):
             return m.author == ctx.message.author
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -200,9 +202,10 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `b.start`.")
             
-    @commands.command(aliases=['Advertise', 'advert'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def advertise(self, ctx):
+    async def advertise(self, ctx: commands.Context):
+        """Advertise your restaurant"""
         post = await db.market.find_one({"owner": ctx.author.id})
         celebrities = ["Taylor Swift", "Lady Gaga", "Zac Efron", "6ix9ine", "Brendon Urie", "Tom Holland", "Katy Perry", "Ellen DeGeneres", "Logan Paul", "Benedict Cumberpatch", "John Cena", "Miley Cyrus", "Kylie Jenner", "Dua Lipa", "Ariana Grande", "Ryan Gosling", "Selena Gomez", "Shawn Mendes", "Keanu Reeves", "Beyoncé", "Rihanna", "Eminem", "Gordon Ramsey", "Billie Eilish", "Drake", "Kendrick Lamar", "Zendaya"]
         def check(m):
@@ -312,9 +315,10 @@ class Shop(commands.Cog):
                 msg = await ctx.send(embed=embed2, view=view)    
         
 
-    @commands.command(aliases=['Workers'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def workers(self, ctx):
+    async def workers(self, ctx: commands.Context):
+        """View your current employees"""
         post = await db.market.find_one({"owner": ctx.author.id})
         if post['worker'] or post['chef']:
             desc = []
@@ -362,9 +366,10 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You didn't hire a co-worker! Do `b.hire` to get one!")
 
-    @commands.command(aliases=['Hire'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def hire(self, ctx):
+    async def hire(self, ctx: commands.Context):
+        """Hire an employee"""
         def a(m):
             return m.author == ctx.message.author
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -439,10 +444,9 @@ class Shop(commands.Cog):
             await ctx.send(f"<:RedTick:653464977788895252> That's not in the list of workers! Example: `{[key for key in available[1]][0]}`")
 
 
-
-
-    @commands.command(aliases=['restaurantfuse'])
-    async def fuse(self, ctx):
+    @commands.hybrid_command()
+    @commands.is_owner() # to be continued...
+    async def fuse(self, ctx: commands.Context):
         embed = discord.Embed(colour=0x8980d9)
         embed.set_author(name="Restaurant Fusing", icon_url=ctx.bot.user.avatar.url)
         embed.set_image(url="https://i.ibb.co/yNMrNnq/restaurantfuse.png")
@@ -453,6 +457,7 @@ class Shop(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
+    @commands.is_owner() # to be continued..
     async def rfuse(self, ctx):
         def nc(m):
             return m.author == ctx.message.author
@@ -474,9 +479,10 @@ class Shop(commands.Cog):
                 pass
 
 
-    @commands.command(aliases=['Menu'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def menu(self, ctx, *, restaurant=None):
+    async def menu(self, ctx: commands.Context, *, restaurant=None):
+        """View a restaurant's menu"""
         await ctx.typing()
         def nc(m):
             return m.author == ctx.message.author
@@ -540,9 +546,10 @@ class Shop(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> I couldn't find that restaurant in our database. Did you spell it right? Names are case sensitive.")
 
 
-    @commands.command(aliases=['Rate'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 10, commands.BucketType.user)
-    async def rate(self, ctx, user:discord.User=None):
+    async def rate(self, ctx: commands.Context, user:discord.User=None):
+        """Rate another restaurant"""
         post = await db.market.find_one({"owner": user.id})
         def nc(m):
             return m.author == ctx.message.author
@@ -576,14 +583,16 @@ class Shop(commands.Cog):
                     await db.market.update_one({"owner": user.id}, {"$push":{"ratings": {"rating": int(rating.content), "user":str(ctx.author.id)}}})
 
 
-    @commands.group(aliases=['Buy'])
-    async def buy(self, ctx):
+    @commands.hybrid_group()
+    async def buy(self, ctx: commands.Context):
+        """Buy an item from the shop"""
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(colour=0x8980d9, title="'Buy' Command Group", description="`b.buy custom` - **Buy a restaurant customisation chest**\n`b.buy chest` - **Buy a chest filled with random goods**\n`b.buy food` - **Buy a menu item and have it added to your menu**\n`b.buy item` - **Buy an item from the store**")
             await ctx.send(embed=embed)
             
-    @buy.command(aliases=['Chest', 'chests'])
-    async def chest(self, ctx):
+    @buy.hybrid_command()
+    async def chest(self, ctx: commands.Context):
+        """Buy a chest"""
         await ctx.typing()
         post = await db.market.find_one({"owner": ctx.author.id})
         if not post:
@@ -766,8 +775,9 @@ class Shop(commands.Cog):
         msg = await ctx.send(embed=embed, view=view)
         
 
-    @buy.command(aliases=['Item'])
-    async def item(self, ctx):
+    @buy.hybrid_command()
+    async def item(self, ctx: commands.Context):
+        """Buy an item"""
         post = await db.market.find_one({"owner": ctx.author.id})
         def nc(m):
             return m.author == ctx.message.author
@@ -881,8 +891,9 @@ class Shop(commands.Cog):
     
         msg = await ctx.send(embed=embed, view=view)      
         
-    @buy.command(aliases=['Custom'])
-    async def custom(self, ctx):
+    @buy.hybrid_command()
+    async def custom(self, ctx: commands.Context):
+        """Buy a customization chest"""
         def nc(m):
             return m.author == ctx.message.author
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -983,8 +994,9 @@ class Shop(commands.Cog):
         t_msg = await ctx.send(embed=embed, view=view)
                     
 
-    @buy.command(aliases=['Food'])
-    async def food(self, ctx):
+    @buy.hybrid_command()
+    async def food(self, ctx: commands.Context):
+        """Buy a new menu item"""
         def nc(m):
             return m.author == ctx.message.author
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -1033,16 +1045,18 @@ class Shop(commands.Cog):
         food_msg = await ctx.send(embed=embed, view=view)
                 
 
-    @commands.group(aliases=['settings', 'Set', 'Settings'])
+    @commands.hybrid_group()
     @commands.cooldown(1, 4, commands.BucketType.user)
-    async def set(self, ctx):
+    async def set(self, ctx: commands.Context):
+        """Configure restaurant settings"""
         if ctx.invoked_subcommand is None:
             embed = discord.Embed(colour=0x8980d9, title="'Set' Command Group", description="`b.set logo` - **Set Restaurant logo**\n`b.set notifications` - **Set notifications for your Restaurant**\n`b.set description` - **Set Restaurant description**\n`b.set name` - **Set Restaurant name**\n`b.set special` - **Set your specialty item**\n`b.set item` - **Set your custom item (Level 3+)**\n`b.set dine` - **Set your dine message (Level 5+)**\n`b.set banner` - **Set a custom banner (Level 6+)**")
             await ctx.send(embed=embed)
             self.bot.get_command("set").reset_cooldown(ctx)
             
-    @set.command(aliases=['Special'])
-    async def special(self, ctx):
+    @set.command()
+    async def special(self, ctx: commands.Context):
+        """Set your restaurant's specialty"""
         post = await db.market.find_one({"owner": ctx.author.id})
         if not post:
            await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Do `b.start` to start one.") 
@@ -1050,8 +1064,9 @@ class Shop(commands.Cog):
         embed = discord.Embed(colour=0x8980d9, description="Select a food item to set it as your special:")
         msg = await ctx.send(embed=embed, view=view)
 
-    @set.command(aliases=['Notifications', 'notifs'])
-    async def notifications(self, ctx):
+    @set.hybrid_command()
+    async def notifications(self, ctx: commands.Context):
+        """Set a notification for when users dine in"""
         post = await db.market.find_one({"owner": ctx.author.id})
         if not 'notifications' in post:
             await db.market.update_one({"owner": ctx.author.id}, {"$set": {"notifications": True}})
@@ -1066,8 +1081,9 @@ class Shop(commands.Cog):
             else:
                 pass
 
-    @set.command(aliases=['dinemessage', 'Dine'])
-    async def dine(self, ctx):
+    @set.hybrid_command()
+    async def dine(self, ctx: commands.Context):
+        """Set a custom dine message [LVL 5+]"""
         post = await db.market.find_one({"owner": ctx.author.id})
         def check(m):
                 return m.author == ctx.message.author
@@ -1095,8 +1111,9 @@ class Shop(commands.Cog):
                 await ctx.send(embed=embed)
                 await db.market.update_one({"owner": ctx.author.id}, {"$set": {"dinemsg": newmsg}})
 
-    @set.command(name="item", aliases=['custom', 'customitem', 'Item'])
-    async def _item(self, ctx):
+    @set.hybrid_command(name="item")
+    async def _item(self, ctx: commands.Context):
+        """Set your custom item [LVL 3+]"""
         post = await db.market.find_one({"owner": ctx.author.id})
         def check(m):
                 return m.author == ctx.message.author
@@ -1140,8 +1157,9 @@ class Shop(commands.Cog):
 
 
 
-    @set.command(aliases=['Logo', 'image', 'icon'])
-    async def logo(self, ctx):
+    @set.hybrid_command()
+    async def logo(self, ctx: commands.Context):
+        """Set your restaurant's logo"""
         post = await db.market.find_one({"owner": ctx.author.id})
         def react(reaction, user):
             return (user != ctx.me 
@@ -1188,8 +1206,9 @@ class Shop(commands.Cog):
             embed.set_author(name="Failed.")
             await msg.edit(embed=embed)
 
-    @set.command(aliases=['Banner'])
-    async def banner(self, ctx):
+    @set.hybrid_command()
+    async def banner(self, ctx: commands.Context):
+        """Set your restaurant's bannerr"""
         post = await db.market.find_one({"owner": ctx.author.id})
         patrons = await db.utility.find_one({'utility': 'patrons'})
         def react(reaction, user):
@@ -1256,8 +1275,9 @@ class Shop(commands.Cog):
                 await ctx.send("Your restaurant must be at least level 6 to set a custom banner. You can purchase a set one with `r!buy custom`.")
 
 
-    @set.command(aliases=['Description', 'desc'])
-    async def description(self, ctx):
+    @set.hybrid_command()
+    async def description(self, ctx: commands.Context):
+        """Set your restaurant's description"""
         def nc(m):
             return m.author == ctx.message.author
         embed = discord.Embed(colour=0x8980d9, description="Descriptions must me 130 characters or less.\n\nReply with your desired description.")
@@ -1278,8 +1298,9 @@ class Shop(commands.Cog):
             desc_stripped = str(desc.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace("fag", "f*g").replace("Fag", "F*g").replace("FAG", "F*G")
             await db.market.update_one({"owner": ctx.author.id}, {"$set":{"description": desc_stripped}})
 
-    @set.command(aliases=['Name'])
-    async def name(self, ctx):
+    @set.hybrid_command()
+    async def name(self, ctx: commands.Context):
+        """Set your restaurant's name"""
         def nc(m):
             return m.author == ctx.message.author
         post = await db.market.find_one({"owner": int(ctx.author.id)})
@@ -1304,10 +1325,10 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `b.start`.")
 
-    @set.command(aliases=['Stock'])
+    @set.hybrid_command(aliases=['Stock'])
     @commands.is_owner()
-    async def stock(self, ctx):
-        # not gonna use
+    async def stock(self, ctx: commands.Context):
+        # not gonna use smh
         def nc(m):
             return m.author == ctx.message.author
         post = await db.market.find_one({"owner": int(ctx.author.id)})
@@ -1352,9 +1373,10 @@ class Shop(commands.Cog):
                 await db.market.update_one({"owner": ctx.author.id}, {"$pull":{"items": it}})
                 await db.market.update_one({"owner": ctx.author.id}, {"$push":{"items":{"name": it['name'],"price": int(price.content),"stock": it['stock'],"sold": it['sold']}}})
 
-    @commands.command(aliases=['Random', 'rr'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 2, commands.BucketType.user)
-    async def random(self, ctx, user:discord.User=None):
+    async def random(self, ctx: commands.Context, user:discord.User=None):
+        # does this even work atm??
         if not user:
             user = ctx.author
         rn_count = await db.market.count_documents({})
@@ -1414,9 +1436,10 @@ class Shop(commands.Cog):
             msg = await ctx.send(embed=embed)
             await msg.add_reaction('❤')
 
-    @commands.command(aliases=['Slots', 'slot'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def slots(self, ctx, bet:int = None):
+    async def slots(self, ctx: commands.Context, bet:int = None):
+        """Use a slot machine [Patrons Only]"""
         await ctx.typing()
         posts = await db.market.find_one({"owner": ctx.author.id})
         patrons = await db.utility.find_one({"utility": "patrons"})
@@ -1469,8 +1492,9 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You must be a patron to use this command! Do `b.donation` for more info.")
 
-    @commands.command(aliases=['Clean'])
-    async def clean(self, ctx):
+    @commands.hybrid_command()
+    async def clean(self, ctx: commands.Context):
+        """Clean your restaurant"""
         post = await db.market.find_one({"owner": ctx.author.id})
         if not post:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `b.start`.")
@@ -1503,9 +1527,10 @@ class Shop(commands.Cog):
             else:
                 await db.market.update_one({"owner": ctx.author.id, "task_list.name": "clean_onefifty"},{"$inc": {"task_list.$.completed": 1}})
 
-    @commands.command(aliases=['Fish'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 120, commands.BucketType.user)
-    async def fish(self, ctx):
+    async def fish(self, ctx: commands.Context):
+        """Go fishing for ingredients"""
         post = await db.market.find_one({"owner": ctx.author.id})
         to_fish = [{'name': 'a bag of sugar', 'money': 4, 'exp': 8}, {'name': 'some eggs', 'money': 5, 'exp': 7}, {'name': 'a fish', 'money': 10, 'exp': 17}, {'name': 'a bag of rice', 'money': 3, 'exp': 19}, {'name': 'a bag of potatoes', 'money': 6, 'exp': 10}, {'name': 'an apple', 'money': 8, 'exp': 15}, {'name': 'two bags of carrots', 'money': 8, 'exp': 10}, {'name': 'a bag of flour', 'money': 4, 'exp': 11}, {'name': 'a can of salt', 'money': 7, 'exp': 12}, {'name': 'a worm', 'money': 2, 'exp': 3}, {'name': 'a candy wrapper', 'money': 2, 'exp': 6}, {'name': 'a bag of onions', 'money': 9, 'exp': 14}]
         if post:
@@ -1591,9 +1616,9 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `b.start`.")
 
-    @commands.command(aliases=['Cook', 'Bake', 'bake'])
-    #@commands.cooldown(1, 90, commands.BucketType.user)
-    async def cook(self, ctx):
+    @commands.hybrid_command()
+    async def cook(self, ctx: commands.Context):
+        """Cook food and receive EXP"""
         def nc(m):
             return m.author == ctx.author and m.channel == ctx.channel and not m.content.startswith("r!menu")
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -1904,9 +1929,10 @@ class Shop(commands.Cog):
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `b.start`.")
             
 
-    @commands.command(aliases=['Restaurant', 'r'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def restaurant(self, ctx, *, restaurant=None):
+    async def restaurant(self, ctx: commands.Context, *, restaurant=None):
+        """View a restaurant"""
         await ctx.typing()
         post = None
         if not restaurant:
@@ -2023,10 +2049,13 @@ class Shop(commands.Cog):
             view = self.ButtonView(self.bot, user_id=post['owner'], cog=self)
             msg = await ctx.send(embed=embed, view=view)
 
-    @commands.command(aliases=['Level'])
+    @commands.hybrid_command()
     @commands.cooldown(1,3, commands.BucketType.user)
-    async def level(self, ctx):
+    async def level(self, ctx: commands.Context):
+        """View your restaurant's level"""
         user = await db.market.find_one({"owner": ctx.author.id})
+        if not user:
+            await ctx.send("You do not have a restaurant! Do `b.start` to create one.")
         nextLevel = str(user['level']+1)
         if user['level'] != 15:
             cl = f"will level up to Level {nextLevel} next"
@@ -2040,9 +2069,10 @@ class Shop(commands.Cog):
             embed.set_footer(text=f"You need {self.exp_needed[nextLevel]} EXP to level up to {nextLevel}!")
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=['Levelunlocks', 'lvlunlocks'])
+    @commands.hybrid_command()
     @commands.cooldown(1,3, commands.BucketType.user)
-    async def levelunlocks(self, ctx):
+    async def levelunlocks(self, ctx: commands.Context):
+        """View all level unlockables"""
         description = "All Level Unlockables\n\n"
         for key, val in self.unlocks.items():
             emoji = self.levelEmoji[str(key)]
@@ -2051,9 +2081,10 @@ class Shop(commands.Cog):
         embed = discord.Embed(colour=0x8980d9, description=description)
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["Levelup", "LevelUp"])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def levelup(self, ctx):
+    async def levelup(self, ctx: commands.Context):
+        """Level up your restaurant"""
         user = await db.market.find_one({"owner": ctx.author.id})
         nextLevel = user['level']+1
         if not user:
@@ -2118,9 +2149,10 @@ class Shop(commands.Cog):
                     await db.market.update_one({"owner": ctx.author.id, "task_list.name": "levelup"},{"$set": {"task_list.$.completed": 1}})
 
 
-    @commands.command(aliases=['Start', 'create'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def start(self, ctx):
+    async def start(self, ctx: commands.Context):
+        """Create your restaurant"""
         user = await db.market.find_one({"owner": ctx.author.id})
         if not user:
             def check(m):
@@ -2223,9 +2255,10 @@ class Shop(commands.Cog):
         else:
             await ctx.send(f'<:RedTick:653464977788895252> You already have a restaurant created. View it with `b.restaurant`.')
 
-    @commands.command(aliases=['Tasks', 'challenges', 'quests'])
+    @commands.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def tasks(self, ctx):
+    async def tasks(self, ctx: commands.Context):
+        """View your weekly tasks"""
         post = await db.market.find_one({"owner": ctx.author.id})
         if not post:
             await ctx.send("<:RedTick:653464977788895252> You do not have a restaurant! Start one with `b.start`")

@@ -34,9 +34,10 @@ class Cookoff(commands.Cog):
         self.bet_amount = 0
         self.game_host = None
 
-    @commands.group(aliases=['Cookoff', 'cookoff'])
+    @commands.hybrid_group(name="cookoff")
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def contest(self, ctx):
+    async def cook_off(self, ctx: commands.Context):
+        """Start a cooking challenge with other members"""@
         if ctx.invoked_subcommand is None:
             post = await db.market.find_one({"owner": ctx.author.id})
             if post:
@@ -49,9 +50,10 @@ class Cookoff(commands.Cog):
             else:
                 await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `b.start`")
 
-    @contest.command(aliases=['Cookoff', 'cookoff'])
+    @contest.hybrid_command()
     @commands.cooldown(1, 3, commands.BucketType.user)
-    async def start(self, ctx):
+    async def start(self, ctx: commands.Context):
+        """Start a cookoff"""
         if not self.game_jmsg:
             await ctx.send("<:RedTick:653464977788895252> There is no game to start! Start one with `b.cookoff`")
             return
@@ -314,8 +316,8 @@ class Cookoff(commands.Cog):
         self.game_host = None
         self.bet_amount = 0
 
-    @contest.command(aliases=['Join'])
-    async def join(self, ctx):
+    @contest.hybrid_command()
+    async def join(self, ctx: commands.Context):
         post = await db.market.find_one({"owner": ctx.author.id})
         if not post: 
             await ctx.send("<:RedTick:653464977788895252> You cannot join without having a restaurant! Create one with `b.start`")
@@ -347,8 +349,8 @@ class Cookoff(commands.Cog):
             pass
 
 
-    @contest.command(aliases=['cancel'])
-    async def cancel_game(self, ctx):
+    @contest.hybrid_command(name=['cancel'])
+    async def cancel_game(self, ctx: commands.Context):
         if ctx.author.id != self.game_host:
             await ctx.send("<:RedTick:653464977788895252> Only the host can cancel the game!")
             return

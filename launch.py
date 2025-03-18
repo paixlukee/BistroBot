@@ -35,19 +35,19 @@ async def get_pre(bot, message):
     return ['b.', f"<@!{bot.user.id}> ", f"<@{bot.user.id}> "]
 
 intents = discord.Intents.default()
-intents.members = True
 intents.message_content = True
-intents.presences = True
 
 bot = commands.Bot(command_prefix=get_pre, intents=intents, sharded=True)
 extensions = ['bot', 'help', 'shop', 'user', 'dev', 'tasks', 'cookoff', 'topgg']
 
 async def status_task():
     users = len(set(bot.get_all_members()))
-    await bot.change_presence(activity=discord.Game(name=f'b.help | bistrobot.co'))
+    await bot.change_presence(activity=discord.Game(name=f'/help | bistrobot.co'))
+    # CHANGE BACK TO b.help ASAP!!
 
 @bot.event
 async def on_ready():
+    await bot.tree.sync()
     print(f'\x1b[1;36;40mDiscord Version:\x1b[0m {discord.__version__}\n------')
     print(f'\x1b[1;36;40m[ACTIVATED]\x1b[0m Logged in as {bot.user.name} ({bot.user.id})')
     print("\x1b[1;36;40m[WARNING]\x1b[0m BistroBot will soon take over the world..\n")
@@ -66,7 +66,8 @@ async def on_guild_join(guild):
     embed.set_image(url=guild.icon.url if guild.icon else None)
     await log.send(embed=embed)
     embed = discord.Embed(description="Thank you for adding me! Do `b.help` to see a list of my commands. Do `b.start` to create your restaurant!")
-    embed.add_field(name="Join my support server!", value="https://discord.gg/BCRtw7c")
+    embed.add_field(name="Join our support server", value="https://discord.gg/BCRtw7c")
+    embed.add_field(name="Other Information", value="[Documentation](https://bistrobot.co/)\n[Terms of Service](https://bistrobot.co/tos)\n[Privacy Policy](https://bistrobot.co/privacy)")
     embed.set_image(url="https://media.discordapp.net/attachments/1325282246181130330/1328917037409374208/FF17CB1B-C653-4A06-A490-7BB9C4A38DFE.jpg?ex=678871ef&is=6787206f&hm=dba385547438a9343cd1c9c63b12a2b3e83af6c91ab06b9b0779d78e1d80142d&=&format=webp&width=2160&height=474")
     embed.set_footer(text="BistroBot created by paixlukee - Thank you for adding me!", icon_url=bot.user.avatar.url if bot.user.avatar else None)
     for channel_name in ["bot", "bots", "bot-commands", "bot-spam", "bot-channel", "testing", "testing-1", "general", "shitposts", "off-topic", "media"]:

@@ -101,8 +101,9 @@ class Botdev(commands.Cog):
             pass
 
 
-    @commands.command(pass_context=True)
-    async def ping(self, ctx):
+    @commands.hybrid_command(pass_context=True)
+    async def ping(self, ctx: commands.Context):
+        """Pong! View Bistro's ping"""
         t1 = time.perf_counter()
         await ctx.typing()
         t2 = time.perf_counter()
@@ -134,8 +135,9 @@ class Botdev(commands.Cog):
         embed.set_footer(text=f"Shard ID: #{shard}")
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def invite(self, ctx):
+    @commands.hybrid_command()
+    async def invite(self, ctx: commands.Context):
+        """Get Bistro's invite URL"""
         await ctx.send("Invite me to your server! <https://discord.com/oauth2/authorize?client_id=657037653346222102&permissions=274878180416&integration_type=0&scope=bot>")
 
     @commands.command(hidden=True)
@@ -193,6 +195,11 @@ class Botdev(commands.Cog):
                 await asyncio.sleep(1)
                 await self.bot.load_extension("cogs.{}".format(extension))
                 embed = discord.Embed(title="Cog reloaded!", color=0x5bff69, description="<:CheckMark:1330789181470937139> **Cog:** `cogs\\{}.py`".format(extension))
+                try:
+                    await self.bot.tree.sync()
+                    embed.set_footer(text="All commands have been synced!")
+                except Exception as e:
+                    await ctx.send(f":warning: **SYNC ERROR**! {e}")
                 await ctx.send(embed=embed)
                 print('\x1b[1;32;40m' + '[COG-RELOADED]: ' + '\x1b[0m' + '{} was reloaded successfully'.format(extension))
             except Exception as error:
