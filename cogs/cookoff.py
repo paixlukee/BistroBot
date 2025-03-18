@@ -5,6 +5,7 @@ import random
 import math
 import time
 from discord.ext.commands import errors, converter
+from discord.app_commands import Group, command
 from random import randint, choice as rnd
 import asyncio
 import json
@@ -49,11 +50,27 @@ class Cookoff(commands.Cog):
                 self.contest_msg = await ctx.send(embed=embed, view=view)
             else:
                 await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `b.start`")
+                
+    @commands.command(name="info")
+    @commands.cooldown(1, 3, commands.BucketType.user)
+    async def contest_i(self, ctx: commands.Context):
+        """View cookoff information and start a lobby"""
+        if ctx.invoked_subcommand is None:
+            post = await db.market.find_one({"owner": ctx.author.id})
+            if post:
+                embed = discord.Embed(colour=0x8980d9, description=f"Welcome to **Bistro Cook-Off**!\n\nThis is your chance to show the world what you're made of! "
+                                    f"Play with up to 3 other people. You can bet up to {bbux}50, and the winner takes it all. Once started, you will play three minigame rounds in your DMs."
+                                    "\n\nWanna give it a go? Hit `Create Game` below to start a game.")
+                embed.set_image(url="https://media.discordapp.net/attachments/1325282246181130330/1329331828859076622/phonto.png?ex=6789f43d&is=6788a2bd&hm=7edc4d7b1d8874a61022a15dd74aba7201d6f516fa2b9f9374e0145d7a01484d&=&format=webp&quality=lossless&width=2160&height=462")
+                view = pageBtns(self)
+                self.contest_msg = await ctx.send(embed=embed, view=view)
+            else:
+                await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant! Create one with `b.start`")
 
     @contest.command()
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def start(self, ctx: commands.Context):
-        """Start a cookoff"""
+        """Start a cookoff lobby"""
         if not self.game_jmsg:
             await ctx.send("<:RedTick:653464977788895252> There is no game to start! Start one with `b.cookoff`")
             return
