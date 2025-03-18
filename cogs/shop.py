@@ -590,7 +590,7 @@ class Shop(commands.Cog):
             embed = discord.Embed(colour=0x8980d9, title="'Buy' Command Group", description="`b.buy custom` - **Buy a restaurant customisation chest**\n`b.buy chest` - **Buy a chest filled with random goods**\n`b.buy food` - **Buy a menu item and have it added to your menu**\n`b.buy item` - **Buy an item from the store**")
             await ctx.send(embed=embed)
             
-    @buy.hybrid_command()
+    @buy.command()
     async def chest(self, ctx: commands.Context):
         """Buy a chest"""
         await ctx.typing()
@@ -775,7 +775,7 @@ class Shop(commands.Cog):
         msg = await ctx.send(embed=embed, view=view)
         
 
-    @buy.hybrid_command()
+    @buy.command()
     async def item(self, ctx: commands.Context):
         """Buy an item"""
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -891,7 +891,7 @@ class Shop(commands.Cog):
     
         msg = await ctx.send(embed=embed, view=view)      
         
-    @buy.hybrid_command()
+    @buy.command()
     async def custom(self, ctx: commands.Context):
         """Buy a customization chest"""
         def nc(m):
@@ -994,7 +994,7 @@ class Shop(commands.Cog):
         t_msg = await ctx.send(embed=embed, view=view)
                     
 
-    @buy.hybrid_command()
+    @buy.command()
     async def food(self, ctx: commands.Context):
         """Buy a new menu item"""
         def nc(m):
@@ -1064,7 +1064,7 @@ class Shop(commands.Cog):
         embed = discord.Embed(colour=0x8980d9, description="Select a food item to set it as your special:")
         msg = await ctx.send(embed=embed, view=view)
 
-    @set.hybrid_command()
+    @set.command()
     async def notifications(self, ctx: commands.Context):
         """Set a notification for when users dine in"""
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -1081,7 +1081,7 @@ class Shop(commands.Cog):
             else:
                 pass
 
-    @set.hybrid_command()
+    @set.command()
     async def dine(self, ctx: commands.Context):
         """Set a custom dine message [LVL 5+]"""
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -1111,7 +1111,7 @@ class Shop(commands.Cog):
                 await ctx.send(embed=embed)
                 await db.market.update_one({"owner": ctx.author.id}, {"$set": {"dinemsg": newmsg}})
 
-    @set.hybrid_command(name="item")
+    @set.command(name="item")
     async def _item(self, ctx: commands.Context):
         """Set your custom item [LVL 3+]"""
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -1157,7 +1157,7 @@ class Shop(commands.Cog):
 
 
 
-    @set.hybrid_command()
+    @set.command()
     async def logo(self, ctx: commands.Context):
         """Set your restaurant's logo"""
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -1206,7 +1206,7 @@ class Shop(commands.Cog):
             embed.set_author(name="Failed.")
             await msg.edit(embed=embed)
 
-    @set.hybrid_command()
+    @set.command()
     async def banner(self, ctx: commands.Context):
         """Set your restaurant's bannerr"""
         post = await db.market.find_one({"owner": ctx.author.id})
@@ -1275,7 +1275,7 @@ class Shop(commands.Cog):
                 await ctx.send("Your restaurant must be at least level 6 to set a custom banner. You can purchase a set one with `r!buy custom`.")
 
 
-    @set.hybrid_command()
+    @set.command()
     async def description(self, ctx: commands.Context):
         """Set your restaurant's description"""
         def nc(m):
@@ -1298,7 +1298,7 @@ class Shop(commands.Cog):
             desc_stripped = str(desc.content).replace('nigg','n*gg').replace('Nigg','N*gg').replace('NIGG','N*GG').replace("fag", "f*g").replace("Fag", "F*g").replace("FAG", "F*G")
             await db.market.update_one({"owner": ctx.author.id}, {"$set":{"description": desc_stripped}})
 
-    @set.hybrid_command()
+    @set.command()
     async def name(self, ctx: commands.Context):
         """Set your restaurant's name"""
         def nc(m):
@@ -1325,7 +1325,7 @@ class Shop(commands.Cog):
         else:
             await ctx.send("<:RedTick:653464977788895252> You don't have a restaurant. Create one with `b.start`.")
 
-    @set.hybrid_command(aliases=['Stock'])
+    @set.command(aliases=['Stock'])
     @commands.is_owner()
     async def stock(self, ctx: commands.Context):
         # not gonna use smh

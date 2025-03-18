@@ -1094,7 +1094,7 @@ class User(commands.Cog):
             
 
         
-    @event.hybrid_command()
+    @event.command()
     async def start(self, ctx: commands.Context):
         """Start an event"""
         post = await db.market.find_one({"owner": ctx.author.id})

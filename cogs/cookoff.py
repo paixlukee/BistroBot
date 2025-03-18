@@ -37,7 +37,7 @@ class Cookoff(commands.Cog):
     @commands.hybrid_group(name="cookoff")
     @commands.cooldown(1, 3, commands.BucketType.user)
     async def cook_off(self, ctx: commands.Context):
-        """Start a cooking challenge with other members"""@
+        """Start a cooking challenge with other members"""
         if ctx.invoked_subcommand is None:
             post = await db.market.find_one({"owner": ctx.author.id})
             if post:
@@ -316,7 +316,7 @@ class Cookoff(commands.Cog):
         self.game_host = None
         self.bet_amount = 0
 
-    @contest.hybrid_command()
+    @contest.command()
     async def join(self, ctx: commands.Context):
         post = await db.market.find_one({"owner": ctx.author.id})
         if not post: 
@@ -349,7 +349,7 @@ class Cookoff(commands.Cog):
             pass
 
 
-    @contest.hybrid_command(name=['cancel'])
+    @contest.command(name=['cancel'])
     async def cancel_game(self, ctx: commands.Context):
         if ctx.author.id != self.game_host:
             await ctx.send("<:RedTick:653464977788895252> Only the host can cancel the game!")
