@@ -43,7 +43,7 @@ class Help(commands.Cog):
 
 
     @commands.hybrid_command(name="help")
-    async def help_menu(self, ctx: commands.Context, page=None):
+    async def help_menu(self, ctx: commands.Context):
         """View Bistro's help menu"""
         post = db.market.find_one({"owner": ctx.author.id})
         content = None
